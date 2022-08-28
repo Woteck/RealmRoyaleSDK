@@ -1,6 +1,6 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
@@ -8,6 +8,8 @@
 
 #include "RL_Basic.hpp"
 #include "RL_IpDrv_classes.hpp"
+#include "RL_Engine_classes.hpp"
+#include "RL_Core_classes.hpp"
 
 namespace SDK
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
@@ -67,17 +67,17 @@ public:
 	}
 
 
-	void UpdateDebugInfo();
+	void STATIC_UpdateDebugInfo();
 	void ReallowAdjustment();
-	void UpdateBotDifficultyParameters(class ATgAIController_BehaviorGod* TgAI, TEnumAsByte<EBotDifficultyLevel> NewDifficulty);
+	void STATIC_UpdateBotDifficultyParameters(class ATgAIController_BehaviorGod* TgAI, TEnumAsByte<EBotDifficultyLevel> NewDifficulty);
 	bool AdjustDifficulty();
-	void CheckDisparity();
-	bool CheckParticipation(int tf);
-	bool CheckTeamStatsThreshold();
+	void STATIC_CheckDisparity();
+	bool STATIC_CheckParticipation(int tf);
+	bool STATIC_CheckTeamStatsThreshold();
 	void PullDataForBot(class ATgPawn* TgP);
 	void PullDataForPlayer(class ATgPawn* TgP);
 	void PullRawData();
-	void UpdateDifficulty();
+	void STATIC_UpdateDifficulty();
 	void STATIC_SetActive(bool NewActive);
 	void Tick(float DeltaTime);
 	void PostBeginPlay();
@@ -146,7 +146,7 @@ public:
 
 
 	void PostBeginPlay();
-	void STATIC_UnRegisterObstacle();
+	void UnRegisterObstacle();
 	void STATIC_RegisterObstacle();
 };
 
@@ -168,7 +168,7 @@ public:
 
 
 	void PostBeginPlay();
-	void OnToggle(class USeqAct_Toggle* Action);
+	void STATIC_OnToggle(class USeqAct_Toggle* Action);
 	struct FVector STATIC_GetRandomPointInAIVolume(float CollisionRadius);
 };
 
@@ -187,7 +187,7 @@ public:
 	}
 
 
-	float STATIC_CheckOcclusion();
+	float CheckOcclusion();
 };
 
 
@@ -233,7 +233,7 @@ public:
 
 
 	void STATIC_OnBecomeRelevant();
-	void PlayAnim(bool bLoop, float Rate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float Rate, float StartTime);
 };
 
 
@@ -320,7 +320,7 @@ public:
 	unsigned long                                      s_bSentAutoKickAlert : 1;                                 // 0x087C(0x0004)
 	unsigned long                                      s_bAddDeadTimeStatsTracker : 1;                           // 0x087C(0x0004) (Transient)
 	unsigned long                                      c_bWeaponSwap : 1;                                        // 0x087C(0x0004)
-	unsigned long                                      c_bDeviceSwap : 1;                                        // 0x087C(0x0004)
+	unsigned long                                      c_bAbilitySwap : 1;                                       // 0x087C(0x0004)
 	unsigned long                                      r_bLockYawRotation : 1;                                   // 0x087C(0x0004) (Net)
 	unsigned long                                      bPressingLeftMouseButton : 1;                             // 0x087C(0x0004)
 	unsigned long                                      bPressingRightMouseButton : 1;                            // 0x087C(0x0004)
@@ -376,12 +376,16 @@ public:
 	unsigned long                                      m_bForced3pOption : 1;                                    // 0x0884(0x0004)
 	unsigned long                                      m_bFreeCamEnabled : 1;                                    // 0x0884(0x0004)
 	unsigned long                                      m_bFogPPFXInitialized : 1;                                // 0x0884(0x0004)
+	unsigned long                                      c_bNeedToStagePickup : 1;                                 // 0x0884(0x0004)
+	unsigned long                                      c_bPickupStaged : 1;                                      // 0x0884(0x0004)
 	unsigned long                                      bMount : 1;                                               // 0x0884(0x0004)
 	unsigned long                                      bInADS : 1;                                               // 0x0884(0x0004)
 	unsigned long                                      m_bSwitchingClasses : 1;                                  // 0x0884(0x0004)
 	unsigned long                                      m_bAbilityOneHeld : 1;                                    // 0x0884(0x0004)
 	unsigned long                                      m_bMovementHeld : 1;                                      // 0x0884(0x0004)
 	unsigned long                                      m_bAbilityTwoFired : 1;                                   // 0x0884(0x0004)
+	unsigned long                                      m_bSlotOnePickup : 1;                                     // 0x0884(0x0004)
+	unsigned long                                      m_bSlotTwoPickup : 1;                                     // 0x0884(0x0004)
 	unsigned long                                      m_bCanVault : 1;                                          // 0x0884(0x0004) (Transient)
 	unsigned long                                      s_bUseRespawnLocation : 1;                                // 0x0884(0x0004)
 	unsigned long                                      m_bEnableAutoSprint : 1;                                  // 0x0884(0x0004)
@@ -573,26 +577,26 @@ public:
 
 
 	void SetFTZombieMode(bool bEnabled, TEnumAsByte<EZombieModex> Mode);
-	void FTPlayerInit();
-	void STATIC_Play3DHitIndicator(const struct FVector& HitLocation, const struct FVector& HitDirection);
+	void STATIC_FTPlayerInit();
+	void Play3DHitIndicator(const struct FVector& HitLocation, const struct FVector& HitDirection);
 	void STATIC_Init3DHitIndicators();
 	void STATIC_InitFogPPFX();
 	void STATIC_ServerRequestProcessStats();
 	void STATIC_ClientStatsComplete();
-	void STATIC_OnServerRequestProcessStats();
-	void STATIC_OnClientStatsComplete();
-	void STATIC_TestSwitch(bool bEnabled);
-	void STATIC_TestHitMarker();
-	void DoCustomEmote(int nIndex);
+	void OnServerRequestProcessStats();
+	void OnClientStatsComplete();
+	void TestSwitch(bool bEnabled);
+	void TestHitMarker();
+	void STATIC_DoCustomEmote(int nIndex);
 	void SetCustomEmote(int nIndex, int nCustomEmoteId);
-	void DoCustomSpray(int nIndex);
-	void ClientSetCustomSpray(int nIndex, int nCustomSprayId);
-	void STATIC_SetCustomSpray(int nIndex, int nCustomSprayId);
+	void STATIC_DoCustomSpray(int nIndex);
+	void STATIC_ClientSetCustomSpray(int nIndex, int nCustomSprayId);
+	void SetCustomSpray(int nIndex, int nCustomSprayId);
 	void Spray();
-	void ClientSetSpray(int nSprayId);
+	void STATIC_ClientSetSpray(int nSprayId);
 	void SetSpray(int nSprayId);
 	void UpdateWaypoint(const struct FVector& Loc);
-	void ClientAddUse(class ATgForgeObjective* pForgeObjective, int nIndex, int nState);
+	void STATIC_ClientAddUse(class ATgForgeObjective* pForgeObjective, int nIndex, int nState);
 	void ServerDepositShards(class ATgForgeObjective* pForgeObjective, int nIndex, int nState);
 	bool STATIC_HasMaxShards();
 	void STATIC_DepositShards(int nIndex, int nState);
@@ -602,70 +606,70 @@ public:
 	void PressedAltFire();
 	void ServerRequestWeapon(int nIndex);
 	void RequestWeapon(int nIndex);
-	void EndSprint();
+	void STATIC_EndSprint();
 	void STATIC_LetGoSprint();
 	void StartSprint();
 	void STATIC_PlayFogHorn();
 	bool STATIC_IsViewingTeamZeppelin();
 	void STATIC_ClientPlayDeploy(const struct FVector& vLocation);
-	void STATIC_OnPlayDeploy(const struct FVector& vLocation);
-	void STATIC_ServerRequestRelease();
-	void STATIC_OnRequestRelease(bool bSendHome);
+	void OnPlayDeploy(const struct FVector& vLocation);
+	void ServerRequestRelease();
+	void OnRequestRelease(bool bSendHome);
 	void STATIC_ClientScoreDown(const struct FScoreKillData& Data);
 	void STATIC_ClientScoreKill(const struct FScoreKillData& Data);
 	void STATIC_ClientPickupResponse(int nDeviceId, bool bSuccess, int nValue);
-	void STATIC_OnPickupResponse(int nDeviceId, bool bSuccess, int nValue);
-	void STATIC_ServerAttemptPickUp(class ATgDeployable* pDeployable, int nIndex);
-	void AttemptPickUp(class ATgDeployable* pDeployable, int nIndex);
+	void OnPickupResponse(int nDeviceId, bool bSuccess, int nValue);
+	void STATIC_ServerAttemptPickUp(class ATgDeployable* pDeployable, TEnumAsByte<ETG_EQUIP_POINT> eEqPoint);
+	void AttemptPickUp(class ATgDeployable* pDeployable, TEnumAsByte<ETG_EQUIP_POINT> eEqPoint);
 	void STATIC_ServerAttemptDisenchant(class ATgDeployable* pDeployable);
 	bool AttemptDisenchant(class ATgDeployable* pDeployable);
 	void STATIC_ClientDenyDisenchant(class ATgDeploy_Pickup* pPickup);
 	void RequestDisenchant();
 	void STATIC_ClientDenyPickup();
-	void STATIC_RequestLoot();
+	void STATIC_RequestLoot(TEnumAsByte<ETG_EQUIP_POINT> eEqPoint);
 	void ReleaseHoldUse();
 	void BeginReloadOrHoldUse();
-	void STATIC_ServerRequestCatapult(class ATgCatapultActor* Catapult, bool bDrive);
+	void ServerRequestCatapult(class ATgCatapultActor* Catapult, bool bDrive);
 	bool STATIC_CanEnterCatapult(class ATgCatapultActor* Catapult, class ATgPawn* TgP);
 	bool BeginHoldUse(bool bAutoChoosePickupSlot);
-	bool CheckClassMenu();
+	bool STATIC_CheckClassMenu();
 	void ShowUseProgress(float fValue);
 	void ShowForgeMenu();
 	void STATIC_ServerRequestDeploy(const struct FVector& vLocation);
 	class AActor* STATIC_GetDebugHoverActor();
-	void STATIC_ServerActivateBigHeadMode();
-	void STATIC_ServerStartingBigHeadMode();
+	void ServerActivateBigHeadMode();
+	void ServerStartingBigHeadMode();
 	void STATIC_ToggleMountOrBigHeadMode();
 	bool STATIC_TryBigHeadMode();
 	void ServerChangeWeapon(TEnumAsByte<ETG_EQUIP_POINT> EquipPoint);
 	void SwapToWeaponSlot(TEnumAsByte<ETG_EQUIP_POINT> EquipPoint);
 	void STATIC_ChangeWeapon(TEnumAsByte<ETG_EQUIP_POINT> EquipPoint);
 	void SwapWeapon();
-	bool IsForceFeedbackAllowed();
+	bool STATIC_IsForceFeedbackAllowed();
 	void SetPhysicsWeight(float Amount);
-	void EnablePhysics(bool bEnabled);
+	void STATIC_EnablePhysics(bool bEnabled);
 	void SetReticleRainbow(bool bSetActive);
 	void SetReticleColor(float R, float G, float B, float A);
 	void STATIC_ClientDrawDebugSphere(float X, float Y, float Z, float Radius, int Segments, unsigned char R, unsigned char G, unsigned char B);
 	void STATIC_ClientDrawDebugBox(float X, float Y, float Z, float extX, float extY, float extZ, unsigned char R, unsigned char G, unsigned char B);
 	void STATIC_ClientDrawDebugLine(float X, float Y, float Z, float X2, float Y2, float z2, unsigned char R, unsigned char G, unsigned char B);
-	void Unfix(const struct FName& BoneName);
-	void FixAll();
+	void STATIC_Unfix(const struct FName& BoneName);
+	void STATIC_FixAll();
 	void STATIC_ResetCaptureProgressRTPC();
 	void STATIC_LogLocalPropertyValue(int nPropId);
 	void SwitchChampion(int BotId, int BodySkinId, int HeadSkinId, int WeaponSkinId, int VoicePackId);
 	void SetServerCorrectionCameraInterpVars(float SnapDist, float MinBaseSpeed, float MaxBaseSpeed, float BaseSpeedMult, float NewInfoWeight, float MinCorrectionMod, float MaxCorrectionMod, float CorrectionModMult);
 	void ToggleCaptureProgressAkEvent(bool bEnable);
-	void ClientDeactivateDefendersSpawnGates();
-	void ClientDeactivateAttackersSpawnGates();
-	void ClientToggleSpawnGateTeamColors();
-	void ClientDeactivateSpawnGates();
-	void ClientActivateSpawnGates();
+	void STATIC_ClientDeactivateDefendersSpawnGates();
+	void STATIC_ClientDeactivateAttackersSpawnGates();
+	void STATIC_ClientToggleSpawnGateTeamColors();
+	void STATIC_ClientDeactivateSpawnGates();
+	void STATIC_ClientActivateSpawnGates();
 	void ResetUlt();
 	void SetCredits(int nCreditsAmount);
 	int STATIC_GetCredits();
-	void ClientUpdateTF2Score(int nScore);
-	void ClientUpdateTF1Score(int nScore);
+	void STATIC_ClientUpdateTF2Score(int nScore);
+	void STATIC_ClientUpdateTF1Score(int nScore);
 	void STATIC_OnBurnCardPurchased(class ATgDevice* BurnCard, int nEquipSlot, int nFilledCardSlots);
 	void STATIC_InputReceived(TEnumAsByte<EPlayerInputType> InputType);
 	void SetAllInputAllowed(bool bEnabled);
@@ -679,44 +683,44 @@ public:
 	void STATIC_HideMeshes(bool bHide1PMesh, bool bHide3PMesh);
 	bool STATIC_IsPlayerDead();
 	void BuyBurnCards();
-	void ClientStartBuyBurnCardsTimer();
+	void STATIC_ClientStartBuyBurnCardsTimer();
 	void StartBuyBurnCardsTimer();
-	void ExecSetViewportLocationAndScale(float OriginX, float OriginY, float SizeX, float SizeY);
+	void STATIC_ExecSetViewportLocationAndScale(float OriginX, float OriginY, float SizeX, float SizeY);
 	void SetViewportLocationAndScale(const struct FVector2D& InOrigin, const struct FVector2D& InSize);
-	void PlayCameraAnim(class UCameraAnim* CamAnim, float Rate, float Scale, float BlendInTime, float BlendOutTime, bool bLoop, bool bRandomStartTime, float Duration, bool bSingleInstance);
-	void PostServerMoveUpdate();
-	void PostMoveAutonomous(float DeltaTime, unsigned char CompressedFlags, const struct FVector& newAccel, const struct FRotator& DeltaRot);
-	void STATIC_ClientAckGoodMove(float TimeStamp);
-	void STATIC_ClientAckGoodMoveNoInterp(float TimeStamp);
-	void STATIC_VeryShortClientAdjustPosition(float TimeStamp, float NewLocX, float NewLocY, float NewLocZ, class AActor* NewBase);
-	void STATIC_VeryShortClientAdjustPositionNoInterp(float TimeStamp, float NewLocX, float NewLocY, float NewLocZ, class AActor* NewBase);
+	void STATIC_PlayCameraAnim(class UCameraAnim* CamAnim, float Rate, float Scale, float BlendInTime, float BlendOutTime, bool bLoop, bool bRandomStartTime, float Duration, bool bSingleInstance);
+	void STATIC_PostServerMoveUpdate();
+	void STATIC_PostMoveAutonomous(float DeltaTime, unsigned char CompressedFlags, const struct FVector& newAccel, const struct FRotator& DeltaRot);
+	void ClientAckGoodMove(float TimeStamp);
+	void ClientAckGoodMoveNoInterp(float TimeStamp);
+	void VeryShortClientAdjustPosition(float TimeStamp, float NewLocX, float NewLocY, float NewLocZ, class AActor* NewBase);
+	void VeryShortClientAdjustPositionNoInterp(float TimeStamp, float NewLocX, float NewLocY, float NewLocZ, class AActor* NewBase);
 	void STATIC_ShortClientAdjustPosition(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, class AActor* NewBase);
 	void STATIC_ShortClientAdjustPositionNoInterp(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, class AActor* NewBase);
-	void STATIC_ClientAdjustPosition(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase);
-	void STATIC_ClientAdjustPositionNoInterp(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase);
-	void LongClientAdjustPosition(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase, float NewFloorX, float NewFloorY, float NewFloorZ);
-	void LongClientAdjustPositionNoInterp(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase, float NewFloorX, float NewFloorY, float NewFloorZ);
+	void ClientAdjustPosition(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase);
+	void ClientAdjustPositionNoInterp(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase);
+	void STATIC_LongClientAdjustPosition(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase, float NewFloorX, float NewFloorY, float NewFloorZ);
+	void STATIC_LongClientAdjustPositionNoInterp(float TimeStamp, const struct FName& NewState, TEnumAsByte<EPhysics> newPhysics, float NewLocX, float NewLocY, float NewLocZ, float NewVelX, float NewVelY, float NewVelZ, class AActor* NewBase, float NewFloorX, float NewFloorY, float NewFloorZ);
 	void RecievedServerMovement(float TimeStamp, bool bNoInterp);
 	void ServerAckNoSmoothCorrection(float TimeStamp);
 	void STATIC_SendClientAdjustment();
 	void SetNoSmoothedMovementCorrection(bool bNoSmoothedCorrections, bool bManaged);
 	bool STATIC_ShouldInterpolateMovementCorrections();
-	void STATIC_UpdateCameraForServerCorrectionSmoothing();
+	void UpdateCameraForServerCorrectionSmoothing();
 	void STATIC_SavePositionForSmoothServerCorrection();
-	void STATIC_ClientUpdatePosition();
+	void ClientUpdatePosition();
 	float STATIC_GetSetDefaultFOV();
 	void UpdateClientFOV();
 	bool STATIC_IsBattlegroundsDeadSpectator();
 	class ATgRepInfo_Player* STATIC_GetCurrentPRI();
 	class ATgPawn* STATIC_GetTgPawn();
-	void ClientSendPayloadMissionEvent(int nEventId, unsigned char nAttackingTaskForce, unsigned char nWinningTaskForce);
+	void STATIC_ClientSendPayloadMissionEvent(int nEventId, unsigned char nAttackingTaskForce, unsigned char nWinningTaskForce);
 	void SendProxyDamageMessage(class AActor* TargetActor, int DamageAmount, struct FExtraDamageInfo* ExtraInfo);
 	void ShowHit(class AActor* Target, float DamageAmount, struct FExtraDamageInfo* ExtraInfo);
 	void STATIC_ClientOnScoredPoints(int nValue, TEnumAsByte<ERewardValueType> eType, int nPlayerId);
-	void FireDebugConsoleKismetTestNode();
-	void DebugDisableAllAI();
-	void DebugEnableAllAI();
-	void DebugNextPlayerStart();
+	void STATIC_FireDebugConsoleKismetTestNode();
+	void STATIC_DebugDisableAllAI();
+	void STATIC_DebugEnableAllAI();
+	void STATIC_DebugNextPlayerStart();
 	void SetBlur(float TargetBlurAmount, float InterpSpeed, float BlurKernelSize);
 	void TestHelpTip(int HelpTipId);
 	void STATIC_ClientRequestHelpText(int HelpTipId);
@@ -724,12 +728,12 @@ public:
 	struct FVector STATIC_GetPathfinderStartLocation(float StartDist);
 	void SpawnPathfinder();
 	void ShowPathfinder(bool bEnabled, float interval);
-	void STATIC_OnAllMarketplaceProductDetailsRead();
+	void OnAllMarketplaceProductDetailsRead();
 	void UpdatePartyUI();
 	void TryOpenPartyUI();
-	void STATIC_BlockPartySceneInput(bool bBlockInput);
+	void BlockPartySceneInput(bool bBlockInput);
 	bool TryAutoLogin();
-	bool STATIC_IsInGame();
+	bool IsInGame();
 	void ShowCustomGameDisallowedPopup();
 	void ShowPackageNotInstalledForPartyInviteWarning();
 	void ShowPartyNoLongerAvailableWarning();
@@ -742,11 +746,11 @@ public:
 	void STATIC_OnCurrentUserChanged(unsigned char LocalUserNum, const struct FString& CurrentUser, const struct FString& LoggedInUser);
 	void STATIC_OnConnectionStatusChange(TEnumAsByte<EOnlineServerConnectionStatus> ConnectionStatus);
 	void STATIC_OnLoginStatusChange(TEnumAsByte<ELoginStatus> NewStatus, const struct FUniqueNetId& NewId);
-	void OnControllerChanged(int ControllerId, bool bIsConnected, bool bPauseGame);
+	void STATIC_OnControllerChanged(int ControllerId, bool bIsConnected, bool bPauseGame);
 	void STATIC_OnPlayerLoggedIn();
-	void ClientPlayTakeoverSecondPhaseInstructions(bool bFriendlyCapture);
-	void STATIC_OpenUpgradeMenuTimer();
-	void TorvaldCheck();
+	void STATIC_ClientPlayTakeoverSecondPhaseInstructions(bool bFriendlyCapture);
+	void OpenUpgradeMenuTimer();
+	void STATIC_TorvaldCheck();
 	void SetDesaturation(float DesiredDesaturation, float SecondsToInterpolate);
 	void SetTimeDilation(float DesiredDilation, float SecondsToInterpolate);
 	void ServerSetJumpZ(float NewJumpZ);
@@ -759,7 +763,7 @@ public:
 	void STATIC_ServerRequestDeck(int nIndex, bool bIsTemplate);
 	void STATIC_ClientChangedTalent(int nBotId, int nDeviceId);
 	void STATIC_ServerRequestDrop(unsigned char eEquipPoint);
-	void STATIC_ServerRequestTalent(int nDeviceId);
+	void ServerRequestTalent(int nDeviceId);
 	void STATIC_ServerRequestCard(int nDeviceId, int nRank);
 	void ServerAutoMelee(bool bEnabled);
 	void AutoMelee(bool bEnabled);
@@ -769,42 +773,42 @@ public:
 	void ReloadWeaponWithFlourish();
 	void ReloadWeapon();
 	void STATIC_LetGoReloadWeapon();
-	void STATIC_ServerReviveTeammate(class ATgPawn* TeammatePawn);
+	void ServerReviveTeammate(class ATgPawn* TeammatePawn);
 	void STATIC_ReviveTeammate(class ATgPawn* TeammatePawn);
 	bool STATIC_IsInFreeCam();
 	class ATgPawn* STATIC_GetTeammateToRevive();
-	bool TryToReviveTeammate();
-	void HandleWalking();
+	bool STATIC_TryToReviveTeammate();
+	void STATIC_HandleWalking();
 	void STATIC_ClientSetForced3p(bool b3pEnabled);
 	void STATIC_ServerNotifyClient3p(bool b3pEnabled);
 	void SetForced3pFreeCam(bool bEnabled);
 	bool STATIC_IsClient3pEnabled();
-	bool CanToggleClient3p();
-	void ToggleClient3p();
-	void ToggleMount();
-	void STATIC_OnJumpHeldAltPressed();
-	void STATIC_OnJumpRelease();
+	bool STATIC_CanToggleClient3p();
+	void STATIC_ToggleClient3p();
+	void STATIC_ToggleMount();
+	void OnJumpHeldAltPressed();
+	void OnJumpRelease();
 	void STATIC_HoldJump();
-	void DoJumpOnDoubleJetpack();
-	void STATIC_ServerStartLaunch(float PowerLevel);
-	void STATIC_StartCatapultLaunch(float PowerLevel);
+	void STATIC_DoJumpOnDoubleJetpack();
+	void ServerStartLaunch(float PowerLevel);
+	void StartCatapultLaunch(float PowerLevel);
 	void DoJump();
 	void STATIC_RequestDeploy(const struct FVector& vLocation);
 	void STATIC_ServerDeployFromZeppelin();
 	void STATIC_ClientPlayRoadkillNotify();
 	void STATIC_PlayEpicFatality(unsigned char TaskForceNumber, int MeshAsmId);
-	void ToggleDetailedView();
+	void STATIC_ToggleDetailedView();
 	bool STATIC_IsPawnWithin(class APawn* aPawn, float Distance);
 	void SetCommandBindPC(bool bSpectator, int nAlternate, const struct FString& ExtendedBinding, const struct FString& Command);
 	void SetBindPC(bool bSpectator, const struct FString& ExtendedBinding, const struct FString& Command);
-	void UnbindCommandAllPC(bool bSpectator, const struct FString& Command);
-	void UnbindCommandPC(bool bSpectator, int nAlternate, const struct FString& Command);
+	void STATIC_UnbindCommandAllPC(bool bSpectator, const struct FString& Command);
+	void STATIC_UnbindCommandPC(bool bSpectator, int nAlternate, const struct FString& Command);
 	class UTgSpectatorInput* STATIC_GetSpectatorInputClass();
 	class UTgPlayerInput* STATIC_GetPlayerInputClass();
 	void RemoveAdditionalPostProcess(class UPostProcessChain* PP, class ATgPawn* OtherDepthTarget);
 	void STATIC_InsertAdditionalPostProcess(class UPostProcessChain* PP, bool bAlterMeshDepth, class ATgPawn* OtherDepthTarget);
 	void STATIC_IgnoreOverlays(bool bIgnore);
-	void STATIC_OnScoreChange(int nTeam);
+	void OnScoreChange(int nTeam);
 	void STATIC_ArenaCrowdEvent(unsigned char EventType);
 	void PlayTutorialAnnouncement(int SoundIndex, class USoundCue* OptionalCue, bool bPlayImmediately, bool bFlushOthers);
 	void SetAllowAnimationFrameRateLOD(bool Value, float lLODDistanceFactor, int lLODFrameRate);
@@ -826,75 +830,77 @@ public:
 	bool STATIC_OnQuickCastOffhandSlotPressed(TEnumAsByte<ETG_EQUIP_POINT> eqp);
 	bool STATIC_OnDefaultCastOffhandSlotReleased(TEnumAsByte<ETG_EQUIP_POINT> eqp);
 	bool STATIC_OnDefaultCastOffhandSlotPressed(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	bool STATIC_OnOffhandSlotReleasedGamepad(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	bool STATIC_OnOffhandSlotPressedGamepad(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	bool STATIC_OnOffhandSlotReleased(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	bool STATIC_OnOffhandSlotPressed(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	void STATIC_OnPerCharacterAltPressed();
-	void STATIC_OnFlourish();
-	void STATIC_OnRespawnBeaconButtonReleased();
-	void STATIC_OnRespawnBeaconButtonPressed();
+	bool OnOffhandSlotReleasedAbility(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	bool OnOffhandSlotPressedAbility(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	bool OnOffhandSlotReleasedGamepad(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	bool OnOffhandSlotPressedGamepad(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	bool OnOffhandSlotReleased(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	bool OnOffhandSlotPressed(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	void OnPerCharacterAltPressed();
+	void OnFlourish();
+	void OnRespawnBeaconButtonReleased();
+	void OnRespawnBeaconButtonPressed();
 	void SprintIfICan(float DeltaTime);
-	void DoSprint();
-	void DoCrouch();
+	void STATIC_DoSprint();
+	void STATIC_DoCrouch();
 	void STATIC_DeviceOnStopFire(class ATgDevice* Device, bool WasInterrupted);
 	void STATIC_DeviceOnStartFire(class ATgDevice* Device);
 	void STATIC_DeviceOnStopBuildup(class ATgDevice* Device, bool WasInterrupted);
 	void STATIC_DeviceOnStartBuildup(class ATgDevice* Device);
 	void AllocateAbilitySkillPoint(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	void STATIC_OnGiveFullVitals(class UTgSeqAct_GiveFullVitals* inAction);
+	void OnGiveFullVitals(class UTgSeqAct_GiveFullVitals* inAction);
 	void STATIC_GivePlayerFullVitals();
-	void ClientTutorialHighlighter(bool bShow, int highlightedElement);
-	void ClientForceTutorialAction(int Action, int ActionElement);
-	void STATIC_OnTutorialHighlighter(class UTgSeqAct_TutorialHighlighter* inAction);
-	void STATIC_OnForceClientTutorialAction(class UTgSeqAct_ForceClientTutorialAction* inAction);
+	void STATIC_ClientTutorialHighlighter(bool bShow, int highlightedElement);
+	void STATIC_ClientForceTutorialAction(int Action, int ActionElement);
+	void OnTutorialHighlighter(class UTgSeqAct_TutorialHighlighter* inAction);
+	void OnForceClientTutorialAction(class UTgSeqAct_ForceClientTutorialAction* inAction);
 	void STATIC_ClientNotifyTutorialUIEvent(int Evt, int evtData);
 	void ServerNotifyTutorialUIEvent(int Evt, int evtData);
-	void STATIC_OnTutorialPlayerAction(class UTgSeqAct_LogTutorialAction* inAction);
+	void OnTutorialPlayerAction(class UTgSeqAct_LogTutorialAction* inAction);
 	void TestShake(int Index);
 	void StopTgCameraShake(class UTgCameraShake* CameraShake);
 	void STATIC_PlayTgCameraShake(class UTgCameraShake* CameraShake, const struct FVector& Epicenter, class AActor* ShakeInstigator);
 	void TestTgCameraShake(class UTgCameraShake* CameraShake);
-	void STATIC_OnTgCameraShake(class UTgSeqAct_TgCameraShake* inAction);
-	void STATIC_Cloth(bool bEnabled);
-	void DoFade(bool bInToGameplay, float Time);
-	void STATIC_OnClientLoadDevices(class UTgSeqAct_ClientLoadDevices* Action);
-	void STATIC_ClientSetCameraMode(const struct FName& NewCamMode);
+	void OnTgCameraShake(class UTgSeqAct_TgCameraShake* inAction);
+	void Cloth(bool bEnabled);
+	void STATIC_DoFade(bool bInToGameplay, float Time);
+	void OnClientLoadDevices(class UTgSeqAct_ClientLoadDevices* Action);
+	void ClientSetCameraMode(const struct FName& NewCamMode);
 	void STATIC_ServerCamera(const struct FName& NewMode);
 	void Camera(const struct FName& NewMode);
-	void ClientCheatFly(bool bOn);
+	void STATIC_ClientCheatFly(bool bOn);
 	void STATIC_CheatFly(bool bOn);
-	void STATIC_ServerUpdateStats();
-	bool STATIC_CanCommunicate();
+	void ServerUpdateStats();
+	bool CanCommunicate();
 	void STATIC_SpeakTTS(const struct FString& S, class APlayerReplicationInfo* PRI);
-	void DumpClassInfo(const struct FString& sClassName);
+	void STATIC_DumpClassInfo(const struct FString& sClassName);
 	void TestCrash();
-	bool CanPlayerMove(class APawn* P);
+	bool STATIC_CanPlayerMove(class APawn* P);
 	class ATgRepInfo_TaskForce* STATIC_GetTFRI();
 	void ServerCycleTeammateView(bool bForward);
-	void EndWatchingTeam();
+	void STATIC_EndWatchingTeam();
 	void StartWatchingTeam();
-	void ViewPreviousTeammate();
-	void ViewNextTeammate();
+	void STATIC_ViewPreviousTeammate();
+	void STATIC_ViewNextTeammate();
 	void SkipKillCam();
-	void EndTimelapsePlayback();
+	void STATIC_EndTimelapsePlayback();
 	void ServerSkipKillCam();
-	void ForceKillCamViewTargetChange(class AActor* ForceTarget);
-	void ClearKillCamTarget();
-	void ClientSetKillCamTarget(int KillCamTargetId, int BackupKillCamTargetId);
+	void STATIC_ForceKillCamViewTargetChange(class AActor* ForceTarget);
+	void STATIC_ClearKillCamTarget();
+	void STATIC_ClientSetKillCamTarget(int KillCamTargetId, int BackupKillCamTargetId);
 	void SetKillCamTarget(class ATgPawn* KillCamTarget);
 	void STATIC_KillCurrentDirectorMatinee();
 	void ServerKillCurrentDirectorMatinee();
 	void STATIC_ClientKillCurrentDirectorMatinee();
 	void STATIC_NotifyDirectorControl(bool bNowControlling, class USeqAct_Interp* CurrentMatinee, float fFadeTime);
-	void DestroySimulatedProjectiles();
-	void STATIC_OnPostTimeLapse();
-	void STATIC_OnPreTimeLapse();
+	void STATIC_DestroySimulatedProjectiles();
+	void OnPostTimeLapse();
+	void OnPreTimeLapse();
 	void STATIC_ControllerPostTimeLapse();
 	void STATIC_ControllerPreTimeLapse();
-	void STATIC_OnBroadcastRemaining(int Team1, int Team2);
-	void STATIC_OnBroadcastKill(const struct FString& sKiller, const struct FString& sVictim, int nDeviceId);
-	void ClientDebugPlayPotg();
+	void OnBroadcastRemaining(int Team1, int Team2);
+	void OnBroadcastKill(const struct FString& sKiller, const struct FString& sVictim, int nDeviceId);
+	void STATIC_ClientDebugPlayPotg();
 	void StartPlayOfGamePlayback();
 	void StartPlayOfTheGamePlaybackDelayed();
 	void StartTimelapsePlayback(float BeginTimeOffset, float EndTimeOffset, bool bPlayOfGame);
@@ -908,44 +914,44 @@ public:
 	void SetServerValue(const struct FString& strObject, const struct FString& strVariable, const struct FString& StrValue);
 	void SetClientValue(const struct FString& strObject, const struct FString& strVariable, const struct FString& StrValue);
 	void ServerGetValue(const struct FString& strObject, const struct FString& strVariable);
-	void ClientGetValue(const struct FString& strObject, const struct FString& strVariable);
+	void STATIC_ClientGetValue(const struct FString& strObject, const struct FString& strVariable);
 	void ServerSetValue(const struct FString& strObject, const struct FString& strVariable, const struct FString& StrValue);
-	void ClientSetValue(const struct FString& strObject, const struct FString& strVariable, const struct FString& StrValue);
+	void STATIC_ClientSetValue(const struct FString& strObject, const struct FString& strVariable, const struct FString& StrValue);
 	void ServerKillPets();
 	void STATIC_KillPets();
 	void ServerGotoFly();
 	void STATIC_GotoFly();
 	void StunTypeChanged();
 	void Stun(bool bStunController, TEnumAsByte<EStunType> eType);
-	void ClientResetStunnedBehavior(bool bStunController, TEnumAsByte<EStunType> eType);
+	void STATIC_ClientResetStunnedBehavior(bool bStunController, TEnumAsByte<EStunType> eType);
 	bool ShouldStunChangePhysics();
-	void STATIC_OnRestartPlayers(class UTgSeqAct_RestartPlayers* inAction);
-	bool ClientPerformedUseAction();
+	void OnRestartPlayers(class UTgSeqAct_RestartPlayers* inAction);
+	bool STATIC_ClientPerformedUseAction();
 	bool ServerPerformedUseAction();
 	void STATIC_ServerRequestClassChange(int nClassID);
-	void ClientUse();
+	void STATIC_ClientUse();
 	void STATIC_ServerUse();
-	bool CanUseNow();
+	bool STATIC_CanUseNow();
 	void UpdateReviveTimeRemaining(float fTimeRemaining);
-	void ViewObjectiveCamerasTimer();
+	void STATIC_ViewObjectiveCamerasTimer();
 	struct FName STATIC_GetStateNameEx();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void UpdateFirstValidProjIdx();
-	void STATIC_OnCanPurchaseItemChange();
+	void OnCanPurchaseItemChange();
 	void PawnDied(class APawn* P);
-	void ClientSetReadyState(bool bReadyToPlay);
+	void STATIC_ClientSetReadyState(bool bReadyToPlay);
 	void ServerSetReadyToPlay();
 	void SetReadyToPlay();
 	void STATIC_CancelCrouch();
 	void SprintPenalty();
 	void STATIC_CancelSprint(bool applySprintPenalty);
-	void STATIC_CheckJumpOrDuck();
+	void CheckJumpOrDuck();
 	void STATIC_NotifyJumpApex();
-	void UpdateAssistModeSubLevel();
-	void EnableColorBlindEffect(bool bEnable, int Type, bool bSimulate);
+	void STATIC_UpdateAssistModeSubLevel();
+	void STATIC_EnableColorBlindEffect(bool bEnable, int Type, bool bSimulate);
 	void STATIC_OnSettingsChanged(class UTgClientSettings* Settings, int settingsType);
 	void STATIC_ReceivedPlayer();
-	void STATIC_OnCameraPostureChange();
+	void OnCameraPostureChange();
 	bool PopCameraPosture(int nStackId);
 	int PushCameraPosture(TEnumAsByte<ETG_CAMERAPOSTURE> eCamPosture);
 	void SwitchCamera(const struct FString& sCamera);
@@ -961,73 +967,73 @@ public:
 	bool STATIC_IsTargetDied(class AActor* TargetActor);
 	bool STATIC_IsTargetInPawnAim(const struct FVector& TargetLocation, float MaxAimFeetOffset);
 	bool STATIC_IsTargetInFrontOfPawn(const struct FVector& TargetLocation);
-	struct FRotator GetAdjustedAimFor(class AWeapon* W, const struct FVector& StartFireLoc);
+	struct FRotator STATIC_GetAdjustedAimFor(class AWeapon* W, const struct FVector& StartFireLoc);
 	struct FRotator STATIC_ApplyAimVectorModification(class ATgDevice* Device, const struct FRotator& InRotation);
 	void STATIC_ClientSetOnlineStatus();
-	void DisplayHiddenActorsTimer();
-	void DisplayHiddenActors(float Time);
-	bool CanAFK(class ATgPawn* ThePawn);
+	void STATIC_DisplayHiddenActorsTimer();
+	void STATIC_DisplayHiddenActors(float Time);
+	bool STATIC_CanAFK(class ATgPawn* ThePawn);
 	void ServerToggleAFK(bool bEnabled);
 	void STATIC_GoAFKTimer();
 	void STATIC_PlayerTick(float DeltaTime);
 	void STATIC_InitInputSystem();
 	bool STATIC_IsForceFeedbackEnabled();
 	void STATIC_SetPlayerTeam(class ATeamInfo* NewTeam);
-	void STATIC_TeamTalk();
-	void STATIC_Talk();
+	void TeamTalk();
+	void Talk();
 	float STATIC_GetOutroTime();
-	void STATIC_ClientGameEnded(class AActor* EndGameFocus, bool bIsWinner);
-	void GameHasEnded(class AActor* EndGameFocus, bool bIsWinner);
-	void EndIntro();
+	void ClientGameEnded(class AActor* EndGameFocus, bool bIsWinner);
+	void STATIC_GameHasEnded(class AActor* EndGameFocus, bool bIsWinner);
+	void STATIC_EndIntro();
 	void SetupIntro();
 	void STATIC_ResetPlayer();
 	void PlayIntro();
 	void PrepareIntro();
-	void ClientPlayIntro();
-	void ClientSetGameWinState(TEnumAsByte<EGAME_WIN_STATE> gameWinState);
-	void STATIC_NativeClientSetGameWinState(TEnumAsByte<EGAME_WIN_STATE> gameWinState);
+	void STATIC_ClientPlayIntro();
+	void STATIC_ClientSetGameWinState(TEnumAsByte<EGAME_WIN_STATE> gameWinState);
+	void NativeClientSetGameWinState(TEnumAsByte<EGAME_WIN_STATE> gameWinState);
 	void STATIC_SendClientSetGameWinState(TEnumAsByte<EGAME_WIN_STATE> gameWinState);
 	void FindGoodView();
 	void STATIC_GoSpectate();
 	void AddNavFailedAlert(bool bAlreadyThere);
 	void ShowPathTo(class AActor* destActor);
-	void ClientShowPathTo(class AActor* destActor);
-	void STATIC_OnNavIndicator(class UTgSeqAct_NavIndicator* Action);
+	void STATIC_ClientShowPathTo(class AActor* destActor);
+	void OnNavIndicator(class UTgSeqAct_NavIndicator* Action);
 	void ShowPathToNearestPOI();
 	void ServerSetZoomFactor(float fZoom);
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	class UTgCameraModule* STATIC_GetCurrentCameraModule();
 	void ServerViewPlayerByName(const struct FString& PlayerName);
 	void STATIC_DoSetViewTarget(class AActor* NewTarget);
-	void ViewPlayerByName(const struct FString& PlayerName);
-	void STATIC_ServerSetViewPRI(class ATgRepInfo_Player* pPRI);
+	void STATIC_ViewPlayerByName(const struct FString& PlayerName);
+	void ServerSetViewPRI(class ATgRepInfo_Player* pPRI);
 	void SetViewPRI(class ATgRepInfo_Player* pPRI);
 	void ServerViewAPlayer(int Dir, bool bFriendlyOnly);
-	void HandleViewTargetOnAdjustPosition();
+	void STATIC_HandleViewTargetOnAdjustPosition();
 	void STATIC_ServerViewPrevPlayer(bool bFriendlyOnly);
 	void STATIC_ServerViewNextPlayer(bool bFriendlyOnly);
 	float STATIC_GetFOVAngle();
 	int BlendRot(float DeltaTime, int BlendC, int NewC);
-	void ClientEnterStartState();
+	void STATIC_ClientEnterStartState();
 	void EnterStartState();
 	bool AllowVoiceMessage(const struct FName& MessageType);
 	void AddPostRenderActors();
-	void STATIC_ClientSetHUD(class UClass* newHUDType);
+	void ClientSetHUD(class UClass* newHUDType);
 	void STATIC_ConfirmHUD(class UClass* newHUDType);
-	void GetPlayerViewPoint(struct FVector* POVLocation, struct FRotator* POVRotation);
+	void STATIC_GetPlayerViewPoint(struct FVector* POVLocation, struct FRotator* POVRotation);
 	void STATIC_GetAimingViewPoint(struct FVector* POVLocation, struct FRotator* POVRotation);
-	bool STATIC_UsingFirstPersonCamera();
+	bool UsingFirstPersonCamera();
 	void SetRadius(float NewRadius);
-	void STATIC_ClientReset();
+	void ClientReset();
 	void STATIC_Reset();
-	void STATIC_ClientSetCinematicMode(bool bInCinematicMode, bool bAffectsMovement, bool bAffectsTurning, bool bAffectsHUD);
+	void ClientSetCinematicMode(bool bInCinematicMode, bool bAffectsMovement, bool bAffectsTurning, bool bAffectsHUD);
 	void STATIC_SetCinematicMode(bool bInCinematicMode, bool bHidePlayer, bool bAffectsHUD, bool bAffectsMovement, bool bAffectsTurning, bool bAffectsButtons);
-	void OnToggleCinematicMode(class USeqAct_ToggleCinematicMode* Action);
+	void STATIC_OnToggleCinematicMode(class USeqAct_ToggleCinematicMode* Action);
 	void DisplayDebug(class AHUD* HUD, float* out_YL, float* out_YPos);
 	void STATIC_DisplayKillingBlowGameTip(const struct FCombatMessageInfo& Info);
-	void FadeForViewPlayersTimer();
-	void ViewPlayersTimer();
+	void STATIC_FadeForViewPlayersTimer();
+	void STATIC_ViewPlayersTimer();
 	bool STATIC_IsViewedTeamAlive();
 	void ReviveTimer();
 	void STATIC_LiveRespawn(bool bResetHealth, bool bResetDevices);
@@ -1035,23 +1041,23 @@ public:
 	void STATIC_LadderLetGo();
 	void ServerLadderLetGo();
 	void STATIC_RestartPlayerOnTransfer();
-	void CancelInBombRange();
-	void STATIC_NotifyInBombRange();
-	void ClientNotifyBodyUnderAttack(unsigned char Damage);
-	void STATIC_NotifyBodyUnderAttack(unsigned char Damage);
+	void STATIC_CancelInBombRange();
+	void NotifyInBombRange();
+	void STATIC_ClientNotifyBodyUnderAttack(unsigned char Damage);
+	void NotifyBodyUnderAttack(unsigned char Damage);
 	void STATIC_UnPossess();
 	void STATIC_Possess(class APawn* aPawn, bool bVehicleTransition);
 	void STATIC_ServerAcknowledgePossession(class APawn* P);
-	void STATIC_AcknowledgePossession(class APawn* P);
+	void AcknowledgePossession(class APawn* P);
 	void SetControlModuleOnPossess();
 	void STATIC_PreRender(class UCanvas* Canvas);
 	void STATIC_CopyPropertiesTo(class AController* C);
-	void STATIC_CleanupPRI();
-	void InitPlayerReplicationInfo();
+	void CleanupPRI();
+	void STATIC_InitPlayerReplicationInfo();
 	void Destroyed();
 	void STATIC_ClientSellItem(int nInventoryId);
 	void STATIC_ClientPurchaseItem(int nLootTableId, int nLootTableItemId, int nItemCount);
-	void STATIC_ResetViewOrientation();
+	void ResetViewOrientation();
 	void STATIC_PressJump(bool bOn);
 	void ServerProfiling(const struct FString& Command);
 	void ServerProfileScript(const struct FString& Command);
@@ -1060,35 +1066,35 @@ public:
 	void AddAlertScript(TEnumAsByte<EAlertPriority> Priority, TEnumAsByte<EAlertType> Type, float fDuration, int nMsgId, bool bBlockDuplicates);
 	void STATIC_ClientSetRotationAndDesired(const struct FRotator& NewRotation, bool bResetCamera);
 	void ServerRove(bool bOn);
-	void ToggleRove();
+	void STATIC_ToggleRove();
 	void STATIC_ServerViewSelf(const struct FViewTargetTransitionParams& TransitionParams);
 	void ServerWatchOtherPlayer(TEnumAsByte<EWatchOtherPlayersMode> Mode);
 	void StopWatchOthers();
 	void StartWatchOthers(TEnumAsByte<EWatchOtherPlayersMode> Mode);
 	void SetCorrectViewTarget();
 	void ServerSetViewTarget(class AActor* me);
-	void STATIC_OnInGamePing();
-	void STATIC_OnRightMouseReleased();
-	void STATIC_OnRightMousePressed();
+	void OnInGamePing();
+	void OnRightMouseReleased();
+	void OnRightMousePressed();
 	void StopFireMouse(bool bLeftMouse);
-	void TryFire(bool bLeftMouse);
-	void STATIC_OnLeftMouseReleased();
-	void STATIC_OnLeftMousePressed();
+	void STATIC_TryFire(bool bLeftMouse);
+	void OnLeftMouseReleased();
+	void OnLeftMousePressed();
 	void STATIC_TryPing();
-	void CCE(const struct FName& EventName);
+	void STATIC_CCE(const struct FName& EventName);
 	void STATIC_CauseClientEvent(const struct FName& EventName);
 	void RemoveScreenCapturePostProcess();
 	void TestScreenCapturePostProcess();
-	void WhereAmI();
+	void STATIC_WhereAmI();
 	void AddAutoKickAlert();
 	void AddAssistAlert(const struct FString& KilledName, const struct FString& KillerName);
 	void AddKillAlert(const struct FString& KilledName, const struct FString& KillerName, bool KillerWasPlayer);
 	void ServerSetToggleZoom(bool bToggleZoom);
 	void SetToggleZoom(bool bToggleZoom);
 	void ServerSetAutoSkillUp(bool bAutoSkill);
-	void STATIC_SetAutoSkillUp(bool bAutoSkill);
+	void SetAutoSkillUp(bool bAutoSkill);
 	void ServerSetAutoPurchase(bool bAutoPurchase);
-	void STATIC_SetAutoPurchase(bool bAutoPurchase);
+	void SetAutoPurchase(bool bAutoPurchase);
 	void SetCanPurchaseFlag(bool bCanPurchase);
 	void SetCanChangeLoadout(bool bCanChangeLoadout);
 	void ShowBinoculars(bool bShow);
@@ -1098,11 +1104,11 @@ public:
 	void STATIC_ClientShowRespawnBuyback(int nCost);
 	void STATIC_ClientOnBroadcastRemaining(int FriendlyTeam, int EnemyTeam);
 	void STATIC_ClientOnBroadcastKill(const struct FString& sKiller, const struct FString& sVictim, int nDeviceId);
-	void ClientPlaySoundBase(class UAkBaseSoundObject* ASound);
+	void STATIC_ClientPlaySoundBase(class UAkBaseSoundObject* ASound);
 	void STATIC_ClientPlaySound(class USoundCue* ASound);
 	void STATIC_Logoff(bool bForced);
 	void STATIC_AllocateDevicePoint(int nDeviceId);
-	void STATIC_CallServerMove(class USavedMove* NewMove, const struct FVector& ClientLoc, unsigned char ClientRoll, int View, class USavedMove* OldMove);
+	void CallServerMove(class USavedMove* NewMove, const struct FVector& ClientLoc, unsigned char ClientRoll, int View, class USavedMove* OldMove);
 	void STATIC_TurnOffBigHeadVGSVoice();
 	void SetAudioFriendlyAndLocal();
 	void ServerMove(float TimeStamp, const struct FVector& InAccel, const struct FVector& ClientLoc, unsigned char MoveFlags, unsigned char ClientRoll, int View);
@@ -1110,75 +1116,75 @@ public:
 	void SetPlayerWard(int nWardSkinId);
 	void SetPlayerProfile(int nProfileId, int nSkinId, int nWeaponSkinId, int nHeadSkinId, int nVoicePackId);
 	void SetLevel(int nLevel);
-	bool STATIC_OnRespawnRuleChanged();
+	bool OnRespawnRuleChanged();
 	float StartReviveTimer(bool bDoNotUpdateStatsTracker);
 	void SetNWCondition(int nPktLoss, int nPktLag);
 	void TestCrashReport();
 	class UMaterialInstanceConstant* STATIC_GetMICResource(int nResourceId);
 	bool STATIC_IsTeamDead();
 	bool STATIC_IsInCustomGame();
-	void STATIC_OnFallOutofNamedArea(const struct FString& sNamedArea);
-	void STATIC_OnExitNamedArea(const struct FString& sNamedArea);
-	void STATIC_OnFallIntoNamedArea(const struct FString& sNamedArea);
-	void STATIC_OnEnteredNamedArea(const struct FString& sNamedArea);
+	void OnFallOutofNamedArea(const struct FString& sNamedArea);
+	void OnExitNamedArea(const struct FString& sNamedArea);
+	void OnFallIntoNamedArea(const struct FString& sNamedArea);
+	void OnEnteredNamedArea(const struct FString& sNamedArea);
 	void STATIC_TickFogPPFX(float DeltaSeconds);
 	void STATIC_SetOnlineStatus(unsigned char LocalUserNum, const struct FString& StatusString);
-	void STATIC_RevalidatePartySession();
+	void RevalidatePartySession();
 	void CreateOrJoinPartySession();
 	void STATIC_UpdateLoadProgress(float fValue);
 	void SwitchClassFinished();
 	void PopCurrentScene();
-	bool CheckPickupSlot(TEnumAsByte<ETG_EQUIP_POINT> eEquipSlot);
-	bool StartPickup(bool bAutoChooseSlot);
+	bool STATIC_CheckPickupSlot(TEnumAsByte<ETG_EQUIP_POINT> eEquipSlot);
+	bool StartPickup(bool bAutoChooseSlot, TEnumAsByte<ETG_EQUIP_POINT> eEqPoint);
 	void ReleasePlayerInput();
 	unsigned char STATIC_GetEquippedTypeSlot(int nDeviceId);
 	unsigned char STATIC_GetUpgradeSlot(class ATgDeployable* pDeployable);
-	bool CanDisenchant(class ATgDeployable* pDeployable);
-	bool CanEquip(class ATgDeployable* pDeployable, int* nErrorCode);
-	void STATIC_OnForgeLocation(class ATgDeploy_Forge* pForgeItem);
-	void STATIC_OnLootLocation(const struct FVector& vLocation, bool bShow);
-	void UpdateThreatLineOfSight();
-	void STATIC_NotifyUpdatedInhandAmmoCount(int nAmmo, class ATgDevice* pDevice, int nDeviceId);
+	bool STATIC_CanDisenchant(class ATgDeployable* pDeployable);
+	bool STATIC_CanEquip(class ATgDeployable* pDeployable, TEnumAsByte<ETG_EQUIP_POINT> eEqPoint, int* nErrorCode);
+	void OnForgeLocation(class ATgDeploy_Forge* pForgeItem);
+	void OnLootLocation(const struct FVector& vLocation, bool bShow);
+	void STATIC_UpdateThreatLineOfSight();
+	void NotifyUpdatedInhandAmmoCount(int nAmmo, class ATgDevice* pDevice, int nDeviceId);
 	void SetReticleVisibility(bool bShowReticle, bool bShowReticleAccessories);
-	void STATIC_NextScoreboardDisplayType();
-	bool CanPlayKillCam(bool bPlayOfGame);
-	void UpdateMinimap(class ATgMapBoundsVolume* pMapBoundsVolume);
+	void NextScoreboardDisplayType();
+	bool STATIC_CanPlayKillCam(bool bPlayOfGame);
+	void STATIC_UpdateMinimap(class ATgMapBoundsVolume* pMapBoundsVolume);
 	void SetAkWorldTimeDilation();
-	void CloseHUDMenus();
+	void STATIC_CloseHUDMenus();
 	bool STATIC_IsTopMenu(const struct FName& nmName);
 	void ShowAutoPurchaseTip();
 	void RefreshLastActiveTime();
-	bool Wants3P();
+	bool STATIC_Wants3P();
 	bool ShouldHideUIHudOverlay();
 	bool STATIC_IsConfused();
 	class AActor* STATIC_GetBestKillCamTarget();
-	void STATIC_OnScoredPoints(int nValue, TEnumAsByte<ERewardValueType> eType, int nPlayerId);
-	void UIFadeEndOfRound(bool bFade, float fTime, float fDelay, float FailSafeTime);
+	void OnScoredPoints(int nValue, TEnumAsByte<ERewardValueType> eType, int nPlayerId);
+	void STATIC_UIFadeEndOfRound(bool bFade, float fTime, float fDelay, float FailSafeTime);
 	void STATIC_UIFade(bool bFade, float fTime, float fDelay, float FailSafeTime);
-	void STATIC_OnRequestWeapon(int nIndex);
-	void STATIC_OnRequestDrop(unsigned char eEquipPoint);
-	void STATIC_OnRequestDeck(int nIndex, bool bIsTemplate);
-	void STATIC_OnRequestTalent(int nDeviceId);
-	bool STATIC_OnRequestCard(int nDeviceId, int nRank);
+	void OnRequestWeapon(int nIndex);
+	void OnRequestDrop(unsigned char eEquipPoint);
+	void OnRequestDeck(int nIndex, bool bIsTemplate);
+	void OnRequestTalent(int nDeviceId);
+	bool OnRequestCard(int nDeviceId, int nRank);
 	void SetRewardValues(int XP, int nCredits, class AActor* Source, TEnumAsByte<ERewardValueType> RewardType, bool bFlankKill);
 	void SetSelectedDeck(int nBotId, int nIndex);
 	void SetSelectedTalent(int nBotId, int nDeviceIndex);
 	void STATIC_LogAntiCheatPlayerState();
 	void AchievementModifiedHealthProp(int nHealth, int nMaxHealth);
 	void AchievementAchievedById(int nActivityId);
-	void STATIC_NativeUnPossess();
-	void STATIC_NativePossess(class APawn* aPawn);
+	void NativeUnPossess();
+	void NativePossess(class APawn* aPawn);
 	void ServerRequestGraphData();
 	void ServerGiveCard(int nDeviceId);
-	void STATIC_ClientAddCheats();
-	void CheckHealthFX(float fCurrent, float fMaximum);
+	void ClientAddCheats();
+	void STATIC_CheckHealthFX(float fCurrent, float fMaximum);
 	void PlayEventFX();
 	void StartFX();
-	void UpdateKeybindsUI();
-	void UpdateRuntimeInput(bool bSpectator);
+	void STATIC_UpdateKeybindsUI();
+	void STATIC_UpdateRuntimeInput(bool bSpectator);
 	void ResetKeysToDefault(bool bSpectator);
-	bool CheckSwap(class ATgDeployable* pDeployable, bool bSecondary);
-	bool IsLocalPlayerController();
+	bool STATIC_CheckSwap(class ATgDeployable* pDeployable, bool bSecondary);
+	bool STATIC_IsLocalPlayerController();
 	void STATIC_LiveSpectateStop();
 	void STATIC_LiveSpectate(const struct FString& sPlayerNameInstanceId);
 	void SpectateStop();
@@ -1190,21 +1196,21 @@ public:
 	void SetBinocularSettings(const struct FBinocularSettings& BinocSettings);
 	void SetSniperChargedMeter(float fPercent);
 	void SetHUDOverlay(TEnumAsByte<EHUDOverlay> eOverlay);
-	void UpdateTransitionUI();
-	void UpdatePlayerVitalsUI();
-	void ToggleMiniMapPing(bool bStart);
-	void ClearTargetingList();
-	void UpdateTargetingList(TArray<struct FImpactInfo> ImpactList, bool bLightUp);
-	void STATIC_OnSceneLoadChange(const struct FString& SceneName, bool bLoaded);
+	void STATIC_UpdateTransitionUI();
+	void STATIC_UpdatePlayerVitalsUI();
+	void STATIC_ToggleMiniMapPing(bool bStart);
+	void STATIC_ClearTargetingList();
+	void STATIC_UpdateTargetingList(TArray<struct FImpactInfo> ImpactList, bool bLightUp);
+	void OnSceneLoadChange(const struct FString& SceneName, bool bLoaded);
 	bool STATIC_IsTutorialBlockingAction(TEnumAsByte<EeTutorialForceableElements> Action);
 	bool STATIC_HandleTutorialActionOnServer(class UTgSeqAct_ForceClientTutorialAction* inAction);
 	void STATIC_HandleTutorialHighlighter(bool bShow, int highlightedElement);
 	void STATIC_HandleForcedClientTutorialAction(int nAction, int nActionElement);
-	void TriggerTutorialEvent(int nTutEvent, int nInfoData);
+	void STATIC_TriggerTutorialEvent(int nTutEvent, int nInfoData);
 	void STATIC_LogTutorialAction(int nPlayerAction, int nEventData);
-	void ChangeClass(int nClassID);
-	void ClientLogoff(bool bForced);
-	void FadeHud();
+	void STATIC_ChangeClass(int nClassID);
+	void STATIC_ClientLogoff(bool bForced);
+	void STATIC_FadeHud();
 	void ServerPlayPing(float X, float Y, float Z, TEnumAsByte<EPING_TYPE> pingType);
 	void ServerPlayVGS(int nVgsId, int usedVPSetting);
 	void ServerSellItem(int nInventoryId);
@@ -1212,13 +1218,13 @@ public:
 	void ServerPurchaseItem(int nLootTableId, int nLootTableItemId, int nItemCount);
 	bool STATIC_IsFiringUlt();
 	int STATIC_GetTaskForceNumber();
-	void ClientUpdateTutorialBlockingActions();
-	bool ClientUpdateUIDeviceState();
+	void STATIC_ClientUpdateTutorialBlockingActions();
+	bool STATIC_ClientUpdateUIDeviceState();
 	void ServerAllocateDevicePoint(int nDeviceId);
 	bool STATIC_HaveBasicAbilitiesBeenActivated();
 	int STATIC_GetDevicePointsSpent();
 	int STATIC_GetDevicePointsAvailable();
-	bool CanAllocateDevicePoint(int nDeviceId, class ATgDevice* aDevice, bool ignorePause);
+	bool STATIC_CanAllocateDevicePoint(int nDeviceId, class ATgDevice* aDevice, bool ignorePause);
 	int STATIC_GetPerkPointsSpent();
 	int STATIC_GetPerkPointsAvailable();
 	TEnumAsByte<EGiveGoldResult> ServerTransferGoldBetweenFriendlyPlayers(int ReceivingPlayerID, int GoldCount);
@@ -1226,61 +1232,61 @@ public:
 	void SetToggleZoomFlag(bool bOn, bool bForce);
 	void SetAutoSkillUpFlag(bool bOn, bool bForce);
 	void SetAutoPurchaseFlag(bool bOn, bool bForce);
-	void ToggleZoom();
+	void STATIC_ToggleZoom();
 	void AutoSkillUp();
 	void AutoPurchase();
-	void CheckInterfaceError(unsigned char eType);
+	void STATIC_CheckInterfaceError(unsigned char eType, int nCanEquipErrorType);
 	void STATIC_GetDamageAngle(const struct FRotator& HitDir, float* PitchDegrees, float* YawDegrees);
 	void SendUICurrencyChange();
 	void SendUIXpChange();
 	void STATIC_HandleSimulatedProjectile();
-	void DebugGetLangMsg(int nMsgId);
+	void STATIC_DebugGetLangMsg(int nMsgId);
 	void STATIC_SetSoundMode(const struct FName& NewSoundMode);
-	void DumpPerfTrackData();
+	void STATIC_DumpPerfTrackData();
 	void TgPerfTrack(bool bStart);
 	void SetPawnTickState(int nState);
-	void ToggleTick(const struct FString& ClassName, bool bDisable);
-	void DoClientSidePerfTracking(int nLength);
-	void STATIC_OutputRelevantActors();
+	void STATIC_ToggleTick(const struct FString& ClassName, bool bDisable);
+	void STATIC_DoClientSidePerfTracking(int nLength);
+	void OutputRelevantActors();
 	void BlockVGS(bool bBlock);
-	bool CheckMaxEffectDistance(class APlayerController* P, const struct FVector& SpawnLocation, float CullDistance);
-	void ConvertTimeDisplay(int nMinutes, struct FString* sDisplay);
+	bool STATIC_CheckMaxEffectDistance(class APlayerController* P, const struct FVector& SpawnLocation, float CullDistance);
+	void STATIC_ConvertTimeDisplay(int nMinutes, struct FString* sDisplay);
 	class ATgPawn* STATIC_GetPlayerControlPawn();
 	void SendGameOverEvent(TEnumAsByte<EGAME_WIN_STATE> gameWinState, bool bPlayerIsAttacker);
-	void DumpClassInfoToFile(const struct FString& sClassName);
-	void ClientLoadDevices(class UTgSeqAct_ClientLoadDevices* Action);
+	void STATIC_DumpClassInfoToFile(const struct FString& sClassName);
+	void STATIC_ClientLoadDevices(class UTgSeqAct_ClientLoadDevices* Action);
 	int STATIC_GetDeviceIdByName(const struct FString& sDeviceName);
 	void SetValue(const struct FString& fsObject, const struct FString& fsVariable, const struct FString& fsValue);
-	void STATIC_GetValue(const struct FString& fsObject, const struct FString& fsValue);
-	bool STATIC_bIsEditor();
-	void ForceRelevant(class AActor* pActor, float fDuration);
-	void FinalSave();
-	void ToggleCombatInfo();
+	void GetValue(const struct FString& fsObject, const struct FString& fsValue);
+	bool bIsEditor();
+	void STATIC_ForceRelevant(class AActor* pActor, float fDuration);
+	void STATIC_FinalSave();
+	void STATIC_ToggleCombatInfo();
 	void SpectateOutlines(bool bShow);
 	void SpectateXP(bool bShow);
 	void SpectateGold(bool bShow);
 	void SpectateCrits(bool bShow);
 	void SpectateHeals(bool bShow);
 	void SpectateDamage(bool bShow);
-	void DisableProfanityFilter(bool bDisable);
-	void ToggleInHandTargeting(bool bHide);
+	void STATIC_DisableProfanityFilter(bool bDisable);
+	void STATIC_ToggleInHandTargeting(bool bHide);
 	void StopLogTo();
 	void STATIC_LogTo(const struct FString& fsHost, int nPort);
 	void _Crash();
 	void Bug();
 	class UTgClientSettings* STATIC_GetClientSettings();
 	void STATIC_MatchAccept(bool bAccepted);
-	void STATIC_MatchLeave(bool bAsTeam);
-	void ConfirmMatchLeave(bool bLeave);
-	void Friend(const struct FString& sCmd, const struct FString& sName);
+	void MatchLeave(bool bAsTeam);
+	void STATIC_ConfirmMatchLeave(bool bLeave);
+	void STATIC_Friend(const struct FString& sCmd, const struct FString& sName);
 	void ServerSetTaskforceLead(const struct FString& fsName);
-	bool CanCameraSeeActorCenter(class AActor* Other, float ZOffset);
-	bool CanCameraSeePawnCenter(class ATgPawn* Other);
+	bool STATIC_CanCameraSeeActorCenter(class AActor* Other, float ZOffset);
+	bool STATIC_CanCameraSeePawnCenter(class ATgPawn* Other);
 	class UClass* STATIC_GetHudClass(class UClass* pNewHudType);
 	void StoreOfflineData();
 	void TestVGSPOTG(int nPackId, int nBotId, int nSkinId);
 	void STATIC_LogPerfLeakData();
-	void STATIC_NativeAnnounceEOM(bool bVictory);
+	void NativeAnnounceEOM(bool bVictory);
 	bool SeesInViewFrustum(class AActor* aOther, float fViewDist);
 	void PlayNotifySound(TEnumAsByte<ENotifySound> eSound);
 	void AnnouncerPlayFogLine();
@@ -1292,7 +1298,7 @@ public:
 	bool STATIC_IsInGameType(int nGameType);
 	void QueueReviveTimeChanged();
 	bool STATIC_IsReadyForStart();
-	void CanDoFullSellback();
+	void STATIC_CanDoFullSellback();
 	void SetViewTarget(class AActor* NewViewTarget, const struct FViewTargetTransitionParams& TransitionParams);
 };
 
@@ -1313,29 +1319,29 @@ public:
 	}
 
 
-	void STATIC_QuickEndTutorial();
-	void STATIC_TestSubtitle(int nMessageId, float fTime);
-	void STATIC_TestWaveform(class UForceFeedbackWaveform* FFWaveform, float fScale, float fScaleDuration);
-	void STATIC_ShowPathToNearestChest();
-	void STATIC_MountAll();
-	void ToggleDevStats();
-	void DoCustomSpray(int nIndex);
-	void STATIC_SetCustomSpray(int nIndex, int nCustomSprayId);
-	void DoCustomEmote(int nIndex);
+	void QuickEndTutorial();
+	void TestSubtitle(int nMessageId, float fTime);
+	void TestWaveform(class UForceFeedbackWaveform* FFWaveform, float fScale, float fScaleDuration);
+	void ShowPathToNearestChest();
+	void MountAll();
+	void STATIC_ToggleDevStats();
+	void STATIC_DoCustomSpray(int nIndex);
+	void SetCustomSpray(int nIndex, int nCustomSprayId);
+	void STATIC_DoCustomEmote(int nIndex);
 	void SetCustomEmote(int nIndex, int nCustomEmoteId);
 	void Spray();
 	void SetSpray(int nSprayId);
 	void TestCircles();
 	void STATIC_CloseChest();
-	void DropArmorPotion();
-	void DropHealthPotion();
+	void STATIC_DropArmorPotion();
+	void STATIC_DropHealthPotion();
 	void STATIC_GiveShards(int Count);
 	void PlaceOnTopOfTarget(bool bSkydive, float fHeight);
 	void Skydive(float fHeight);
 	void SetTickGroupCount(int nTickGroupCount);
 	void SetGuaranteedTickDistance(float fDistance);
-	void ToggleTickThrottling();
-	void DropInventory();
+	void STATIC_ToggleTickThrottling();
+	void STATIC_DropInventory();
 	void BugItGo(float X, float Y, float Z, int Pitch, int Yaw, int Roll);
 	void STATIC_GoToPlayer(int Dir, bool bGoblin);
 	void STATIC_KillAllButTrace();
@@ -1353,18 +1359,18 @@ public:
 	void STATIC_gputest3();
 	void STATIC_gputest2();
 	void STATIC_gputest1();
-	void STATIC_SetBotFireRate(float Pct);
-	void STATIC_SetBotDamageMitigation(float Pct);
+	void SetBotFireRate(float Pct);
+	void SetBotDamageMitigation(float Pct);
 	void STATIC_Log3pOffset();
 	void Adjust3pOffset(int X, int Y, int Z);
-	void FTZombie(bool bEnabled);
-	void FTPlayerInit();
+	void STATIC_FTZombie(bool bEnabled);
+	void STATIC_FTPlayerInit();
 	void ResetDebugPropertyMods(const struct FString& sProperty);
 	void ApplyDebugPropertyMod(const struct FString& sProperty, bool bPercent, float fModifier1, float fModifier2, float fModifier3, float fModifier4, float fModifier5, float fModifier6);
 	struct FString STATIC_GetBotNameFromAlias(const struct FString& sBot);
-	void DrawActorEncroachmentFire(bool bDraw);
-	void DisableEffectLagCompensation();
-	void EnableEffectLagCompensation();
+	void STATIC_DrawActorEncroachmentFire(bool bDraw);
+	void STATIC_DisableEffectLagCompensation();
+	void STATIC_EnableEffectLagCompensation();
 	void _SetVoicePack(int nVoicePackId);
 	void SetVoicePack(int nVoicePackId);
 	void _SetContrailSkin(int nSkinId);
@@ -1375,21 +1381,21 @@ public:
 	void SetMountSkin(int nSkinId);
 	void PlayIntroAnim();
 	void SetFogDistance(int Distance);
-	void EnableAI(bool bEnabled);
+	void STATIC_EnableAI(bool bEnabled);
 	void STATIC_LockPotG(bool bLocked);
 	void ResetPotG();
 	void PlayPotGForAll();
 	void PlayPotG();
 	void AllowMount(bool bEnabled);
-	void TSHM(int nHeadMeshID);
+	void STATIC_TSHM(int nHeadMeshID);
 	void TargetSetHeadMesh(int nHeadMeshID);
-	void TSBM(int nBodyMeshID);
+	void STATIC_TSBM(int nBodyMeshID);
 	void TargetSetBodyMesh(int nBodyMeshID);
-	void TSM(int nBodyMeshID, int nHeadMeshID);
+	void STATIC_TSM(int nBodyMeshID, int nHeadMeshID);
 	void TargetSetMeshes(int nBodyMeshID, int nHeadMeshID);
-	void ToggleHeadMesh();
-	void EnableHeadMesh(bool bEnabled);
-	void decapitate();
+	void STATIC_ToggleHeadMesh();
+	void STATIC_EnableHeadMesh(bool bEnabled);
+	void STATIC_decapitate();
 	void rhm();
 	void RemoveHeadMesh();
 	void SHBN();
@@ -1405,27 +1411,27 @@ public:
 	void AllowHeadShots(bool bEnable);
 	void AllNoah(const struct FString& ChannelName);
 	void ShowThreats(bool bEnabled, const struct FString& ChannelName);
-	void DisplayThreatParams();
-	void EnableOcclusion(bool bEnabled);
-	void EnableThreat(bool bEnabled);
+	void STATIC_DisplayThreatParams();
+	void STATIC_EnableOcclusion(bool bEnabled);
+	void STATIC_EnableThreat(bool bEnabled);
 	void SetAIAccuracy(float DegreeMissed, float MissLikelihood);
-	void GainXP(int xpAmount);
-	void Toggle3p();
+	void STATIC_GainXP(int xpAmount);
+	void STATIC_Toggle3p();
 	void Set3p(bool bForce3P);
 	void Set1p(bool bForce1P);
 	void STATIC_LevelAim();
-	void FRSE();
-	void ForceRoundSetupEnd();
+	void STATIC_FRSE();
+	void STATIC_ForceRoundSetupEnd();
 	void SetVaultImmuneHealth(float fHealth);
-	void ToggleSiegeEngineRequiresAllies();
+	void STATIC_ToggleSiegeEngineRequiresAllies();
 	void SetAutoHealingMultiplier(float NewMult);
 	void SetGroundSpeedMultiplier(float NewMult);
 	void SetDamageMultiplier(float NewMult);
-	void DumpLastClientAims();
-	void DumpLastServerAims();
-	void DumpWeaponPredictionStats();
+	void STATIC_DumpLastClientAims();
+	void STATIC_DumpLastServerAims();
+	void STATIC_DumpWeaponPredictionStats();
 	void SetMaximumLagPrediction(float NewMaximum);
-	void ToggleWeaponLagPrediction();
+	void STATIC_ToggleWeaponLagPrediction();
 	void SetInstantFireMeshTrace(bool bEnabled);
 	void TestSpawnPoints(float PauseTime);
 	void SetFlyingFriction(float frictionAmt);
@@ -1435,19 +1441,19 @@ public:
 	void SetGameEnvironmentRule(TEnumAsByte<EGameEnvironmentRule> Rule);
 	void STATIC_HelpMe();
 	void STATIC_GiveCard(int nDeviceId);
-	void DisableProximity(bool bEnabled);
+	void STATIC_DisableProximity(bool bEnabled);
 	void ShowProjectileDebug(bool bEnabled);
 	void StopHP5();
 	void ShieldTarget(int Amount);
 	void STATIC_HealTarget(int HealAmount);
-	void DamageTarget(int DamageAmount);
+	void STATIC_DamageTarget(int DamageAmount);
 	void PossessTarget();
 	void STATIC_Heal(int HealAmount);
-	void DamageHealth(int DamageAmount);
+	void STATIC_DamageHealth(int DamageAmount);
 	void SetMana(int mana);
 	void SetHealth(int Health);
 	void STATIC_InvisMe(bool bInvis);
-	void ToggleSpectatorCamera();
+	void STATIC_ToggleSpectatorCamera();
 	void ShowPlayerCircles(bool bEnabled);
 	void TestStun(TEnumAsByte<EStunType> Type);
 	void TestStunEffect(float fDuration);
@@ -1457,37 +1463,37 @@ public:
 	void STATIC_QuickEndGame(bool bWin);
 	void SL(int nLevel);
 	void SetMeLevel(int nLevel);
-	void STATIC_Obama(int nCurrency);
+	void Obama(int nCurrency);
 	void AddGold(int nCurrency);
 	void RemoveAllItems();
 	void RemoveAllCards();
 	void RemoveDeviceAt(int nDeviceId);
-	void UnequipDeviceAt(int nEquipPointId);
+	void STATIC_UnequipDeviceAt(int nEquipPointId);
 	void RemoveDevice(int nDeviceId);
-	void UD(int nDeviceId);
+	void STATIC_UD(int nDeviceId);
 	void UnequipDevice(int nDeviceId);
-	void ED(int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
-	void EquipDevice(int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
+	void STATIC_ED(int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
+	void STATIC_EquipDevice(int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
 	void AEDBN(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
-	void ClearTalents();
-	void EquipTalentByName(const struct FString& sDeviceName, int nIndex);
+	void STATIC_ClearTalents();
+	void STATIC_EquipTalentByName(const struct FString& sDeviceName, int nIndex);
 	void AddBattlePassXPReward(int nXp);
 	void AddCharacterXPReward(int nXp);
-	void ForgeItem(int nIndex, int nDurationOverride);
-	void ETBN(const struct FString& sDeviceName, int nIndex);
-	void EquipBingoByName(const struct FString& sDeviceName, int nBingoIndex);
-	void EBBN(const struct FString& sDeviceName, int nBingoIndex);
-	void EDBN(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
-	void EquipDeviceByName(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
+	void STATIC_ForgeItem(int nIndex, int nDurationOverride);
+	void STATIC_ETBN(const struct FString& sDeviceName, int nIndex);
+	void STATIC_EquipBingoByName(const struct FString& sDeviceName, int nBingoIndex);
+	void STATIC_EBBN(const struct FString& sDeviceName, int nBingoIndex);
+	void STATIC_EDBN(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
+	void STATIC_EquipDeviceByName(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
 	void TEDBN(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
 	void TargetEquipDeviceByName(const struct FString& sDeviceName, int nEquipPointId, int nLevel, int FireMode);
 	void TED(int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
 	void TargetEquipDevice(int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
-	void EquipDeviceOnPawn(class ATgPawn* TgP, int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
+	void STATIC_EquipDeviceOnPawn(class ATgPawn* TgP, int nDeviceId, int nEquipPointId, int nLevel, int FireMode);
 	void RemoveDeviceFromPawnAt(class ATgPawn* TgP, int nEquipPointId);
-	void ToggleTaskForce();
-	void ct(unsigned char nTaskForce);
-	void ChangeTaskForce(unsigned char nTaskForce);
+	void STATIC_ToggleTaskForce();
+	void STATIC_ct(unsigned char nTaskForce);
+	void STATIC_ChangeTaskForce(unsigned char nTaskForce);
 	void SetMaxAmmo(int TotalSize, int ClipSize);
 	void RefillAmmo();
 	void ResetAimAssistKeyframes(const struct FString& keyframeType);
@@ -1495,39 +1501,39 @@ public:
 	void SetAimAssistValues(float MagnetScaleX, float MagnetScaleY, float FrictionScaleX, float FrictionScaleY, float TrackingScaleX, float TrackingScaleY);
 	void ResetAimAssistValues();
 	void SetAimAssistTargetWeightVars(float CurrentTargetBonus, float NotCurrentTargetPenalty, float MinAccuracyBonus, float MaxAccuracyBonus, float MinInaccuracyPenalty, float MaxInaccuracyPenalty, float MaxWeight);
-	void ToggleAimAssist();
+	void STATIC_ToggleAimAssist();
 	void ShowFootstepInfo();
 	void BeTheBoss();
 	void ApplyProp(int nPropId, float nValue, int nCategory);
 	void SpectatorCamera(bool bOn);
 	void botslevel(int nLevel);
-	void FreezeAI(bool bOn);
+	void STATIC_FreezeAI(bool bOn);
 	void botsgod(bool bOn);
 	void RequestRelease();
 	void TestObstacleAvoidance(int TestType);
-	void ToggleAIDebug(bool bAttachAIDebugger);
-	void ToggleCustomPhysics();
-	void ToggleDeviceLog(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	void STATIC_ToggleAIDebug(bool bAttachAIDebugger);
+	void STATIC_ToggleCustomPhysics();
+	void STATIC_ToggleDeviceLog(TEnumAsByte<ETG_EQUIP_POINT> eqp);
 	void STATIC_KillAllPawnsByClass(const struct FString& PawnClassName);
 	void STATIC_KillAllPawnsHelper(class UClass* PawnClass);
 	void _SpawnTemplatePlayer(int nProfileId, int nSkinId, int nWeaponSkinId, int nHeadSkinId);
-	void DebugProjectileLagCompensationClient();
-	void DebugProjectileLagCompensationServer();
+	void STATIC_DebugProjectileLagCompensationClient();
+	void STATIC_DebugProjectileLagCompensationServer();
 	void TestChangeClass(int nClassID);
 	void ShowMoveErrors();
 	void SetStealth(bool bOn);
 	void SetGroundspeed(float val);
 	void STATIC_GiveRecommendedItems();
 	void STATIC_HookMeUp();
-	void STATIC_MaxPower();
-	void ForceToggleMount();
+	void MaxPower();
+	void STATIC_ForceToggleMount();
 	void STATIC_Cooldown();
-	void energy();
-	void God();
-	void CheatLog(const struct FString& cheatText, bool bOn);
+	void STATIC_energy();
+	void STATIC_God();
+	void STATIC_CheatLog(const struct FString& cheatText, bool bOn);
 	void SimNWCondition(int nPktLoss, int nPktLag);
-	void STATIC_ML();
-	void STATIC_MaxLevel();
+	void ML();
+	void MaxLevel();
 	void TestSkinGallery(int nGallery);
 	void SpawnBot(const struct FString& sName, int nTaskForce, int nCount, int BotDifficulty, const struct FString& BehaviorTreeName, int nSkinId, int nHeadId, int nWeaponId);
 	void _SpawnBot(const struct FString& sName, int nTaskForce, int nCount);
@@ -1536,33 +1542,33 @@ public:
 	void SpawnStillBot(const struct FString& sName, int nTaskForce, int nCount, int nSkinId, int nHeadId, int nWeaponId);
 	void SpawnTestBot(const struct FString& sName, const struct FString& sDeviceName, int nFireMode, int nTaskForce, int nCount);
 	void ServerExec(const struct FString& FSCommand);
-	void Loc();
-	void echo(const struct FString& inputString);
-	void FillEnergyAll(float fPercent);
+	void STATIC_Loc();
+	void STATIC_echo(const struct FString& inputString);
+	void STATIC_FillEnergyAll(float fPercent);
 	void sc(const struct FString& godName, const struct FString& SkinName, const struct FString& weaponSkinName, const struct FString& headName);
 	void separator();
-	void STATIC_PlayGlobalAkEvent(const struct FName& nmEvent);
+	void PlayGlobalAkEvent(const struct FName& nmEvent);
 	void STATIC_GivePotions(int nCount, int nSlot);
-	void STATIC_ShowInventorySlot(int nSlot);
-	void STATIC_ShowInventory();
-	void STATIC_ShowTalents();
-	void STATIC_SetForgesEnabled(bool bEnabled);
-	void STATIC_SetLootGoblinEnabled(bool bEnabled);
+	void ShowInventorySlot(int nSlot);
+	void ShowInventory();
+	void ShowTalents();
+	void SetForgesEnabled(bool bEnabled);
+	void SetLootGoblinEnabled(bool bEnabled);
 	void SetFogTimerEnabled(bool bEnabled);
 	void STATIC_SetLocation(float Fx, float fY, float fZ);
-	void ToggleTransitionManifest();
+	void STATIC_ToggleTransitionManifest();
 	void PrecacheContrailSkin(int nSkinId);
 	void PrecacheDownedSkin(int nSkinId);
-	void ClearAllIconReferences();
+	void STATIC_ClearAllIconReferences();
 	void STATIC_ListAllIconReferences(bool bIncludeManifests);
 	void SetAILevel(class ATgAIController_BehaviorGod* aic, int nLevel);
 	void SetTickets(int nAlliance, int nValue);
-	void FillEnergy();
+	void STATIC_FillEnergy();
 	void SpawnDeployable(int dep_id);
-	void ToggleLoadFailureOutput();
+	void STATIC_ToggleLoadFailureOutput();
 	void SpawnBotAllSkins(int nBatch);
 	class ATgPawn* SpawnBotByName(const struct FString& BotName, int Taskforce, int nCount, int BotDifficulty, const struct FString& BehaviorTreeName, int nSkinId, int nHeadId, int nWeaponId);
-	void STATIC_NativeMaxLevel();
+	void NativeMaxLevel();
 	void TestLanguage(const struct FString& newLangExt);
 	void TestPanningRule(const struct FString& sPanningRule);
 	void TestDj();
@@ -1570,7 +1576,7 @@ public:
 	void STATIC_JoinMatchQueue(int nQueueId, int god1, int god2, int god3, int god4, int god5);
 	void PurchaseGod(const struct FString& godName);
 	void SwitchWard(const struct FString& wardSkinName);
-	void STATIC_SwitchSkin(const struct FString& godName, const struct FString& SkinName);
+	void SwitchSkin(const struct FString& godName, const struct FString& SkinName);
 	void SwitchClass(const struct FString& godName, const struct FString& SkinName, const struct FString& weaponSkinName, const struct FString& headName);
 };
 
@@ -1615,8 +1621,8 @@ public:
 
 
 	void PostBeginPlay();
-	void STATIC_SpawnChests();
-	void CacheChests();
+	void SpawnChests();
+	void STATIC_CacheChests();
 	void STATIC_GetAllPotentialDeployableIds(TArray<int>* DeployableIds);
 };
 
@@ -1656,7 +1662,7 @@ public:
 	bool WriteSaveGameDataViaInterface(unsigned char LocalUserNum, const struct FString& Title, const struct FString& SubTitle, const struct FString& Description, struct FString* SaveFileName, TArray<unsigned char>* SaveGameData);
 	bool STATIC_GetSaveGameDataViaInterface(unsigned char LocalUserNum, struct FString* SaveFileName, unsigned char* bIsValid, TArray<unsigned char>* SaveGameData);
 	bool STATIC_ConditionalReadSaveGameData(int PlayerID, const struct FString& SaveFileName);
-	void STATIC_OnReadSaveGameData(bool bWasSuccessful, unsigned char LocalUserNum, const struct FString& SaveFileName);
+	void OnReadSaveGameData(bool bWasSuccessful, unsigned char LocalUserNum, const struct FString& SaveFileName);
 	void STATIC_OnSettingsChanged(int settingtype, bool bSkipSave);
 	float STATIC_GetDesiredAspectRatio();
 	void SavePlayerSettings();
@@ -1688,21 +1694,21 @@ public:
 
 
 	void STATIC_SetAux(const struct FName& AuxBusName, float Level);
-	void ForceProximityScan(float Radius);
+	void STATIC_ForceProximityScan(float Radius);
 	void STATIC_GetNearByPlayersTaskforce(bool bEndWhenMultipleFound, TArray<int>* NearByPlayerTaskforces);
 	int STATIC_GetNearByPlayers(bool bOnlyValid);
-	void STATIC_OnPlayerRemoved(class ATgPawn* aPawn);
-	void STATIC_OnPlayerAdded(class ATgPawn* aPawn);
-	void CheckNearByPlayers(class ATgPawn* aPawn, bool bAdd);
+	void OnPlayerRemoved(class ATgPawn* aPawn);
+	void OnPlayerAdded(class ATgPawn* aPawn);
+	void STATIC_CheckNearByPlayers(class ATgPawn* aPawn, bool bAdd);
 	void Destroyed();
 	void STATIC_ForceClearNearByPlayersList();
 	bool ShouldIgnoreActor(class ATgPawn* aPawn);
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void TouchOther(class AActor* Other, class UPrimitiveComponent* OtherComp);
-	void DelegatesUpdated();
-	void ForwardUnTouch(class AActor* Other);
-	void ForwardTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void STATIC_TouchOther(class AActor* Other, class UPrimitiveComponent* OtherComp);
+	void STATIC_DelegatesUpdated();
+	void STATIC_ForwardUnTouch(class AActor* Other);
+	void STATIC_ForwardTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ProxyUnTouch(class AActor* Other);
 	void STATIC_ProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 };
@@ -1721,7 +1727,7 @@ public:
 	}
 
 
-	void STATIC_SetCaptureEnabled(bool bEnabled);
+	void SetCaptureEnabled(bool bEnabled);
 };
 
 
@@ -1758,7 +1764,7 @@ public:
 
 	void STATIC_PostDemoRewind();
 	bool STATIC_HasMixedTaskforcePlayersNearby();
-	void ForwardDeviceOnStartFire(class ATgPawn* FiringPawn, int nEquipSlot);
+	void STATIC_ForwardDeviceOnStartFire(class ATgPawn* FiringPawn, int nEquipSlot);
 	void STATIC_ProxyDeviceOnStartFire(class ATgPawn* FiringPawn, int nEquipSlot);
 };
 
@@ -1817,8 +1823,8 @@ public:
 	}
 
 
-	void STATIC_OnPlayerRemoved(class ATgPawn* aPawn);
-	void STATIC_OnPlayerAdded(class ATgPawn* aPawn);
+	void OnPlayerRemoved(class ATgPawn* aPawn);
+	void OnPlayerAdded(class ATgPawn* aPawn);
 	bool ShouldIgnoreActor(class ATgPawn* aPawn);
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -1870,8 +1876,8 @@ public:
 
 
 	void SetupCompositeRegion(int MeshAsmId, int DestOffsetX, int DestOffsetY, int SizeX, int SizeY);
-	void ComposeCharacter(class USkeletalMeshComponent* Mesh);
-	void STATIC_MergeMeshParts(class USkeletalMeshComponent* Mesh);
+	void STATIC_ComposeCharacter(class USkeletalMeshComponent* Mesh);
+	void MergeMeshParts(class USkeletalMeshComponent* Mesh);
 };
 
 
@@ -2121,7 +2127,7 @@ public:
 	}
 
 
-	void NotifyLocalPlayerTeamReceived();
+	void STATIC_NotifyLocalPlayerTeamReceived();
 	void STATIC_PostInitAnimTree(class USkeletalMeshComponent* SkelComp);
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	void ForceRecalculateMaterial();
@@ -2154,22 +2160,22 @@ public:
 
 
 	bool STATIC_CanApplyEffects();
-	void DisableBeaconFX();
-	void EnableBeaconSetupFX();
+	void STATIC_DisableBeaconFX();
+	void STATIC_EnableBeaconSetupFX();
 	void BeaconSetActive();
 	void SetChargingState(TEnumAsByte<ERespawnBeaconChargingState> chargeState);
-	void ChargingStateChangedFX();
-	void ClientFlashTeleportFX();
+	void STATIC_ChargingStateChangedFX();
+	void STATIC_ClientFlashTeleportFX();
 	void STATIC_FlashTeleportFx(class ATgPawn* TgP);
 	void UnTouch(class AActor* Other);
 	void STATIC_PostTouch(class AActor* Other);
 	class AActor* STATIC_GetNextPendingTeleport();
 	bool RemovePendingTeleport(class AActor* Other);
 	bool AddPendingTeleport(class AActor* Other);
-	bool VerifyCanTeleport(class ATgPawn* Other);
+	bool STATIC_VerifyCanTeleport(class ATgPawn* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void STATIC_OnBeaconEntranceSetActive(class UTgSeqAct_BeaconEntranceSetActive* inAction);
-	void ConnectToExit();
+	void OnBeaconEntranceSetActive(class UTgSeqAct_BeaconEntranceSetActive* inAction);
+	void STATIC_ConnectToExit();
 	void PostBeginPlay();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 };
@@ -2213,18 +2219,18 @@ public:
 
 
 	void SetPendingTeleportFx(bool bIsPendingTeleport);
-	void ClientFlashTeleportFX();
-	void STATIC_SetActiveState(TEnumAsByte<ERespawnBeaconActiveState> NewState);
+	void STATIC_ClientFlashTeleportFX();
+	void SetActiveState(TEnumAsByte<ERespawnBeaconActiveState> NewState);
 	void STATIC_TakeDamage(int Damage, class AController* EventInstigator, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void PlayTakeHitEffect();
-	void FXEndActive();
-	void FXEndDeploying();
-	void FXActive();
-	void FXDeploying();
-	void FXDestroyed();
-	void FXCarried();
+	void STATIC_FXEndActive();
+	void STATIC_FXEndDeploying();
+	void STATIC_FXActive();
+	void STATIC_FXDeploying();
+	void STATIC_FXDestroyed();
+	void STATIC_FXCarried();
 	void STATIC_Respawn();
-	void UpdateRespawnTime();
+	void STATIC_UpdateRespawnTime();
 	void BeginRespawnTimer();
 	float STATIC_GetDesiredLifeSpan();
 	void STATIC_DestroyIt(bool bSkipFx);
@@ -2232,8 +2238,8 @@ public:
 	void PlaceAtLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation);
 	void PlaceFromDeploy(class ATgDeploy_RespawnBeacon* TgD);
 	void Place(class ATgPawn* TgP);
-	bool PickUp(class ATgPawn* TgP);
-	bool CanBePickedUp(class ATgPawn* TgP);
+	bool STATIC_PickUp(class ATgPawn* TgP);
+	bool STATIC_CanBePickedUp(class ATgPawn* TgP);
 	bool STATIC_IsValidTarget(class ATgPawn* TgP);
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -2242,10 +2248,10 @@ public:
 	void PostBeginPlay();
 	void RemoveVisibilityVolume(class ATgVisibilityVolume* Vol);
 	void AddVisibilityVolume(class ATgVisibilityVolume* Vol);
-	void STATIC_OnBeaconExitSetRespawn(class UTgSeqAct_BeaconExitSetRespawn* inAction);
+	void OnBeaconExitSetRespawn(class UTgSeqAct_BeaconExitSetRespawn* inAction);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	bool STATIC_HasAnyEnabledEntrances();
-	void STATIC_OnBeaconReset();
+	void OnBeaconReset();
 	void STATIC_BeaconStateChanged();
 };
 
@@ -2355,7 +2361,7 @@ public:
 	}
 
 
-	void Initialize(int MeshAssemblyId, int TaskForceId);
+	void STATIC_Initialize(int MeshAssemblyId, int TaskForceId);
 };
 
 
@@ -2445,18 +2451,18 @@ public:
 
 
 	void STATIC_PlayDeviceFailResponse(TEnumAsByte<EDeviceFailType> failType);
-	bool STATIC_PopScene(int nIndex);
-	void STATIC_ShowSubtitle(int nMessage, float fTime);
-	void STATIC_ShowLootGoblinSpawned(class ATgPawn* DiscoveringPawn, class ATgPawn* TargetGoblin);
+	bool PopScene(int nIndex);
+	void ShowSubtitle(int nMessage, float fTime);
+	void ShowLootGoblinSpawned(class ATgPawn* DiscoveringPawn, class ATgPawn* TargetGoblin);
 	void ShowHit(class AActor* Target, float fDamageAmount, bool bIsShieldHit, struct FExtraDamageInfo* ExtraInfo);
-	void STATIC_ShowScope(bool bValue, unsigned char eType);
+	void ShowScope(bool bValue, unsigned char eType);
 	void ShowCursor(bool bShow);
 	void STATIC_HideGameTip(bool bNoSound);
 	void ShowGameTip(int nTipId, bool bNoSound, bool bPopup);
-	void EndMission(bool bPlayerAttacker, TEnumAsByte<EGAME_WIN_STATE> finalWinState);
-	void UpdatePlayerReady(class ATgRepInfo_Player* pPRI);
-	void STATIC_MapOutroFinished();
-	void FinishIntro();
+	void STATIC_EndMission(bool bPlayerAttacker, TEnumAsByte<EGAME_WIN_STATE> finalWinState);
+	void STATIC_UpdatePlayerReady(class ATgRepInfo_Player* pPRI);
+	void MapOutroFinished();
+	void STATIC_FinishIntro();
 	void PlayIntro();
 };
 
@@ -2479,7 +2485,7 @@ public:
 	bool STATIC_IsNotDestroyed();
 	void PlayDimensionalLinkFX();
 	void Shatter();
-	void TriggerShatter(float fDelay);
+	void STATIC_TriggerShatter(float fDelay);
 	void AddOnDestroyDelegate(const struct FScriptDelegate& delDestroy);
 	void STATIC_DestroyedEvent(class AActor* destroyedActor);
 };
@@ -2499,7 +2505,7 @@ public:
 	}
 
 
-	void STATIC_SpawnChests(TArray<class ATgDeployableFactory*> Factories);
+	void SpawnChests(TArray<class ATgDeployableFactory*> Factories);
 };
 
 
@@ -2552,7 +2558,7 @@ public:
 	}
 
 
-	void STATIC_OnHit(const struct FVector& HitLocation, const struct FVector& HitNormal, class AActor* SourceActor, const struct FTraceHitInfo& HitInfo);
+	void OnHit(const struct FVector& HitLocation, const struct FVector& HitNormal, class AActor* SourceActor, const struct FTraceHitInfo& HitInfo);
 };
 
 
@@ -2638,9 +2644,9 @@ public:
 
 	class UPostProcessEffect* STATIC_GetPostProcessEffect(const struct FName& EffectName);
 	void SetBlurAmount(float TargetBlurAmount, float InterpSpeed, float BlurKernelSize, bool bForeground);
-	void UpdateLowHealthEffect(float DeltaSeconds, float fHealthPCT, float fHealthLostPCT, bool bDeathVision);
-	void EnableColorBlindEffect(bool bEnable, int Type, bool bSimulateMode);
-	void EnableOutlineEffect(bool bEnable);
+	void STATIC_UpdateLowHealthEffect(float DeltaSeconds, float fHealthPCT, float fHealthLostPCT, bool bDeathVision);
+	void STATIC_EnableColorBlindEffect(bool bEnable, int Type, bool bSimulateMode);
+	void STATIC_EnableOutlineEffect(bool bEnable);
 	void STATIC_InitMaterialEffects();
 };
 
@@ -2828,7 +2834,7 @@ public:
 	bool STATIC_IsFullyConfigured();
 	void AddFxAttachments(class UTgSkeletalMeshComponent* SkelComp);
 	void SetupMeshFromMeshInfo(class UTgSkeletalMeshComponent* SkelComp);
-	void ConfigureMesh(class ATgSkeletalMeshActor_Loader* lobbyOwner);
+	void STATIC_ConfigureMesh(class ATgSkeletalMeshActor_Loader* lobbyOwner);
 };
 
 
@@ -2849,7 +2855,7 @@ public:
 	}
 
 
-	void NotifyLocalPlayerTeamReceived();
+	void STATIC_NotifyLocalPlayerTeamReceived();
 	void PostBeginPlay();
 	void RecalculateTeamColor();
 	void STATIC_LoadMesh();
@@ -2906,7 +2912,7 @@ public:
 
 
 	bool STATIC_IsOffhandEquipSlot(int EquipSlot);
-	class UTgSpecialFx* CreateSpecialFx(int nSpecialFxId);
+	class UTgSpecialFx* STATIC_CreateSpecialFx(int nSpecialFxId);
 	void ScriptSetParticleFloatParamOnMesh(class UMeshComponent* MeshComp, const struct FName& nmName, float fValue, const struct FName& nmDisplayGroup, int nEqpSlot);
 	void ScriptSetVectorMaterialParamOnMesh(class UMeshComponent* MeshComp, const struct FName& nmName, const struct FLinearColor& Value, int nMaterialIndex);
 	void ScriptSetScalarMaterialParamOnMesh(class UMeshComponent* MeshComp, const struct FName& nmName, float fValue, int nMaterialIndex);
@@ -3054,10 +3060,10 @@ public:
 	void STATIC_OnSpawnedEpicLootCrate();
 	void PostBeginPlay();
 	void STATIC_PostInitAnimTree(class USkeletalMeshComponent* SkelComp);
-	void UpdateVelocity();
+	void STATIC_UpdateVelocity();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_InitializeMesh();
-	void DeployTimer();
+	void STATIC_DeployTimer();
 };
 
 
@@ -3083,13 +3089,13 @@ public:
 
 
 	TEnumAsByte<EDoubleClickDir> STATIC_SetFlags(unsigned char Flags, class APlayerController* PC);
-	unsigned char STATIC_CompressedFlags();
+	unsigned char CompressedFlags();
 	void STATIC_ResetMoveFor(class APawn* P);
-	void PrepMoveFor(class APawn* P);
-	void PostUpdate(class APlayerController* P);
+	void STATIC_PrepMoveFor(class APawn* P);
+	void STATIC_PostUpdate(class APlayerController* P);
 	void STATIC_SetMoveFor(class APlayerController* P, float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> InDoubleClick);
-	bool STATIC_CanCombineWith(class USavedMove* NewMove, class APawn* inPawn, float MaxDelta);
-	bool IsImportantMove(const struct FVector& CompareAccel);
+	bool CanCombineWith(class USavedMove* NewMove, class APawn* inPawn, float MaxDelta);
+	bool STATIC_IsImportantMove(const struct FVector& CompareAccel);
 	void Clear();
 };
 
@@ -3109,9 +3115,9 @@ public:
 	}
 
 
-	void STATIC_Cleanup(class UPostProcessChain* InPostProcessChain);
-	void CleanupRenderTarget();
-	void STATIC_InitializeRenderTarget(class APlayerController* PlayerController);
+	void Cleanup(class UPostProcessChain* InPostProcessChain);
+	void STATIC_CleanupRenderTarget();
+	void InitializeRenderTarget(class APlayerController* PlayerController);
 };
 
 
@@ -3164,7 +3170,7 @@ public:
 	}
 
 
-	bool TriggerGlobal(class AActor* InInstigator, int InFilledSlotsCount, bool bInAllBurnSlotsFull);
+	bool STATIC_TriggerGlobal(class AActor* InInstigator, int InFilledSlotsCount, bool bInAllBurnSlotsFull);
 };
 
 
@@ -3257,7 +3263,7 @@ public:
 	}
 
 
-	bool TriggerGlobal(class AActor* InInstigator, TEnumAsByte<EPlayerInputType> InputType, bool bInputEnabled);
+	bool STATIC_TriggerGlobal(class AActor* InInstigator, TEnumAsByte<EPlayerInputType> InputType, bool bInputEnabled);
 };
 
 
@@ -3275,7 +3281,7 @@ public:
 	}
 
 
-	bool TriggerGlobal(class AActor* InInstigator, int InDeckIndex);
+	bool STATIC_TriggerGlobal(class AActor* InInstigator, int InDeckIndex);
 };
 
 
@@ -3599,10 +3605,10 @@ public:
 	bool STATIC_IsCurrentlyViewing();
 	void ResetCamera(class ATgSpectatorController* PC);
 	void STATIC_SetActive(bool bIsActive);
-	void STATIC_SetCameraMode(TEnumAsByte<ESpectatorCameraMode> NewCameraMode);
+	void SetCameraMode(TEnumAsByte<ESpectatorCameraMode> NewCameraMode);
 	void SetViewTarget(const struct FViewTargetInfo& NewViewTarget);
-	void UpdateOverviewCamUI(bool bEnable);
-	void STATIC_OnPlayerMoved();
+	void STATIC_UpdateOverviewCamUI(bool bEnable);
+	void OnPlayerMoved();
 };
 
 
@@ -3660,10 +3666,10 @@ public:
 	void STATIC_OnTouchedHealthNugget(bool bTouched);
 	void SetCanHealNow(bool bEnabled);
 	void SpawnDeployableTimer();
-	void EnableHealingTimer();
-	void DisableHealingTimer();
+	void STATIC_EnableHealingTimer();
+	void STATIC_DisableHealingTimer();
 	void ApplyHealingTimer();
-	void CacheHealingDevice();
+	void STATIC_CacheHealingDevice();
 	void PostBeginPlay();
 	void SpawnDeployable(float SpawnChance);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
@@ -3733,15 +3739,15 @@ public:
 	void STATIC_BecomeViewTarget(class APlayerController* PC);
 	void TakeFlight();
 	void STATIC_AutoDeployPlayers();
-	void DeployPlayerTimer();
-	void DeployPlayerFromTimer(class ATgPawn* pPawn, class ATgRepInfo_Player* TgPRI, const struct FVector& DeployOffset);
+	void STATIC_DeployPlayerTimer();
+	void STATIC_DeployPlayerFromTimer(class ATgPawn* pPawn, class ATgRepInfo_Player* TgPRI, const struct FVector& DeployOffset);
 	void STATIC_DeployPlayer(class ATgPawn* pPawn);
 	void STATIC_InitFlightPath();
 	void STATIC_PlayReadyToDeployVFX();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void PostBeginPlay();
 	void STATIC_InitializeMesh();
-	void AddTaskForce(class ATgRepInfo_TaskForce* pTaskForce);
+	void AddTaskForce(class ATgRepInfo_TaskForce* pTaskforce);
 	void AddPlayer(class ATgRepInfo_Player* Player);
 };
 
@@ -3781,9 +3787,9 @@ public:
 	}
 
 
-	void CloseAllTimers(bool bFireEvent);
+	void STATIC_CloseAllTimers(bool bFireEvent);
 	bool STATIC_IsActiveTimers();
-	bool UnRegisterForEvents(int byTimerIndex, class UObject* HostObject);
+	bool STATIC_UnRegisterForEvents(int byTimerIndex, class UObject* HostObject);
 	bool RegisterForEvents(int byTimerIndex, class UObject* HostObject, const struct FName& nmFunc);
 	void SetRate(int TimerIndex, float Rate);
 	float STATIC_GetTimeInitial(int byTimerIndex);
@@ -3792,7 +3798,7 @@ public:
 	float STATIC_GetTimeElapsed(int byTimerIndex);
 	bool STATIC_IsPaused(int byTimerIndex);
 	bool STATIC_IsSet(int byTimerIndex);
-	bool STATIC_Close(int byTimerIndex, bool bFireEvent);
+	bool Close(int byTimerIndex, bool bFireEvent);
 	bool Pause(int byTimerIndex, float fTime);
 	bool STATIC_Update(int byTimerIndex, float fTime, float fTimeInitial, float Rate);
 	bool STATIC_Start(int byTimerIndex, float fTime, bool bRepeat, bool bPausedByGame, float Rate);
@@ -3930,8 +3936,8 @@ public:
 
 	void PlayMuzzleFlashLight(bool bIsEnemy, bool bIsLocal, class UTgMuzzleFlash** MuzzleFlash);
 	void PlayCharSpecificAnim(int nSlot, float fActivationTime);
-	void STATIC_OnCompletelyNotZoomed();
-	void STATIC_OnCompletelyZoomed();
+	void OnCompletelyNotZoomed();
+	void OnCompletelyZoomed();
 	void STATIC_EndADS();
 	void StartADS();
 	void PlayWeaponQuickRetrieve();
@@ -3943,8 +3949,8 @@ public:
 	void Unhide3PWeaponMesh();
 	void STATIC_Hide3PWeaponMesh();
 	void STATIC_PlayHitReaction(TEnumAsByte<ERecoilHitDir> Dir, float DamageAmount);
-	void CacheSkelControls();
-	void NotifyLocalPlayerTeamReceived();
+	void STATIC_CacheSkelControls();
+	void STATIC_NotifyLocalPlayerTeamReceived();
 	void STATIC_OnPolymorphChanged(bool bDead);
 	void AddWeaponLeading(const struct FRotator& NewRotation, const struct FRotator& OldRotation, float DeltaTime);
 	void ResetFireLoopDisplayGroup();
@@ -3961,13 +3967,13 @@ public:
 	void STATIC_GetFiringSocketTransform(struct FVector* fireLoc, struct FRotator* FireRot);
 	void PlayQueuedInstantHitImpactEffects();
 	void QueueInstantHitImpactEffects(const struct FVector& HitLocation, bool bSuccessfulHit, class AActor* HitActor, const struct FVector& HitNormal, const struct FVector& FireOrigin, int nEquipSlot);
-	void STATIC_OverrideTracerFireLoc(struct FVector* fireLoc);
-	void PlayTracerEffects(const struct FVector& endLocation, int nEquipSlot);
+	void OverrideTracerFireLoc(struct FVector* fireLoc);
+	void PlayTracerEffects(const struct FVector& EndLocation, int nEquipSlot);
 	class UTgSkeletalMeshComponent* STATIC_Get3PWeaponMesh();
 	void Play3pFireAimedFX();
 	void PlayDeviceFiredEffects(int nEquipSlot, float fRefireTime, int nFireMode, TEnumAsByte<EDeviceSubtype> eDeviceSubtype);
 	void PlayFireAnimation(int nEquipSlot, float fRefireTime, TEnumAsByte<EDeviceSubtype> eDeviceSubtype, TEnumAsByte<EeMovementType> eMoveType, bool bForceBlendOutOnAnimEnd);
-	bool CanEquipSlotPlayAnims(int nEquipSlot);
+	bool STATIC_CanEquipSlotPlayAnims(int nEquipSlot);
 	void STATIC_PlayFireFx(int nEquipSlot, int nFireMode, TEnumAsByte<EDeviceSubtype> eDeviceSubtype);
 	void PlayFireEffects(int nEquipSlot, float fRefireTime, int nFireMode, TEnumAsByte<EDeviceSubtype> eDeviceSubtype, TEnumAsByte<EeMovementType> eMoveType, bool bForceBlendOutOnAnimEnd);
 	bool ShowAsLocallyOwned();
@@ -3977,14 +3983,14 @@ public:
 	void PlayTargetingEffects(int nEquipSlot);
 	bool STATIC_GetSimulatedBeamTarget(int nEquipSlot, struct FVector* HitLocation);
 	bool STATIC_GetAccurateBeamTarget(int nEquipSlot, struct FVector* HitLocation);
-	void UpdateFireLoopBeamParams(bool bHasEndPoint, const struct FVector& HitLocation, int nEquipSlot);
+	void STATIC_UpdateFireLoopBeamParams(bool bHasEndPoint, const struct FVector& HitLocation, int nEquipSlot);
 	bool ShouldUpdateBeamEffects(int nEquipSlot);
-	void UpdateBeamEffects(int nEquipSlotToUpdate);
+	void STATIC_UpdateBeamEffects(int nEquipSlotToUpdate);
 	void STATIC_GetAllFireLoopParticleSystemComponents(int nEquipSlot, TArray<class UParticleSystemComponent*>* FireLoopParticles);
-	void UpdateTransform(float DeltaTime, bool bFromCameraUpdate);
+	void STATIC_UpdateTransform(float DeltaTime, bool bFromCameraUpdate);
 	void Tick(float DeltaTime);
-	bool CanUseCameraBone();
-	void Toggle1PVisibility(bool bVisible);
+	bool STATIC_CanUseCameraBone();
+	void STATIC_Toggle1PVisibility(bool bVisible);
 	void Set1PAttachState(TEnumAsByte<EFirstPersonWeaponAttachState> NewAttachState);
 	void STATIC_OnBehindViewUpdated(bool bNewBehindView);
 	void STATIC_PlayRetrieve(float fEquipTime);
@@ -3994,26 +4000,26 @@ public:
 	void STATIC_Initialize3P(unsigned char EquipPoint, int DeviceID);
 	void STATIC_PostInitAnimTree(class USkeletalMeshComponent* SkelComp);
 	void STATIC_Initialize1P(unsigned char EquipPoint, int DeviceID, int MeshAsmId1P);
-	void FixUpReferencesToWeaponMesh3P(class USkeletalMeshComponent* WeaponMesh);
-	void FixUpReferencesToPawnMesh(class USkeletalMeshComponent* PawnMesh);
-	void FixUpReferencesToWeaponMesh1P(class USkeletalMeshComponent* WeaponMesh);
+	void STATIC_FixUpReferencesToWeaponMesh3P(class USkeletalMeshComponent* WeaponMesh);
+	void STATIC_FixUpReferencesToPawnMesh(class USkeletalMeshComponent* PawnMesh);
+	void STATIC_FixUpReferencesToWeaponMesh1P(class USkeletalMeshComponent* WeaponMesh);
 	void STATIC_InitializeForWeapon(unsigned char EquipPoint, int DeviceID, bool bClearEquipPoint);
-	void ClearEquipPoint(unsigned char EquipPoint);
+	void STATIC_ClearEquipPoint(unsigned char EquipPoint);
 	void Destroyed();
 	bool STATIC_IsFirstPerson();
 	void PostBeginPlay();
 	int STATIC_GetFxOverrideFor(int nBaseFXID);
-	float STATIC_CheckOcclusion();
+	float CheckOcclusion();
 	void SetLocationForWeapon(const struct FVector& NewLocation, class AActor* OwningPawn);
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	void ForceRecalculateMaterial();
 	bool STATIC_IsFriendlyWithLocalPawn();
 	class ATgDevice* STATIC_GetDefaultDevice();
-	void STATIC_NativeInit(unsigned char EquipPoint, int DeviceID);
-	void UpdateHeadMesh1P();
-	void UpdateHandsMesh();
+	void NativeInit(unsigned char EquipPoint, int DeviceID);
+	void STATIC_UpdateHeadMesh1P();
+	void STATIC_UpdateHandsMesh();
 	float STATIC_GetMaxWhizbyDistSqr();
-	void UpdateReticule();
+	void STATIC_UpdateReticule();
 	struct FString STATIC_GetWeaponClassById(int DeviceID);
 	void STATIC_GetMeshAsmIds(int DeviceID, int* MeshId1P, int* MeshId3P);
 };
@@ -4119,7 +4125,7 @@ public:
 
 
 	void STATIC_OnInit();
-	class UAnimNodeSynch* FindSynchAnimNode(const struct FName& nmNodeName);
+	class UAnimNodeSynch* STATIC_FindSynchAnimNode(const struct FName& nmNodeName);
 };
 
 
@@ -4189,7 +4195,7 @@ public:
 	}
 
 
-	void PlayAnim(bool bLoop, float Rate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float Rate, float StartTime);
 };
 
 
@@ -4652,7 +4658,7 @@ public:
 	}
 
 
-	float GetBlendTime(int ChildIndex);
+	float STATIC_GetBlendTime(int ChildIndex);
 };
 
 
@@ -4689,7 +4695,7 @@ public:
 	}
 
 
-	float GetBlendTime(int ChildIndex);
+	float STATIC_GetBlendTime(int ChildIndex);
 };
 
 
@@ -4732,8 +4738,8 @@ public:
 	void SetAmmoChild(int targetAmmoChild);
 	void SetAmmoAmt(int nAmmo);
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float Rate, float StartTime);
-	void CheckDelayedSetChild();
+	void STATIC_PlayAnim(bool bLoop, float Rate, float StartTime);
+	void STATIC_CheckDelayedSetChild();
 };
 
 
@@ -4791,7 +4797,7 @@ public:
 	}
 
 
-	void ForceSetActive(bool bActive);
+	void STATIC_ForceSetActive(bool bActive);
 	void STATIC_Fire();
 	void Destroyed();
 	void Spawned();
@@ -4864,7 +4870,7 @@ public:
 
 
 	bool STATIC_IsFullBody();
-	void CancelEmote(bool bNoBlend);
+	void STATIC_CancelEmote(bool bNoBlend);
 	float PlayEmote(TEnumAsByte<EEmote> Emote);
 };
 
@@ -4938,10 +4944,10 @@ public:
 	}
 
 
-	void STATIC_OnDeviceFormInterruptFire(class UTgDeviceForm* DeviceForm);
-	void STATIC_OnDeviceFormStopFire(class UTgDeviceForm* DeviceForm);
+	void OnDeviceFormInterruptFire(class UTgDeviceForm* DeviceForm);
+	void OnDeviceFormStopFire(class UTgDeviceForm* DeviceForm);
 	void STATIC_OnDeviceFormStartFire(class UTgDeviceForm* DeviceForm, float FireDuration);
-	void STATIC_OnDeviceFormBuildup(class UTgDeviceForm* DeviceForm, float BuildupTime);
+	void OnDeviceFormBuildup(class UTgDeviceForm* DeviceForm, float BuildupTime);
 };
 
 
@@ -5023,7 +5029,7 @@ public:
 	}
 
 
-	void STATIC_Reinitialize(class USkeletalMeshComponent* MeshComp);
+	void Reinitialize(class USkeletalMeshComponent* MeshComp);
 };
 
 
@@ -5067,24 +5073,24 @@ public:
 
 
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 	void STATIC_SetActiveChild(int ChildIndex, float BlendTime);
 	TEnumAsByte<EPalCharParams> STATIC_GetParamIndexFromChildIndex(int Index);
 	TEnumAsByte<EPalCharParams> STATIC_GetParamIndexFromEqpSlot(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	void UpdateAnimViaStackRemoval(TEnumAsByte<EPalCharParams> toRemove);
+	void STATIC_UpdateAnimViaStackRemoval(TEnumAsByte<EPalCharParams> toRemove);
 	void PlayTopOfStackAnim();
-	void ForceInterruptFlourish();
+	void STATIC_ForceInterruptFlourish();
 	void STATIC_InterruptReload();
-	void STATIC_OnPutAway(unsigned char EquipPoint, int DeviceID, class UClass* WeaponClass);
-	void STATIC_OnRetrieve();
-	void STATIC_OnFlourish();
-	void STATIC_OnReload(float fReloadTime);
-	void STATIC_OnTriggerCharacterSpecific(int nCharacterSpecificSlot, float fActivationTime);
-	void STATIC_OnDeviceStopFire(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	void STATIC_OnDeviceFire(TEnumAsByte<ETG_EQUIP_POINT> eqp, float fRefireRate);
-	void STATIC_OnDeviceStartFire(TEnumAsByte<ETG_EQUIP_POINT> eqp, float fRefireRate);
-	void STATIC_OnDeviceBuildup(TEnumAsByte<ETG_EQUIP_POINT> eqp);
-	void STATIC_OnDeviceTargeting(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	void OnPutAway(unsigned char EquipPoint, int DeviceID, class UClass* WeaponClass);
+	void OnRetrieve();
+	void OnFlourish();
+	void OnReload(float fReloadTime);
+	void OnTriggerCharacterSpecific(int nCharacterSpecificSlot, float fActivationTime);
+	void OnDeviceStopFire(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	void OnDeviceFire(TEnumAsByte<ETG_EQUIP_POINT> eqp, float fRefireRate);
+	void OnDeviceStartFire(TEnumAsByte<ETG_EQUIP_POINT> eqp, float fRefireRate);
+	void OnDeviceBuildup(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	void OnDeviceTargeting(TEnumAsByte<ETG_EQUIP_POINT> eqp);
 };
 
 
@@ -5104,10 +5110,10 @@ public:
 	}
 
 
-	void STATIC_OnRetrieve();
+	void OnRetrieve();
 	bool STATIC_HasCachedBarrierTankPawn();
 	void STATIC_SetActiveChild(int ChildIndex, float BlendTime);
-	void UpdateAmmoSkelControls();
+	void STATIC_UpdateAmmoSkelControls();
 };
 
 
@@ -5124,7 +5130,7 @@ public:
 	}
 
 
-	void STATIC_OnDeviceStartFire(TEnumAsByte<ETG_EQUIP_POINT> eqp, float fRefireRate);
+	void OnDeviceStartFire(TEnumAsByte<ETG_EQUIP_POINT> eqp, float fRefireRate);
 };
 
 
@@ -5143,10 +5149,10 @@ public:
 	}
 
 
-	void STATIC_OnRetrieve();
+	void OnRetrieve();
 	bool STATIC_HasCachedDrogozPawn();
 	void STATIC_SetActiveChild(int ChildIndex, float BlendTime);
-	void UpdateAmmoSkelControls();
+	void STATIC_UpdateAmmoSkelControls();
 };
 
 
@@ -5164,7 +5170,7 @@ public:
 
 
 	bool STATIC_HasCachedFlakPawn();
-	void STATIC_OnRetrieve();
+	void OnRetrieve();
 };
 
 
@@ -5201,7 +5207,7 @@ public:
 
 
 	void STATIC_SetActiveChild(int ChildIndex, float BlendTime);
-	void UpdatePercent(float fPercent);
+	void STATIC_UpdatePercent(float fPercent);
 };
 
 
@@ -5266,8 +5272,8 @@ public:
 	}
 
 
-	void ForceAllCameraAnimsEnd();
-	bool ForcePostureChange(bool bAllowTransitionAnims);
+	void STATIC_ForceAllCameraAnimsEnd();
+	bool STATIC_ForcePostureChange(bool bAllowTransitionAnims);
 };
 
 
@@ -5289,17 +5295,17 @@ public:
 
 
 // Class TgGame.TgAnimBlendByRealmCharacter
-// 0x08AC (0x0A14 - 0x0168)
+// 0x0D44 (0x0EAC - 0x0168)
 class UTgAnimBlendByRealmCharacter : public UTgAnimNodeBlendList
 {
 public:
 	class ATgWeaponMeshActor*                          m_WeaponMeshActor;                                        // 0x0168(0x0008)
 	TEnumAsByte<EDeviceSubtype>                        m_SubNodeDeviceSubtype;                                   // 0x0170(0x0001) (Edit)
 	unsigned char                                      UnknownData00[0x3];                                       // 0x0171(0x0003) MISSED OFFSET
-	struct FChildAnimParameters                        m_ChildParams[0x27];                                      // 0x0174(0x0038) (Edit, NeedCtorLink)
-	TArray<unsigned char>                              m_nChildAnimStack;                                        // 0x09FC(0x0010) (NeedCtorLink)
-	int                                                m_nCustomRetrieveIndex;                                   // 0x0A0C(0x0004)
-	unsigned long                                      m_bBlendToIdleOnInterruptInspect : 1;                     // 0x0A10(0x0004) (Edit)
+	struct FChildAnimParameters                        m_ChildParams[0x3C];                                      // 0x0174(0x0038) (Edit, NeedCtorLink)
+	TArray<unsigned char>                              m_nChildAnimStack;                                        // 0x0E94(0x0010) (NeedCtorLink)
+	int                                                m_nCustomRetrieveIndex;                                   // 0x0EA4(0x0004)
+	unsigned long                                      m_bBlendToIdleOnInterruptInspect : 1;                     // 0x0EA8(0x0004) (Edit)
 
 	static UClass* StaticClass()
 	{
@@ -5309,33 +5315,33 @@ public:
 
 
 	bool STATIC_IsPlayingCustomEmote();
-	void UpdateFireAnimType(bool bIsLooping);
+	void STATIC_UpdateFireAnimType(bool bIsLooping);
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 	void STATIC_SetActiveChild(int ChildIndex, float BlendTime);
 	unsigned char STATIC_GetParamIndexFromChildIndex(int Index);
 	unsigned char STATIC_GetParamIndexFromDeviceType(unsigned char eDeviceSubtype);
-	void UpdateAnimViaStackRemoval(unsigned char toRemove);
+	void STATIC_UpdateAnimViaStackRemoval(unsigned char toRemove);
 	void PlayTopOfStackAnim();
-	void ForceInterruptFlourish();
+	void STATIC_ForceInterruptFlourish();
 	void STATIC_InterruptReload();
-	void CancelCustomEmote();
+	void STATIC_CancelCustomEmote();
 	void PlayCustomEmote();
-	void STATIC_OnPutAway(float fPutAwayTime);
-	void STATIC_OnRetrieve(float fRetrieveTime);
-	void STATIC_OnFlourish();
-	void STATIC_OnReload(float fReloadTime);
-	void STATIC_OnTriggerCharacterSpecific(int nCharacterSpecificSlot, float fActivationTime);
-	void STATIC_OnDeviceStopFire(TEnumAsByte<EDeviceSubtype> eDeviceSubtype, bool bForceBlendOutOnAnimEnd);
-	void STATIC_OnDeviceFire(TEnumAsByte<EDeviceSubtype> eDeviceSubtype, float fRefireRate);
-	void STATIC_OnDeviceStartFire(TEnumAsByte<EDeviceSubtype> eDeviceSubtype, float fRefireRate, bool bForceBlendOutOnAnimEnd);
-	void STATIC_OnDeviceBuildup(TEnumAsByte<EDeviceSubtype> eDeviceSubtype);
-	void STATIC_OnDeviceTargeting();
+	void OnPutAway(float fPutAwayTime);
+	void OnRetrieve(float fRetrieveTime);
+	void OnFlourish();
+	void OnReload(float fReloadTime);
+	void OnTriggerCharacterSpecific(int nCharacterSpecificSlot, float fActivationTime);
+	void OnDeviceStopFire(TEnumAsByte<EDeviceSubtype> eDeviceSubtype, bool bForceBlendOutOnAnimEnd);
+	void OnDeviceFire(TEnumAsByte<EDeviceSubtype> eDeviceSubtype, float fRefireRate);
+	void OnDeviceStartFire(TEnumAsByte<EDeviceSubtype> eDeviceSubtype, float fRefireRate, bool bForceBlendOutOnAnimEnd);
+	void OnDeviceBuildup(TEnumAsByte<EDeviceSubtype> eDeviceSubtype);
+	void OnDeviceTargeting();
 };
 
 
 // Class TgGame.TgAnimBlendByRealmCharacter_FullAbilities
-// 0x0000 (0x0A14 - 0x0A14)
+// 0x0000 (0x0EAC - 0x0EAC)
 class UTgAnimBlendByRealmCharacter_FullAbilities : public UTgAnimBlendByRealmCharacter
 {
 public:
@@ -5349,10 +5355,10 @@ public:
 
 	unsigned char STATIC_GetParamIndexFromDeviceType(unsigned char eDeviceSubtype);
 	bool STATIC_IsPlayingCustomEmote();
-	void CancelCustomEmote();
+	void STATIC_CancelCustomEmote();
 	void PlayCustomEmote();
-	void STATIC_OnPutAway(float fPutAwayTime);
-	void STATIC_OnRetrieve(float fRetrieveTime);
+	void OnPutAway(float fPutAwayTime);
+	void OnRetrieve(float fRetrieveTime);
 };
 
 
@@ -5454,7 +5460,7 @@ public:
 	}
 
 
-	void STATIC_SetWeaponSwapType(const struct FName& nAnimSetPackageName);
+	void SetWeaponSwapType(const struct FName& nAnimSetPackageName);
 };
 
 
@@ -5479,7 +5485,7 @@ public:
 	void STATIC_HookEnd();
 	void STATIC_HookPull();
 	void STATIC_HookHit();
-	void ThrowHook();
+	void STATIC_ThrowHook();
 };
 
 
@@ -5496,7 +5502,7 @@ public:
 	}
 
 
-	void EndFlying();
+	void STATIC_EndFlying();
 	void STATIC_HitTarget();
 	void Fly();
 	void ReadyFlightFromAir();
@@ -5517,7 +5523,7 @@ public:
 	}
 
 
-	void STATIC_OnInterrupt();
+	void OnInterrupt();
 	void StartThrow();
 };
 
@@ -5575,7 +5581,7 @@ public:
 
 
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 	void SetAbilityFiring(bool bIsFiring, bool bIsOnFire, bool bIsInterrupted);
 };
 
@@ -5611,11 +5617,11 @@ public:
 	}
 
 
-	void VineInactive();
-	void VinePost();
-	void VineHitPost();
-	void VinePull();
-	void VineThrow();
+	void STATIC_VineInactive();
+	void STATIC_VinePost();
+	void STATIC_VineHitPost();
+	void STATIC_VinePull();
+	void STATIC_VineThrow();
 };
 
 
@@ -5846,8 +5852,8 @@ public:
 	}
 
 
-	void STATIC_OnMajorHit(const struct FVector& DirectionFromHit);
-	void STATIC_OnMinorHit(const struct FVector& DirectionFromHit);
+	void OnMajorHit(const struct FVector& DirectionFromHit);
+	void OnMinorHit(const struct FVector& DirectionFromHit);
 };
 
 
@@ -5940,8 +5946,8 @@ public:
 
 
 	bool STATIC_IsPlayingEmote();
-	void CancelIdleEmote();
-	void STATIC_PlayIdleEmote();
+	void STATIC_CancelIdleEmote();
+	void PlayIdleEmote();
 };
 
 
@@ -5975,7 +5981,7 @@ public:
 	}
 
 
-	void STATIC_SetActiveAnimationIndex(int ChildIndex);
+	void SetActiveAnimationIndex(int ChildIndex);
 };
 
 
@@ -6022,7 +6028,7 @@ public:
 	void PlayQuickPutaway();
 	void PlayQuickRetrieve();
 	void PlayDryFire();
-	void STATIC_OnStopFire();
+	void OnStopFire();
 	void PlayOffhand(float Rate);
 	void STATIC_PlayReload(float ReloadTime, int RoundsRemainingInClip);
 	void STATIC_PlayRetrieve(float RetrieveTime, float ForcedRateBuff);
@@ -6087,7 +6093,7 @@ public:
 
 
 	void SetCrouchState(bool bCrouch);
-	void UpdateSyncGroups();
+	void STATIC_UpdateSyncGroups();
 };
 
 
@@ -6139,7 +6145,7 @@ public:
 	void SetLockedBase(bool bLocked);
 	bool ShouldSetActiveChild(class UAnimNode* pAnimNode);
 	void STATIC_ReplayAnim();
-	void EndChannel();
+	void STATIC_EndChannel();
 	void StartCooldownTimer(float fCooldown);
 };
 
@@ -6245,7 +6251,7 @@ public:
 
 
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float Rate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float Rate, float StartTime);
 };
 
 
@@ -6269,8 +6275,8 @@ public:
 
 
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float Rate, float StartTime);
-	void ChangeStance(int Stance, bool bAutoSync, bool bForceUpdate);
+	void STATIC_PlayAnim(bool bLoop, float Rate, float StartTime);
+	void STATIC_ChangeStance(int Stance, bool bAutoSync, bool bForceUpdate);
 };
 
 
@@ -6289,7 +6295,7 @@ public:
 	}
 
 
-	void ChangeStance(int Stance, bool bAutoSync, bool bForceUpdate);
+	void STATIC_ChangeStance(int Stance, bool bAutoSync, bool bForceUpdate);
 };
 
 
@@ -6311,7 +6317,7 @@ public:
 
 
 	void STATIC_ReplayAnim();
-	void EndTargeting();
+	void STATIC_EndTargeting();
 	void STATIC_InterruptTargeting();
 };
 
@@ -6352,7 +6358,7 @@ public:
 
 
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float Rate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float Rate, float StartTime);
 	void STATIC_SetActiveChild(int ChildIndex, float BlendTime);
 };
 
@@ -6545,7 +6551,7 @@ public:
 	}
 
 
-	void STATIC_PlayOverriddenCustomAnim(const struct FName& AnimName, float Rate, float BlendInTime, float BlendOutTime, bool bLooping, bool bOverride);
+	void PlayOverriddenCustomAnim(const struct FName& AnimName, float Rate, float BlendInTime, float BlendOutTime, bool bLooping, bool bOverride);
 };
 
 
@@ -6588,7 +6594,7 @@ public:
 	}
 
 
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 };
 
 
@@ -6634,7 +6640,7 @@ public:
 	}
 
 
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 	void STATIC_EndCooldown();
 	void StartCooldownTimer(float fCooldown);
 };
@@ -6663,7 +6669,7 @@ public:
 	bool STATIC_Fire(int nMode);
 	bool SetStance(int nStance, bool bNoBlend);
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 };
 
 
@@ -6694,7 +6700,7 @@ public:
 	void PlayHacking();
 	void StopAFK();
 	void PlayAFK();
-	void STATIC_SetPlayRate(float fPlayRate);
+	void SetPlayRate(float fPlayRate);
 	float PlayLoopingCustomAnimWithTransition(const struct FName& TransitionAnimName, const struct FName& LoopingAnimName, float Rate, float BlendInTime, float BlendOutTime);
 };
 
@@ -6752,11 +6758,11 @@ public:
 
 
 	bool BlendToStance(int DestinationStance);
-	bool TransitionToStance(int DestinationStance);
+	bool STATIC_TransitionToStance(int DestinationStance);
 	void STATIC_GetTransitionableStances(int SourceStance, TArray<int>* DestinationStances);
 	bool SetStance(int Stance);
 	void STATIC_ReplayAnim();
-	void PlayAnim(bool bLoop, float InRate, float StartTime);
+	void STATIC_PlayAnim(bool bLoop, float InRate, float StartTime);
 	void STATIC_GetStances(TArray<int>* Stances);
 	int STATIC_GetCurrentStance();
 };
@@ -6809,9 +6815,9 @@ public:
 	}
 
 
-	void STATIC_OnDeviceStopFire(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	void OnDeviceStopFire(TEnumAsByte<ETG_EQUIP_POINT> eqp);
 	void STATIC_ReplayAnim();
-	void EndCameraAnim();
+	void STATIC_EndCameraAnim();
 	void StartCameraAnim();
 };
 
@@ -6830,7 +6836,7 @@ public:
 	}
 
 
-	class UAkEvent* GetAkEventToPlay(class USkeletalMeshComponent* skel);
+	class UAkEvent* STATIC_GetAkEventToPlay(class USkeletalMeshComponent* skel);
 };
 
 
@@ -6948,8 +6954,8 @@ public:
 	}
 
 
-	struct FParticleChannelContainer GetParticleChannels(class USkeletalMeshComponent* skel);
-	class UParticleSystem* GetParticleSystemToPlay(class USkeletalMeshComponent* skel);
+	struct FParticleChannelContainer STATIC_GetParticleChannels(class USkeletalMeshComponent* skel);
+	class UParticleSystem* STATIC_GetParticleSystemToPlay(class USkeletalMeshComponent* skel);
 };
 
 
@@ -7002,7 +7008,7 @@ public:
 	}
 
 
-	class USoundCue* GetSoundCueToPlay(class USkeletalMeshComponent* skel);
+	class USoundCue* STATIC_GetSoundCueToPlay(class USkeletalMeshComponent* skel);
 };
 
 
@@ -7020,7 +7026,7 @@ public:
 	}
 
 
-	class UAkEvent* GetAkEventToPlay(class USkeletalMeshComponent* skel);
+	class UAkEvent* STATIC_GetAkEventToPlay(class USkeletalMeshComponent* skel);
 };
 
 
@@ -7124,7 +7130,7 @@ public:
 
 
 	void STATIC_Notify(class AActor* Owner, class UAnimNodeSequence* AnimSeqInstigator);
-	void Clear1pCameraAnim();
+	void STATIC_Clear1pCameraAnim();
 };
 
 
@@ -7200,7 +7206,7 @@ public:
 	}
 
 
-	void STATIC_OverrideYawOffset(float Value);
+	void OverrideYawOffset(float Value);
 };
 
 
@@ -7367,7 +7373,7 @@ public:
 
 
 	struct FRecoilDef STATIC_GenRecoil(const struct FRecoilInfo& RecoilParam);
-	struct FVector VRandRange(const struct FVector& v1, const struct FVector& v2);
+	struct FVector STATIC_VRandRange(const struct FVector& v1, const struct FVector& v2);
 	void STATIC_SetRecoilParam();
 	void SetRecoilDir(TEnumAsByte<ERecoilHitDir> NewDir);
 };
@@ -7752,7 +7758,7 @@ public:
 	}
 
 
-	void Depress();
+	void STATIC_Depress();
 };
 
 
@@ -7860,6 +7866,7 @@ public:
 	unsigned long                                      m_bFireShouldEnterCombat : 1;                             // 0x032C(0x0004)
 	unsigned long                                      m_bShouldUseInstigatorsTimeDilation : 1;                  // 0x032C(0x0004)
 	unsigned long                                      m_bIsADS : 1;                                             // 0x032C(0x0004)
+	unsigned long                                      m_bCancelSprintWhileActive : 1;                           // 0x032C(0x0004)
 	unsigned long                                      m_bDamages : 1;                                           // 0x032C(0x0004)
 	unsigned long                                      m_bStuns : 1;                                             // 0x032C(0x0004)
 	unsigned long                                      m_bProjectileFollowOwnerYaw : 1;                          // 0x032C(0x0004)
@@ -7884,7 +7891,7 @@ public:
 	unsigned long                                      m_bCanCancelWithJump : 1;                                 // 0x032C(0x0004)
 	unsigned long                                      m_bEnterCombatOnFire : 1;                                 // 0x032C(0x0004)
 	unsigned long                                      m_bDeployAtFeetOnFailure : 1;                             // 0x032C(0x0004) (Edit)
-	unsigned long                                      m_bMustBeOnGroundToFire : 1;                              // 0x032C(0x0004)
+	unsigned long                                      m_bMustBeOnGroundToFire : 1;                              // 0x0330(0x0004)
 	unsigned long                                      m_bHideTargeterWhenInvalid : 1;                           // 0x0330(0x0004)
 	unsigned long                                      m_bParentAnimComponentHands : 1;                          // 0x0330(0x0004)
 	unsigned long                                      m_bParentAnimComponent1PHead : 1;                         // 0x0330(0x0004)
@@ -7916,7 +7923,7 @@ public:
 	unsigned long                                      m_bPendingZoom : 1;                                       // 0x0330(0x0004)
 	unsigned long                                      m_bFullScreenScope : 1;                                   // 0x0330(0x0004)
 	unsigned long                                      m_bUsesLoopingAnim : 1;                                   // 0x0330(0x0004)
-	unsigned long                                      m_bCanPlayFireAnim : 1;                                   // 0x0330(0x0004)
+	unsigned long                                      m_bCanPlayFireAnim : 1;                                   // 0x0334(0x0004)
 	unsigned long                                      m_bRightHandThrow : 1;                                    // 0x0334(0x0004)
 	unsigned long                                      m_bDisableTgSkelConLimbs : 1;                             // 0x0334(0x0004)
 	unsigned long                                      m_bSkipGenerateNewSeed : 1;                               // 0x0334(0x0004)
@@ -8099,21 +8106,21 @@ public:
 
 
 	bool STATIC_IsInfiniteFireDevice();
-	bool CanViewZoom();
-	bool CanEnterCatapultEvenWhenFiring();
+	bool STATIC_CanViewZoom();
+	bool STATIC_CanEnterCatapultEvenWhenFiring();
 	bool SetPendingZoom(bool bNewPendingZoom);
 	void ServerCancelReload();
 	void STATIC_CancelReload();
-	void STATIC_OnStartADS();
+	void OnStartADS();
 	void ServerNotifyDesiredTarget(class AActor* DesiredTarget);
 	bool STATIC_IsHealthPackDevice();
-	bool DeviceUsesAmmo();
+	bool STATIC_DeviceUsesAmmo();
 	class ATgDevice* STATIC_GetAmmoDevice();
-	void WeaponIsDown();
-	void UnequipFast();
-	bool CanAutoWeaponFireNow();
+	void STATIC_WeaponIsDown();
+	void STATIC_UnequipFast();
+	bool STATIC_CanAutoWeaponFireNow();
 	void RecoverFromSprintTimer();
-	void STATIC_OnEndSprint();
+	void OnEndSprint();
 	float STATIC_GetAttackSpeedMod();
 	void UpdateAttackSpeedMod(int nSourceId, float fPercChange, bool bFromServer, bool bAddPercChange, float fDuration);
 	void STATIC_AddAttackSpeedMod(float fPercChange, float fDuration, bool bFromServer, int nSourceId);
@@ -8123,7 +8130,7 @@ public:
 	void STATIC_ApplyAllowUseWhileFlags(int nAllowUseWhileFlags);
 	void UnregisterAsGameplayCurveOverrideDevice(class ATgDevice* Dev);
 	void STATIC_RegisterAsGameplayCurveOverrideDevice(class ATgDevice* Dev);
-	void UpdateOutroLockoutTime();
+	void STATIC_UpdateOutroLockoutTime();
 	bool RequireMovementForAimAssist();
 	bool RequireLookForAimAssist();
 	int STATIC_GetAimAssistPriority();
@@ -8132,24 +8139,24 @@ public:
 	void STATIC_PlaySimulatedForceFeedbackWaveforms(TArray<class UForceFeedbackWaveform*> Waveforms, float fScaleMagnitude, float fScaleDuration, bool bFromPawnPosition);
 	void StopSimulatedForceFeedbackWaveform(class UForceFeedbackWaveform* WaveForm);
 	void STATIC_PlaySimulatedForceFeedbackWaveform(class UForceFeedbackWaveform* WaveForm, float fScaleMagnitude, float fScaleDuration, bool bFromPawnPosition);
-	void STATIC_OnOwnerRespawn();
+	void OnOwnerRespawn();
 	bool ReleaseHoldOnRightMouseReleased();
-	bool CanToggleTargetingOff();
-	void ClientSetAimAssistValues(float MagnetScaleX, float MagnetScaleY, float FrictionScaleX, float FrictionScaleY, float TrackingScaleX, float TrackingScaleY);
-	void DesyncAmmoTransactionID(int Amt);
+	bool STATIC_CanToggleTargetingOff();
+	void STATIC_ClientSetAimAssistValues(float MagnetScaleX, float MagnetScaleY, float FrictionScaleX, float FrictionScaleY, float TrackingScaleX, float TrackingScaleY);
+	void STATIC_DesyncAmmoTransactionID(int Amt);
 	bool ShouldStopActionOnOffhandSlotReleased();
 	bool STATIC_PlayHitReactionOverride();
-	void STATIC_OnCanceledClient();
+	void OnCanceledClient();
 	void STATIC_OnCanceled();
-	void STATIC_OnKnock();
-	void STATIC_OnCripple();
+	void OnKnock();
+	void OnCripple();
 	void STATIC_ClientDeviceFirePropertyChange(int nMode, int nPropertyId, float fNewValue);
 	void STATIC_OnUnlinkDevice(class ATgPawn* TgP);
 	void STATIC_OnLinkDevice(class ATgPawn* TgP);
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
-	void STATIC_NotifyDeviceEvent(TEnumAsByte<ENotifyDelegateEvents> ndeType);
-	bool STATIC_UnregisterDelegate(TEnumAsByte<ENotifyDelegateEvents> ndeType, const struct FScriptDelegate& DeviceEventDelegate);
+	void NotifyDeviceEvent(TEnumAsByte<ENotifyDelegateEvents> ndeType);
+	bool UnregisterDelegate(TEnumAsByte<ENotifyDelegateEvents> ndeType, const struct FScriptDelegate& DeviceEventDelegate);
 	bool RegisterDelegate(TEnumAsByte<ENotifyDelegateEvents> ndeType, const struct FScriptDelegate& DeviceEventDelegate);
 	void UnequipDevice();
 	bool ShouldStopWeaponSwapping();
@@ -8159,46 +8166,46 @@ public:
 	float STATIC_GetRefirePercent();
 	void STATIC_OnDeployableSpawned(class ATgDeployable* deployable);
 	void STATIC_OnDeployableDestroyed(class ATgDeployable* deployable);
-	void ClientInterruptReload(bool bAllowAmmoFill);
+	void STATIC_ClientInterruptReload(bool bAllowAmmoFill);
 	void STATIC_InterruptReload();
 	void PostReloadTimer();
 	void PreReloadTimer();
-	void FullReloadTimer();
+	void STATIC_FullReloadTimer();
 	bool StartReload(bool bIgnoreCurrentAmmo);
-	bool CanStartReloadNow(bool bIgnoreCurrentAmmo);
-	bool CanBeCanceledByReload();
+	bool STATIC_CanStartReloadNow(bool bIgnoreCurrentAmmo);
+	bool STATIC_CanBeCanceledByReload();
 	int STATIC_GetReloadAmount();
-	void ClientForceReload();
+	void STATIC_ClientForceReload();
 	void ServerStartReload();
 	void STATIC_FlashUpdateAmmoOnPawn();
 	void STATIC_ResetAmmoTransactions();
 	void ServerSyncAmmoTransactionID(int nNewID);
 	void ReloadAmmoWithSynchronization();
 	void STATIC_ReloadAmmo(bool bToFull, bool bShouldValidate);
-	void ClientSyncAmmoGivenFromServer(int Amount);
+	void STATIC_ClientSyncAmmoGivenFromServer(int Amount);
 	void STATIC_GiveAmmoWithClientSync(int Amount);
 	void STATIC_GiveAmmo(int Amount, bool bShouldValidate);
 	void STATIC_ConsumeAmmo(int Amount, bool bShouldValidate);
-	void STATIC_SetAmmo(int CarriedAmount, int ClipAmount, bool bShouldValidate, int ValidationIDOverride);
+	void SetAmmo(int CarriedAmount, int ClipAmount, bool bShouldValidate, int ValidationIDOverride);
 	bool UpdateDelayedAmmoTransactionRegen(int nTransactionID, int nAmmoCarriedCountAdded, int nAmmoClipCountAdded);
 	int STATIC_GiveAmmoDelayedWithValidationRegen(int nAmmoCarriedCountAdded, int nAmmoClipCountAdded);
-	void ClientValidateDelayedRegenAmmoResponse(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged);
+	void STATIC_ClientValidateDelayedRegenAmmoResponse(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged);
 	void ServerValidateDelayedRegenAmmoTransaction(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged, bool bInitiateNewTransactionForRegen);
 	bool ValidateDelayedAmmoTransactionRegen(int nTransactionID, bool bInitiateNewTransactionForRegen);
 	bool STATIC_SendImmediateSetAmmoDelayed(int nTransactionID);
 	bool STATIC_CancelSetAmmoDelayed(int nTransactionID);
-	int STATIC_SetAmmoDelayedWithValidation(int CarriedAmmoCount, int ClipAmmoCount, float DelayAmt);
-	void ClientValidateAmmoResponse(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged, bool bFubar);
+	int SetAmmoDelayedWithValidation(int CarriedAmmoCount, int ClipAmmoCount, float DelayAmt);
+	void STATIC_ClientValidateAmmoResponse(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged, bool bFubar);
 	void STATIC_LogWarnDelayedAmmoTransactionOnClient(int nTransactionID, int nAmmoCarriedAmountChanged, int nAmmoClipAmountChanged, float fTimeDelayed, bool bLateServer, int nServerCurrentTransactionID);
 	void ServerValidateAmmoTransaction(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged);
-	void VerifyAmmoTransaction(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged, bool bFilledClip);
+	void STATIC_VerifyAmmoTransaction(int nTransactionID, int nCarriedAmmoChanged, int nClipAmmoChanged, bool bFilledClip);
 	bool UsesSimulatedAmmo();
-	void ForceActivate();
-	void STATIC_Activate();
+	void STATIC_ForceActivate();
+	void Activate();
 	bool AllowSwitchTo(class AWeapon* NewWeapon);
-	void CancelUnequip();
+	void STATIC_CancelUnequip();
 	void UnequipWeapon();
-	bool STATIC_TryPutDown();
+	bool TryPutDown();
 	bool STATIC_IsUnEquipping();
 	void StopFiringLogic();
 	void STATIC_ClientReconnected();
@@ -8207,28 +8214,28 @@ public:
 	bool STATIC_IsToggleDevice();
 	bool STATIC_ApplyGlobalOffhandCooldown();
 	void Destroyed();
-	void UpdateIndex();
+	void STATIC_UpdateIndex();
 	void STATIC_HandleDeviceFormStartFire(int nDeviceModeNum, float fRefireTime, struct FAimData* Aim);
 	bool ShouldRefire(class UTgDeviceFire* FireMode, struct FAimData* Aim);
-	void STATIC_OutroLockoutTime();
-	void DeviceBuildupTimer();
+	void OutroLockoutTime();
+	void STATIC_DeviceBuildupTimer();
 	void RestartFireLoop(bool bRefire);
 	void HandDeviceLockout();
 	void FirePostHitDelay();
 	void FirePreHitDelay();
 	void RefireCheckTimer();
 	void STATIC_LockRotation(bool bShouldLock);
-	void STATIC_LockCamera(bool bShouldLock);
+	void LockCamera(bool bShouldLock);
 	void STATIC_LockInput(bool bShouldLock);
 	bool AllowsPickup();
-	void STATIC_OnProjectileShutdown(class ATgProjectile* Proj);
-	void STATIC_OnTeleportNotify(class AActor* TeleportingActor);
-	void ClientSetDesiredFireMode(int nDesiredFireMode);
+	void OnProjectileShutdown(class ATgProjectile* Proj);
+	void OnTeleportNotify(class AActor* TeleportingActor);
+	void STATIC_ClientSetDesiredFireMode(int nDesiredFireMode);
 	void SetDesiredFiremode(int nDesiredFireMode);
-	void ChangeFireModeOnRefire();
-	void UpdateDesiredFireMode();
+	void STATIC_ChangeFireModeOnRefire();
+	void STATIC_UpdateDesiredFireMode();
 	void STATIC_NotifySwitchMode();
-	void STATIC_NotifyPutAway();
+	void NotifyPutAway();
 	void STATIC_ClientEndCooldown();
 	void STATIC_ClientResetCooldown(int nMode, float fCooldownTime);
 	void STATIC_ClientStartCooldown(int nMode, float fCooldownTime);
@@ -8238,19 +8245,19 @@ public:
 	void AuthStartCooldown(int nMode, float fCooldownTimeOverride);
 	void StartCooldown(int nMode, float fCooldownTimeOverride);
 	void AlternateStartCooldown();
-	void ClientCooldownTimerExpired(int nTimerId, TEnumAsByte<ETGT_EVENT> eEvent);
-	void CooldownTimerExpired(int nTimerId, TEnumAsByte<ETGT_EVENT> eEvent, bool bNoBecomeActive);
+	void STATIC_ClientCooldownTimerExpired(int nTimerId, TEnumAsByte<ETGT_EVENT> eEvent);
+	void STATIC_CooldownTimerExpired(int nTimerId, TEnumAsByte<ETGT_EVENT> eEvent, bool bNoBecomeActive);
 	float STATIC_GetCooldownRemaining();
 	float STATIC_GetAltFireDetonateDamagePct();
 	bool AltFireDetonate();
-	void UpdateActiveProjectiles(class ATgProjectile* Proj);
+	void STATIC_UpdateActiveProjectiles(class ATgProjectile* Proj);
 	float STATIC_GetMinAccuracy();
-	void TriggerAccuracyOnFire();
-	void FireAmmunition();
-	void ConsumeAmmoFromFiring(int nAmmoConsumptionOverride, int nFireRequestIDOverride);
+	void STATIC_TriggerAccuracyOnFire();
+	void STATIC_FireAmmunition();
+	void STATIC_ConsumeAmmoFromFiring(int nAmmoConsumptionOverride, int nFireRequestIDOverride);
 	bool ShouldConsumeAmmo(int nFireRequestID, TArray<struct FImpactToValidate> Impacts);
 	int STATIC_GetAmmoToConsume();
-	void TrackDeviceModeFired(class ATgPawn* PawnFiring);
+	void STATIC_TrackDeviceModeFired(class ATgPawn* PawnFiring);
 	class AActor* STATIC_GetTrackingTarget();
 	struct FVector STATIC_GetPhysicalFireStartLoc(const struct FVector& AimDir);
 	int STATIC_GetProjectileIDOverride(int ProjectileIndex);
@@ -8260,14 +8267,14 @@ public:
 	class ATgProj_Simulated* SpawnSimulatedProjectile(bool bCanSpawnOnClientFirst, int FireRequestId, int ProjectileInstanceId, class UTgDeviceFire* FireMode, const struct FVector& ProjectileSpawnLocation, const struct FVector& ProjectileSpawnDir, int ProjectileIndex, int ProjectileIdOverride, float Range, class AActor* trackingTarget, const struct FVector& EndTrace);
 	void SpawnQueuedSimulatedProjectile();
 	class UTgDeviceFire* STATIC_GetFireModeForFiringProjectile();
-	void CustomFire();
+	void STATIC_CustomFire();
 	void AOEArcingFlash(TArray<struct FImpactInfo> ImpactList, const struct FVector& StartLocation);
 	void ServerInstantFireSingleImpact(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, const struct FImpactToValidate& Impact);
 	void ServerInstantFireThreeImpacts(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, const struct FImpactToValidate& Impact, int NumImpacts, const struct FImpactToValidate& InImpactList);
 	void ServerInstantFire(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, const struct FImpactToValidate& Impact, int NumImpacts, const struct FImpactToValidate& InImpactList);
 	void STATIC_HandleClientReportedInstantShot(const struct FAimData& InServerAim, const struct FAimData& InClientAim, const struct FImpactToValidate& InPrimaryImpact, TArray<struct FImpactToValidate> InClientImpacts);
-	void STATIC_OnInstantShotRejected(const struct FImpactToValidate& RejectedPrimaryImpact);
-	void STATIC_OnInstantShotVerified(const struct FImpactInfo& VerifiedPrimaryImpact);
+	void OnInstantShotRejected(const struct FImpactToValidate& RejectedPrimaryImpact);
+	void OnInstantShotVerified(const struct FImpactInfo& VerifiedPrimaryImpact);
 	void SendImpactsForVerification(struct FAimData* baseaim, struct FImpactInfo* Impact, TArray<unsigned char>* nShotsToImpactIndex);
 	void PerformOnInstantFireServerValidation(float AccuracyValue, float AccuracyRandomValue1, float AccuracyRandomValue2, struct FAimData* Aim);
 	void STATIC_HandleInstantFireWithConsolidation(bool bSendForServerValidation, struct FAimData* baseaim, struct FAimData* Aim, struct FImpactInfo* Impact);
@@ -8276,35 +8283,35 @@ public:
 	void ApplyHitToTarget(class ATgPawn_Character* Target, int nHitSpecialSituationalType, const struct FVector& vHitLocation, const struct FVector& vHitNormal);
 	void STATIC_DeliverHit(const struct FImpactInfo& Impact);
 	void STATIC_DeliverQueuedPendingHits();
-	struct FImpactInfo CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
-	void ZoomOutFinished();
-	void ZoomInFinished();
+	struct FImpactInfo STATIC_CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
+	void STATIC_ZoomOutFinished();
+	void STATIC_ZoomInFinished();
 	void ServerForceStopFire();
 	void STATIC_ForceStopFire();
 	void STATIC_ServerStopFire();
-	void STATIC_ServerStopFireAsEvent();
+	void ServerStopFireAsEvent();
 	void StopFireAsEvent();
 	void StopAltFire();
 	void StopFire();
-	bool CanToggleDeviceStopFiring();
+	bool STATIC_CanToggleDeviceStopFiring();
 	void ServerStopAltFire();
 	void ServerStartAltFire();
 	void StartFiringOnServer(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, unsigned char ClientFireMode, class AActor* HitActor, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, int nCompressedAimVector, bool bFirstBurstShot, float fAttackSpeedPercChange);
 	void ServerStartFire(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, unsigned char ClientFireMode, class AActor* HitActor, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, int nCompressedAimVector, bool bFirstBurstShot, float fAttackSpeedPercChange);
 	void ServerRestartFireLoop(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, unsigned char ClientFireMode, class AActor* HitActor, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, int nCompressedAimVector, bool bFirstBurstShot, float fAttackSpeedPercChange);
-	void CallServerRestartFireLoop(const struct FAimData& Aim);
-	void CallServerStartFire(const struct FAimData& Aim, bool bPendingUpdate);
+	void STATIC_CallServerRestartFireLoop(const struct FAimData& Aim);
+	void STATIC_CallServerStartFire(const struct FAimData& Aim, bool bPendingUpdate);
 	float STATIC_GetLastMoveTimeStamp(struct FVector* LastSentMoveAcceleration, int* LastSentMoveCompressedFlags, struct FVector* LastSentClientLoc, unsigned char* LastSentClientRoll, int* LastSentView);
 	void ServerAckProjectileSpawn(int ClientFireRequestId);
 	void STATIC_HandleQueuedProjectileExplosion(class ATgProj_Simulated* SimulatedProjectile, float ProjectileAliveTime, class AActor* Other, float MovementTimeStamp, float AoeRewindTimeStamp, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
 	void STATIC_HandleAllQueuedProjectileExplosions(class ATgProj_Simulated* Proj);
 	void ServerQueueProjectileExplode(int ClientFireRequestId, float ProjectileAliveTime, class AActor* Other, float MovementTimeStamp, float HitLocationX, float HitLocationY, float HitLocationZ, float HitNormalX, float HitNormalY, float HitNormalZ, float VelocityZ);
-	void STATIC_ServerStartFireAsEvent();
-	void FireLockComplete();
+	void ServerStartFireAsEvent();
+	void STATIC_FireLockComplete();
 	void STATIC_GlobalOffhandCooldownCompleteClient();
 	void STATIC_GlobalOffhandCooldownCompleteServer();
 	void SetFireLock();
-	void STATIC_OnStartFireRequestSent();
+	void OnStartFireRequestSent();
 	void STATIC_HandleFalseFireRecory();
 	bool STATIC_StartFire();
 	float STATIC_GetRemainingFiringTime();
@@ -8312,10 +8319,10 @@ public:
 	bool ShouldConsumePowerPoolAfterFire();
 	bool ShouldConsumePowerPoolOnStartFire();
 	bool ShouldCooldownAfterFire();
-	bool CanEnterCombat();
+	bool STATIC_CanEnterCombat();
 	bool ShouldInterruptReloadOnBeginTargeting();
 	bool ShouldInterruptReloadOnFire();
-	bool DeviceSpawnsClientProjectilesFirst();
+	bool STATIC_DeviceSpawnsClientProjectilesFirst();
 	bool SimulateStartFire();
 	void STATIC_ClientSimulateStartFireFromServer();
 	void ReleaseFireHoldInternal();
@@ -8324,26 +8331,27 @@ public:
 	void SetFireHoldAmt(float fFireHoldTime);
 	void STATIC_InterruptBurst();
 	void STATIC_InterruptFireHold();
-	void FireHoldForceReleaseFUBAR();
-	void FireHoldValidationTimer();
-	void FireHoldTimer();
+	void STATIC_FireHoldForceReleaseFUBAR();
+	void STATIC_FireHoldValidationTimer();
+	void STATIC_FireHoldTimer();
 	bool StartFireHold();
 	bool STATIC_StartAltFire();
 	bool UseAlt();
 	bool Use();
-	bool CanDeviceAltFireNow(class ATgPawn* InstigatorPawn, class ATgPlayerController* InstigatorController);
+	bool STATIC_CanDeviceAltFireNow(class ATgPawn* InstigatorPawn, class ATgPlayerController* InstigatorController);
 	bool STATIC_CanDeviceStartFiringNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDebugRelevant, TEnumAsByte<EDeviceFailType>* failType);
-	void CacheDeviceCanFire(bool bDeviceCanFire, TEnumAsByte<EDeviceFailType> failType);
+	void STATIC_CacheDeviceCanFire(bool bDeviceCanFire, TEnumAsByte<EDeviceFailType> failType);
 	bool STATIC_CanFireWithoutAimResult();
-	bool STATIC_ShouldPreventJumping();
+	bool ShouldPreventJumping();
 	bool ShouldLockFiring(class ATgDevice* Current);
+	void STATIC_LockOutOtherDevices();
 	bool STATIC_IsInhandOverrideActive();
 	float STATIC_GetLockoutExtensionTime();
-	bool CanFireWhileHanging();
+	bool STATIC_CanFireWhileHanging();
 	void STATIC_ConsumeDevice();
-	bool UsesEnergy();
-	bool UsesMana();
-	bool UsesHealth();
+	bool STATIC_UsesEnergy();
+	bool STATIC_UsesMana();
+	bool STATIC_UsesHealth();
 	void STATIC_DeviceConsumePowerPool(unsigned char FireModeNum);
 	bool STATIC_DeviceCanUsePowerPool(int nPacingType, unsigned char FireModeNum);
 	void PlayClientFireFx(const struct FVector& HitLocation, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
@@ -8352,23 +8360,23 @@ public:
 	bool ShouldCancelCrouch();
 	bool ShouldCancelStealth();
 	void STATIC_HandleBurstInterrupted();
-	void STATIC_OnInterruptEvent();
-	void ClientRemoveSpawnedProjectile(int nFiringID);
+	void OnInterruptEvent();
+	void STATIC_ClientRemoveSpawnedProjectile(int nFiringID);
 	void STATIC_ClientInterrupt(bool bServerFireFailed);
-	void ClientRefundAmmo(int nRefundAmount, int nFireRequestID);
-	void ClientInitiatedInterrupt();
+	void STATIC_ClientRefundAmmo(int nRefundAmount, int nFireRequestID);
+	void STATIC_ClientInitiatedInterrupt();
 	void AsynchronusInterrupt();
 	void STATIC_InterruptFiringOnServerInternal(bool bSendClientInterrupt, bool bServerFireFailed);
 	void STATIC_InterruptFiringServerOnly();
 	void STATIC_InterruptFiring(bool bServerFireFailed);
 	void ServerNotifyClientAckLockout();
 	void StopFiringServerDeviceLockout();
-	void DeviceRestart();
-	void DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
+	void STATIC_DeviceRestart();
+	void STATIC_DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
 	void ServerDoRemoteDetonation(int nFireMode);
-	void STATIC_SetActiveState();
+	void SetActiveState();
 	void STATIC_GetAdjustedAim(float AccuracyValueOverride, float RandomValueOverride1, float RandomValueOverride2, struct FAimData* Aim, float* UsedAccuracyValue, float* UsedRandomValue1, float* UsedRandomValue2);
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 	void STATIC_InterruptOtherDevices(class ATgPawn* TgP);
 	void PostBeginPlay();
 	float STATIC_GetRecoilMultiplier();
@@ -8383,7 +8391,7 @@ public:
 	bool STATIC_CanJumpWhileFiring();
 	bool STATIC_CanBeFiredWhileTweening();
 	bool STATIC_CanFiringBeCanceledByReactivation();
-	bool CheckReactivationToggleLogic(unsigned char* bSuccessfulCancel);
+	bool STATIC_CheckReactivationToggleLogic(unsigned char* bSuccessfulCancel);
 	bool STATIC_CanFiringBeCanceledByRightMouse();
 	bool STATIC_CanFiringBeCanceledByLeftMouse();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
@@ -8394,33 +8402,33 @@ public:
 	bool STATIC_InterceptLeftMouseReleased(class ATgPlayerController* TgController);
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
 	float STATIC_GetEffectiveRange();
-	float GetRange();
+	float STATIC_GetRange();
 	bool STATIC_IsEquipping();
-	bool CanFiringBeLocked();
-	bool CanFireWhileMounted();
-	bool STATIC_MustBeOnGroundToFire();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanFiringBeLocked();
+	bool STATIC_CanFireWhileMounted();
+	bool MustBeOnGroundToFire();
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsDeviceFiringLockedForUI();
 	bool STATIC_IsDeviceFiringForUI();
-	bool NativeIsFiring();
-	bool CanSpawnOnClientFirst(class UClass* ProjectileClass, bool bUsesTrackingTarget);
+	bool STATIC_NativeIsFiring();
+	bool STATIC_CanSpawnOnClientFirst(class UClass* ProjectileClass, bool bUsesTrackingTarget);
 	void STATIC_ForceCooldownIfFiring();
-	void DisplayMessage(const struct FString& sMessage);
+	void STATIC_DisplayMessage(const struct FString& sMessage);
 	void DisplayDebug(class AHUD* HUD, float* out_YL, float* out_YPos);
-	void WeaponLog(const struct FString& msg, const struct FString& FuncStr);
+	void STATIC_WeaponLog(const struct FString& msg, const struct FString& FuncStr);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void DeleteIfPending();
+	void STATIC_DeleteIfPending();
 	bool ShouldInterruptADSDevices();
 	void STATIC_GetExplosionFXParams(float EffectiveRadius, float DamageRadius, class AActor* pOwner, TEnumAsByte<ETG_EQUIP_POINT> eEquipSlot, TArray<struct FParticleSysParam>* Params);
-	void UpdateAttackSpeedModifiers();
+	void STATIC_UpdateAttackSpeedModifiers();
 	int STATIC_GetCurrentRecoilSettingsIdx();
 	int STATIC_GetCurrentAccuracySettingsIdx();
 	bool ShouldForce3P(class UTgDeviceForm* DeviceForm, bool bOnlyCheckDeviceForm);
 	bool ShouldForce1P(class UTgDeviceForm* DeviceForm, bool bOnlyCheckDeviceForm);
-	bool UseRangeFalloffCurve();
+	bool STATIC_UseRangeFalloffCurve();
 	class UTgGameplayCurvesSet* STATIC_GetCurrentGameplayCurveSet(TEnumAsByte<ECurveSetTypes> Type);
 	class UTgGameplayCurves* STATIC_GetCurrentGameplayCurves();
-	void DeviceFailLog(bool bDeviceFailLog, const struct FString& S);
+	void STATIC_DeviceFailLog(bool bDeviceFailLog, const struct FString& S);
 	bool ShouldAutoFire();
 	float STATIC_GetFireHoldPct();
 	float STATIC_GetFireHoldDamageLow();
@@ -8429,10 +8437,10 @@ public:
 	float STATIC_GetFireHoldTime();
 	class UTgGameplayCurvesSet* STATIC_GetShotSpreadTendencyCurvesSet();
 	float STATIC_GetBaseDamageMultiplier(struct FImpactInfo* hitImpact);
-	void ConsolidateImpacts(TArray<struct FImpactInfo>* ImpactsToConsolidate, TArray<float>* ShotRanges, TArray<unsigned char>* ShotToImpactIndex);
+	void STATIC_ConsolidateImpacts(TArray<struct FImpactInfo>* ImpactsToConsolidate, TArray<float>* ShotRanges, TArray<unsigned char>* ShotToImpactIndex);
 	bool ShouldBlockPickup();
 	float STATIC_GetRequiredEnergyToFire();
-	bool UpdateUltChargePercent();
+	bool STATIC_UpdateUltChargePercent();
 	bool ShouldAltFireOnTick();
 	bool STATIC_IsSuccessfulHitImpact(class AActor* ImpactedActor);
 	float STATIC_GetHeadShotDamage(class UTgDeviceFire* FireMode);
@@ -8442,26 +8450,26 @@ public:
 	struct FString STATIC_GetLastUsedAimStats();
 	void RecordUsedAim(struct FVector* InAim);
 	void SetRandomShotSpreadSeed(int Seed);
-	bool ValidateClientInstantHit(struct FImpactInfo* ValidPrimaryImpact, TArray<struct FImpactInfo>* OutValidImpacts, struct FAimData* InServerAim, struct FAimData* InClientAim, struct FImpactToValidate* InPrimaryImpact, TArray<struct FImpactToValidate>* InClientImpacts, TArray<float>* OutHitRanges);
-	bool ValidateClientProjectileImpact(class ATgProj_Simulated* SimulatedProjectile, float ProjectileAliveTime, class AActor* Other, float MovementTimeStamp, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	bool STATIC_ValidateClientInstantHit(struct FImpactInfo* ValidPrimaryImpact, TArray<struct FImpactInfo>* OutValidImpacts, struct FAimData* InServerAim, struct FAimData* InClientAim, struct FImpactToValidate* InPrimaryImpact, TArray<struct FImpactToValidate>* InClientImpacts, TArray<float>* OutHitRanges);
+	bool STATIC_ValidateClientProjectileImpact(class ATgProj_Simulated* SimulatedProjectile, float ProjectileAliveTime, class AActor* Other, float MovementTimeStamp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	int STATIC_GenerateUniqueAmmoValidationId();
 	int STATIC_GenerateUniqueFireRequestId();
 	bool STATIC_HasRemoteOwner();
 	void ReplicatePlayerDeviceAmmo();
 	int STATIC_GetPetIDOverride(int PetIndex);
-	void DeviceAdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
-	void DeviceAdjustRadius(class ATgDevice* Dev, float* fRadius);
-	void DeviceAdjustDamage(int nPropertyId, struct FImpactInfo* Impact, float* fDamage);
+	void STATIC_DeviceAdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
+	void STATIC_DeviceAdjustRadius(class ATgDevice* Dev, float* fRadius);
+	void STATIC_DeviceAdjustDamage(int nPropertyId, struct FImpactInfo* Impact, float* fDamage);
 	void SetFireMode(int nFireModeNum, bool ForceSet);
 	float STATIC_GetRandRecoil(float Min, float Max);
 	float STATIC_GetAccuracy(int nMode);
 	bool ReloadCancelADS();
 	bool ShouldBlockReload(class ATgDevice* Dev, bool bIsAutoReload);
 	bool STATIC_IsReloading();
-	bool CanReload(bool bIsAutoReload);
-	bool CheckAutoReload();
+	bool STATIC_CanReload(bool bIsAutoReload);
+	bool STATIC_CheckAutoReload();
 	float STATIC_GetCurrentReloadPct();
-	void UpdateAmmoRegen(bool bUpdateCooldown, float fCooldownFloor);
+	void STATIC_UpdateAmmoRegen(bool bUpdateCooldown, float fCooldownFloor);
 	bool ShouldTreatAmmoAsCharges();
 	struct FAmmoCount STATIC_GetCurrentAmmoAmount();
 	bool RequiresAmmoToFire();
@@ -8471,7 +8479,7 @@ public:
 	bool ShouldInterruptStealth();
 	void SetInstanceCount(int nInstanceCount);
 	void SetPointsAllocated(int nPoints);
-	void ClientPtsAllocatedUpdated();
+	void STATIC_ClientPtsAllocatedUpdated();
 	bool STATIC_AllocateDevicePoint();
 	int STATIC_GetAllocatedDevicePoints();
 	int STATIC_GetTotalDevicePoints();
@@ -8480,10 +8488,10 @@ public:
 	bool STATIC_IsInTargetingMode();
 	bool STATIC_IsTargetingModeReady(TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsActive(bool bIgnoreCooldown, bool bIngoreEquipped);
-	void UpdateAimWhileFiring(struct FAimData* Aim);
+	void STATIC_UpdateAimWhileFiring(struct FAimData* Aim);
 	bool SupportsEffectSimulation();
-	bool CanAllowLagCompensation();
-	bool CanLockOnToTarget(class AActor* Target);
+	bool STATIC_CanAllowLagCompensation();
+	bool STATIC_CanLockOnToTarget(class AActor* Target);
 	void STATIC_GetWorldMapTargetAim(struct FAimData* Aim);
 	void STATIC_GetSpawnPointTargetAim(struct FAimData* Aim);
 	void STATIC_GetLockOnTargetAim(struct FAimData* Aim);
@@ -8495,19 +8503,19 @@ public:
 	void STATIC_GetReticleFindSpotAim(struct FAimData* Aim);
 	void STATIC_GetReticleTargetAim(struct FAimData* Aim);
 	void STATIC_GetTargetingAim(struct FAimData* Aim);
-	void UpdateTargetingModeStatus(struct FAimData* Aim);
-	struct FAimData ValidateReceivedAim(float ClientMovementTimeStamp, const struct FAimData& Aim);
-	struct FAimData CacheAim();
+	void STATIC_UpdateTargetingModeStatus(struct FAimData* Aim);
+	struct FAimData STATIC_ValidateReceivedAim(float ClientMovementTimeStamp, const struct FAimData& Aim);
+	struct FAimData STATIC_CacheAim();
 	void STATIC_GetCachedAim(struct FAimData* Aim);
-	bool UsesCachedAim();
-	TEnumAsByte<ECastMode> DetermineCastMode(TEnumAsByte<ECastMode> desiredCastMode);
+	bool STATIC_UsesCachedAim();
+	TEnumAsByte<ECastMode> STATIC_DetermineCastMode(TEnumAsByte<ECastMode> desiredCastMode);
 	bool ShouldAimThroughReticule();
-	bool ForceDefaultCastMode();
-	bool UsesTrackingTarget();
-	bool UsesTargetingMode();
+	bool STATIC_ForceDefaultCastMode();
+	bool STATIC_UsesTrackingTarget();
+	bool STATIC_UsesTargetingMode();
 	TEnumAsByte<EDeviceTargetMode> STATIC_GetTargetingMode();
 	float STATIC_GetCachedFiringPostHitDelay();
-	float CacheFiringPostHitDelay();
+	float STATIC_CacheFiringPostHitDelay();
 	float STATIC_GetFiringPostHitDelay(int nMode);
 	float STATIC_GetFiringPreHitDelay(int nMode);
 	float STATIC_GetRefireTime(int nMode);
@@ -8515,7 +8523,7 @@ public:
 	void STATIC_GetCombatLogEventLocation(int* LocationX, int* LocationY);
 	void SendCombatLogEvent(TEnumAsByte<EITEM_EVENT_TYPE> Type);
 	void SendDeviceChangeEvent(TEnumAsByte<EDeviceChangeEvent> Event);
-	void CheckAndUpdateCooldown();
+	void STATIC_CheckAndUpdateCooldown();
 	class UTgTimerManager* STATIC_GetCooldownTimerManager();
 	bool STATIC_IsDeviceRefiring();
 	bool STATIC_IsInCooldownGracePeriod();
@@ -8523,11 +8531,11 @@ public:
 	bool STATIC_HasEnoughPowerPool(unsigned char FireModeNum);
 	float STATIC_GetConePullbackDistance();
 	bool STATIC_CanBeGrabbed();
-	bool CanBeStasisLocked();
-	bool CanBeCrippled();
-	bool CanBeDisarmed();
-	bool CanBeSilenced();
-	bool CanBeStunned();
+	bool STATIC_CanBeStasisLocked();
+	bool STATIC_CanBeCrippled();
+	bool STATIC_CanBeDisarmed();
+	bool STATIC_CanBeSilenced();
+	bool STATIC_CanBeStunned();
 	bool STATIC_IsTestDevice();
 	bool STATIC_IsBurnCard();
 	bool STATIC_IsArmorCard();
@@ -8540,21 +8548,21 @@ public:
 	bool STATIC_IsOwnedByOffhand();
 	bool STATIC_IsOffhand();
 	int STATIC_GetModeRange(int nMode);
-	bool CheckModeRange(int nMode, const struct FVector& vDelta);
-	void STATIC_OnCeaseActive();
-	void STATIC_OnBecomeActive();
-	void CeaseActive(bool bSkipActiveEffects);
+	bool STATIC_CheckModeRange(int nMode, const struct FVector& vDelta);
+	void OnCeaseActive();
+	void OnBecomeActive();
+	void STATIC_CeaseActive(bool bSkipActiveEffects);
 	void BecomeActive(bool bSkipActiveEffects);
 	void STATIC_RemoveEquipEffects();
 	void STATIC_ApplyEquipEffects();
 	class UTgDeviceFire* STATIC_GetDeviceFire(int nMode);
 	class UTgDeviceFire* STATIC_GetCurrentFire();
-	void TickTargetingMode(float DeltaSeconds);
+	void STATIC_TickTargetingMode(float DeltaSeconds);
 	bool STATIC_ServerDetonate(int nFireMode);
 	bool STATIC_LogDebugInfo();
 	void RemoveConsumableFromOwnerInventory();
 	struct FString STATIC_GetDeviceName();
-	void CalcFireSocketIndexMax();
+	void STATIC_CalcFireSocketIndexMax();
 	struct FName STATIC_GetFireSocketName();
 	struct FName QueryDeployableClass(int nMode);
 	struct FName QueryProjectileClass(int nMode);
@@ -8595,7 +8603,7 @@ public:
 
 
 	void AdjustSpawnedProjectile(class ATgProj_Simulated** SpawnedProjectile);
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 };
 
 
@@ -8612,7 +8620,7 @@ public:
 	}
 
 
-	bool DeviceUsesAmmo();
+	bool STATIC_DeviceUsesAmmo();
 };
 
 
@@ -8633,14 +8641,14 @@ public:
 	}
 
 
-	void TriggerArc(int Index);
-	void EndArcing(int Index);
+	void STATIC_TriggerArc(int Index);
+	void STATIC_EndArcing(int Index);
 	void STATIC_BeginArcing(class AActor* InitialTarget, class UTgDeviceFire* FireMode);
 	int STATIC_GetNumArcJumps(class AActor* InitialTarget, class UTgDeviceFire* FireMode);
 	void Tick(float DeltaTime);
-	void TriggerArcsInArcingList(float DeltaTime);
+	void STATIC_TriggerArcsInArcingList(float DeltaTime);
 	bool STATIC_IsValidArcTarget(class AActor* TestActor, const struct FArcingInfo& Info);
-	class AActor* DetermineNextTarget(int Index);
+	class AActor* STATIC_DetermineNextTarget(int Index);
 };
 
 
@@ -8671,7 +8679,7 @@ public:
 	void STATIC_ScaleCollisionProxy();
 	void SpawnCollisionProxy();
 	void Destroyed();
-	void DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
+	void STATIC_DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
 	void STATIC_ClearAllTouched();
 	void STATIC_ClearAllAffected();
 	void STATIC_OnProxyUnTouch(class AActor* Other);
@@ -8752,7 +8760,7 @@ public:
 	}
 
 
-	void DeviceAdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
+	void STATIC_DeviceAdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
 };
 
 
@@ -8772,7 +8780,7 @@ public:
 
 
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 };
 
 
@@ -8793,8 +8801,8 @@ public:
 
 
 	void STATIC_OnChainReset();
-	void UpdateDesiredFireMode();
-	void FireAmmunition();
+	void STATIC_UpdateDesiredFireMode();
+	void STATIC_FireAmmunition();
 	int STATIC_GetChainFireModeIndex();
 	int STATIC_GetChainMax();
 };
@@ -8843,10 +8851,10 @@ public:
 	bool STATIC_CanFiringBeCanceledByLeftMouse();
 	void ApplyTouchHit(class ATgPawn* InstigatorPawn, const struct FVector& vHitLocation, const struct FVector& vHitNormal, class AActor* Target);
 	void ApplyCachedHits();
-	void EnableCorrection();
+	void STATIC_EnableCorrection();
 	struct FRotator STATIC_GetChargeDirection();
-	void STATIC_OnStoppedChargeOnHit(class AActor* Other);
-	void STATIC_OnValidTargetTouched(class AActor* Other);
+	void OnStoppedChargeOnHit(class AActor* Other);
+	void OnValidTargetTouched(class AActor* Other);
 	void STATIC_ApplyDamageReduction(struct FImpactInfo* Impact);
 	bool ShouldStopOnThisHit(class AActor* Other);
 	float STATIC_GetChargeSpeed();
@@ -8896,10 +8904,10 @@ public:
 
 	bool ShouldCancelCrouch();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	void CancelSafetyPeriodTimer();
+	void STATIC_CancelSafetyPeriodTimer();
 	bool ShouldStopOnThisHit(class AActor* Other);
 	void ApplyTouchHit(class ATgPawn* InstigatorPawn, const struct FVector& vHitLocation, const struct FVector& vHitNormal, class AActor* Target);
-	void ValidateChargeHit(class AActor* Other);
+	void STATIC_ValidateChargeHit(class AActor* Other);
 	bool STATIC_IsFunctionallyToggleDevice();
 };
 
@@ -8926,7 +8934,7 @@ public:
 	bool RefireTimer(bool bRefire);
 	bool Use();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	void UpdateTargetingModeStatus(struct FAimData* Aim);
+	void STATIC_UpdateTargetingModeStatus(struct FAimData* Aim);
 };
 
 
@@ -8963,8 +8971,8 @@ public:
 
 	int STATIC_GetChainMax();
 	bool ShouldConsumeAmmo(int nFireRequestID, TArray<struct FImpactToValidate> Impacts);
-	bool CanFiringBeLocked();
-	bool DeviceUsesAmmo();
+	bool STATIC_CanFiringBeLocked();
+	bool STATIC_DeviceUsesAmmo();
 };
 
 
@@ -8981,7 +8989,7 @@ public:
 	}
 
 
-	void DeviceAdjustDamage(int nPropertyId, struct FImpactInfo* Impact, float* fDamage);
+	void STATIC_DeviceAdjustDamage(int nPropertyId, struct FImpactInfo* Impact, float* fDamage);
 };
 
 
@@ -8999,7 +9007,7 @@ public:
 	}
 
 
-	void STATIC_ModifyDeployableFiremode(class UTgDeviceFire* pFireMode);
+	void ModifyDeployableFiremode(class UTgDeviceFire* pFireMode);
 	float STATIC_GetAdditiveHealth();
 	bool AffectsDeployable(int nDeployableId);
 };
@@ -9035,7 +9043,7 @@ public:
 	}
 
 
-	void STATIC_ModifyDeployableFiremode(class UTgDeviceFire* pFireMode);
+	void ModifyDeployableFiremode(class UTgDeviceFire* pFireMode);
 };
 
 
@@ -9072,7 +9080,7 @@ public:
 
 
 	void SetLeftFire(bool bLeftFire);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	struct FVector STATIC_GetProjectileSpawnOffset();
 };
 
@@ -9099,12 +9107,12 @@ public:
 	}
 
 
-	void ToggleSpecialBehavior(bool bEnable);
-	void STATIC_OnInterruptEvent();
+	void STATIC_ToggleSpecialBehavior(bool bEnable);
+	void OnInterruptEvent();
 	void Tick(float DeltaSeconds);
 	class ATgPawn* STATIC_GetCachedPawnOwner();
-	void TurnOffSpecialCamera();
-	void TurnOnSpecialCamera();
+	void STATIC_TurnOffSpecialCamera();
+	void STATIC_TurnOnSpecialCamera();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_CanBeInterrupted();
 	bool ShouldInterruptReloadOnFire();
@@ -9114,7 +9122,7 @@ public:
 	bool STATIC_CanFiringBeCanceledByRightMouse();
 	bool STATIC_CanJumpWhileFiring();
 	bool ShouldLockFiring(class ATgDevice* Current);
-	bool CanFiringBeLocked();
+	bool STATIC_CanFiringBeLocked();
 	bool ShouldBlockReload(class ATgDevice* Dev, bool bIsAutoReload);
 };
 
@@ -9150,7 +9158,7 @@ public:
 	bool ShouldCancelCrouch();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_CanFiringBeCanceledByLeftMouse();
-	void CancelSafetyPeriodTimer();
+	void STATIC_CancelSafetyPeriodTimer();
 	bool STATIC_IsFunctionallyToggleDevice();
 };
 
@@ -9192,8 +9200,8 @@ public:
 
 	void ServerStartFire(float MovementTimeStamp, const struct FVector& MovementInAccel, const struct FVector& MovementClientLoc, unsigned char MovementNewFlags, unsigned char MovementClientRoll, int MovementView, int ClientFireRequestId, unsigned char ClientFireMode, class AActor* HitActor, float StartTraceX, float StartTraceY, float StartTraceZ, float EndTraceX, float EndTraceY, float EndTraceZ, int nCompressedAimVector, bool bFirstBurstShot, float fAttackSpeedPercChange);
 	void STATIC_TryToQueueShot();
-	void ClientTryToQueueShot();
-	void CallTryToQueueShot();
+	void STATIC_ClientTryToQueueShot();
+	void STATIC_CallTryToQueueShot();
 	bool ShouldStopActionOnOffhandSlotReleased();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_IsHealthPackDevice();
@@ -9229,7 +9237,7 @@ public:
 	float STATIC_GetRefireTime(int nMode);
 	void PersistTimer();
 	bool STATIC_ApplyGlobalOffhandCooldown();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 };
 
 
@@ -9284,7 +9292,7 @@ public:
 	}
 
 
-	bool CanEnterCatapultEvenWhenFiring();
+	bool STATIC_CanEnterCatapultEvenWhenFiring();
 	bool ShouldCancelSprint();
 	int STATIC_GetAimAssistPriority();
 	bool ShouldMountCancelFiring();
@@ -9298,7 +9306,7 @@ public:
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
 	bool STATIC_InterceptSlotReleased(class ATgPlayerController* TgController);
 	bool STATIC_InterceptSlotPressed(class ATgPlayerController* TgController);
-	void UpdateTargetingModeStatus(struct FAimData* Aim);
+	void STATIC_UpdateTargetingModeStatus(struct FAimData* Aim);
 	bool ShouldAltFireOnTick();
 	void STATIC_GetGroundTargetAim(struct FAimData* Aim);
 };
@@ -9320,8 +9328,8 @@ public:
 
 
 	void SetLeapParams(float* scaleLateral, float* scaleVertical, float* additiveLateral, float* additiveVertical);
-	void STATIC_OnLeapEnded();
-	void STATIC_OnLeapStarted();
+	void OnLeapEnded();
+	void OnLeapStarted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	float STATIC_GetFiringPreHitDelay(int nMode);
 };
@@ -9349,7 +9357,7 @@ public:
 	void AdjustSpawnedProjectile(class ATgProj_Simulated** SpawnedProjectile);
 	void SetFireHoldAmt(float fFireHoldTime);
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	bool CanFiringBeLocked();
+	bool STATIC_CanFiringBeLocked();
 	bool ShouldAutoFire();
 };
 
@@ -9372,7 +9380,7 @@ public:
 	}
 
 
-	void STATIC_OnInterruptEvent();
+	void OnInterruptEvent();
 	bool ShouldCancelSprint();
 	void UnequipDevice();
 	void STATIC_CheckSpinForceFeedback();
@@ -9412,8 +9420,8 @@ public:
 
 
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
-	void FireAmmunition();
-	bool CanFireIfLeftMouseDown();
+	void STATIC_FireAmmunition();
+	bool STATIC_CanFireIfLeftMouseDown();
 };
 
 
@@ -9434,9 +9442,9 @@ public:
 
 	float STATIC_GetBaseDamageMultiplier(struct FImpactInfo* hitImpact);
 	void STATIC_HandleJump(class AActor* HitTarget, const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FVector& HitVelocity, class ATgProj_TargetedBounceBase* sourceProj);
-	bool CanShotJump();
+	bool STATIC_CanShotJump();
 	bool STATIC_StartFire();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsDeviceFiringForUI();
 };
 
@@ -9457,10 +9465,10 @@ public:
 
 
 	bool STATIC_IsInfiniteFireDevice();
-	bool CanEnterCombat();
+	bool STATIC_CanEnterCombat();
 	void StopFire();
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 	void STATIC_EnterTargetingMode();
 };
 
@@ -9499,13 +9507,14 @@ public:
 	}
 
 
+	bool STATIC_CanBeCanceledByReload();
 	bool ShouldCancelCrouch();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool ShouldMountCancelFiring();
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanFiringBeCanceledByLeftMouse();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	float STATIC_GetFiringPostHitDelay(int nMode);
 };
 
@@ -9523,7 +9532,7 @@ public:
 	}
 
 
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsDeviceFiringForUI();
 };
 
@@ -9561,21 +9570,21 @@ public:
 	}
 
 
-	void CustomFire();
+	void STATIC_CustomFire();
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
-	void CompleteInterrupt();
+	void STATIC_CompleteInterrupt();
 	void StopFire();
 	void STATIC_ClientInterrupt(bool bServerFireFailed);
 	void STATIC_InterruptFiring(bool bServerFireFailed);
 	void SetTransitionPct();
-	void FiringEndTransition();
+	void STATIC_FiringEndTransition();
 	bool STATIC_IsToggleDevice();
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool ShouldLockFiring(class ATgDevice* Current);
 	class ATgPawn* STATIC_GetCachedTgP();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 };
 
 
@@ -9617,12 +9626,12 @@ public:
 	bool ShouldStopActionOnOffhandSlotReleased();
 	bool STATIC_IsFunctionallyToggleDevice();
 	bool STATIC_InterceptSlotReleased(class ATgPlayerController* TgController);
-	void CompleteInterrupt();
+	void STATIC_CompleteInterrupt();
 	bool STATIC_IsPlayerToggleZoomSet();
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
 	bool ShouldLockFiring(class ATgDevice* Current);
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	float STATIC_GetMoveSpeedMultiplier();
 };
 
@@ -9650,8 +9659,8 @@ public:
 	void STATIC_ResetCooldown(int nMode, float fCooldownTimeOverride);
 	void AuthStartCooldown(int nMode, float fCooldownTimeOverride);
 	void ToggleCooldownEffects(bool bOnCooldown);
-	void FlashCooldown(unsigned char nMode);
-	void CheckAndUpdateCooldown();
+	void STATIC_FlashCooldown(unsigned char nMode);
+	void STATIC_CheckAndUpdateCooldown();
 	class ATgRepInfo_TaskForce* STATIC_GetTaskForce();
 	class UTgTimerManager* STATIC_GetCooldownTimerManager();
 };
@@ -9670,8 +9679,8 @@ public:
 	}
 
 
-	void CustomFire();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	void STATIC_CustomFire();
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsTargetingModeReady(TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsTeamBeaconActive();
 	bool STATIC_IsBeaconEnabled();
@@ -9710,12 +9719,12 @@ public:
 
 	bool ShouldInterruptReload();
 	bool STATIC_IsToggleDevice();
-	void ConsumeAmmoFromFiring(int nAmmoConsumptionOverride, int nFireRequestIDOverride);
+	void STATIC_ConsumeAmmoFromFiring(int nAmmoConsumptionOverride, int nFireRequestIDOverride);
 	bool STATIC_StartFire();
-	void FireAmmunition();
-	bool CanDeviceFireInTargetingMode();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
-	void UpdateUIToggleState();
+	void STATIC_FireAmmunition();
+	bool STATIC_CanDeviceFireInTargetingMode();
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	void STATIC_UpdateUIToggleState();
 };
 
 
@@ -9744,14 +9753,14 @@ public:
 	bool ShouldInterruptReloadOnFire();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	void STATIC_InterruptOtherDevices(class ATgPawn* TgP);
-	void EndEnteringMount(bool bEndingFireLoop);
+	void STATIC_EndEnteringMount(bool bEndingFireLoop);
 	void SetMountedCollision(bool IsActive);
-	void STATIC_OutroLockoutTime();
+	void OutroLockoutTime();
 	void AutoDismount();
 	void AuthStartCooldown(int nMode, float fCooldownTimeOverride);
 	bool STATIC_IsOwnerOnGround();
-	void STATIC_OnInterruptEvent();
-	void FireAmmunition();
+	void OnInterruptEvent();
+	void STATIC_FireAmmunition();
 	void SpawnMountMesh();
 	bool ShouldMountCancelFiring();
 	bool STATIC_CanFiringBeCanceledByRightMouse();
@@ -9759,18 +9768,18 @@ public:
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanFiringBeCanceledByReactivation();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	void EndDismountProtection();
-	void DismountOnDamage(int DamageAmt);
+	void STATIC_EndDismountProtection();
+	void STATIC_DismountOnDamage(int DamageAmt);
 	void STATIC_ServerForceMount();
-	void ClientStartMount();
+	void STATIC_ClientStartMount();
 	void AllowMountServer();
 	void SetAllowMountServerTimer();
-	void STATIC_OnOwnerRespawn();
+	void OnOwnerRespawn();
 	bool ShouldInterruptADSDevices();
 	bool STATIC_IsAnyDeviceOverridingDismount(int DamageAmt);
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	bool RequiresAmmoToFire();
-	bool STATIC_MustBeOnGroundToFire();
+	bool MustBeOnGroundToFire();
 	bool STATIC_IsDeviceFiringLockedForUI();
 	float STATIC_GetFiringPreHitDelay(int nMode);
 };
@@ -9797,14 +9806,14 @@ public:
 	void STATIC_ClientInterrupt(bool bServerFireFailed);
 	void STATIC_InterruptFiring(bool bServerFireFailed);
 	void STATIC_InitialFirePreHitDelay();
-	void STATIC_OutroTimer();
+	void OutroTimer();
 	void STATIC_IntroTimer();
 	void StartOutroTimer(float fDuration);
 	void StartIntroTimer(float fDuration);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	bool STATIC_IsToggleDevice();
 	bool STATIC_CanDeviceStartFiringNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDebugRelevant, TEnumAsByte<EDeviceFailType>* failType);
-	bool CanToggleDeviceStopFiring();
+	bool STATIC_CanToggleDeviceStopFiring();
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	float STATIC_GetBaseBuildupTime();
@@ -9913,7 +9922,7 @@ public:
 
 	bool STATIC_HandleCustomPlayerKnockbackHit(class AActor* TargetPrimary, const struct FImpactInfo& ImpactPrimary, class AActor* TargetSecondary, const struct FImpactInfo& ImpactSecondary);
 	bool STATIC_HandleCustomWallKnockbackHit(class AActor* Target, const struct FImpactInfo& Impact);
-	bool CanSimulateTeleportFire();
+	bool STATIC_CanSimulateTeleportFire();
 	int STATIC_GetNumArcJumps();
 	float STATIC_GetConeAttackAngleOffset();
 	float STATIC_GetSignedConeAttackAngle();
@@ -9932,12 +9941,12 @@ public:
 	void STATIC_HandleSuccessfulHit(class AActor* DamageInstigator, class APawn* OwnerInstigator, const struct FImpactInfo& Impact);
 	void STATIC_HandleMiss();
 	bool STATIC_ApplyHit(const struct FImpactInfo& Impact, class AActor* DamageInstigator);
-	void TrackDeviceModeHit(class ATgPawn* Hitter, float fDistance, bool bHitPlayer);
+	void STATIC_TrackDeviceModeHit(class ATgPawn* Hitter, float fDistance, bool bHitPlayer);
 	void STATIC_RemoveHitSpecial(class AActor* Target, bool bForceRemove, int nHitSpecialSituationalType, int StackCount);
 	void STATIC_ApplyHitSpecial(class AActor* Target, const struct FImpactInfo& Impact, int nHitSpecialSituationalType, int StackCount);
 	void STATIC_RemoveEffectType(class AActor* Target, bool bForceRemove, int nEffectGroupType, int StackCount);
 	void STATIC_ApplyEffectType(class AActor* Target, int nEffectGroupType, const struct FImpactInfo& Impact, int StackCount);
-	void DisplayMessage(const struct FString& sMessage);
+	void STATIC_DisplayMessage(const struct FString& sMessage);
 	void RemoveModifyEffects();
 	void ApplyModifyEffects(class UTgEffectGroup* effectGroup);
 	void SubmitEffect(const struct FImpactInfo& Impact, class UTgEffectGroup* effectGroup, bool bRemove, int StackCount, class AActor* InstigatorOverride);
@@ -9948,17 +9957,17 @@ public:
 	float STATIC_GetScaledPropertyValueById(int nPropertyId, int nDeviceLevel);
 	class UTgGameplayCurves* STATIC_GetCurrentGameplayCurves();
 	struct FVector STATIC_GetAlternateAOEStartTrace(class AActor* DamageInstigator, float Radius, struct FVector* Center);
-	struct FWeaponFireResults CalcActorEncroachmentTargetingFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
-	struct FImpactInfo CalcChargeTargetingFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
-	struct FImpactInfo CalcDeployableTargetingFire(class AActor* DamageInstigator, const struct FAimData& Aim, int nDeployableId, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
-	struct FImpactInfo CalcLinearFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
-	struct FImpactInfo CalcArcingFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
-	struct FWeaponFireResults CalcInstantFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
-	struct FImpactInfo CalcAoeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList);
-	struct FImpactInfo CalcSliceFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bUseRange, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
-	struct FImpactInfo CalcConeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bUseRange, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
-	struct FWeaponFireResults CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
-	bool CheckValidTarget(class AActor* Target, bool bPredicting);
+	struct FWeaponFireResults STATIC_CalcActorEncroachmentTargetingFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
+	struct FImpactInfo STATIC_CalcChargeTargetingFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcDeployableTargetingFire(class AActor* DamageInstigator, const struct FAimData& Aim, int nDeployableId, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcLinearFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcArcingFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
+	struct FWeaponFireResults STATIC_CalcInstantFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
+	struct FImpactInfo STATIC_CalcAoeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcSliceFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bUseRange, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcConeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bUseRange, bool bPredicting, TArray<struct FImpactInfo>* ImpactList);
+	struct FWeaponFireResults STATIC_CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
+	bool STATIC_CheckValidTarget(class AActor* Target, bool bPredicting);
 	bool STATIC_IsInCone(class AActor* SourceActor, class AActor* TargetActor, const struct FVector& StartCone, const struct FVector& ConeDir, float ConeAngle);
 	bool STATIC_IsInSlice(class AActor* SourceActor, class AActor* TargetActor, const struct FVector& StartCone, const struct FVector& ConeDir, float ConeAngle, float ConeRadius);
 	bool ShouldAddToImpactList(class AActor* HitActor, TArray<struct FImpactInfo> ImpactList);
@@ -9969,10 +9978,10 @@ public:
 	TEnumAsByte<EDeviceTargetMode> STATIC_GetTargetingMode();
 	void AddEffectiveRangeReduction(class AActor* DamageInstigator, const struct FVector& OriginLocation, bool bUseRadius, struct FImpactInfo* Impact);
 	float STATIC_GetShotPowerCost(int nPacingType);
-	bool UsesActorEncroachmentForCalcTargetingFire();
+	bool STATIC_UsesActorEncroachmentForCalcTargetingFire();
 	bool STATIC_IsArcingAttack();
 	struct FImpactInfo STATIC_GetTraceImpact(const struct FVector& StartTrace, const struct FVector& EndTrace, const struct FVector& Extent, bool bIgnoreWorld, bool bCheckLockOn, bool bForceNoBodyShotCheck, float RewindTime, int nShotIndex, TArray<struct FImpactToValidate>* ImpactsToValidate);
-	bool IsEnemy(class AActor* TargetActor);
+	bool STATIC_IsEnemy(class AActor* TargetActor);
 	bool STATIC_IsSelfOrOwner(class AActor* Target);
 	bool STATIC_IsValidTarget(class AActor* P, TEnumAsByte<EDeviceTargeterType> eTargeterType, bool bIgnoreHealth, bool bInvertTeam);
 	bool STATIC_CheckTeamPassThrough(class AActor* HitActor, const struct FVector& aimDirection);
@@ -9981,6 +9990,7 @@ public:
 	float STATIC_GetCustomValue3();
 	float STATIC_GetCustomValue2();
 	float STATIC_GetCustomValue1();
+	float STATIC_GetLockOutOtherDevices();
 	bool STATIC_IsWithinEffectiveRange(float fDistance);
 	bool STATIC_IsWithinRange(float fDistance);
 	float STATIC_GetBonusShieldDamagePerc();
@@ -9989,7 +9999,7 @@ public:
 	float STATIC_GetMinimumRadius();
 	float STATIC_GetEffectiveRange();
 	float STATIC_GetMinRange();
-	float GetRange();
+	float STATIC_GetRange();
 	float STATIC_GetProximityDistance();
 	float STATIC_GetVisionRange();
 	float STATIC_GetProjectileSpeed();
@@ -10005,7 +10015,7 @@ public:
 	float STATIC_GetAIRange();
 	float STATIC_GetDamageRadius();
 	bool STATIC_LogDebugInfo();
-	void VerifyProjectile();
+	void STATIC_VerifyProjectile();
 	bool STATIC_IsBlockedByGeometry(class AActor* SourceActor, class AActor* TargetActor);
 	struct FName QueryClass(int nMode);
 	class UTgEffectGroup* STATIC_GetEffectGroup(int nType, int* nIndex);
@@ -10016,14 +10026,14 @@ public:
 	void SetProperty(int nPropertyId, float fNewValue);
 	struct FTgPropertyInstance STATIC_GetProperty(int nPropertyId);
 	void TeleportFire();
-	void CustomFire();
+	void STATIC_CustomFire();
 	bool STATIC_GetPetLocationAndRotation(const struct FPointer& botSetup, struct FVector* OutLocation, struct FRotator* OutRotation);
 	class ATgPawn* SpawnPet(bool bPet);
 	class AActor* STATIC_GetDeployableBase();
 	bool STATIC_GetDeployLocationAndRotation(struct FVector* OutLocation, struct FRotator* OutRotation);
-	class ATgDeployable* Deploy();
-	class ATgDeployable* DeployAtLocation(const struct FVector& SpawnLocation, const struct FRotator& SpawnRotation);
-	class ATgDeployable* DeployAtActor(class AActor* TargetActor);
+	class ATgDeployable* STATIC_Deploy();
+	class ATgDeployable* STATIC_DeployAtLocation(const struct FVector& SpawnLocation, const struct FRotator& SpawnRotation);
+	class ATgDeployable* STATIC_DeployAtActor(class AActor* TargetActor);
 	void STATIC_InitializeProjectile(class AProjectile* Proj);
 	class UClass* STATIC_GetProjectileClass();
 	void SpecialShieldDestroyed();
@@ -10060,7 +10070,7 @@ public:
 	}
 
 
-	struct FImpactInfo CalcAoeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcAoeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList);
 };
 
 
@@ -10314,7 +10324,7 @@ public:
 	}
 
 
-	struct FWeaponFireResults CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
+	struct FWeaponFireResults STATIC_CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
 };
 
 
@@ -10431,11 +10441,11 @@ public:
 	void STATIC_OnRetrieveAnimDone();
 	void RecoverDeviceState(TEnumAsByte<ETG_REP_DEVICE_STATE> DesiredState);
 	void SetToggleState(bool IsActive);
-	void STATIC_OnHoldTimerFinished();
+	void OnHoldTimerFinished();
 	void StartFireHoldAnimation(float fFireHoldTime);
 	void STATIC_PlayToggleTransitionAnimations(float transitionPercent, float totalTransitionTime, bool transitionToActive);
 	void STATIC_GotoFormState(const struct FName& NewState);
-	void EndCurrentState();
+	void STATIC_EndCurrentState();
 	void STATIC_AttachAndDeploy_DA();
 	void STATIC_DeviceAnimNotify();
 	void STATIC_DoInterrupt();
@@ -10447,7 +10457,7 @@ public:
 	void STATIC_FireMulti(const struct FVector& vAimStart, const struct FVector& vAimDir, int nFireMode, float fMaxRange, int nSeed, float fSpreadAngle, int nNumShots, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime, unsigned char* hitRanges);
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
 	void StopFire(int nFireModeNum);
-	void STATIC_OnEndViewTarget(class APlayerController* PC);
+	void OnEndViewTarget(class APlayerController* PC);
 	void StopWhileFiringCameraAnim(class APlayerController* PC, bool bImmediate);
 	void StartWhileFiringCameraAnim(class APlayerController* PC, int nFireMode);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
@@ -10463,10 +10473,10 @@ public:
 	void STATIC_NotifyExitTargetingMode(bool bDeployed);
 	void STATIC_EnterTargetingMode();
 	void STATIC_InitializeTargetingModeFX();
-	void EndDevicePuttingDown();
+	void STATIC_EndDevicePuttingDown();
 	void STATIC_BeginDeviceTakingOut(bool PlayEquipAnim);
 	void STATIC_BeginActive();
-	void STATIC_ParticleSystemDone(class UParticleSystemComponent* PSC);
+	void ParticleSystemDone(class UParticleSystemComponent* PSC);
 	void STATIC_PlayImpactEffects(const struct FVector& HitLocation, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, const struct FVector& FireOrigin, float fHitTraceDistOverride, bool bGenerateUpdatedHitLocation);
 	void SetTargetArcingBeamEffect(class AActor* Target);
 	void SetSourceArcingBeamEffect(class AActor* Source);
@@ -10476,37 +10486,37 @@ public:
 	void STATIC_Generic3(unsigned char byExtraData);
 	void STATIC_Generic2(unsigned char byExtraData);
 	void STATIC_Generic1(unsigned char byExtraData);
-	void DisableChannelFireBlendNodes(bool bIsCooldownEnd);
+	void STATIC_DisableChannelFireBlendNodes(bool bIsCooldownEnd);
 	void SetAbilityBlendNodesActive(bool bActive, bool bOnFire, bool bIsInterrupted);
-	void STATIC_SetAmmoBlendNodesAmount(int nAmmoAmt, bool bTickOnly);
-	void STATIC_OnReload(float fReloadTime);
-	void CacheWeaponAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void CacheAnimNode1P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
-	void ClearAnimNodes1P();
-	bool CanPlayBasicHitFx(class ATgPawn* Target);
-	bool UsesTargetingMode();
-	void UpdateFirstPersonWeaponFOV(const struct FVector2D& Resolution);
+	void SetAmmoBlendNodesAmount(int nAmmoAmt, bool bTickOnly);
+	void OnReload(float fReloadTime);
+	void STATIC_CacheWeaponAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_CacheAnimNode1P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
+	void STATIC_ClearAnimNodes1P();
+	bool STATIC_CanPlayBasicHitFx(class ATgPawn* Target);
+	bool STATIC_UsesTargetingMode();
+	void STATIC_UpdateFirstPersonWeaponFOV(const struct FVector2D& Resolution);
 	void STATIC_LoadWeaponAnimSets();
 	void STATIC_RecalculateMaterial();
-	void UpdateTargetingList(TArray<struct FImpactInfo>* ImpactList);
-	void UpdateTargetingModeLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
-	void UpdateTargetingModeStatusForFX(class UTgSpecialFx* Fx, TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
-	void UpdateTargetingModeStatus(TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
+	void STATIC_UpdateTargetingList(TArray<struct FImpactInfo>* ImpactList);
+	void STATIC_UpdateTargetingModeLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
+	void STATIC_UpdateTargetingModeStatusForFX(class UTgSpecialFx* Fx, TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
+	void STATIC_UpdateTargetingModeStatus(TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
 	class UTgSpecialFx* SpawnSpecialFxIndependent(int nSpecialFxId, const struct FParticleChannelContainer& PSysChannels, bool bUseEmitterPool);
 	void ResetAfterRagDoll();
-	void Destruct(const struct FVector& vLocation);
+	void STATIC_Destruct(const struct FVector& vLocation);
 	int STATIC_GetFormIndex();
-	void DeactivateFxGroup(const struct FName& nmGroup);
+	void STATIC_DeactivateFxGroup(const struct FName& nmGroup);
 	class UTgSpecialFx* ActivateFxIndependent(const struct FName& nmGroup, bool bSkipActivate, const struct FParticleChannelContainer& PSysChannels);
 	void ActivateFxGroup(const struct FName& nmGroup);
 	bool STATIC_LogDebugInfo();
 	void STATIC_InitCameraViewpoint();
-	void DetachInHandDevice_DA();
-	void DetachDevice_DA(class USkeletalMeshComponent* ParentMesh, class UMeshComponent* AttachedMesh);
+	void STATIC_DetachInHandDevice_DA();
+	void STATIC_DetachDevice_DA(class USkeletalMeshComponent* ParentMesh, class UMeshComponent* AttachedMesh);
 	bool AttachInHandDevice_DA(bool bFirstPerson);
 	void AttachDevice_DA(class USkeletalMeshComponent* ParentMesh, class UMeshComponent* AttachedMesh, const struct FName& nmSocket);
 	void SetFireMode(int nMode);
@@ -10529,15 +10539,15 @@ public:
 	}
 
 
-	void STATIC_Cleanup();
+	void Cleanup();
 	void STATIC_DoInterrupt();
 	void StopFire(int nFireModeNum);
 	void STATIC_Hit(int nFireMode, class AActor* Target, float fDamageAmount, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FExtraDamageInfo* ExtraInfo);
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
 	void STATIC_BuildUp(int nFireMode, int nEquipSlot, int nSocketIndex, float fBuildupTime);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -10558,8 +10568,8 @@ public:
 
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 	void STATIC_LoadWeaponAnimSets();
 	void SetWeaponScale(float Scale);
 };
@@ -10582,8 +10592,8 @@ public:
 
 	void STATIC_DoInterrupt();
 	void STATIC_Generic1(unsigned char byExtraData);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -10609,10 +10619,10 @@ public:
 	void STATIC_Generic1(unsigned char byExtraData);
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void DisconnectBeam();
-	void ConnectBeamToTarget(class AActor* Target, const struct FVector& Location);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_DisconnectBeam();
+	void STATIC_ConnectBeamToTarget(class AActor* Target, const struct FVector& Location);
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -10639,8 +10649,8 @@ public:
 	void STATIC_DoInterrupt();
 	void SetAllInactive();
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -10676,8 +10686,8 @@ public:
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
 };
 
 
@@ -10694,8 +10704,8 @@ public:
 	}
 
 
-	void UpdateTargetingModeStatusForFX(class UTgSpecialFx* Fx, TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
-	void UpdateTargetingModeLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
+	void STATIC_UpdateTargetingModeStatusForFX(class UTgSpecialFx* Fx, TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
+	void STATIC_UpdateTargetingModeLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
 };
 
 
@@ -10716,9 +10726,9 @@ public:
 	}
 
 
-	void STATIC_OnWeaponMeshUpdated();
-	void UpdateAmmoCountFx(float fPreviousPerc, float fCurrentPerc);
-	void STATIC_OnAmmoCountUpdated(int nAmmoCount, int nMaxAmmoCount);
+	void OnWeaponMeshUpdated();
+	void STATIC_UpdateAmmoCountFx(float fPreviousPerc, float fCurrentPerc);
+	void OnAmmoCountUpdated(int nAmmoCount, int nMaxAmmoCount);
 };
 
 
@@ -10741,8 +10751,8 @@ public:
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
 	void STATIC_GetAnimSetStringsForBot(int PlayerBotId, TArray<struct FString>* sPaths);
 	TEnumAsByte<EMountType> STATIC_GetMountType();
-	void STATIC_SetSpinnerVelocity(float fVelocity);
-	void CacheSkeletalControls(class USkeletalMeshComponent* pSkelComponent);
+	void SetSpinnerVelocity(float fVelocity);
+	void STATIC_CacheSkeletalControls(class USkeletalMeshComponent* pSkelComponent);
 };
 
 
@@ -10763,7 +10773,7 @@ public:
 
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
 };
 
 
@@ -10793,8 +10803,8 @@ public:
 
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
 	bool STATIC_HasCachedLex();
 };
 
@@ -10815,7 +10825,7 @@ public:
 
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
 };
 
 
@@ -10836,8 +10846,8 @@ public:
 
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -10865,8 +10875,8 @@ public:
 	void SetSpinnersActive(bool bActive);
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void CacheWeaponAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void CacheSkelControls(class UAnimTree* pAnimTree, TArray<class UTgSkelCon_Spinner*>* SpinnerSkelControls);
+	void STATIC_CacheWeaponAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_CacheSkelControls(class UAnimTree* pAnimTree, TArray<class UTgSkelCon_Spinner*>* SpinnerSkelControls);
 };
 
 
@@ -10902,17 +10912,17 @@ public:
 
 
 	void STATIC_OnDestroyed();
-	void STATIC_RemoveSpinCallbacks();
+	void RemoveSpinCallbacks();
 	void AddSpinCallbacks();
-	void STATIC_SpinDownFinished();
-	void STATIC_SpinUpFinished();
+	void SpinDownFinished();
+	void SpinUpFinished();
 	void STATIC_ManageDisplayGroups();
 	void STATIC_PlayToggleTransitionAnimations(float transitionPercent, float totalTransitionTime, bool transitionToActive);
 	void StopFire(int nFireModeNum);
 	void STATIC_BuildUp(int nFireMode, int nEquipSlot, int nSocketIndex, float fBuildupTime);
 	void STATIC_OnNodesCached();
-	bool STATIC_ShouldSpinBarrel();
-	void CacheWeaponAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	bool ShouldSpinBarrel();
+	void STATIC_CacheWeaponAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
 };
 
 
@@ -10994,7 +11004,7 @@ public:
 
 	void StartCameraInterpolation();
 	void STATIC_PlayToggleTransitionAnimations(float transitionPercent, float totalTransitionTime, bool transitionToActive);
-	void ClearPendingFOVInterpolation();
+	void STATIC_ClearPendingFOVInterpolation();
 	void STATIC_Generic2(unsigned char byExtraData);
 	void StopFire(int nFireModeNum);
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
@@ -11018,7 +11028,7 @@ public:
 
 	void STATIC_CooldownComplete();
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
 };
 
 
@@ -11052,7 +11062,7 @@ public:
 	}
 
 
-	void STATIC_ModifyDeployableFiremode(class UTgDeviceFire* pFireMode);
+	void ModifyDeployableFiremode(class UTgDeviceFire* pFireMode);
 	float STATIC_GetAdditiveHealth();
 	bool AffectsDeployable(int nDeployableId);
 };
@@ -11071,7 +11081,7 @@ public:
 	}
 
 
-	void STATIC_OnMarksConsumed(class AActor* Target, class ATgDevice* instigatingDevice, float fNumMarks, float fBaseDamage, float fBonusDamage);
+	void OnMarksConsumed(class AActor* Target, class ATgDevice* instigatingDevice, float fNumMarks, float fBaseDamage, float fBonusDamage);
 };
 
 
@@ -11212,21 +11222,21 @@ public:
 	void STATIC_AddHUDOverlayDisplayMask(int dodm);
 	void SetHUDOverlayDisplayMask(int dodm);
 	void STATIC_CollisionChanged();
-	void UpdateDecalScale(class UTgSpecialFx* Fx, float radiusScale);
+	void STATIC_UpdateDecalScale(class UTgSpecialFx* Fx, float radiusScale);
 	bool STATIC_GetDefaultDecalDimensions(int nDecalId, int nSpecialFxId, float* Height, float* Width);
 	void PlayGenericTakeHit(const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_DeactivateSpectatorFxTimer();
-	void ToggleSpectateFx(bool bForceDisable);
+	void STATIC_ToggleSpectateFx(bool bForceDisable);
 	bool STATIC_IsBoxExtentInRange(const struct FVector& BoxCenter, const struct FVector& BoxExtent);
 	void STATIC_InitReplicationInfo();
 	bool STATIC_DamageShouldEnterCombat();
 	bool STATIC_CanApplyEffects();
 	struct FString STATIC_GetDeployableNameById(int DeployableId);
-	void STATIC_OnHealthUpdated();
+	void OnHealthUpdated();
 	void STATIC_TakeDamage(int Damage, class AController* EventInstigator, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void Destroyed();
 	void Tick(float DeltaSeconds);
-	void ClearBasedPawnList();
+	void STATIC_ClearBasedPawnList();
 	void STATIC_RemoveBasedPawn(class ATgPawn* basedPawn);
 	void STATIC_AddBasedPawn(class ATgPawn* basedPawn);
 	void STATIC_DestroyIt(bool bSkipFx);
@@ -11237,55 +11247,55 @@ public:
 	void STATIC_ActivateWhileAliveFx(bool bOn);
 	struct FName STATIC_GetDestroyedDisplayGroup();
 	struct FName STATIC_GetWhileAliveDisplayGroup();
-	void TickDeploy(float DeltaSeconds);
-	void UpdateTimeToDeploySecs(float fValue);
-	void STATIC_NotifyDeployed();
-	void DeployComplete();
+	void STATIC_TickDeploy(float DeltaSeconds);
+	void STATIC_UpdateTimeToDeploySecs(float fValue);
+	void NotifyDeployed();
+	void STATIC_DeployComplete();
 	void STATIC_ResetPersistTime();
-	void STATIC_OnPersistTimerExpire();
-	void CalcDeployPercentage();
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnPersistTimerExpire();
+	void STATIC_CalcDeployPercentage();
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
 	void RefireCheckTimer();
 	void StartDeploy();
-	void TimeDeviceFiring();
+	void STATIC_TimeDeviceFiring();
 	bool STATIC_IsFiring();
-	void FlashFireCountUpdated();
+	void STATIC_FlashFireCountUpdated();
 	void FlashLocationUpdated();
 	void FlashCountUpdated();
 	void STATIC_PlayFireFx();
-	void STATIC_ClearFlashLocation();
+	void ClearFlashLocation();
 	void SetFlashLocation(const struct FVector& NewLoc);
-	void STATIC_ClearFlashCount();
-	void IncrementFlashCount();
-	void FireAmmunitionDeployable();
+	void ClearFlashCount();
+	void STATIC_IncrementFlashCount();
+	void STATIC_FireAmmunitionDeployable();
 	struct FVector STATIC_GetPhysicalFireAimDirection(const struct FVector& fireLoc, const struct FVector& TargetLocation);
 	struct FVector STATIC_GetPhysicalFireStartLoc();
 	class AProjectile* ProjectileFireDeployable();
 	void STATIC_ApplyHit(TArray<struct FImpactInfo>* ImpactList);
 	void STATIC_InstantFireDeployable();
-	struct FImpactInfo CalcDeviceFire(const struct FVector& StartTrace, const struct FVector& EndTrace, TArray<struct FImpactInfo>* ImpactList);
-	void DeviceFired();
+	struct FImpactInfo STATIC_CalcDeviceFire(const struct FVector& StartTrace, const struct FVector& EndTrace, TArray<struct FImpactInfo>* ImpactList);
+	void STATIC_DeviceFired();
 	void StopFire();
 	void STATIC_StartFire();
-	void STATIC_OnGetTaskForceNumber(class UTgSeqAct_GetTaskForceNumber* Action);
+	void OnGetTaskForceNumber(class UTgSeqAct_GetTaskForceNumber* Action);
 	void STATIC_PostInitAnimTree(class USkeletalMeshComponent* SkelComp);
 	void STATIC_GetAimAssistBounds(struct FVector* ObserverLocation, float* Width, float* Height, struct FVector* Center);
 	int STATIC_GetDeployableUniqueId();
-	void NotifyLocalPlayerTeamReceived();
+	void STATIC_NotifyLocalPlayerTeamReceived();
 	void PostBeginPlay();
-	bool DeductShardCost(class ATgPawn* pPawn);
-	bool CanAfford(class ATgPawn* pPawn);
+	bool STATIC_DeductShardCost(class ATgPawn* pPawn);
+	bool STATIC_CanAfford(class ATgPawn* pPawn);
 	void STATIC_InitializeEquipEffects(int nDeviceId);
-	bool UseRangeFalloffCurve();
+	bool STATIC_UseRangeFalloffCurve();
 	class UTgGameplayCurvesSet* STATIC_GetCurrentGameplayCurveSet(TEnumAsByte<ECurveSetTypes> Type);
 	class AActor* STATIC_GetActorFromCombatActor();
 	class AActor* STATIC_GetPetOwner();
 	bool STATIC_IsPet();
 	TEnumAsByte<EGameplayDesignType> STATIC_GetDesignType();
 	class ATgEffectManager* STATIC_GetEffectManager();
-	void DelayedRagdollConstraintBreak();
-	void InitRagdoll();
-	void STATIC_OnViewTargetChanged(class AActor* aNewViewTarget);
+	void STATIC_DelayedRagdollConstraintBreak();
+	void STATIC_InitRagdoll();
+	void OnViewTargetChanged(class AActor* aNewViewTarget);
 	float STATIC_GetMarkedPercentInhand(class AActor* InstigatorPawn);
 	float STATIC_GetMarkedPercent(class AActor* InstigatorPawn);
 	int STATIC_GetPropIndex(int nPropId);
@@ -11299,24 +11309,24 @@ public:
 	int TakePersonalArmorDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, class AActor* DamageCauser, struct FExtraDamageInfo* ExtraInfo);
 	bool ShieldDamageAppliesToHealth();
 	int TakePersonalShieldDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, class AActor* DamageCauser, struct FExtraDamageInfo* ExtraInfo);
-	bool CanUsePersonalShield();
-	bool CanTakeShieldDamage();
+	bool STATIC_CanUsePersonalShield();
+	bool STATIC_CanTakeShieldDamage();
 	void TakeManaDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
-	bool CanTakeManaDamage();
-	bool CanBeLifestealTarget();
-	bool CanBeLifestealInstigator();
+	bool STATIC_CanTakeManaDamage();
+	bool STATIC_CanBeLifestealTarget();
+	bool STATIC_CanBeLifestealInstigator();
 	void TakeHealthDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
-	void STATIC_MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
+	void MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
 	float STATIC_GetSpecialDamageTakenPercentAI();
 	float STATIC_GetSpecialDamageDealtPercentAI();
 	void BuffDamage(class AActor* Target, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, float fBaseDamage, float* fProratedAmount, struct FExtraDamageInfo* ExtraInfo);
 	bool STATIC_IsImmuneToHealing();
-	bool CanBeExecuted();
+	bool STATIC_CanBeExecuted();
 	bool STATIC_IsImmuneToDamage();
-	bool STATIC_OnlyTakeHeadShots();
-	bool CanTakeHeadShots();
-	bool CanDealHeadShots();
-	bool CanTakeHealthDamage();
+	bool OnlyTakeHeadShots();
+	bool STATIC_CanTakeHeadShots();
+	bool STATIC_CanDealHeadShots();
+	bool STATIC_CanTakeHealthDamage();
 	float STATIC_GetDiminishedGroundSpeed();
 	void STATIC_GetAdditionalLifestealMultipliers(struct FDiminishedEffectInfo* DiminishingInfo, struct FImpactInfo* Impact);
 	void STATIC_GetAdditionalDamageTakenMultipliers(class ATgDevice* damagingDevice, struct FDiminishedEffectInfo* DiminishingInfo, struct FImpactInfo* Impact);
@@ -11327,13 +11337,13 @@ public:
 	float STATIC_GetHealthPercent();
 	float STATIC_GetMaxHealth();
 	float STATIC_GetHealth();
-	void STATIC_UnRegisterObstacle();
+	void UnRegisterObstacle();
 	void STATIC_RegisterObstacle();
-	void PostAkEvent(class UAkEvent* InAkEvent);
+	void STATIC_PostAkEvent(class UAkEvent* InAkEvent);
 	void AdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
 	struct FVector STATIC_GetHudOverlayLocation(bool bCentered);
 	bool STATIC_IsHittable();
-	bool IsInvisibleToAI(class AActor* TestActor);
+	bool STATIC_IsInvisibleToAI(class AActor* TestActor);
 	void UpdateHealth();
 	bool STATIC_IsFriendlyWithLocalPawn();
 	int STATIC_GetSpawnerDeviceId();
@@ -11342,15 +11352,15 @@ public:
 	int STATIC_GetTaskForceNumber();
 	class ATgRepInfo_TaskForce* STATIC_GetTaskForce();
 	void SetInitialHealthPercent(float fPercent);
-	void UpdateDamagers(class ATgPawn* Damager);
-	void UpdateTargetCylinder();
-	float CalcMeshOffset();
+	void STATIC_UpdateDamagers(class ATgPawn* Damager);
+	void STATIC_UpdateTargetCylinder();
+	float STATIC_CalcMeshOffset();
 	void AdjustMeshToGround();
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	void ForceRecalculateMaterial();
-	void STATIC_NotifyGroupChanged();
+	void NotifyGroupChanged();
 	int STATIC_GetMaxDeployHealth();
-	void DeployableDestroyed();
+	void STATIC_DeployableDestroyed();
 	void SwapMeshToDestroyed();
 	void ResetProperties();
 	void SetProperty(int nPropertyId, float fNewValue);
@@ -11414,7 +11424,7 @@ public:
 	void Tick(float DeltaSeconds);
 	int STATIC_GetNumEnemyPlayersInList(TArray<struct FImpactInfo>* ImpactList);
 	void STATIC_ApplyHit(TArray<struct FImpactInfo>* ImpactList);
-	void STATIC_OnPersistTimerExpire();
+	void OnPersistTimerExpire();
 	void PostBeginPlay();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 };
@@ -11437,10 +11447,10 @@ public:
 
 	void STATIC_DeployedAtCombatTarget(class AActor* CombatTarget);
 	void SpawnCollisionProxy();
-	void DeployComplete();
+	void STATIC_DeployComplete();
 	void STATIC_FireAndDestroy();
 	bool STATIC_DamageShouldEnterCombat();
-	void DeviceFired();
+	void STATIC_DeviceFired();
 	void STATIC_OnProxyUnTouch(class AActor* Other);
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 };
@@ -11513,8 +11523,8 @@ public:
 
 
 	void PushOverlappingActors(float DeltaSeconds);
-	struct FVector CalcPushDirection(const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void FindOverlappingActors();
+	struct FVector STATIC_CalcPushDirection(const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void STATIC_FindOverlappingActors();
 	bool ShouldSelfDestructWhenTouchedBy(class AActor* Other);
 	bool STATIC_IsPushable(class AActor* Other);
 };
@@ -11552,20 +11562,20 @@ public:
 
 
 	void STATIC_DestroyIt(bool bSkipFx);
-	void DeployComplete();
+	void STATIC_DeployComplete();
 	void STATIC_ActivateDisplayGroups(const struct FName& DisplayGroup, bool bActivateIndependent, bool bTurnOn);
 	void STATIC_RemoveBasedPawn(class ATgPawn* basedPawn);
 	void STATIC_AddBasedPawn(class ATgPawn* basedPawn);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	struct FVector STATIC_GetSegmentWorldLocation(const struct FVector& vLocalLocation);
 	void PushOverlappingActors(float DeltaSeconds);
-	void DoInitialHit();
+	void STATIC_DoInitialHit();
 	void PushBasedActors();
-	void ToggleGrowthMode(bool bTurnOn);
+	void STATIC_ToggleGrowthMode(bool bTurnOn);
 	void SignalGrowthModeStart();
 	void STATIC_InitializeMeshSegment(class UMeshComponent* Mesh, float fOffset);
 	void SpawnMeshSegments();
-	void UpdateWallPlacementInfos(const struct FVector& OriginLocation, const struct FRotator& originRotation);
+	void STATIC_UpdateWallPlacementInfos(const struct FVector& OriginLocation, const struct FRotator& originRotation);
 };
 
 
@@ -11595,7 +11605,7 @@ public:
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void PostBeginPlay();
 	void AdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
-	void DeployAllyHealAOE(class ATgPawn_Character* TgP);
+	void STATIC_DeployAllyHealAOE(class ATgPawn_Character* TgP);
 };
 
 
@@ -11625,16 +11635,17 @@ class ATgDeploy_LootCrate : public ATgDeployable
 {
 public:
 	int                                                m_nAssemblyId;                                            // 0x0448(0x0004)
-	float                                              m_fLockTime;                                              // 0x044C(0x0004) (Config)
-	TArray<struct FLootCrateInfo>                      m_LootInfo;                                               // 0x0450(0x0010) (Config, NeedCtorLink)
-	TArray<struct FLootCrateInfo>                      m_OverrideLootInfo;                                       // 0x0460(0x0010) (Config, NeedCtorLink)
-	float                                              s_fCloseTimer;                                            // 0x0470(0x0004)
-	float                                              m_SecondaryCylinderHeight;                                // 0x0474(0x0004)
-	float                                              m_SecondaryCylinderRadius;                                // 0x0478(0x0004)
-	class ATgCollisionProxy_Cylinder*                  m_TouchCollisionProxy;                                    // 0x047C(0x0008)
-	class UClass*                                      m_CollisionProxyClass;                                    // 0x0484(0x0008)
-	int                                                c_LootPickupResponseCounter;                              // 0x048C(0x0004)
-	unsigned long                                      c_bInitializing : 1;                                      // 0x0490(0x0004)
+	unsigned long                                      m_bClassRestricted : 1;                                   // 0x044C(0x0004) (Config)
+	unsigned long                                      c_bInitializing : 1;                                      // 0x044C(0x0004)
+	float                                              m_fLockTime;                                              // 0x0450(0x0004) (Config)
+	TArray<struct FLootCrateInfo>                      m_LootInfo;                                               // 0x0454(0x0010) (Config, NeedCtorLink)
+	TArray<struct FLootCrateInfo>                      m_OverrideLootInfo;                                       // 0x0464(0x0010) (Config, NeedCtorLink)
+	float                                              s_fCloseTimer;                                            // 0x0474(0x0004)
+	float                                              m_SecondaryCylinderHeight;                                // 0x0478(0x0004)
+	float                                              m_SecondaryCylinderRadius;                                // 0x047C(0x0004)
+	class ATgCollisionProxy_Cylinder*                  m_TouchCollisionProxy;                                    // 0x0480(0x0008)
+	class UClass*                                      m_CollisionProxyClass;                                    // 0x0488(0x0008)
+	int                                                c_LootPickupResponseCounter;                              // 0x0490(0x0004)
 	float                                              m_fLootSpawnAngleDegrees;                                 // 0x0494(0x0004)
 	float                                              m_fLootSpawnMinDist;                                      // 0x0498(0x0004)
 	float                                              m_fLootSpawnMaxDist;                                      // 0x049C(0x0004)
@@ -11648,7 +11659,7 @@ public:
 	}
 
 
-	void STATIC_OnItemsUpdated();
+	void OnItemsUpdated();
 	void STATIC_PlayChestOpenEffects(bool bOpen);
 	void STATIC_CloseChest();
 	void STATIC_OnPickedUp(class APlayerReplicationInfo* PRI);
@@ -11660,10 +11671,10 @@ public:
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_TriggerSequenceEvent(class ATgPawn* pPawn);
 	struct FVector STATIC_GetLocation();
-	bool STATIC_SeenAsOpenByBot(class ATgAIController_BehaviorRoyale* pBR);
+	bool SeenAsOpenByBot(class ATgAIController_BehaviorRoyale* pBR);
 	void BroadcastSpawn(bool bSpawned);
-	void STATIC_NativeInit();
-	void UpdateTargetCylinder();
+	void NativeInit();
+	void STATIC_UpdateTargetCylinder();
 	bool STATIC_IsEmpty(class ATgPawn* pPawn);
 	bool AttemptOpen(class ATgPawn* pPawn);
 };
@@ -11703,7 +11714,7 @@ public:
 	}
 
 
-	void UpdateLocalFX();
+	void STATIC_UpdateLocalFX();
 	void STATIC_PlayChestOpenEffects(bool bOpen);
 	void STATIC_OnPickedUp(class APlayerReplicationInfo* PRI);
 	void StartDeploy();
@@ -11762,7 +11773,7 @@ public:
 	}
 
 
-	void UpdateLocalFX();
+	void STATIC_UpdateLocalFX();
 	void STATIC_PlayChestOpenEffects(bool bOpen);
 	void STATIC_OnPickedUp(class APlayerReplicationInfo* PRI);
 	void StartDeploy();
@@ -11788,10 +11799,25 @@ public:
 
 	void STATIC_CloseChest();
 	void STATIC_ToggleChestVFX(bool bShow);
-	void CloseChestEffects();
+	void STATIC_CloseChestEffects();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	bool STATIC_IsEmpty(class ATgPawn* pPawn);
 	bool AttemptOpen(class ATgPawn* pPawn);
+};
+
+
+// Class TgGame.TgDeploy_LootCrateClass
+// 0x0000 (0x04CC - 0x04CC)
+class ATgDeploy_LootCrateClass : public ATgDeploy_LootCrateMagic
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateClass");
+		return ptr;
+	}
+
 };
 
 
@@ -11955,12 +11981,12 @@ public:
 	void Destroyed();
 	void STATIC_DestroyIt(bool bSkipFx);
 	void STATIC_ClearAllTouched();
-	void ClearEffectSpots();
-	void UpdateParticleParams(int spotIndex);
-	void UpdateSpotFX(int spotIndex);
+	void STATIC_ClearEffectSpots();
+	void STATIC_UpdateParticleParams(int spotIndex);
+	void STATIC_UpdateSpotFX(int spotIndex);
 	void STATIC_ScaleCollisionProxy();
 	void SpawnCollisionProxy();
-	void UpdateEffectSpots();
+	void STATIC_UpdateEffectSpots();
 	int SpawnNewSpot(const struct FVector& vLocation, const struct FRotator& rRotation, float fRadius, float fHeight, int nFXIndex, int nIntensityLevel);
 	void STATIC_OnProxyUnTouch(class AActor* Other);
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -12001,11 +12027,11 @@ public:
 
 	void Destroyed();
 	void ShutdownDeployMode();
-	void STATIC_OnPersistTimerExpire();
+	void OnPersistTimerExpire();
 	bool SpawnNewTrailFX(const struct FVector& trailLocation, const struct FVector& particleOffset);
 	void STATIC_ConsumeTailPiece();
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	bool CalculateAndSpawnNextPiece();
+	bool STATIC_CalculateAndSpawnNextPiece();
 };
 
 
@@ -12018,6 +12044,7 @@ public:
 	int                                                r_nAmmoCount;                                             // 0x044C(0x0004) (Net)
 	unsigned long                                      r_bAmmoOverridden : 1;                                    // 0x0450(0x0004) (Net)
 	unsigned long                                      m_bDestroyOnPickup : 1;                                   // 0x0450(0x0004)
+	unsigned long                                      m_bNeedsToBeStaged : 1;                                   // 0x0450(0x0004)
 	unsigned long                                      m_bPickedUp : 1;                                          // 0x0450(0x0004)
 	unsigned long                                      m_bCanAutoPickup : 1;                                     // 0x0450(0x0004)
 	unsigned long                                      c_bPendingDisenchant : 1;                                 // 0x0450(0x0004)
@@ -12054,8 +12081,8 @@ public:
 	}
 
 
-	void STATIC_OnFlyToPlayerComplete();
-	void FlyToPlayer(class ATgPawn* pPawn);
+	void OnFlyToPlayerComplete();
+	void STATIC_FlyToPlayer(class ATgPawn* pPawn);
 	void RecalculateGlows();
 	void PlayPickupFX();
 	void STATIC_DestroyIt(bool bSkipFx);
@@ -12104,8 +12131,8 @@ public:
 	}
 
 
-	void STATIC_OnFlyToPlayerComplete();
-	void FinishDelayedPickup();
+	void OnFlyToPlayerComplete();
+	void STATIC_FinishDelayedPickup();
 	void StartDelayedPickup(class ATgPawn* TargetPawn);
 };
 
@@ -12123,7 +12150,7 @@ public:
 	}
 
 
-	void STATIC_OnFlyToPlayerComplete();
+	void OnFlyToPlayerComplete();
 };
 
 
@@ -12143,8 +12170,8 @@ public:
 	}
 
 
-	void STATIC_OnFlyToPlayerComplete();
-	void FinishDelayedPickup();
+	void OnFlyToPlayerComplete();
+	void STATIC_FinishDelayedPickup();
 	void StartDelayedPickup(class ATgPawn* TargetPawn);
 };
 
@@ -12234,7 +12261,7 @@ public:
 
 	void STATIC_DestroyIt(bool bSkipFx);
 	void Landed(const struct FVector& HitNormal, class AActor* FloorActor);
-	void STATIC_OnHealthUpdated();
+	void OnHealthUpdated();
 };
 
 
@@ -12329,7 +12356,7 @@ public:
 	}
 
 
-	float STATIC_CheckOcclusion();
+	float CheckOcclusion();
 	struct FRotator STATIC_AlignDeployableByMyRotation(const struct FVector& HitNormal);
 	void AltFireDetonate();
 	void STATIC_GetExplosionFXParams(TArray<struct FParticleSysParam>* Params);
@@ -12340,13 +12367,13 @@ public:
 	struct FName STATIC_GetHitWallFxGroup();
 	struct FName STATIC_GetHitTargetFxGroup();
 	void STATIC_PlayHitWallExplosionFX(const struct FVector& HitNormal, const struct FVector& HitLocation);
-	class UPhysicalMaterial* TraceWorldPhysicalGeometry(const struct FVector& StartLoc, const struct FVector& EndLoc, struct FVector* TraceHitLocation);
+	class UPhysicalMaterial* STATIC_TraceWorldPhysicalGeometry(const struct FVector& StartLoc, const struct FVector& EndLoc, struct FVector* TraceHitLocation);
 	void PlayFizzleFX(const struct FVector& HitNormal, bool bIsExplosionFizzle);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_ServerFizzle();
 	void STATIC_ServerDetonate();
 	bool ProjectileCalcCamera(float fDeltaTime, struct FVector* out_CamLoc, struct FRotator* out_CamRot, float* out_FOV);
-	void STATIC_MyOnParticleSystemFinished(class UParticleSystemComponent* PSC);
+	void MyOnParticleSystemFinished(class UParticleSystemComponent* PSC);
 	void Destroyed();
 	void STATIC_HideProjectile();
 	void STATIC_TornOff();
@@ -12358,7 +12385,7 @@ public:
 	void STATIC_Fizzle();
 	void STATIC_ExplodeOnTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_Explode(const struct FVector& HitLocation, const struct FVector& HitNormal);
-	class AActor* CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
+	class AActor* STATIC_CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
 	bool STATIC_ApplyHit(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, int HitItem);
 	bool ApplyTheHit(class UTgDeviceFire* FireMode, const struct FImpactInfo& Impact, class AActor* DamageInstigator);
 	bool STATIC_CheckTeamPassThrough(class AActor* Other);
@@ -12367,11 +12394,11 @@ public:
 	void STATIC_ProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_HitPassThroughTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	bool ShouldExplodeOnTouching(class AActor* Other);
-	bool ForcefieldExclusionCheck(class AActor* Other);
-	bool CheckHitAgainstBody(class ATgPawn* VictimPawn, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
+	bool STATIC_ForcefieldExclusionCheck(class AActor* Other);
+	bool STATIC_CheckHitAgainstBody(class ATgPawn* VictimPawn, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
 	void STATIC_ProcessTouch(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
-	void STATIC_ProcessTouchFromClient(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ, float fAoeRewindTime);
-	bool CanHitInstigator();
+	void ProcessTouchFromClient(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ, float fAoeRewindTime);
+	bool STATIC_CanHitInstigator();
 	bool STATIC_HandleOnProjectileHitTarget(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void ShutdownAndNotifyClient();
 	void STATIC_ProcessTouchAsEvent(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -12384,30 +12411,30 @@ public:
 	bool STATIC_IsValidTarget(class AActor* A);
 	void SetTarget(class AActor* TargetActor, const struct FVector& TargetLocation);
 	struct FVector STATIC_GetSeekLocation();
-	void UpdateSeekingDirection(float fDeltaTime);
+	void STATIC_UpdateSeekingDirection(float fDeltaTime);
 	void RangeReached();
 	bool ShouldExplodeAtMaxRange();
-	bool CheckProjectileRange(const struct FVector& vLocOverride);
-	struct FVector CalculateInitialVelocity(const struct FVector& vAimDirection, bool bPlayerControlled);
+	bool STATIC_CheckProjectileRange(const struct FVector& vLocOverride);
+	struct FVector STATIC_CalculateInitialVelocity(const struct FVector& vAimDirection, bool bPlayerControlled);
 	void Init(const struct FVector& Direction);
 	void Landed(const struct FVector& HitNormal, class AActor* FloorActor);
-	void TimerExplode();
-	void TimerPulse();
+	void STATIC_TimerExplode();
+	void STATIC_TimerPulse();
 	void STATIC_ClientSetExplode();
 	void StartPulse();
 	void STATIC_PostProjectileInitialize();
 	void PostBeginPlay();
 	bool UseAOE();
-	float GetTerminalVelocity();
-	void PostAkEvent(class UAkEvent* InAkEvent);
-	void STATIC_OnViewTargetChanged(class AActor* aNewViewTarget);
+	float STATIC_GetTerminalVelocity();
+	void STATIC_PostAkEvent(class UAkEvent* InAkEvent);
+	void OnViewTargetChanged(class AActor* aNewViewTarget);
 	bool STATIC_GetDeployLocationAndRotation(const struct FVector& vLocation, class AActor* TargetActor, const struct FVector& vNormal, struct FVector* OutLocation, struct FRotator* OutRotation);
 	class ATgDeployable* SpawnDeployable(const struct FVector& vLocation, class AActor* TargetActor, const struct FVector& vNormal);
 	bool STATIC_GetBotSpawnLocationAndRotation(const struct FVector& vLocation, const struct FPointer& botSetup, struct FVector* OutLocation, struct FRotator* OutRotation);
 	class ATgPawn* SpawnBot(const struct FVector& vLocation, bool bPet);
-	void NativePostRenderFor(class APlayerController* PC, class UCanvas* Canvas, const struct FVector& CameraPosition, const struct FVector& CameraDir);
-	void CompleteInitialization();
-	bool CheckPhysicality(int nPawnType);
+	void STATIC_NativePostRenderFor(class APlayerController* PC, class UCanvas* Canvas, const struct FVector& CameraPosition, const struct FVector& CameraDir);
+	void STATIC_CompleteInitialization();
+	bool STATIC_CheckPhysicality(int nPawnType);
 	float STATIC_GetBuffedRange();
 };
 
@@ -12467,14 +12494,14 @@ public:
 
 
 	void STATIC_ProcessRemoteSpawnVelocity(const struct FVector& SpawnVelocity);
-	void TickAhead(float tickAmount);
+	void STATIC_TickAhead(float tickAmount);
 	class UDecalComponent* SpawnShadowDecal();
 	void SetTarget(class AActor* TargetActor, const struct FVector& TargetLocation);
 	void STATIC_ClientTargetUpdate(class AActor* TargetActor, const struct FVector& TargetLocation);
 	void HitWall(const struct FVector& HitNormal, class AActor* Wall, class UPrimitiveComponent* WallComp);
 	bool STATIC_ApplyHit(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, int HitItem);
-	bool CheckProjectileRange(const struct FVector& vLocOverride);
-	void CheckShieldPassthrough();
+	bool STATIC_CheckProjectileRange(const struct FVector& vLocOverride);
+	void STATIC_CheckShieldPassthrough();
 	void Tick(float DeltaSeconds);
 	void Destroyed();
 	void STATIC_Fizzle();
@@ -12482,7 +12509,7 @@ public:
 	void STATIC_ClientSyncServerBounce(const struct FVector& HitLocation, const struct FVector& BounceVelocity);
 	void STATIC_ClientHitUpdate(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ExplodeOnTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void FudgeProjectileHitLocationForShields(class AActor* Other, struct FVector* HitLocation, struct FVector* HitNormal);
+	void STATIC_FudgeProjectileHitLocationForShields(class AActor* Other, struct FVector* HitLocation, struct FVector* HitNormal);
 	void SetShouldQueueServerHits(bool bShouldQueue);
 	void STATIC_ClientExplodeSpecial(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ClientExplode(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -12491,25 +12518,25 @@ public:
 	void SendExplodeToServer(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_HitPassThroughTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ProcessTouch(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
-	void STATIC_ProcessTouchFromClient(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ, float fAoeRewindTime);
+	void ProcessTouchFromClient(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ, float fAoeRewindTime);
 	void STATIC_HandleQueuedFirstWorldExplosion();
 	void ApplySpawnParams(float fDamageRadius, float fGeneric2);
 	void ShutDownTrackingForTimelapse();
 	void STATIC_InitTrackingForTimelapse();
 	int STATIC_GetIndexForTimelapseTracking();
 	void PredictStartLocationBasedOnPing(float Ping);
-	float GetGravityZ();
+	float STATIC_GetGravityZ();
 	void SetLocationFromServer(const struct FVector& InLocation);
-	void FlashNotifyTarget(class AActor* TargetActor, const struct FVector& TargetLocation);
+	void STATIC_FlashNotifyTarget(class AActor* TargetActor, const struct FVector& TargetLocation);
 	void STATIC_FlashNotifyBounce(const struct FVector& BounceLocation, const struct FVector& BounceVelocity);
-	void FlashNotifyHitWall(class AActor* Wall, const struct FVector& HitNormal, const struct FVector& HitLocation);
-	void FlashNotifyHit(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void FlashNotifyExplodedSpecial(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void FlashNotifyExploded(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void FlashNotifyFizzle();
-	void FlashNotifyShutdown();
-	void FlashNotifySpawn();
-	void CompleteInitialization();
+	void STATIC_FlashNotifyHitWall(class AActor* Wall, const struct FVector& HitNormal, const struct FVector& HitLocation);
+	void STATIC_FlashNotifyHit(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void STATIC_FlashNotifyExplodedSpecial(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void STATIC_FlashNotifyExploded(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void STATIC_FlashNotifyFizzle();
+	void STATIC_FlashNotifyShutdown();
+	void STATIC_FlashNotifySpawn();
+	void STATIC_CompleteInitialization();
 };
 
 
@@ -12529,7 +12556,7 @@ public:
 
 
 	float STATIC_GetRemainingTime();
-	float STATIC_CheckOcclusion();
+	float CheckOcclusion();
 };
 
 
@@ -12577,7 +12604,7 @@ public:
 	void HitWall(const struct FVector& HitNormal, class AActor* Wall, class UPrimitiveComponent* WallComp);
 	void STATIC_ClientSyncServerBounce(const struct FVector& HitLocation, const struct FVector& BounceVelocity);
 	void STATIC_HandleBounceReaction(const struct FVector& HitLocation, const struct FVector& VelocityBefore, const struct FVector& VelocityAfter);
-	void STATIC_OnLand();
+	void OnLand();
 	void STATIC_LandTimerExplode();
 	void StartLandExplodeTimer();
 	float STATIC_GetPostLandDuration();
@@ -12586,7 +12613,7 @@ public:
 	void Timer();
 	void STATIC_ShutDown();
 	void PostBeginPlay();
-	float GetGravityZ();
+	float STATIC_GetGravityZ();
 };
 
 
@@ -12608,7 +12635,7 @@ public:
 
 
 	bool STATIC_IsValidBounceTarget(class AActor* TestActor, const struct FTargetedBounceInfo& Info);
-	class AActor* DetermineNextTarget(const struct FVector& BounceNormal);
+	class AActor* STATIC_DetermineNextTarget(const struct FVector& BounceNormal);
 };
 
 
@@ -12748,9 +12775,9 @@ public:
 	void STATIC_ForwardProxyUntouch(class AActor* Other);
 	void STATIC_ForwardProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_OnSecondaryProxyUnTouch(class AActor* Other);
-	void STATIC_OnSecondaryProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	bool CheckHitAgainstBody(class ATgPawn* VictimPawn, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
-	void CompleteInitialization();
+	void OnSecondaryProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	bool STATIC_CheckHitAgainstBody(class ATgPawn* VictimPawn, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
+	void STATIC_CompleteInitialization();
 };
 
 
@@ -12771,8 +12798,8 @@ public:
 	}
 
 
-	void OcclusionChanged(bool bNowOccluded);
-	void STATIC_ApplyAdditionalPriority();
+	void STATIC_OcclusionChanged(bool bNowOccluded);
+	void ApplyAdditionalPriority();
 };
 
 
@@ -12847,14 +12874,14 @@ public:
 	}
 
 
-	void STATIC_UpdateLocation(float CamFOVDeg, struct FVector* CamLoc, struct FRotator* CamRot);
+	void UpdateLocation(float CamFOVDeg, struct FVector* CamLoc, struct FRotator* CamRot);
 	void StopSounds();
 	void PlaySounds();
 	void SetSoundList(TArray<struct FFx_Sound> SoundList);
-	void STATIC_SetCameraEffectActive(bool bActive);
+	void SetCameraEffectActive(bool bActive);
 	void STATIC_Reactivate();
 	void Deactivate();
-	void STATIC_Activate();
+	void Activate();
 	void Destroyed();
 };
 
@@ -12873,8 +12900,8 @@ public:
 	}
 
 
-	void STATIC_UpdateLocation(float CamFOVDeg, struct FVector* CamLoc, struct FRotator* CamRot);
-	void STATIC_Activate();
+	void UpdateLocation(float CamFOVDeg, struct FVector* CamLoc, struct FRotator* CamRot);
+	void Activate();
 	void SetDamageIntensity(float fDamageIntensity, bool bCritical);
 };
 
@@ -12893,7 +12920,7 @@ public:
 	}
 
 
-	void UpdateFOV(float fFOV);
+	void STATIC_UpdateFOV(float fFOV);
 	void SetDeathProximity(float fCloseToDeath);
 };
 
@@ -12913,7 +12940,7 @@ public:
 	}
 
 
-	void NotifyLocalPlayerTeamReceived();
+	void STATIC_NotifyLocalPlayerTeamReceived();
 	void SetPSCChannels();
 };
 
@@ -13070,12 +13097,12 @@ public:
 	}
 
 
-	void TickSilhouettes(float DeltaSeconds);
+	void STATIC_TickSilhouettes(float DeltaSeconds);
 	bool ShouldAnySilhouettesBeVisible();
-	void UpdateSilhouetteVisibility();
-	void ClearAllSilhouetteInfos();
+	void STATIC_UpdateSilhouetteVisibility();
+	void STATIC_ClearAllSilhouetteInfos();
 	bool RemoveSilhouetteInfo(class UMeshComponent* ParentMesh);
-	int FindSilhouetteInfo(class UMeshComponent* ParentMesh);
+	int STATIC_FindSilhouetteInfo(class UMeshComponent* ParentMesh);
 	int STATIC_InitializeSilhouetteComponent(class UMeshComponent* InMesh, float fLifeAfterDeath);
 };
 
@@ -13163,7 +13190,7 @@ public:
 
 	bool STATIC_IsLocal();
 	bool STATIC_IsFriendly();
-	float CalculateOrientedDecalRotation(const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FVector& DecalOrientationDirection);
+	float STATIC_CalculateOrientedDecalRotation(const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FVector& DecalOrientationDirection);
 	void SetDepthPriorityGroup(TEnumAsByte<ESceneDepthPriorityGroup> NewDepthPriorityGroup);
 	void STATIC_SetKillOnDeactivate();
 	void STATIC_ListSounds();
@@ -13174,33 +13201,33 @@ public:
 	bool STATIC_HasSoundCue();
 	void RemoveMICFxFromOwningPawn();
 	void ApplyMICFxToOwningPawn(int nMatTypeCodeOverride, int nMaterialPriority);
-	class USkeletalMeshComponent* FindMeshWithSocket(const struct FName& nmSocket, class USkeletalMeshComponent* first, class AActor* Second, struct FName* BoneName, struct FVector* RelativeLocation, struct FRotator* RelativeRotation, struct FVector* RelativeScale);
-	void STATIC_OverridePSCChannels(const struct FParticleChannelContainer& PSysChannels);
+	class USkeletalMeshComponent* STATIC_FindMeshWithSocket(const struct FName& nmSocket, class USkeletalMeshComponent* first, class AActor* Second, struct FName* BoneName, struct FVector* RelativeLocation, struct FRotator* RelativeRotation, struct FVector* RelativeScale);
+	void OverridePSCChannels(const struct FParticleChannelContainer& PSysChannels);
 	struct FParticleChannelContainer STATIC_GetLocalPlayerPSCChannels(class UParticleSystemComponent* ActivePSC, class UParticleSystem* Template);
-	void UpdateHiddenDecals(bool bClearAll);
+	void STATIC_UpdateHiddenDecals(bool bClearAll);
 	bool STATIC_InitDecalFadeOut(struct FFx_Decal* Decal);
-	void DeactivateDecal(struct FFx_Decal* Decal);
+	void STATIC_DeactivateDecal(struct FFx_Decal* Decal);
 	void ActivateDecal(struct FFx_Decal* Decal);
 	void StopSound();
 	void PlaySound();
-	void CheckDeactivate();
+	void STATIC_CheckDeactivate();
 	void OnAudioFinishedFX(class UAudioComponent* FinishedComponent);
 	void OnParticleSystemFinished(class UParticleSystemComponent* FinishedComponent);
 	void Deactivate(bool bForceDeactivate);
-	float STATIC_Activate(const struct FVector& HitLocation, bool bSkipRelevantChecking);
+	float Activate(const struct FVector& HitLocation, bool bSkipRelevantChecking);
 	void AdjustEffectFOV(float NewFOV);
 	void AdjustEffectScale(int nPSCIndex, float fScale);
 	void AdjustFxScaleByRadius(float fScale);
 	void AdjustEffectRadius(int nPSCIndex, float fScale);
-	class ATgPawn* FindLocalPlayerPawn();
-	class ATgPlayerController* FindLocalPlayerController();
+	class ATgPawn* STATIC_FindLocalPlayerPawn();
+	class ATgPlayerController* STATIC_FindLocalPlayerController();
 	bool STATIC_IsFxRelevant(const struct FVector& SpawnLocation);
 	void SetHitEffectScaleBasedOnDamage(int nHealthChange);
-	void PlayCameraShake(const struct FVector& Epicenter);
+	void STATIC_PlayCameraShake(const struct FVector& Epicenter);
 	void SpawnDecalAt(const struct FVector& HitLocation, const struct FVector& HitNormal, float DecalRotation, float Scale);
 	void STATIC_SpawnSound(const struct FVector& Location);
 	void STATIC_SpawnEmitter(const struct FVector& HitLocation, const struct FVector& HitNormal, float fScale, TArray<struct FParticleSysParam> Params);
-	void UpdateSoundPlaying(class UAudioComponent* pacSound);
+	void STATIC_UpdateSoundPlaying(class UAudioComponent* pacSound);
 	bool AreAnySoundsPlaying();
 	void SetPSCRunning(class UParticleSystemComponent* pPSC, bool bOn);
 	bool AreAnyPSCRunning();
@@ -13209,7 +13236,7 @@ public:
 	bool ShouldShowWhenStealthed();
 	void STATIC_SetHidden(bool bNewHidden);
 	void AdjustHidden(bool bHidden);
-	void STATIC_OnActiveTimeExpired();
+	void OnActiveTimeExpired();
 	void SetActiveTime(float Duration, class ATgPawn* Owner);
 	class AActor* SpawnActor(class UClass* InClass, const struct FVector& Location, const struct FRotator& Rotation);
 	void SetPSCChannels(class UParticleSystemComponent* PSC, bool bOnlyAllowNonZeroMask, class UParticleSystem* Template);
@@ -13256,7 +13283,7 @@ public:
 	}
 
 
-	void UserSetLevel(int LightLevel);
+	void STATIC_UserSetLevel(int LightLevel);
 	void SetLevelInternal(int LightLevel);
 	void STATIC_LightKilledElsewhere(const struct FPointer& FxEmitterKilled);
 	void SetLightState(const struct FPointer& ExtantFxEmitter, TEnumAsByte<ESpecialFxLightState> NewFxLightState);
@@ -13299,7 +13326,7 @@ public:
 	int STATIC_GetDeviceIdFromMode(class UTgDeviceFire* DeviceFireMode);
 	void ApplyEnterCombatRules(class AActor* Instigator, class AActor* Target);
 	int STATIC_GetTopMostDevice(class UTgDeviceFire* devFire);
-	void TrackStats(class ATgPawn* Instigator, class AActor* Target, const struct FImpactInfo& Impact, float fDamage, int iTargetDeviceModeId, bool bIsEnemy, float fMissingHealth, float fMitigatedDamage);
+	void STATIC_TrackStats(class ATgPawn* Instigator, class AActor* Target, const struct FImpactInfo& Impact, float fDamage, int iTargetDeviceModeId, bool bIsEnemy, float fMissingHealth, float fMitigatedDamage);
 	void Remove(class AActor* Target, bool bForce);
 	void Reapply(class AActor* Target);
 	float STATIC_GetScaledBaseValue();
@@ -13309,8 +13336,8 @@ public:
 	bool ApplyStacks(class AActor* Target, int nNumStacks);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 	void SetProperty(class AActor* Target, int nPropertyId, float fNewValue);
-	bool CanBeApplied(class AActor* Target);
-	class UTgEffect* CloneEffect();
+	bool STATIC_CanBeApplied(class AActor* Target);
+	class UTgEffect* STATIC_CloneEffect();
 };
 
 
@@ -13332,7 +13359,7 @@ public:
 
 
 	void Remove(class AActor* Target, bool bForce);
-	class UTgEffect* CloneEffect();
+	class UTgEffect* STATIC_CloneEffect();
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 };
 
@@ -13364,11 +13391,11 @@ public:
 	bool ApplyStacks(class AActor* Target, int nNumStacks);
 	void PerformLifeSteal(class ATgPawn* InstigatorPawn, const struct FImpactInfo& Impact, float fDamageAmount);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
-	bool CanBeApplied(class AActor* Target);
+	bool STATIC_CanBeApplied(class AActor* Target);
 	void SendDamageMessages(class AActor* Source, class AActor* Target, float fTotalDamage, float fArmorDamage, float fShieldDamge, const struct FImpactInfo& thisImpact, struct FExtraDamageInfo* ExtraInfo);
 	void PostDamageHandler(class AActor* pTarget, class ATgPawn* pInstigator, const struct FImpactInfo& Impact, float fPrevHealth, float fHealthChange, float fBuffedDamage, float fMitigatedDamage, float fShieldDamage, struct FExtraDamageInfo* ExtraInfo);
 	void SetDamageTypeClass();
-	class UTgEffect* CloneEffect();
+	class UTgEffect* STATIC_CloneEffect();
 };
 
 
@@ -13389,7 +13416,7 @@ public:
 
 
 	void STATIC_InitializeEffectInfo();
-	class UTgEffect* CloneEffect();
+	class UTgEffect* STATIC_CloneEffect();
 	void AddDamageStamp(float Damage);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 };
@@ -13428,7 +13455,7 @@ public:
 	}
 
 
-	bool CanBeApplied(class AActor* Target);
+	bool STATIC_CanBeApplied(class AActor* Target);
 };
 
 
@@ -13448,7 +13475,7 @@ public:
 	}
 
 
-	class UTgEffect* CloneEffect();
+	class UTgEffect* STATIC_CloneEffect();
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 };
 
@@ -13469,12 +13496,12 @@ public:
 	}
 
 
-	class UTgEffect* CloneEffect();
+	class UTgEffect* STATIC_CloneEffect();
 	void PostHealHandler(class AActor* pTarget, class ATgPawn* pInstigator, const struct FImpactInfo& Impact, float fHealthChange, float fHealAmount);
 	bool RemoveStacks(class AActor* Target, int nNumStacks);
 	bool ApplyStacks(class AActor* Target, int nNumStacks);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
-	bool CanBeApplied(class AActor* Target);
+	bool STATIC_CanBeApplied(class AActor* Target);
 };
 
 
@@ -13496,7 +13523,7 @@ public:
 	void ApplyToProperty(class AActor* Target, int nPropertyId, float fProratedAmount, bool bRemove);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 	void SetProperty(class AActor* Target, int nPropertyId, float fNewValue);
-	bool CanBeApplied(class AActor* Target);
+	bool STATIC_CanBeApplied(class AActor* Target);
 };
 
 
@@ -13518,7 +13545,7 @@ public:
 	void ApplyToProperty(class AActor* Target, int nPropertyId, float fProratedAmount, bool bRemove);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 	void SetProperty(class AActor* Target, int nPropertyId, float fNewValue);
-	bool CanBeApplied(class AActor* Target);
+	bool STATIC_CanBeApplied(class AActor* Target);
 };
 
 
@@ -13542,7 +13569,7 @@ public:
 	void ApplyToProperty(class AActor* Target, int nPropertyId, float fProratedAmount, bool bRemove);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 	void SetProperty(class AActor* Target, int nPropertyId, float fNewValue);
-	bool CanBeApplied(class AActor* Target);
+	bool STATIC_CanBeApplied(class AActor* Target);
 };
 
 
@@ -13651,7 +13678,7 @@ public:
 	}
 
 
-	void ForcedRemove(class AActor* Target);
+	void STATIC_ForcedRemove(class AActor* Target);
 	void Remove(class AActor* Target, bool bForce);
 	bool ApplyEffect(class AActor* Target, const struct FImpactInfo& Impact, bool bLatent);
 };
@@ -13786,7 +13813,7 @@ public:
 	}
 
 
-	void DetachMeshes();
+	void STATIC_DetachMeshes();
 	void AttachMeshes(class AActor* pOwner);
 	void AdjustHidden();
 	void Detach();
@@ -13872,20 +13899,20 @@ public:
 	bool SupportsEffectSimulation();
 	void RemoveArmor();
 	bool STATIC_InitializeArmor(float fMaxHealth);
-	float DamageArmor(float fDamage);
+	float STATIC_DamageArmor(float fDamage);
 	float STATIC_HealArmor(float fHeal);
 	float STATIC_GetArmorMaxHealth();
 	float STATIC_GetArmorHealth();
 	bool STATIC_HasArmor();
 	float STATIC_HealShield(float fHeal);
-	float DamageShield(float fDamage);
+	float STATIC_DamageShield(float fDamage);
 	float STATIC_GetShieldMaxHealth();
 	float STATIC_GetShieldHealth();
 	bool STATIC_HasShield();
-	void ExtendLifeTime(float fAmount);
+	void STATIC_ExtendLifeTime(float fAmount);
 	void QueueRemovalOnManagerTick();
 	float STATIC_GetUtilityPower();
-	float GetLifeTime(bool bModifiers, struct FLifeTimeCalcInfo* CalcInfo);
+	float STATIC_GetLifeTime(bool bModifiers, struct FLifeTimeCalcInfo* CalcInfo);
 	float STATIC_GetScaledBaseLifeTime();
 	int STATIC_GetScalingLevel();
 	void LifeDone();
@@ -13899,7 +13926,7 @@ public:
 	void STATIC_SetActive(bool bActive, bool bRemoving, bool bForceRemove);
 	bool STATIC_IsActive();
 	bool STATIC_HasCategoryCode(int nCategoryCode, bool bBehaviorOnly);
-	bool DoesDamage();
+	bool STATIC_DoesDamage();
 	bool ReceivesDiminishingReturns();
 	bool AppliesDiminishingReturns();
 	bool STATIC_IsCrowdControl();
@@ -13912,13 +13939,13 @@ public:
 	bool STATIC_IsInstantaneous();
 	bool PersistsThroughDeath();
 	bool STATIC_IsBuff();
-	float CalcDoTLifeTimeProtection(class AActor* Target, float fValue, float* fDirectReduction, float* fPercReduction);
-	float CalcCategoryProtection(class AActor* Target, float fValue, float* fPercReduction);
-	bool EffectExists(int nPropId);
+	float STATIC_CalcDoTLifeTimeProtection(class AActor* Target, float fValue, float* fDirectReduction, float* fPercReduction);
+	float STATIC_CalcCategoryProtection(class AActor* Target, float fValue, float* fPercReduction);
+	bool STATIC_EffectExists(int nPropId);
 	float QueryFxTransitionTime();
-	float TotalPropertyEffectAmt(int nPropertyId);
+	float STATIC_TotalPropertyEffectAmt(int nPropertyId);
 	void RemoveEffects(bool bClearTimers, bool bForce);
-	class UTgEffectGroup* CloneEffectGroup(bool bCloneAllEffects);
+	class UTgEffectGroup* STATIC_CloneEffectGroup(bool bCloneAllEffects);
 };
 
 
@@ -14008,7 +14035,7 @@ public:
 	void UpdateFirstValidQueueIndex();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void PostBeginPlay();
-	bool CheckStacksForDisplay(class UTgEffectGroup* pEffect);
+	bool STATIC_CheckStacksForDisplay(class UTgEffectGroup* pEffect);
 	int STATIC_GetStackCountFromEffectGroupId(int nEffectGroupID, class AActor* aInstigator);
 	class UTgEffectGroup* ProcessEffect(class UTgEffectGroup* effectGroup, class AActor* aInstigator, int nNumStacks, const struct FImpactInfo& Impact, bool bCloneAllEffects);
 	void RemoveProperty(class UTgEffectGroup* effectGroup);
@@ -14025,8 +14052,8 @@ public:
 	void ApplyMana(int nMana, class AActor* aInstigator, int nAttackType, int nDamageType, const struct FImpactInfo& Impact, int nEffectGroupCategory);
 	void ApplyHealth(int nHealth, class AActor* aInstigator, int nAttackType, int nDamageType, const struct FImpactInfo& Impact, int nEffectGroupCategory);
 	void ApplyDamage(int nDamage, class AActor* aInstigator, int nAttackType, int nDamageType, const struct FImpactInfo& Impact, int nEffectGroupCategory);
-	int CountApplicationOfPermanentEffect(class UTgEffect* pEffect);
-	void UnregisterPermanentEffect(class UTgEffect* pEffect);
+	int STATIC_CountApplicationOfPermanentEffect(class UTgEffect* pEffect);
+	void STATIC_UnregisterPermanentEffect(class UTgEffect* pEffect);
 	void RegisterPermanentEffect(class UTgEffect* pEffect);
 	void STATIC_HandleOnLandedIntercepts();
 	void RecalculateBeltFx();
@@ -14035,8 +14062,8 @@ public:
 	bool STATIC_IsSlowed();
 	bool STATIC_IsStunned();
 	bool STATIC_IsSpawnGuarded();
-	void ClearAllClientEffectForms();
-	void UpdateEffectFormVisibility();
+	void STATIC_ClearAllClientEffectForms();
+	void STATIC_UpdateEffectFormVisibility();
 	class UTgEffectGroup* STATIC_GetEffectGroupByCategory(int nCategoryCode, class AActor* theInstigator);
 	class UTgEffectGroup* STATIC_GetEffectGroup(int nEffectGroupID, class AActor* theInstigator);
 	void RemoveAllPermanentEffects();
@@ -14055,11 +14082,11 @@ public:
 	bool RemoveAllEffectGroups(class UTgEffectGroup* eg);
 	int RemoveEffectGroupsByCategory(int nCategoryCode, int nNumStacks, class AActor* theInstigator);
 	bool RemoveEffectGroupById(int nEffectGroupID, int nNumStacks, class AActor* theInstigator);
-	void UpdateManagedEffectForms(bool bFromServer);
-	void UpdateQueueEffectForms();
-	void UpdateEffectForms();
-	void ClearEffectRep(class UTgEffectGroup* Group);
-	void UpdateEffectRep(class UTgEffectGroup* eg);
+	void STATIC_UpdateManagedEffectForms(bool bFromServer);
+	void STATIC_UpdateQueueEffectForms();
+	void STATIC_UpdateEffectForms();
+	void STATIC_ClearEffectRep(class UTgEffectGroup* Group);
+	void STATIC_UpdateEffectRep(class UTgEffectGroup* eg);
 	int SetEffectRep(class UTgEffectGroup* eg, int nSkinId);
 };
 
@@ -14097,7 +14124,7 @@ public:
 	void PostBeginPlay();
 	void PreBeginPlay();
 	void SetTaskForceNumber(int nNewTaskForce);
-	void CalcFactoryPlacement(const struct FVector& Extent, bool bCenterOnGround, struct FVector* OutLocation, struct FRotator* OutRotation);
+	void STATIC_CalcFactoryPlacement(const struct FVector& Extent, bool bCenterOnGround, struct FVector* OutLocation, struct FRotator* OutRotation);
 	void SpawnObject();
 	void STATIC_LoadObjectConfig();
 };
@@ -14160,33 +14187,33 @@ public:
 	}
 
 
-	void STATIC_OnKillCurrentSquad(class UTgSeqAct_KillCurrentSquad* killSquadAction);
-	void UpdateRespawnTimeIndicator(float fPct);
-	void STATIC_OnBotDamaged(class ATgPawn* Bot, class AController* DamageInstigator, class UClass* DamageType, int DamageAmount);
-	void STATIC_OnGetBot(class UTgSeqAct_GetBot* inAction);
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
-	void STATIC_OnTriggerBots(class UTgSeqAct_TriggerBots* Action);
+	void OnKillCurrentSquad(class UTgSeqAct_KillCurrentSquad* killSquadAction);
+	void STATIC_UpdateRespawnTimeIndicator(float fPct);
+	void OnBotDamaged(class ATgPawn* Bot, class AController* DamageInstigator, class UClass* DamageType, int DamageAmount);
+	void OnGetBot(class UTgSeqAct_GetBot* inAction);
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnTriggerBots(class UTgSeqAct_TriggerBots* Action);
 	void STATIC_KillBots(bool bDespawn);
 	void STATIC_Despawn();
 	void StartEncounter(class ATgBotEncounterVolume* Volume);
 	void STATIC_ContinueEncounter();
 	void STATIC_EndEncounter();
-	void STATIC_OnDespawnBots(class UTgSeqAct_DespawnBots* inAction);
-	void STATIC_OnKillBots(class UTgSeqAct_KillBots* inAction);
-	void OnToggle(class USeqAct_Toggle* Action);
+	void OnDespawnBots(class UTgSeqAct_DespawnBots* inAction);
+	void OnKillBots(class UTgSeqAct_KillBots* inAction);
+	void STATIC_OnToggle(class USeqAct_Toggle* Action);
 	void PostBeginPlay();
 	float STATIC_GetStaggerSpawnTime();
 	int STATIC_GetRemainingTotalSpawns();
 	void STATIC_KillCurrentSquad();
 	void SquadDied(class UTgAISquad* squad);
 	void BotDied(class ATgPawn* Pawn, class ATgAIController* aic);
-	class AActor* UseSpawnTable();
-	void CalcFactoryPlacement(const struct FVector& Extent, bool bCenterOnGround, struct FVector* OutLocation, struct FRotator* OutRotation);
+	class AActor* STATIC_UseSpawnTable();
+	void STATIC_CalcFactoryPlacement(const struct FVector& Extent, bool bCenterOnGround, struct FVector* OutLocation, struct FRotator* OutRotation);
 	class AActor* SpawnBotAdjusted(const struct FSpawnQueueEntry& Entry);
 	class AActor* SpawnBotId(int nBotId, int nSkinId);
 	class AActor* SpawnNextBot();
 	class AActor* SpawnBot();
-	void STATIC_ClearQueue();
+	void ClearQueue();
 	void BuildQueue(bool bRefill);
 	void ResetQueue();
 	void STATIC_LoadObjectConfig();
@@ -14291,7 +14318,7 @@ public:
 	}
 
 
-	void CheckRefill();
+	void STATIC_CheckRefill();
 	void PostBeginPlay();
 	class AActor* SpawnBot();
 };
@@ -14333,10 +14360,10 @@ public:
 	}
 
 
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
-	void STATIC_OnKillBots(class UTgSeqAct_KillBots* inAction);
-	void OnToggle(class USeqAct_Toggle* Action);
-	void DeployableDied();
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnKillBots(class UTgSeqAct_KillBots* inAction);
+	void STATIC_OnToggle(class USeqAct_Toggle* Action);
+	void STATIC_DeployableDied();
 	void PostBeginPlay();
 	void SpawnObject();
 };
@@ -14408,7 +14435,7 @@ public:
 
 
 	struct Fdword STATIC_GetBusUID(const struct FString& sBusName);
-	void Initialize();
+	void STATIC_Initialize();
 };
 
 
@@ -14446,7 +14473,7 @@ public:
 	}
 
 
-	void GiveTo(class ATgPawn* P);
+	void STATIC_GiveTo(class ATgPawn* P);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	bool ApplyItemSetup();
 	class UTgEffectGroup* STATIC_GetEffectGroup(int nType, int* nIndex);
@@ -14475,24 +14502,24 @@ public:
 	}
 
 
-	void STATIC_ChangedWeapon();
+	void ChangedWeapon();
 	void ServerImmediatelySetWeapon(class ATgDevice* DesiredWeapon);
 	void STATIC_ImmediatelySetWeapon(class ATgDevice* DesiredWeapon, class ATgPawn* pPawn);
 	void STATIC_ServerDeleteInventory(const struct FQWord& nInventoryId);
-	void STATIC_ServerSetCurrentWeapon(class ATgDevice* NewWeapon);
+	void ServerSetCurrentWeapon(class ATgDevice* NewWeapon);
 	void SetCurrentWeapon(class ATgDevice* DesiredWeapon);
 	void STATIC_SetPendingWeapon(class AWeapon* DesiredWeapon);
-	void STATIC_ServerSetInventoryDirty();
-	void STATIC_ServerTestShowInventory();
+	void ServerSetInventoryDirty();
+	void ServerTestShowInventory();
 	void Destroyed();
 	void PostBeginPlay();
 	void STATIC_ForwardDeviceOnHeld(class ATgDevice* pDevPrevious, class ATgDevice* pDevNext);
-	void ForwardPawnOnEnergyGiven(float fEnergy);
+	void STATIC_ForwardPawnOnEnergyGiven(float fEnergy);
 	void STATIC_InventoryCleanup();
 	void TestShowInventory();
 	void ApplyAllPassiveItemEffects(bool bRemove);
 	void SetInventoryDirty();
-	bool STATIC_IsValid();
+	bool IsValid();
 	class UTgInventoryObject* STATIC_GetInventoryByName(const struct FString& sName);
 	class UTgInventoryObject* STATIC_GetInventoryByDeviceId(int nDeviceId);
 	class UTgInventoryObject* STATIC_GetInventoryByEquipPoint(TEnumAsByte<ETG_EQUIP_POINT> ePoint, int nItemType);
@@ -14519,10 +14546,10 @@ public:
 	}
 
 
-	void ChangeDeviceLevel(int nEquipPoint, int nLevel);
+	void STATIC_ChangeDeviceLevel(int nEquipPoint, int nLevel);
 	void RemoveDevice(class UTgInventoryObject_Device* pInv, bool bForceRemove);
 	class ATgDevice* AddDevice(int nDeviceId, int nEquipPoint, class ATgDevice* parentDevice, bool bReplaceIfOccupied, int nLevel, int nPower, bool bForceRemove);
-	int CountFilledBurnCardSlots();
+	int STATIC_CountFilledBurnCardSlots();
 	void RemoveBurnCards();
 };
 
@@ -14844,10 +14871,10 @@ public:
 	}
 
 
-	void TriggerBurningMarks(class AActor* Target);
-	void UpdateUIMarks();
-	void UpdateExpiredComboInfos();
-	void TouchedBarricade(class AActor* Target, class AActor* barricade);
+	void STATIC_TriggerBurningMarks(class AActor* Target);
+	void STATIC_UpdateUIMarks();
+	void STATIC_UpdateExpiredComboInfos();
+	void STATIC_TouchedBarricade(class AActor* Target, class AActor* barricade);
 };
 
 
@@ -14932,7 +14959,7 @@ public:
 	}
 
 
-	void STATIC_MarksExpired();
+	void MarksExpired();
 };
 
 
@@ -16662,8 +16689,8 @@ public:
 	}
 
 
-	int CountMarksForActor(class AActor* Actor);
-	void ExpireUIMarks();
+	int STATIC_CountMarksForActor(class AActor* Actor);
+	void STATIC_ExpireUIMarks();
 	void STATIC_RemoveUIMarks(class AActor* Target, int nNumMarks);
 	void STATIC_AddUIMarks(class AActor* Target, int nNumMarks);
 };
@@ -17951,7 +17978,7 @@ public:
 	}
 
 
-	void UpdatePetCountStacks(bool bEmptyStacks);
+	void STATIC_UpdatePetCountStacks(bool bEmptyStacks);
 };
 
 
@@ -18236,7 +18263,7 @@ public:
 
 	bool STATIC_StopsProjectile(class AProjectile* P);
 	void STATIC_RespawnEffect();
-	void UpdateHUD(class ATgHUD* H);
+	void STATIC_UpdateHUD(class ATgHUD* H);
 	bool ShouldCamp(class ATgAIController* B, float MaxWait);
 };
 
@@ -19574,7 +19601,7 @@ public:
 	}
 
 
-	void UpdateChallengerWonValue(bool bValue);
+	void STATIC_UpdateChallengerWonValue(bool bValue);
 };
 
 
@@ -19623,8 +19650,8 @@ public:
 	}
 
 
-	void UpdateTaskForceWonValue(unsigned char iValue);
-	void UpdateTaskForceAttackValue(unsigned char iValue);
+	void STATIC_UpdateTaskForceWonValue(unsigned char iValue);
+	void STATIC_UpdateTaskForceAttackValue(unsigned char iValue);
 };
 
 
@@ -19989,7 +20016,7 @@ public:
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	int STATIC_GetMsgIdToDisplay();
 	bool STATIC_IsUsedEnabled();
-	void UsedByPawn(class ATgPawn* User);
+	void STATIC_UsedByPawn(class ATgPawn* User);
 };
 
 
@@ -20029,7 +20056,7 @@ public:
 
 
 	void STATIC_NotifyPathChanged();
-	float CalcOcclusionAmount(class AActor* SourceActor);
+	float STATIC_CalcOcclusionAmount(class AActor* SourceActor);
 	void PostBeginPlay();
 };
 
@@ -20089,12 +20116,12 @@ public:
 
 
 	void SetDoorStatus(TEnumAsByte<EDoorStatus> eStatus);
-	void CalculateDoorStatus();
+	void STATIC_CalculateDoorStatus();
 	bool ShouldDoorBeClosed();
 	bool ShouldDoorBeOpened();
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void ClientOnStatusChange();
+	void STATIC_ClientOnStatusChange();
 	void PostBeginPlay();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_LoadMesh();
@@ -20157,7 +20184,7 @@ public:
 
 	void PostBeginPlay();
 	void STATIC_GetAdjustedPosition(class APawn* AnnotationOwner, class AActor* Target, struct FVector* out_Position);
-	void Initialize();
+	void STATIC_Initialize();
 	void STATIC_Claim(class APawn* pClaimedBy);
 	class APawn* STATIC_GetClaimedBy();
 };
@@ -20282,7 +20309,7 @@ public:
 	}
 
 
-	void STATIC_OnPathfinderWalkerFinishedPathing(class ATgPathfinderWalker* Walker);
+	void OnPathfinderWalkerFinishedPathing(class ATgPathfinderWalker* Walker);
 	void SpawnWalker();
 	void StopWalkerStream();
 	void StartWalkerStream(float StreamTime, float WalkerPulseTime, float WalkerLifetime, float WalkerSpeed);
@@ -20387,11 +20414,11 @@ public:
 
 
 	void DoKismetAttachment(class AActor* Attachment, class USeqAct_AttachToActor* Action);
-	void STATIC_OnParentAnimComponent(class UTgSeqAct_ParentAnimComponent* Action);
+	void OnParentAnimComponent(class UTgSeqAct_ParentAnimComponent* Action);
 	void STATIC_LoadClientOnlyMeshAssets();
-	class UMeshComponent* CreateMeshComponent(int MeshAsmId, class UMeshComponent* DestComponent, bool bPartialFixup);
-	class UTgStaticMeshComponent* CreateStaticMeshComponent(int MeshAsmId, class UTgStaticMeshComponent* DestComponent);
-	class UTgSkeletalMeshComponent* CreateSkeletalMeshComponent(int MeshAsmId, class UTgSkeletalMeshComponent* DestComponent, bool bPartialFixup);
+	class UMeshComponent* STATIC_CreateMeshComponent(int MeshAsmId, class UMeshComponent* DestComponent, bool bPartialFixup);
+	class UTgStaticMeshComponent* STATIC_CreateStaticMeshComponent(int MeshAsmId, class UTgStaticMeshComponent* DestComponent);
+	class UTgSkeletalMeshComponent* STATIC_CreateSkeletalMeshComponent(int MeshAsmId, class UTgSkeletalMeshComponent* DestComponent, bool bPartialFixup);
 	bool AttachToSocket(class AActor* Attachment, const struct FName& BoneName);
 };
 
@@ -20443,12 +20470,12 @@ public:
 	TEnumAsByte<EeSetRouteResult> SetRouteTo(class AActor* destActor);
 	void Destroyed();
 	void PostBeginPlay();
-	void STATIC_UpdateRotation(float fDeltaSeconds);
+	void UpdateRotation(float fDeltaSeconds);
 	bool AdvanceWayPoint();
 	struct FVector STATIC_GetCurrentWayPoint();
 	TEnumAsByte<EeSetRouteResult> SetRoute(class AActor* destActor);
-	void DeactivatePathingFx();
-	void DeactivateFx();
+	void STATIC_DeactivatePathingFx();
+	void STATIC_DeactivateFx();
 	void ActivatePathingFx();
 	void ActivateSpinDownFx();
 	void ActivateSpinUpFx();
@@ -20473,9 +20500,9 @@ public:
 	}
 
 
-	bool STATIC_PawnCanUse(class ATgPawn* TgP);
-	void OnToggle(class USeqAct_Toggle* Action);
-	struct FVector GetTargetLocation(class AActor* RequestedBy, bool bRequestAlternateLoc);
+	bool PawnCanUse(class ATgPawn* TgP);
+	void STATIC_OnToggle(class USeqAct_Toggle* Action);
+	struct FVector STATIC_GetTargetLocation(class AActor* RequestedBy, bool bRequestAlternateLoc);
 	bool STATIC_HasRoomForPawn(class ATgPawn* TgP);
 };
 
@@ -20496,9 +20523,9 @@ public:
 	}
 
 
-	float DistanceToActionPoint(TEnumAsByte<ELanePusherActionPoint> ActionPoint);
-	float DistanceToEndOfSplineChain();
-	void STATIC_UpdateSplineComponents();
+	float STATIC_DistanceToActionPoint(TEnumAsByte<ELanePusherActionPoint> ActionPoint);
+	float STATIC_DistanceToEndOfSplineChain();
+	void UpdateSplineComponents();
 };
 
 
@@ -20563,12 +20590,12 @@ public:
 	}
 
 
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
 	float STATIC_GetRating(class AController* Player);
 	int STATIC_GetSupportedTaskforce();
 	void Destroyed();
 	struct FRotator STATIC_GetSpawnRotationFor(class APawn* TgP);
-	float STATIC_NativeGetRating(class AController* Player, float fRating);
+	float NativeGetRating(class AController* Player, float fRating);
 	bool AreaUnoccupied();
 	bool STATIC_IsAssignedToPlayer();
 	void STATIC_LoadObjectConfig();
@@ -20629,8 +20656,8 @@ public:
 	}
 
 
-	void Initialize(class ATgPawn* pOwner);
-	void STATIC_OnEmoteEnded();
+	void STATIC_Initialize(class ATgPawn* pOwner);
+	void OnEmoteEnded();
 };
 
 
@@ -20667,24 +20694,24 @@ public:
 	int TakePersonalArmorDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, class AActor* DamageCauser, struct FExtraDamageInfo* ExtraInfo);
 	bool ShieldDamageAppliesToHealth();
 	int TakePersonalShieldDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, class AActor* DamageCauser, struct FExtraDamageInfo* ExtraInfo);
-	bool CanUsePersonalShield();
-	bool CanTakeShieldDamage();
+	bool STATIC_CanUsePersonalShield();
+	bool STATIC_CanTakeShieldDamage();
 	void TakeManaDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
-	bool CanTakeManaDamage();
-	bool CanBeLifestealTarget();
-	bool CanBeLifestealInstigator();
+	bool STATIC_CanTakeManaDamage();
+	bool STATIC_CanBeLifestealTarget();
+	bool STATIC_CanBeLifestealInstigator();
 	void TakeHealthDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
-	void STATIC_MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
+	void MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
 	float STATIC_GetSpecialDamageTakenPercentAI();
 	float STATIC_GetSpecialDamageDealtPercentAI();
 	void BuffDamage(class AActor* Target, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, float fBaseDamage, float* fProratedAmount, struct FExtraDamageInfo* ExtraInfo);
 	bool STATIC_IsImmuneToHealing();
-	bool CanBeExecuted();
+	bool STATIC_CanBeExecuted();
 	bool STATIC_IsImmuneToDamage();
-	bool STATIC_OnlyTakeHeadShots();
-	bool CanTakeHeadShots();
-	bool CanDealHeadShots();
-	bool CanTakeHealthDamage();
+	bool OnlyTakeHeadShots();
+	bool STATIC_CanTakeHeadShots();
+	bool STATIC_CanDealHeadShots();
+	bool STATIC_CanTakeHealthDamage();
 	float STATIC_GetDiminishedGroundSpeed();
 	void STATIC_GetAdditionalLifestealMultipliers(struct FDiminishedEffectInfo* DiminishingInfo, struct FImpactInfo* Impact);
 	void STATIC_GetAdditionalDamageTakenMultipliers(class ATgDevice* damagingDevice, struct FDiminishedEffectInfo* DiminishingInfo, struct FImpactInfo* Impact);
@@ -20713,7 +20740,7 @@ public:
 	}
 
 
-	void UpdatePosition(class ATgPawn* TgPOwner, bool bIsInitial, struct FVector* OwnerOffset);
+	void STATIC_UpdatePosition(class ATgPawn* TgPOwner, bool bIsInitial, struct FVector* OwnerOffset);
 };
 
 
@@ -20760,7 +20787,7 @@ public:
 
 
 // Class TgGame.TgPawn
-// 0x28CC (0x2E78 - 0x05AC)
+// 0x2808 (0x2DB4 - 0x05AC)
 class ATgPawn : public AGamePawn
 {
 public:
@@ -21007,6 +21034,7 @@ public:
 	unsigned long                                      m_bJustLaunchedFromCatapult : 1;                          // 0x064C(0x0004)
 	unsigned long                                      c_bIsPlayingCatapultPawnFX : 1;                           // 0x064C(0x0004)
 	unsigned long                                      m_bLockSkelControlRotation : 1;                           // 0x064C(0x0004)
+	unsigned long                                      m_bLTEInvincibleChickens : 1;                             // 0x064C(0x0004)
 	int                                                r_nPhysTweenFlags;                                        // 0x0650(0x0004) (Net)
 	struct FString                                     m_sGameplayPackage;                                       // 0x0654(0x0010) (Edit, NeedCtorLink)
 	TScriptInterface<class UTgInteractiveAudio>        m_AsInteractiveAudio;                                     // 0x0664(0x0010)
@@ -21605,21 +21633,21 @@ public:
 	TArray<struct FDeviceTimer>                        m_DeviceTimers;                                           // 0x2CD8(0x0010) (NeedCtorLink)
 	TArray<class UTgAnimNodeBlendCrouch*>              m_AnimNodeBlendCrouchNodes;                               // 0x2CE8(0x0010) (NeedCtorLink)
 	TArray<class UGameSkelCtrl_Recoil*>                m_LandRecoilSkelControls;                                 // 0x2CF8(0x0010) (NeedCtorLink)
-	struct FTalentInfo                                 r_Talents[0xA];                                           // 0x2D08(0x001C) (Net)
-	float                                              m_fNonVerbalEmoteCooldown;                                // 0x2E20(0x0004)
-	float                                              m_fNonVerbalEmoteTime;                                    // 0x2E24(0x0004)
-	float                                              m_fPolymorphGroundSpeed;                                  // 0x2E28(0x0004)
-	float                                              m_fMountCastTime;                                         // 0x2E2C(0x0004)
-	float                                              m_fSprintSpeed;                                           // 0x2E30(0x0004)
-	float                                              m_fHitIndicatorVerticalDistance;                          // 0x2E34(0x0004)
-	float                                              m_fHitIndicatorHorizontalDistance;                        // 0x2E38(0x0004)
-	class ATgCatapultActor*                            r_Catapult;                                               // 0x2E3C(0x0008) (Net)
-	struct FRotator                                    m_rLockedSkelControlRotation;                             // 0x2E44(0x000C)
-	class UTgSkeletalMeshComponent*                    m_pShieldMesh;                                            // 0x2E50(0x0008) (ExportObject, Component, EditInline)
-	class ATgWeatherVolume*                            m_CurrentWeatherVolume;                                   // 0x2E58(0x0008)
-	class USkelControlSingleBone*                      m_SkelControl_BigHead;                                    // 0x2E60(0x0008)
-	struct FScriptDelegate                             __On3pTransitionEvent__Delegate;                          // 0x2E68(0x000C) (NeedCtorLink)
-	unsigned char                                      UnknownData01[0x4];                                       // 0x2E68(0x0004) FIX WRONG TYPE SIZE OF PREVIOUS PROPERTY
+	struct FTalentInfo                                 r_Talents[0x3];                                           // 0x2D08(0x001C) (Net)
+	float                                              m_fNonVerbalEmoteCooldown;                                // 0x2D5C(0x0004)
+	float                                              m_fNonVerbalEmoteTime;                                    // 0x2D60(0x0004)
+	float                                              m_fPolymorphGroundSpeed;                                  // 0x2D64(0x0004)
+	float                                              m_fMountCastTime;                                         // 0x2D68(0x0004)
+	float                                              m_fSprintSpeed;                                           // 0x2D6C(0x0004)
+	float                                              m_fHitIndicatorVerticalDistance;                          // 0x2D70(0x0004)
+	float                                              m_fHitIndicatorHorizontalDistance;                        // 0x2D74(0x0004)
+	class ATgCatapultActor*                            r_Catapult;                                               // 0x2D78(0x0008) (Net)
+	struct FRotator                                    m_rLockedSkelControlRotation;                             // 0x2D80(0x000C)
+	class UTgSkeletalMeshComponent*                    m_pShieldMesh;                                            // 0x2D8C(0x0008) (ExportObject, Component, EditInline)
+	class ATgWeatherVolume*                            m_CurrentWeatherVolume;                                   // 0x2D94(0x0008)
+	class USkelControlSingleBone*                      m_SkelControl_BigHead;                                    // 0x2D9C(0x0008)
+	struct FScriptDelegate                             __On3pTransitionEvent__Delegate;                          // 0x2DA4(0x000C) (NeedCtorLink)
+	unsigned char                                      UnknownData01[0x4];                                       // 0x2DA4(0x0004) FIX WRONG TYPE SIZE OF PREVIOUS PROPERTY
 
 	static UClass* StaticClass()
 	{
@@ -21629,7 +21657,7 @@ public:
 
 
 	float STATIC_GetADSZoomAlpha(unsigned char* outZoomState);
-	bool UsesFullScreenScope();
+	bool STATIC_UsesFullScreenScope();
 	void StopDrivingCatapult(class ATgCatapultActor* Catapult);
 	void StartDrivingCatapult(class ATgCatapultActor* Catapult);
 	void STATIC_OnClientUpdateShardCount(int n_ShardCount);
@@ -21639,7 +21667,7 @@ public:
 	float STATIC_GetADSZoomOutTime();
 	float STATIC_GetADSZoomInTime();
 	void STATIC_EndADS();
-	void STATIC_OnEndADS();
+	void OnEndADS();
 	void StartADS();
 	bool STATIC_IsIndoors();
 	void ServerResetDebugPropertyMods(const struct FString& sProperty);
@@ -21653,19 +21681,19 @@ public:
 	bool STATIC_IsSwitchingAnyWeapons();
 	bool STATIC_IsFiringAnyWeapons();
 	void SetSprinting(bool bNewIsSprinting);
-	void TickSprinting(float DeltaTime);
-	void EndWindowVaultDeviceLockout();
-	void EndWindowVaultCooldown();
-	void EndWindowVaultNoInputTime();
+	void STATIC_TickSprinting(float DeltaTime);
+	void STATIC_EndWindowVaultDeviceLockout();
+	void STATIC_EndWindowVaultCooldown();
+	void STATIC_EndWindowVaultNoInputTime();
 	void STATIC_OnEndedVault();
-	bool ClientAttemptVault();
-	void ClientCancelVault();
+	bool STATIC_ClientAttemptVault();
+	void STATIC_ClientCancelVault();
 	void STATIC_ServerCancelVault();
 	void STATIC_ServerDoVault(class ATgWindowVaultVolume* pVaultVolume);
-	bool CanVaultNow();
+	bool STATIC_CanVaultNow();
 	bool AttemptVaultNow(class ATgWindowVaultVolume* pVaultVolume);
-	bool DoVault(const struct FVector& WallDir, TEnumAsByte<ETgVaultTypes> VaultType);
-	bool CheckVault();
+	bool STATIC_DoVault(const struct FVector& WallDir, TEnumAsByte<ETgVaultTypes> VaultType);
+	bool STATIC_CheckVault();
 	void STATIC_OnEmoteSoundFinished();
 	void ServerOnEmoteEnded();
 	void STATIC_OnEmoteSoundPlayed(TEnumAsByte<EEmote> Emote);
@@ -21680,7 +21708,7 @@ public:
 	void STATIC_AppliedEffectRemoved(class UTgEffect* RemovedEffect);
 	void AdjustNewAccel(struct FVector* vNewAccel);
 	void StartFlourish();
-	void FlourishTimeoutFinished();
+	void STATIC_FlourishTimeoutFinished();
 	void ServerStartFlourish();
 	float STATIC_GetMaxAimAssistStacks();
 	class ATgDevice* STATIC_GetDeviceForAimAssist();
@@ -21690,8 +21718,8 @@ public:
 	float STATIC_GetEquipTimeScale();
 	float STATIC_GetReloadScale();
 	bool ShouldNudgePlayer(class ATgPawn* PlayerPawn);
-	bool CanBeNudged();
-	void ForwardEffects(const struct FImpactInfo& Impact, class UTgEffectGroup* effectGroup, class ATgDevice* SourceDevice, bool bRemove, int StackCount);
+	bool STATIC_CanBeNudged();
+	void STATIC_ForwardEffects(const struct FImpactInfo& Impact, class UTgEffectGroup* effectGroup, class ATgDevice* SourceDevice, bool bRemove, int StackCount);
 	void SetFaceRotationToController();
 	void ToggleHealAkEvent(bool bEnable);
 	void UpdateHUDHealthPercent(float fPercent);
@@ -21699,7 +21727,7 @@ public:
 	void SetHUDOverlayState(TEnumAsByte<EDeployableOverlayState> dos);
 	void SetHUDOverlayIcon(TEnumAsByte<EDeployableOverlayIcon> doi);
 	void SetHUDOverlayDisplayMask(int dodm);
-	float STATIC_CheckOcclusion();
+	float CheckOcclusion();
 	void SetThreatLevel(TEnumAsByte<EThreatLevel> NewThreatLevel);
 	void STATIC_OnCeaseSpectatorViewTarget();
 	void STATIC_OnBecameSpectatorViewTarget();
@@ -21720,25 +21748,25 @@ public:
 	struct FVector STATIC_GetCameraOffsetOverride(const struct FVector& originalOffset, TEnumAsByte<ECameraPerspectiveType> ePerspectiveType);
 	struct FVector STATIC_GetMountCameraOffset(TEnumAsByte<EMountType> MountType);
 	struct FVector STATIC_GetForced3pAdditionalOffset();
-	void STATIC_OnStartTimelapseNewDeviceState();
+	void OnStartTimelapseNewDeviceState();
 	void PlayGenericTakeHit(const struct FVector& HitLocation, const struct FVector& HitNormal, class ATgPawn* HitInstigator, float fDamageAmount, struct FExtraDamageInfo* ExtraInfo);
 	void PlayFXHoldsBeacon(bool bShouldPlay);
-	void ClientUpdateHasRespawnBeacon(bool bHasRespawnBeacon);
-	void UpdateHasRespawnBeacon(bool bHasRespawnBeacon);
-	void TouchingRespawnBeaconExit(class ATgRespawnBeaconExit* RespawnBeacon, bool IsTouching);
+	void STATIC_ClientUpdateHasRespawnBeacon(bool bHasRespawnBeacon);
+	void STATIC_UpdateHasRespawnBeacon(bool bHasRespawnBeacon);
+	void STATIC_TouchingRespawnBeaconExit(class ATgRespawnBeaconExit* RespawnBeacon, bool IsTouching);
 	class ATgRespawnBeaconExit* STATIC_GetTouchingRespawnBeacon();
 	void SetInitialHUDOverlayInfo();
 	void STATIC_FinishedIntroAnim(class UAnimNode* IntroAnimNode);
-	void ExitIntroPosture(bool bForceAnimTreeOut);
-	void EnterIntroPosture();
+	void STATIC_ExitIntroPosture(bool bForceAnimTreeOut);
+	void STATIC_EnterIntroPosture();
 	void SetupIntroAnimNodesAndTimers();
 	void STATIC_DoIntroduction(bool bUseInitialIntro);
 	bool STATIC_IsPlayingIntro();
 	void BeginWhiteOutScaleUp();
 	void SetWhiteOutStartTimer();
 	void STATIC_IntroTimer();
-	void EndWhiteOut();
-	void UpdateWhiteOut();
+	void STATIC_EndWhiteOut();
+	void STATIC_UpdateWhiteOut();
 	void STATIC_RemoveBlindingDeployable(class ATgDeployable* deployable);
 	void STATIC_AddBlindingDeployable(class ATgDeployable* deployable);
 	void STATIC_RemoveObscuringDeployable(class ATgDeployable* deployable);
@@ -21750,14 +21778,14 @@ public:
 	void STATIC_RemoveInstigatorWallReveal(class AActor* Viewer);
 	void STATIC_AddInstigatorWallReveal(class AActor* Viewer);
 	void STATIC_GetAnimSetStrings(TEnumAsByte<EMountType> MountType, TArray<struct FString>* sPaths);
-	void UpdateLastPlayerStart(class APlayerStart* NewLastPlayerStart);
+	void STATIC_UpdateLastPlayerStart(class APlayerStart* NewLastPlayerStart);
 	class UTgSpecialFx* TestFx2(int Id);
 	void TestFx(float Pct);
 	TEnumAsByte<EBotBehaviorState> STATIC_GetBotBehaviorState();
-	void UpdateBotBehaviorState(TEnumAsByte<EBotBehaviorState> NewState);
+	void STATIC_UpdateBotBehaviorState(TEnumAsByte<EBotBehaviorState> NewState);
 	TEnumAsByte<EMetaGameState> STATIC_GetMetaGameState();
-	void UpdateMetaGameState(TEnumAsByte<EMetaGameState> NewState);
-	void ClientSetActiveWeapon(class AWeapon* NewWeapon);
+	void STATIC_UpdateMetaGameState(TEnumAsByte<EMetaGameState> NewState);
+	void STATIC_ClientSetActiveWeapon(class AWeapon* NewWeapon);
 	void AddIncomingImpact(int bNumToAdd);
 	void SetUITargetingType(TEnumAsByte<EUITargetingType> NewTargetingType, bool bForceRequiredToSet, TEnumAsByte<EUITargetingType> RequiredToSet);
 	float STATIC_GetDistanceToNearestCapturePoint();
@@ -21774,13 +21802,13 @@ public:
 	void STATIC_InterruptAllReloads();
 	void STATIC_PlayRevealedEffects(bool bEnabled);
 	void STATIC_PlaySlowEffects(bool bEnabled);
-	void CleanUpScreenCapturePostProcess();
+	void STATIC_CleanUpScreenCapturePostProcess();
 	void STATIC_PlayFlashBangEffects(bool bEnabled);
 	void STATIC_PlayCrippledEffects(bool bEnabled);
 	void STATIC_PlayPoisonedEffects(bool bEnabled);
 	void STATIC_PlayRootEffects(bool bEnabled);
-	void ClientPlayHiddenEffects(bool bEnabled, class UParticleSystem* Template);
-	void ClientPlayGrassEffects(bool bEnabled, class UParticleSystem* Template);
+	void STATIC_ClientPlayHiddenEffects(bool bEnabled, class UParticleSystem* Template);
+	void STATIC_ClientPlayGrassEffects(bool bEnabled, class UParticleSystem* Template);
 	void STATIC_PlayMarkEffects(bool bEnabled);
 	void STATIC_PlayKnockbackEffects(bool bEnabled);
 	void STATIC_PlayFreezeEffects(bool bEnabled);
@@ -21790,11 +21818,11 @@ public:
 	void STATIC_PlayBleedEffects(bool bEnabled);
 	void RemoveStealthEffects();
 	bool STATIC_IsFirstPerson();
-	void STATIC_OnMountBegin(bool bForceFireDueToRespawn);
+	void OnMountBegin(bool bForceFireDueToRespawn);
 	void StopMountingEffects();
 	void STATIC_PushMountPostureAndEffects();
 	void STATIC_CreateMountMeshAndEffects(bool bPlayAnimFX);
-	bool DeferCreateMountMesh();
+	bool STATIC_DeferCreateMountMesh();
 	struct FName STATIC_GetMeshAssemblyAimProfile(int nMeshId);
 	float STATIC_GetMountTime();
 	void PlayMountingEffects();
@@ -21808,12 +21836,12 @@ public:
 	void STATIC_KillCloneTimer();
 	bool STATIC_CanPlayHitReaction();
 	void SetMeshDepthPriority(TEnumAsByte<ESceneDepthPriorityGroup> NewDepth);
-	TEnumAsByte<ETG_EQUIP_POINT> STATIC_OverrideOffhandSlot(TEnumAsByte<ETG_EQUIP_POINT> eqp);
+	TEnumAsByte<ETG_EQUIP_POINT> OverrideOffhandSlot(TEnumAsByte<ETG_EQUIP_POINT> eqp);
 	void STATIC_InterruptInhand();
 	bool STATIC_IsInJumpLanding();
-	bool STATIC_CannotJumpNow();
+	bool CannotJumpNow();
 	bool STATIC_IsFiringAny(TArray<TEnumAsByte<ETG_EQUIP_POINT>> IgnoreEqPoints);
-	bool CheckPhysicsStateForJumping();
+	bool STATIC_CheckPhysicsStateForJumping();
 	bool STATIC_CanFlyWithoutHover();
 	void AdjustDevicesForNewDilation(float fPrevDilation, float fNewDilation);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -21821,7 +21849,7 @@ public:
 	void STATIC_PreDemoRewind();
 	bool STATIC_AnimNotifySound(class USoundCue* Cue);
 	void SetEmote3PCamera(bool bOn);
-	bool EmoteShouldForce3P(TEnumAsByte<EEmote> Emote);
+	bool STATIC_EmoteShouldForce3P(TEnumAsByte<EEmote> Emote);
 	bool STATIC_EmoteShouldKillAllOtherVox(TEnumAsByte<EEmote> Emote);
 	bool STATIC_IsEmoteOnNonLocalCooldown(TEnumAsByte<EEmote> Emote);
 	bool STATIC_AreEmotesOnGlobalCooldown();
@@ -21839,7 +21867,7 @@ public:
 	TEnumAsByte<EEmoteCategory> STATIC_GetEmoteCategory(TEnumAsByte<EEmote> Emote);
 	bool STATIC_CanEmoteDuringTimelapse(TEnumAsByte<EEmote> Emote);
 	bool SelfTeamOnly(TEnumAsByte<EEmote> Emote);
-	bool CanPlayCustomEmote();
+	bool STATIC_CanPlayCustomEmote();
 	void STATIC_ClientPlayEmote(TEnumAsByte<EEmote> Emote, int nExtraInfo, int nTaskForce);
 	void STATIC_ClientPlayCustomEmote(int nIndex);
 	bool STATIC_IsPlayingMountEmoteAnim();
@@ -21851,7 +21879,7 @@ public:
 	void STATIC_PlayEmoteSelfOnly(TEnumAsByte<EEmote> Emote, int nExtraInfo);
 	void STATIC_PlayDeviceEmoteAll(class ATgDevice* Dev, bool bCallOnOwner);
 	TEnumAsByte<EEmote> STATIC_GetDeviceEmoteType(class ATgDevice* Dev);
-	void CancelCustomEmote();
+	void STATIC_CancelCustomEmote();
 	bool ShouldInterruptCustomEmote();
 	void ResetWeaponScale();
 	void STATIC_LoadSprayMIC(int nIndex);
@@ -21866,60 +21894,60 @@ public:
 	int STATIC_GetBotId();
 	TEnumAsByte<ETG_EQUIP_POINT> STATIC_GetPerCharacterAltEquipPoint();
 	void PostBigTeleport();
-	void PostTeleport(class ATeleporter* OutTeleporter);
+	void STATIC_PostTeleport(class ATeleporter* OutTeleporter);
 	void ResumeFXFromTeleport();
 	void STATIC_HaltFXForTeleport();
-	bool PreTeleport(class ATeleporter* InTeleporter);
-	void STATIC_OnTeleportNotify(class AActor* TeleportingActor);
+	bool STATIC_PreTeleport(class ATeleporter* InTeleporter);
+	void OnTeleportNotify(class AActor* TeleportingActor);
 	void TeleportNotify();
 	void STATIC_RemoveFromTeleportNotify(class AActor* RemoveActor);
 	void STATIC_AddToTeleportNotify(class AActor* ToBeNotified);
 	void ServerChangePhase(int NewPhase);
-	void ChangePhase(int NewPhase);
+	void STATIC_ChangePhase(int NewPhase);
 	void Perf2(bool bEnabled);
-	void STATIC_OnPhaseTransitionComplete();
+	void OnPhaseTransitionComplete();
 	void STATIC_OnPhaseChange();
 	void STATIC_OnPhaseEnded(int nPhaseThatEnded);
 	void BaseChange();
-	bool CanPickupDroppedItem();
+	bool STATIC_CanPickupDroppedItem();
 	bool STATIC_IsValidMeleeTarget(class ATgPawn* ProspectiveMeleeTarget);
 	void STATIC_SaveDeathInfoForZoomCam(class ATgPawn* KillerOwner, class ATgPawn* Killer, int DeviceID, bool bPetKill);
 	void UpdateCooldownsOnDevices();
 	void Stun(bool bStunController, TEnumAsByte<EStunType> eType);
-	bool CanApplyAimAssist(class ATgPlayerController* LocalPlayerController, class ATgPawn* LocalPawn);
+	bool STATIC_CanApplyAimAssist(class ATgPlayerController* LocalPlayerController, class ATgPawn* LocalPawn);
 	bool Teleport(const struct FVector& vDest, const struct FRotator& rDest, bool bPlayFx, int TeleportEnterState, int TeleportExitState, bool bFailOnNoSafeSpot, bool bFakeTeleport, struct FVector* vTeleportLocation);
 	bool STATIC_IsAboveNonbaseableSurface(const struct FVector& vTestLoc, float fTestDist, class AActor** HitActor, struct FVector* HitNormal);
 	bool TeleportTraceCheck(const struct FVector& vTestLoc, const struct FVector& vDestLoc);
 	class ATgPawn* STATIC_GetCurrentOwnerPawn();
-	bool WasPlayerSpawned();
+	bool STATIC_WasPlayerSpawned();
 	bool STATIC_IsTalentEquipped(int nTalentDeviceId);
 	bool STATIC_IsTargetWithInCone(class AActor* Target);
 	void TickTargeting(float DeltaSeconds);
-	void UpdateBob(float DeltaSeconds);
-	void TickScale(float DeltaSeconds);
-	float TickScaleVariable(float fDesiredValue, float fOldValue, float fScaleChangePerSecond, float DeltaSeconds);
+	void STATIC_UpdateBob(float DeltaSeconds);
+	void STATIC_TickScale(float DeltaSeconds);
+	float STATIC_TickScaleVariable(float fDesiredValue, float fOldValue, float fScaleChangePerSecond, float DeltaSeconds);
 	void AddRecoil(const struct FRotator& rNewRecoil, float fRecoilSmoothRate, float fSettleDelay, float fSettleSpeed);
 	void UpdateRecoil(float DeltaTime);
 	void Tick(float DeltaSeconds);
-	void DoubleCheckSimulatedProxy();
-	void TickFriendlyPush();
+	void STATIC_DoubleCheckSimulatedProxy();
+	void STATIC_TickFriendlyPush();
 	bool ShouldRecharge();
-	void DisplayMessage(const struct FString& sMessage);
+	void STATIC_DisplayMessage(const struct FString& sMessage);
 	void STATIC_ModifyPawnPropertiesVolumeChanged();
 	void STATIC_OnRigidBodySpringOverextension(class URB_BodyInstance* BodyInstance);
 	void SetUsePhysicsWithAnimation(bool Enable);
-	class ATgPawn* FindLocalPlayerPawn();
+	class ATgPawn* STATIC_FindLocalPlayerPawn();
 	void BlendToAnimTreeDeviceType();
 	void SetVar(int varId);
 	void ServerSetVar(int varId);
 	void STATIC_ApplyTeleportEffects(const struct FVector& StartLocation);
-	void OnTeleport(class USeqAct_Teleport* Action);
+	void STATIC_OnTeleport(class USeqAct_Teleport* Action);
 	float STATIC_GetJumpSpeedMultiplier();
 	float STATIC_GetJumpHeightMultiplier();
-	void FlashJumpEffects();
+	void STATIC_FlashJumpEffects();
 	bool DoJump(bool bUpdating, float JumpZSpeed);
-	bool CanDoubleJump();
-	bool DoDoubleJump(bool bUpdating);
+	bool STATIC_CanDoubleJump();
+	bool STATIC_DoDoubleJump(bool bUpdating);
 	void STATIC_ClientCancelJump();
 	void ServerCancelJump();
 	void TriggerJump();
@@ -21932,9 +21960,9 @@ public:
 	struct FVector STATIC_GetWeaponStartTraceLocationAlt(const struct FVector& Offset);
 	struct FVector STATIC_GetWeaponStartTraceLocation(class ATgDevice* Dev);
 	void STATIC_HideWeaponSwitchProgressBar();
-	void DisplayWeaponSwitchProgressBar(float Duration);
+	void STATIC_DisplayWeaponSwitchProgressBar(float Duration);
 	void STATIC_CheckUseDuration(float* fDuration);
-	void ClientSetTriggerMessage(class ATgTrigger_Use* newTrigger, int msgId);
+	void STATIC_ClientSetTriggerMessage(class ATgTrigger_Use* newTrigger, int msgId);
 	void SetTriggerToUse(class ATgTrigger_Use* Trigger, bool bEnable);
 	void STATIC_InterruptAllDevices(bool bForceInterrupt, bool bIgnorePotions);
 	bool STATIC_IsUseInterrupted();
@@ -21952,35 +21980,35 @@ public:
 	void STATIC_Disarm(bool bDisarmed);
 	void Silence(bool bSilenced);
 	void ResetStunnedBehavior(class ATgPlayerController* PC, class ATgAIController* aic);
-	void ClientSetStun();
+	void STATIC_ClientSetStun();
 	void StopFullBodyAnimation(float BlendOutTime);
 	void STATIC_OnAnimEnd(class UAnimNodeSequence* SeqNode, float PlayedTime, float ExcessTime);
 	void STATIC_OnAnimPlay(class UAnimNodeSequence* SeqNode);
-	void gibbedBy(class AActor* Other);
-	void DetachConeComponent(class UDrawConeComponent* ConeComponent);
+	void STATIC_gibbedBy(class AActor* Other);
+	void STATIC_DetachConeComponent(class UDrawConeComponent* ConeComponent);
 	class UDrawConeComponent* AttachConeComponent(class UDrawConeComponent* ConeComponent, float fRadius, float fAngle);
 	void PlayInitialSpawnFX();
-	void TriggerKismetPlayerInitialized();
+	void STATIC_TriggerKismetPlayerInitialized();
 	void STATIC_OnPawnInitialized();
-	void STATIC_NativeWaitingForPawnDone();
-	void STATIC_OnWaitingForPawnDone();
+	void NativeWaitingForPawnDone();
+	void OnWaitingForPawnDone();
 	void WaitForInventoryThenDoPostPawnSetup();
 	void STATIC_HandleClientPostPawnSetup();
 	void STATIC_PropertySet(int nPropertyId, float fPreviousValue, float fNewValue);
 	void STATIC_AttachDevice();
 	void STATIC_DetachDevice();
-	void UpdateHealingBeamEffects();
-	void STATIC_OnLifeAfterDeathTimerExpired();
+	void STATIC_UpdateHealingBeamEffects();
+	void OnLifeAfterDeathTimerExpired();
 	void BeginFadeOut();
-	void DelayedRagdollConstraintBreak();
-	bool InitRagdoll();
-	void STATIC_TurnOff();
+	void STATIC_DelayedRagdollConstraintBreak();
+	bool STATIC_InitRagdoll();
+	void TurnOff();
 	void STATIC_KilledBy(class APawn* EventInstigator);
 	void STATIC_OutsideWorldBounds();
 	void STATIC_FellOutOfWorld(class UClass* dmgType);
-	void FlushDebug();
-	void PlayHit(float Damage, class AController* InstigatedBy, const struct FVector& HitLocation, class UClass* dmgType, const struct FVector& Momentum, const struct FTraceHitInfo& HitInfo);
-	void STATIC_OnJumpPenaltyEnded();
+	void STATIC_FlushDebug();
+	void STATIC_PlayHit(float Damage, class AController* InstigatedBy, const struct FVector& HitLocation, class UClass* dmgType, const struct FVector& Momentum, const struct FTraceHitInfo& HitInfo);
+	void OnJumpPenaltyEnded();
 	void Landed(const struct FVector& HitNormal, class AActor* FloorActor);
 	bool STATIC_IsDying();
 	void ApplyPawnShadows(bool bOn);
@@ -21994,16 +22022,16 @@ public:
 	void STATIC_IsStillTimer();
 	void STATIC_BeginMoving();
 	void STATIC_ClientEnterCombat(class AActor* aInstigator, class AActor* ATarget, float fLength);
-	void UpdateBlindingDeployableState();
-	void UpdateObscuringDeployableState();
-	void EnableVolumeStealth();
-	void DisableVolumeStealth();
+	void STATIC_UpdateBlindingDeployableState();
+	void STATIC_UpdateObscuringDeployableState();
+	void STATIC_EnableVolumeStealth();
+	void STATIC_DisableVolumeStealth();
 	void STATIC_GrassOff();
 	void STATIC_GrassOn(class AActor* Vol);
-	void ClearStealthDamage();
-	void VolumeStealthOff();
-	void VolumeStealthOn(class AActor* Vol, bool bFull);
-	void VolumeStealthFadeComplete();
+	void STATIC_ClearStealthDamage();
+	void STATIC_VolumeStealthOff();
+	void STATIC_VolumeStealthOn(class AActor* Vol, bool bFull);
+	void STATIC_VolumeStealthFadeComplete();
 	void RemoveVisibilityVolume(class AActor* Vol);
 	void AddVisibilityVolume(class AActor* Vol);
 	void STATIC_FixUpVisibilityVolumes();
@@ -22019,7 +22047,7 @@ public:
 	void UpdateWeaponMesh(unsigned char EquipPoint, int DeviceID);
 	void TgPawnControllerSet();
 	void DisplayDebug(class AHUD* HUD, float* out_YL, float* out_YPos);
-	struct FName GetDefaultCameraMode(class APlayerController* RequestedBy);
+	struct FName STATIC_GetDefaultCameraMode(class APlayerController* RequestedBy);
 	void STATIC_LockTargetingDeviceToInHand(bool bEnable);
 	TEnumAsByte<ETG_EQUIP_POINT> STATIC_GetEquipSlotOfDevice(class ATgDevice* Dev);
 	void SetTargetingDevice(class ATgDevice* Dev, const struct FWeaponMeshSwapStrategy& SwapStrategy);
@@ -22032,11 +22060,11 @@ public:
 	void STATIC_LiveRespawn(bool bResetHealth, bool bResetDevices);
 	void STATIC_AutoMount(bool bShouldBeMounted, bool bToggleMount);
 	void SetMountOnRespawn();
-	void STATIC_OnLiveRespawn();
+	void OnLiveRespawn();
 	void Skydive(float fHeight);
-	void STATIC_OnRespawn();
+	void OnRespawn();
 	void STATIC_EquipBestInHandDevice(bool bForceFastClear);
-	void TimerDestroy();
+	void STATIC_TimerDestroy();
 	void StopAllAnimations();
 	bool VerifyChargeHit(const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FVector& TargetLocation, class AActor* Other);
 	bool STATIC_PredictChargeHit(const struct FVector& ChargeDir, const struct FVector& ChargeStart, float fChargeRange, const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FVector& TargetLocation, class AActor* Other);
@@ -22046,36 +22074,36 @@ public:
 	bool STATIC_IsGrabSourceValid(class ATgPawn* Target, bool bAllowTurrets, bool bAllowStealthed);
 	void STATIC_DecrementCannotBeGrabSource();
 	void STATIC_IncrementCannotBeGrabSource(bool bBreakGrabs);
-	void TickGrab(float DeltaSeconds);
+	void STATIC_TickGrab(float DeltaSeconds);
 	void STATIC_SetMovementPhysics();
-	bool STATIC_CanBeBaseForPawn(class APawn* aPawn);
+	bool CanBeBaseForPawn(class APawn* aPawn);
 	void STATIC_AddVelocity(const struct FVector& NewVelocity, const struct FVector& HitLocation, class UClass* DamageType, const struct FTraceHitInfo& HitInfo);
 	void BaselessGrabEnd(bool bInterrupted);
 	void BaselessGrabStart(bool bRemoveRoots);
-	void DefaultGrabEnd(bool bInterrupted);
-	void DefaultGrabStart(bool bRemoveRoots);
-	void EndGrab(TEnumAsByte<EGrabState> endingGrabState, bool bInterrupted);
+	void STATIC_DefaultGrabEnd(bool bInterrupted);
+	void STATIC_DefaultGrabStart(bool bRemoveRoots);
+	void STATIC_EndGrab(TEnumAsByte<EGrabState> endingGrabState, bool bInterrupted);
 	void BeginGrab(TEnumAsByte<EGrabState> newGrabState);
 	bool STATIC_IsBaselessGrab(TEnumAsByte<EGrabState> grabState);
 	bool ShouldGrabBreakStealth(TEnumAsByte<EGrabState> grabState);
-	void STATIC_OnGrabTargetDetach(TEnumAsByte<EGrabState> endingGrabState, class ATgPawn* Target, bool bInterrupted);
-	void STATIC_OnGrabTargetAttach(TEnumAsByte<EGrabState> newGrabState, class ATgPawn* Target);
+	void OnGrabTargetDetach(TEnumAsByte<EGrabState> endingGrabState, class ATgPawn* Target, bool bInterrupted);
+	void OnGrabTargetAttach(TEnumAsByte<EGrabState> newGrabState, class ATgPawn* Target);
 	void STATIC_ForceAllGrabTargetsDetach(TEnumAsByte<EGrabState> State);
 	void STATIC_EndPhysGrab(bool bInterrupted);
 	void StartPhysGrab(class ATgPawn* Source, float fTime, TEnumAsByte<EGrabState> grabState, const struct FName& grabSocket, const struct FVector& grabLocOffset, const struct FRotator& grabRotOffset);
-	void DefaultTweenEnd(bool bInterrupted);
-	void EndTween(TEnumAsByte<ETweenState> endingTweenState, bool bInterrupted);
+	void STATIC_DefaultTweenEnd(bool bInterrupted);
+	void STATIC_EndTween(TEnumAsByte<ETweenState> endingTweenState, bool bInterrupted);
 	void STATIC_PlayHitReaction(int BitPackedHitReaction);
 	void STATIC_SendHitReaction(unsigned char HitDirection);
-	void DefaultTweenStart(bool bCanBeHit, bool bRemoveRoots, bool bCollideWithWorld);
+	void STATIC_DefaultTweenStart(bool bCanBeHit, bool bRemoveRoots, bool bCollideWithWorld);
 	void BeginTween(TEnumAsByte<ETweenState> newTweenState, bool bCollideWithWorld);
 	void STATIC_EndPhysTween(bool bInterrupted);
 	void UpdatePhysTweenTargetLocation(const struct FVector& NewTarget, float updatedTime);
 	void StartPhysTween(const struct FVector& Target, float fTime, TEnumAsByte<ETweenState> tweenState, bool bCollideWithWorld, bool bRotateTowardsTarget);
 	struct FVector STATIC_GetPhysTweenTargetLocation();
 	void RemoveAllEffectsOnDeath();
-	void CleanUpDyingEffects();
-	void STATIC_OnSwapToDestroyedMesh();
+	void STATIC_CleanUpDyingEffects();
+	void OnSwapToDestroyedMesh();
 	void AttachDeathAnimationFX(int SpecialFXId, const struct FName& SocketName);
 	struct FName STATIC_GetDeathAnimName();
 	void RagdollPawn();
@@ -22083,22 +22111,22 @@ public:
 	void STATIC_PlayDeathAnimation();
 	bool AllowRagdoll();
 	void PlayDyingEffects();
-	void FindNewTargetTimer();
-	void PlayDying(class UClass* dmgType, const struct FVector& HitLoc);
+	void STATIC_FindNewTargetTimer();
+	void STATIC_PlayDying(class UClass* dmgType, const struct FVector& HitLoc);
 	bool STATIC_IsMonster();
 	bool STATIC_IsFiringMelee();
 	void STATIC_ClientTriggerGlobalEventClass(class UClass* InEventClass, class AActor* InInstigator, int ActivateIndex);
 	void PlayWaterFxIndependant(const struct FVector& HitLocation, const struct FVector& HitNormal, int fxId, class UTgSpecialFx** Fx);
 	void PlayWaterEnterExitFx(bool bPlayEnter);
-	bool ComputeWaterDepth(bool isEnterExit, struct FVector* HitLocation, struct FVector* HitNormal, int* isShallow);
-	void ExitedWaterFXVolume();
-	void STATIC_ManageWaterWadeFX();
-	void EnteredWaterFXVolume();
+	bool STATIC_ComputeWaterDepth(bool isEnterExit, struct FVector* HitLocation, struct FVector* HitNormal, int* isShallow);
+	void STATIC_ExitedWaterFXVolume();
+	void ManageWaterWadeFX();
+	void STATIC_EnteredWaterFXVolume();
 	bool STATIC_IsFallingTypePhysics();
 	struct FName STATIC_GetFootStepOverride();
 	void STATIC_PlayFootStepSound(int FootDown, TEnumAsByte<EFootstepTypes> FootStepType);
 	void STATIC_PlayLandingSound(const struct FVector& LandingVelocity);
-	void CalculateMaterialSwitch(const struct FVector& TraceStart, const struct FVector& TraceEnd, struct FVector* HitLocation);
+	void STATIC_CalculateMaterialSwitch(const struct FVector& TraceStart, const struct FVector& TraceEnd, struct FVector* HitLocation);
 	void StopSpecialJumpFx();
 	void STATIC_PlaySpecialJumpFx();
 	void StopJumpFx();
@@ -22106,12 +22134,12 @@ public:
 	void STATIC_PlayTeleportEffects(const struct FVector& OriginLocation);
 	void STATIC_PlayPreTeleportEffects();
 	void STATIC_PlayJumpSound();
-	struct FString GetDebugName();
+	struct FString STATIC_GetDebugName();
 	void STATIC_PostureTransitionEnded(TEnumAsByte<ETG_POSTURE> PostureThatEnded);
 	void FaceRotation(const struct FRotator& NewRotation, float DeltaTime);
 	void STATIC_InterceptInputDeltaRotation(struct FRotator* rDeltaRotation);
 	void STATIC_GetCameraZoomOverride(float* fZoom, float* fZoomDuration);
-	bool STATIC_CalcCamera(float fDeltaTime, struct FVector* out_CamLoc, struct FRotator* out_CamRot, float* out_FOV);
+	bool CalcCamera(float fDeltaTime, struct FVector* out_CamLoc, struct FRotator* out_CamRot, float* out_FOV);
 	void STATIC_EndViewTarget(class APlayerController* PC);
 	void STATIC_BecomeViewTarget(class APlayerController* PC);
 	float STATIC_GetPlayerHealthForRender();
@@ -22119,8 +22147,8 @@ public:
 	struct FString STATIC_GetPlayerNameForRender();
 	struct FColor STATIC_GetTargetBoxColor(class ATgPawn* LocalPlayerPawn);
 	void STATIC_OnGroupChange();
-	void NotifyLocalPlayerTeamReceived();
-	void NotifyTeamChanged();
+	void STATIC_NotifyLocalPlayerTeamReceived();
+	void STATIC_NotifyTeamChanged();
 	int STATIC_GetColumnBasedOnIndex(int nIndex);
 	int STATIC_GetRowBasedOnIndex(int nIndex);
 	int STATIC_GetY2CoordBasedOnIndex(int nIndex);
@@ -22128,13 +22156,13 @@ public:
 	int STATIC_GetY1CoordBasedOnIndex(int nIndex);
 	int STATIC_GetX1CoordBasedOnIndex(int nIndex);
 	class ATgPawn* STATIC_GetLocalPlayerPawn();
-	void DamageTakenRTPCReset();
-	void DamageTakenMaxReset();
+	void STATIC_DamageTakenRTPCReset();
+	void STATIC_DamageTakenMaxReset();
 	bool STATIC_LoadPlayerIcons();
 	void STATIC_DrawMultiLineText(class UCanvas* Canvas, const struct FString& Text, int X, int Y, int LineHeight);
 	void STATIC_ModifyHealthProp(int nDamage);
 	void SetHealth(int NewHealth);
-	void STATIC_AdjustDamage(class AController* InstigatedBy, const struct FVector& HitLocation, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser, int* InDamage, struct FVector* Momentum);
+	void AdjustDamage(class AController* InstigatedBy, const struct FVector& HitLocation, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser, int* InDamage, struct FVector* Momentum);
 	void STATIC_EndPulseStealth();
 	void PulseStealth();
 	void TakeHealing(float fHealAmount);
@@ -22142,177 +22170,177 @@ public:
 	int TakeShieldDamage(int fDamage, class UClass* DamageType);
 	void STATIC_TakeDamage(int Damage, class AController* InstigatedBy, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void STATIC_DrawAIDebug(class UCanvas* Canvas, const struct FVector& ScreenLoc);
-	void NotifyTakeHit(class AController* InstigatedBy, const struct FVector& HitLocation, int Damage, class UClass* DamageType, const struct FVector& Momentum, class AActor* DamageCauser);
+	void STATIC_NotifyTakeHit(class AController* InstigatedBy, const struct FVector& HitLocation, int Damage, class UClass* DamageType, const struct FVector& Momentum, class AActor* DamageCauser);
 	void STATIC_SendNotifyTakeHit(class AController* InstigatedBy, const struct FVector& HitLocation, int Damage, class UClass* DamageType, const struct FVector& Momentum);
 	void PlayTakeHit(const struct FVector& Direction, int Damage, class UClass* dmgType, struct FExtraDamageInfo* ExtraInfo);
 	void PlayTakeHitEmote(int Damage, TEnumAsByte<EHitAudioCue> eCue);
 	void STATIC_PlayHitReactionMaterialPulse();
-	void EndHeal3P();
+	void STATIC_EndHeal3P();
 	void STATIC_PlayHeal3P();
 	void RememberPlayerAttackerExpired();
 	void StopPlayFiring();
-	void STATIC_ClearFlashLocation(class AWeapon* Who);
-	void STATIC_ClearFlashCount(class AWeapon* Who);
-	void IncrementFlashCount(class AWeapon* Who, unsigned char FireModeNum);
+	void ClearFlashLocation(class AWeapon* Who);
+	void ClearFlashCount(class AWeapon* Who);
+	void STATIC_IncrementFlashCount(class AWeapon* Who, unsigned char FireModeNum);
 	void STATIC_PawnGeneric3Flashed();
 	void STATIC_PawnGeneric2Flashed();
 	void STATIC_PawnGeneric1Flashed();
-	void ForceUpdate1PMeshes();
+	void STATIC_ForceUpdate1PMeshes();
 	bool STATIC_CanApplyEffects();
-	void STATIC_OnDeviceFormInterruptFire(int nEquipSlot);
+	void OnDeviceFormInterruptFire(int nEquipSlot);
 	bool ShouldStopWeaponMeshFireEffectsOnDeviceFormStopFire(int nEquipSlot);
-	void STATIC_OnDeviceFormStopFire(int nEquipSlot, bool bForceBlendOutOnAnimEnd);
+	void OnDeviceFormStopFire(int nEquipSlot, bool bForceBlendOutOnAnimEnd);
 	void PostRecallTimerToKillParticles();
-	void STATIC_OnDeviceFormHit(int nEquipSlot, class AActor* Target, float DamageAmount, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FExtraDamageInfo* ExtraInfo);
-	void STATIC_OnDeviceFormFire(int nEquipSlot, float fRefireTime, int nFireMode);
+	void OnDeviceFormHit(int nEquipSlot, class AActor* Target, float DamageAmount, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FExtraDamageInfo* ExtraInfo);
+	void OnDeviceFormFire(int nEquipSlot, float fRefireTime, int nFireMode);
 	void AddVisualRecoil(int nEquipSlot, float fFireDuration);
 	void STATIC_OnDeviceFormStartFire(int nEquipSlot, float FireDuration, int nFireMode, int nAmmoRemaining, bool bForceBlendOutOnAnimEnd);
-	void STATIC_OnDeviceFormBuildup(int nEquipSlot, float fBuildupTime);
+	void OnDeviceFormBuildup(int nEquipSlot, float fBuildupTime);
 	bool STATIC_HasLeftItemShop();
 	bool STATIC_IsInItemShop();
 	void SyncDeviceTimers(class ATgDevice* SourceDevice, class ATgDevice* DestinationDevice);
 	void SwapEquippedDevices(class ATgDevice* newDev, int nEqpSlot);
 	void STATIC_RestartAllDevices();
-	void ClientStopFiringAllDevices(bool bClearEquipEffectFlag, bool bResetCooldowns, bool bKeepFiringMount, bool bServerDeviceLockout);
+	void STATIC_ClientStopFiringAllDevices(bool bClearEquipEffectFlag, bool bResetCooldowns, bool bKeepFiringMount, bool bServerDeviceLockout);
 	void PutAllCardsOnCooldown();
 	void StopFiringAllDevices(bool bClearEquipEffectFlag, bool bResetCooldowns, bool bKeepFiringMount, bool bServerDeviceLockout);
 	void StopAction(class ATgDevice* Dev, bool bLeftMouse);
 	bool StartAction(class ATgDevice* Dev, bool bLeftMouse, bool bUpdateTimeStamp, TEnumAsByte<EDeviceFailType>* failType);
 	class ATgDevice* STATIC_GetChickenDevice(bool bLeftMouse);
 	void STATIC_AnimSwapDevice();
-	void UIH();
+	void STATIC_UIH();
 	void UpdateInHand(bool bForceFastClear);
-	void STATIC_OnDeviceFormExitedTargetingMode(class UTgDeviceForm* form);
-	void STATIC_OnDeviceFormEnteredTargetingMode(class UTgDeviceForm* form);
-	void EquipPendingDeviceTimer(bool SkipPlayAnim);
+	void OnDeviceFormExitedTargetingMode(class UTgDeviceForm* form);
+	void OnDeviceFormEnteredTargetingMode(class UTgDeviceForm* form);
+	void STATIC_EquipPendingDeviceTimer(bool SkipPlayAnim);
 	void ShowAnimSets();
 	void STATIC_PutInHandDeviceAwayFast(class UTgDeviceForm* form);
-	bool CanChangeInHandDeviceOrMode();
+	bool STATIC_CanChangeInHandDeviceOrMode();
 	void STATIC_KillAllOwnedPets(bool bGameModeSource);
 	void Destroyed();
 	bool Died(class AController* Killer, class UClass* dmgType, const struct FVector& HitLocation);
-	bool CanBeRevivedBy(class ATgPawn* OtherPawn);
+	bool STATIC_CanBeRevivedBy(class ATgPawn* OtherPawn);
 	void PolymorphIntoRoyaleChicken(class ATgPawn* pKiller);
 	void STATIC_ReviveSelf();
-	void ClientBeginSelfRevive();
+	void STATIC_ClientBeginSelfRevive();
 	void BeginSelfRevive();
 	bool ShouldScoreDown();
 	bool ShouldScoreKill();
 	void UpdateDeathReason();
-	void STATIC_TakeFallingDamage();
-	void STATIC_OnJoinTeam(class UTgSeqAct_JoinTeam* Action);
+	void TakeFallingDamage();
+	void OnJoinTeam(class UTgSeqAct_JoinTeam* Action);
 	void STATIC_DespawnOnReconnect();
 	void STATIC_Despawn();
 	void STATIC_Suicide();
 	void SetDeathZoomInfo(class ATgPawn* theKiller, class ATgRepInfo_Player* theKillerPRI, int nHealthPct, int nDeviceId, class ATgRepInfo_Player* OwnerPRI);
 	void STATIC_PreRender(class UCanvas* Canvas);
 	bool STATIC_IsCustomCharacter();
-	void STATIC_MissionTimeUpdate();
+	void MissionTimeUpdate();
 	bool STATIC_PostPawnSetup();
-	void STATIC_QueueDeviceFormChanged();
+	void QueueDeviceFormChanged();
 	void CrushedBy(class APawn* OtherPawn);
 	void SetupPIEMesh(TEnumAsByte<EPIEPawnMeshTypes> PIEPawnType, int BotId);
-	void ClearSpawnFxTimer();
+	void STATIC_ClearSpawnFxTimer();
 	void PostBeginPlay();
 	void SetLocalPlayer();
 	void PreBeginPlay();
 	TEnumAsByte<EAsyncLoadPriority> STATIC_GetDefaultAsyncLoadPriority();
 	void SetAsyncLoadPriority(TEnumAsByte<EAsyncLoadPriority> Priority);
 	void AllManifestsLoaded();
-	void STATIC_ResetMountAnimNodes();
-	void ToggleSkelControlLocks(bool bOn);
-	void ClearMultiMeshAnimNodeReferences();
-	void CacheSkelControlLocks(class UTgSkeletalMeshComponent* smcomp);
-	void CacheMultiMeshAnimNodeReferences(class UTgSkeletalMeshComponent* smcomp);
-	void CacheMainMeshReferences(class UTgSkeletalMeshComponent* smcomp);
+	void ResetMountAnimNodes();
+	void STATIC_ToggleSkelControlLocks(bool bOn);
+	void STATIC_ClearMultiMeshAnimNodeReferences();
+	void STATIC_CacheSkelControlLocks(class UTgSkeletalMeshComponent* smcomp);
+	void STATIC_CacheMultiMeshAnimNodeReferences(class UTgSkeletalMeshComponent* smcomp);
+	void STATIC_CacheMainMeshReferences(class UTgSkeletalMeshComponent* smcomp);
 	void STATIC_PostInitAnimTree(class USkeletalMeshComponent* SkelComp);
-	void STATIC_OnDespawnBots(class UTgSeqAct_DespawnBots* inAction);
-	void STATIC_OnKillpawns(class UTgSeqAct_Killpawns* Action);
+	void OnDespawnBots(class UTgSeqAct_DespawnBots* inAction);
+	void OnKillpawns(class UTgSeqAct_Killpawns* Action);
 	void Falling();
 	void STATIC_CollisionChanged();
-	void STATIC_OnSetCrowdControlImmune(class UTgSeqAct_SetCrowdControlImmune* inAction);
-	void STATIC_OnUIAlert(class UTgSeqAct_UIAlert* Action);
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
-	void STATIC_OnGetTaskForceNumber(class UTgSeqAct_GetTaskForceNumber* Action);
-	void STATIC_OnGetTeamIndex(class UTgSeqAct_GetTeamIndex* Action);
-	void STATIC_UnPossessed();
-	void PossessedBy(class AController* C, bool bVehicleTransition);
+	void OnSetCrowdControlImmune(class UTgSeqAct_SetCrowdControlImmune* inAction);
+	void OnUIAlert(class UTgSeqAct_UIAlert* Action);
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnGetTaskForceNumber(class UTgSeqAct_GetTaskForceNumber* Action);
+	void OnGetTeamIndex(class UTgSeqAct_GetTeamIndex* Action);
+	void UnPossessed();
+	void STATIC_PossessedBy(class AController* C, bool bVehicleTransition);
 	void STATIC_GetAimAssistBounds(struct FVector* ObserverLocation, float* Width, float* Height, struct FVector* Center);
 	bool STATIC_PopPosture(int PostureID);
 	int STATIC_PushPosture(TEnumAsByte<ETG_POSTURE> Posture);
-	void STATIC_SetTalent(int nIndex, int nDeviceId);
+	void SetTalent(int nIndex, int nDeviceId);
 	void STATIC_ToggleShieldMesh(bool bShow);
 	void ApplyTalent(int nValue);
-	void STATIC_ReapplyTalents();
-	void EnableStatEffect(int nIndex);
-	void DisableStatEffect(int nIndex, float fDuration);
-	void STATIC_ReapplyStatEffects();
+	void ReapplyTalents();
+	void STATIC_EnableStatEffect(int nIndex);
+	void STATIC_DisableStatEffect(int nIndex, float fDuration);
+	void ReapplyStatEffects();
 	bool ApplyStatEffect(int nDeviceId);
-	bool CreateSpecialFxForPawn(int nSpecialFxId, const struct FName& nmSocket, class UTgSpecialFx** pFxStorage);
+	bool STATIC_CreateSpecialFxForPawn(int nSpecialFxId, const struct FName& nmSocket, class UTgSpecialFx** pFxStorage);
 	bool STATIC_IsSimulatedEmote(TEnumAsByte<EEmote> Emote);
-	void EmoteForgeItem(int nEventIndex);
-	void ForceUnCrouch(int bClientSimulation);
+	void STATIC_EmoteForgeItem(int nEventIndex);
+	void STATIC_ForceUnCrouch(int bClientSimulation);
 	void STATIC_LoadDefaultWeaponAnimSet();
 	void SetSkydiveAnimState(TEnumAsByte<ESkydivingState> eState);
-	void STATIC_OnSkydiveAnimEnd();
+	void OnSkydiveAnimEnd();
 	void STATIC_HideShowArmor(bool bShow);
-	void STATIC_OnDeviceFormCreated(class UTgDeviceForm* pDeviceForm);
+	void OnDeviceFormCreated(class UTgDeviceForm* pDeviceForm);
 	unsigned char STATIC_GetSwappedEquipSlots(unsigned char eEquipSlot);
-	void STATIC_NotifyWeaponAnimSetRemoved();
+	void NotifyWeaponAnimSetRemoved();
 	void SimulatePickup(class ATgDeployable* pPickupDeploy, bool bSecondary);
 	void STATIC_InterruptADSDevices(class ATgDevice* pDevice);
-	bool CanSprint();
-	bool CanCrouch();
-	void STATIC_OnMarkedTarget(class ATgPawn* pTarget, int nMarkCountChange);
+	bool STATIC_CanSprint();
+	bool STATIC_CanCrouch();
+	void OnMarkedTarget(class ATgPawn* pTarget, int nMarkCountChange);
 	void RemovePawnDiedFXMaterials();
 	void PlayPawnDiedFX();
 	bool ShouldSwapAltAndInhandInputs();
-	void STATIC_OnDismount();
-	void STATIC_OnLeaveItemShop();
-	void STATIC_OnEnterItemShop();
+	void OnDismount();
+	void OnLeaveItemShop();
+	void OnEnterItemShop();
 	void BeginBigHeadModeRTPC();
-	void EndLocalDeathRTPC();
+	void STATIC_EndLocalDeathRTPC();
 	void BeginLocalDeathRTPC();
-	void EndLocalKillRTPC();
+	void STATIC_EndLocalKillRTPC();
 	void BeginLocalKillRTPC();
-	void FxActivateIndependant(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot, bool bUseSocketOverride, bool bBody, bool bHead, bool bWeapon1p, bool bWeapon3p);
-	void FxDeactivateGroupWeapon3P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	class UObject* FxReactivateGroupWeapon3P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	class UObject* FxActivateGroupWeapon3P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxDeactivateGroupWeapon1P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	class UObject* FxReactivateGroupWeapon1P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	class UObject* FxActivateGroupWeapon1P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxDeactivateGroupWeapon(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	void FxReactivateGroupWeapon(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxActivateGroupWeapon(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxDeactivateGroupHead(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	class UObject* FxReactivateGroupHead(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	class UObject* FxActivateGroupHead(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxDeactivateGroupBody(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	class UObject* FxReactivateGroupBody(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	class UObject* FxActivateGroupBody(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxDeactivateGroupSelf(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	void FxReactivateGroupSelf(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxActivateGroupSelf(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
-	void FxDeactivateGroupAllMesh(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bSkipWeaponMesh);
-	void FxActivateGroupAllMesh(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm, bool bSkipWeaponMesh);
-	void DropInventory();
-	void DropHealthNuggetTeamOnly(int nTaskForce, const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
-	void DropHealthNugget(const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
-	void ToggleSilhouetteVisibilityForObserverSpectator(bool bVisible);
-	void ToggleSilhouetteVisibility(bool bVisible, bool bDead);
+	void STATIC_FxActivateIndependant(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot, bool bUseSocketOverride, bool bBody, bool bHead, bool bWeapon1p, bool bWeapon3p);
+	void STATIC_FxDeactivateGroupWeapon3P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxReactivateGroupWeapon3P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	class UObject* STATIC_FxActivateGroupWeapon3P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxDeactivateGroupWeapon1P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxReactivateGroupWeapon1P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	class UObject* STATIC_FxActivateGroupWeapon1P(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxDeactivateGroupWeapon(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxReactivateGroupWeapon(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxActivateGroupWeapon(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxDeactivateGroupHead(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxReactivateGroupHead(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	class UObject* STATIC_FxActivateGroupHead(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxDeactivateGroupBody(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxReactivateGroupBody(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	class UObject* STATIC_FxActivateGroupBody(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxDeactivateGroupSelf(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxReactivateGroupSelf(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxActivateGroupSelf(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm);
+	void STATIC_FxDeactivateGroupAllMesh(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bSkipWeaponMesh);
+	void STATIC_FxActivateGroupAllMesh(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm, bool bSkipWeaponMesh);
+	void STATIC_DropInventory();
+	void STATIC_DropHealthNuggetTeamOnly(int nTaskForce, const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
+	void STATIC_DropHealthNugget(const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
+	void STATIC_ToggleSilhouetteVisibilityForObserverSpectator(bool bVisible);
+	void STATIC_ToggleSilhouetteVisibility(bool bVisible, bool bDead);
 	void SetSilhouetteState(class UMeshComponent* ParentMesh, TEnumAsByte<EOverlayState> NewState);
 	bool RemoveSilhouetteInfo(class UMeshComponent* ParentMesh);
-	int FindSilhouetteInfo(class UMeshComponent* ParentMesh);
+	int STATIC_FindSilhouetteInfo(class UMeshComponent* ParentMesh);
 	void ReinitializeSilhouettes();
 	int STATIC_InitializeSilhouetteComponent(class UMeshComponent* InMesh);
-	void ClearReplacementMaterial();
+	void STATIC_ClearReplacementMaterial();
 	void ReplaceMaterial(class UMaterialInstanceConstant* materialToUse, float ParamValue);
 	bool ShouldForceHideOverlaysWeapon();
 	bool ShouldForceHideOverlaysBody();
-	void ToggleOverlay1P3P(bool bActivate1P);
-	void UpdateOverlayVisibilityWeapon();
-	void UpdateOverlayVisibilityBody();
+	void STATIC_ToggleOverlay1P3P(bool bActivate1P);
+	void STATIC_UpdateOverlayVisibilityWeapon();
+	void STATIC_UpdateOverlayVisibilityBody();
 	void SwapOverlayMICsWeapon(TEnumAsByte<EOverlayMICType> Type);
 	void SwapOverlayMICsBody(TEnumAsByte<EOverlayMICType> Type);
 	bool RemoveOverlayInfo(class USkeletalMeshComponent* ParentMesh);
@@ -22327,81 +22355,81 @@ public:
 	int STATIC_InitializeOverlayIndexWeapon(class USkeletalMeshComponent* ParentMesh, bool bIs1POverlay);
 	int STATIC_InitializeOverlayIndexBody(class USkeletalMeshComponent* ParentMesh, bool bIs1POverlay);
 	int STATIC_InitializeOverlayMeshComponent(class USkeletalMeshComponent* InMesh, bool bIs1POverlay);
-	void CacheHitReactionSkelControls();
+	void STATIC_CacheHitReactionSkelControls();
 	void PostPawnSetupServer();
-	void STATIC_OnMeshSwapped();
+	void OnMeshSwapped();
 	void SwapToLiveMesh();
 	void SwapToDestroyedMesh();
 	void AddBodyMesh();
 	void RetouchAllVolumes();
-	void EffectGroupOnSetActive(bool bActive, bool bRemoving, class UTgEffectGroup* effectGroup);
-	void DeployableOnRemoveEffect(class ATgDeployable* dep, class AActor* HitActor);
-	void DeployableOnApplyEffect(class ATgDeployable* dep, class AActor* HitActor);
-	void DeployableOnDestroyed(class ATgDeployable* dep);
-	void DeployableOnDeployed(class ATgDeployable* dep);
-	class UClass* DeviceOnOverrideDamageType(class ATgDevice* Dev, class UTgEffectGroup* effectGroup);
-	void DeviceOnSetFireMode(class ATgDevice* Dev);
-	bool DeviceHasEnoughPowerPool(class ATgDevice* Dev, unsigned char FireModeNum);
-	void DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
-	void DeviceAdjustShield(class ATgDevice* Dev, float* fShield);
-	void DeviceAdjustHeal(struct FAdjustHealParams* Params, float* fHeal);
-	void DeviceAdjustRadius(class ATgDevice* Dev, float* fRadius);
-	void DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
-	void DeviceOnKilled(class ATgDevice* Dev, float fDamage, struct FImpactInfo* Impact);
-	void DeviceOnHealed(struct FOnHealedParams* Params);
-	void DeviceOnDamaged(struct FOnDamagedParams* Params);
-	void DeviceOnHitSpecial(class ATgDevice* Dev, int nHitSpecialSituationalType, struct FImpactInfo* Impact);
+	void STATIC_EffectGroupOnSetActive(bool bActive, bool bRemoving, class UTgEffectGroup* effectGroup);
+	void STATIC_DeployableOnRemoveEffect(class ATgDeployable* dep, class AActor* HitActor);
+	void STATIC_DeployableOnApplyEffect(class ATgDeployable* dep, class AActor* HitActor);
+	void STATIC_DeployableOnDestroyed(class ATgDeployable* dep);
+	void STATIC_DeployableOnDeployed(class ATgDeployable* dep);
+	class UClass* STATIC_DeviceOnOverrideDamageType(class ATgDevice* Dev, class UTgEffectGroup* effectGroup);
+	void STATIC_DeviceOnSetFireMode(class ATgDevice* Dev);
+	bool STATIC_DeviceHasEnoughPowerPool(class ATgDevice* Dev, unsigned char FireModeNum);
+	void STATIC_DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
+	void STATIC_DeviceAdjustShield(class ATgDevice* Dev, float* fShield);
+	void STATIC_DeviceAdjustHeal(struct FAdjustHealParams* Params, float* fHeal);
+	void STATIC_DeviceAdjustRadius(class ATgDevice* Dev, float* fRadius);
+	void STATIC_DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
+	void STATIC_DeviceOnKilled(class ATgDevice* Dev, float fDamage, struct FImpactInfo* Impact);
+	void STATIC_DeviceOnHealed(struct FOnHealedParams* Params);
+	void STATIC_DeviceOnDamaged(struct FOnDamagedParams* Params);
+	void STATIC_DeviceOnHitSpecial(class ATgDevice* Dev, int nHitSpecialSituationalType, struct FImpactInfo* Impact);
 	void STATIC_DeviceOnHit(class ATgDevice* Dev, struct FImpactInfo* Impact);
-	void DeviceOnPostHit(class ATgDevice* Dev);
-	void DeviceOnStopCooldown(class ATgDevice* Dev);
-	void DeviceOnTickCooldown(class ATgDevice* Dev, class UTgTimerManager* pTimerManager);
-	void DeviceOnStartCooldown(class ATgDevice* Dev, float* fCooldownTime);
-	void DeviceInitialize(class ATgDevice* Dev);
-	void DeviceOnGetPostHit(class ATgDevice* Dev, float* fDelay);
+	void STATIC_DeviceOnPostHit(class ATgDevice* Dev);
+	void STATIC_DeviceOnStopCooldown(class ATgDevice* Dev);
+	void STATIC_DeviceOnTickCooldown(class ATgDevice* Dev, class UTgTimerManager* pTimerManager);
+	void STATIC_DeviceOnStartCooldown(class ATgDevice* Dev, float* fCooldownTime);
+	void STATIC_DeviceInitialize(class ATgDevice* Dev);
+	void STATIC_DeviceOnGetPostHit(class ATgDevice* Dev, float* fDelay);
 	void STATIC_DeviceOnStopFire(class ATgDevice* Dev, bool WasInterrupted);
 	void STATIC_DeviceOnStartFire(class ATgDevice* Dev);
 	void STATIC_ProjectileOnFire(class ATgProjectile* Proj);
 	void STATIC_DeviceOnFire(class ATgDevice* Dev);
 	void STATIC_DeviceOnStopBuildup(class ATgDevice* Dev, bool WasInterrupted);
 	void STATIC_DeviceOnStartBuildup(class ATgDevice* Dev);
-	void DeviceOnHeld(class ATgDevice* pDevPrevious, class ATgDevice* pDevNext);
-	void STATIC_PawnOnGetModifiedADSSpeed(float* fSpeed);
-	void STATIC_PawnOnGetADSTime(float* fZoomInTime);
-	void STATIC_PawnOnTeleported(class ATgSpawnTeleporterEntrance* From, class ATgSpawnTeleporterExit* To, const struct FVector& OriginalPawnLocation);
-	void STATIC_PawnOnPetDied(class ATgPawn* pet, class ATgPawn* PetOwner);
-	void STATIC_PawnOnPetAdded(class ATgPawn* pet, class ATgPawn* PetOwner);
-	void STATIC_PawnOnDamageInterruptedStealth();
-	void STATIC_PawnOnLandAfterLeap();
-	void STATIC_PawnOnLandAfterJump();
-	void STATIC_PawnOnLand();
-	void STATIC_PawnOnPetSuccessfulHit(int nFxID);
-	void STATIC_PawnOnEndSprint();
-	void STATIC_PawnOnStartSprint();
-	bool STATIC_PawnCanDisplayImmuneMessage();
-	void STATIC_PawnOnModifyEffectLifeTime(class UTgEffectGroup* eg, float* fLifetime);
-	void STATIC_PawnOnTaskforceAdd(class ATgRepInfo_TaskForce* tf);
-	void STATIC_PawnOnTaskforceRemove(class ATgRepInfo_TaskForce* tf);
-	void STATIC_PawnOnGetForgeDevice(int nBotId, int* nDeviceId, int* nIndex, TArray<class UTgCached_LootItem*>* pItems, TArray<int>* pExcludedList);
-	void STATIC_PawnOnGetForgeDuration(int* nDuration, int* nIndex);
-	void STATIC_PawnOnGetForgeCost(int* nShards, int* nIndex);
-	void STATIC_PawnOnGetDisenchantValue(int* nShards);
-	void STATIC_PawnOnCurrency(class AActor* Source, int* nCurrency);
-	void STATIC_PawnOnXp(class AActor* Source, int* nXp);
-	void STATIC_PawnOnEndStill();
-	void STATIC_PawnOnBecomeStill();
-	void STATIC_PawnOnExitCombat();
-	void STATIC_PawnOnEnterCombat();
-	void STATIC_PawnOnRevive();
-	void STATIC_PawnOnDied(class AController* pKilller);
-	void STATIC_PawnOnAssistedDown(class AActor* pVictim);
-	void STATIC_PawnOnDowned(class AActor* pKiller, class AActor* pVictim);
-	void STATIC_PawnOnAssisted(class AActor* pVictim);
-	void STATIC_PawnOnChickenRevived(class AActor* pChicken, float* nHealth);
-	void STATIC_PawnOnKilled(class AActor* pKiller, class AActor* pVictim);
-	void STATIC_PawnOnHealed(struct FOnHealedParams* Params);
-	void STATIC_PawnOnDamageMitigation(class ATgPawn* attacker, class UTgEffectGroup* eg, int nPropertyId, float* fDamage);
-	void STATIC_PawnOnPreDamageMitigation(class ATgPawn* attacker, class UTgEffectGroup* eg, int nPropertyId, float* fDamage);
-	void STATIC_PawnOnDamaged(struct FOnDamagedParams* Params);
+	void STATIC_DeviceOnHeld(class ATgDevice* pDevPrevious, class ATgDevice* pDevNext);
+	void PawnOnGetModifiedADSSpeed(float* fSpeed);
+	void PawnOnGetADSTime(float* fZoomInTime);
+	void PawnOnTeleported(class ATgSpawnTeleporterEntrance* From, class ATgSpawnTeleporterExit* To, const struct FVector& OriginalPawnLocation);
+	void PawnOnPetDied(class ATgPawn* pet, class ATgPawn* PetOwner);
+	void PawnOnPetAdded(class ATgPawn* pet, class ATgPawn* PetOwner);
+	void PawnOnDamageInterruptedStealth();
+	void PawnOnLandAfterLeap();
+	void PawnOnLandAfterJump();
+	void PawnOnLand();
+	void PawnOnPetSuccessfulHit(int nFxID);
+	void PawnOnEndSprint();
+	void PawnOnStartSprint();
+	bool PawnCanDisplayImmuneMessage();
+	void PawnOnModifyEffectLifeTime(class UTgEffectGroup* eg, float* fLifetime);
+	void PawnOnTaskforceAdd(class ATgRepInfo_TaskForce* tf);
+	void PawnOnTaskforceRemove(class ATgRepInfo_TaskForce* tf);
+	void PawnOnGetForgeDevice(int nBotId, int* nDeviceId, int* nIndex, TArray<class UTgCached_LootItem*>* pItems, TArray<int>* pExcludedList);
+	void PawnOnGetForgeDuration(int* nDuration, int* nIndex);
+	void PawnOnGetForgeCost(int* nShards, int* nIndex);
+	void PawnOnGetDisenchantValue(int* nShards);
+	void PawnOnCurrency(class AActor* Source, int* nCurrency);
+	void PawnOnXp(class AActor* Source, int* nXp);
+	void PawnOnEndStill();
+	void PawnOnBecomeStill();
+	void PawnOnExitCombat();
+	void PawnOnEnterCombat();
+	void PawnOnRevive();
+	void PawnOnDied(class AController* pKilller);
+	void PawnOnAssistedDown(class AActor* pVictim);
+	void PawnOnDowned(class AActor* pKiller, class AActor* pVictim);
+	void PawnOnAssisted(class AActor* pVictim);
+	void PawnOnChickenRevived(class AActor* pChicken, float* nHealth);
+	void PawnOnKilled(class AActor* pKiller, class AActor* pVictim);
+	void PawnOnHealed(struct FOnHealedParams* Params);
+	void PawnOnDamageMitigation(class ATgPawn* attacker, class UTgEffectGroup* eg, int nPropertyId, float* fDamage);
+	void PawnOnPreDamageMitigation(class ATgPawn* attacker, class UTgEffectGroup* eg, int nPropertyId, float* fDamage);
+	void PawnOnDamaged(struct FOnDamagedParams* Params);
 	void SetSpawnEnergy();
 	void SetSpawnMana();
 	void SetSpawnHealth();
@@ -22442,32 +22470,32 @@ public:
 	float STATIC_GetUtilityPower();
 	float STATIC_GetMagicalPower();
 	float STATIC_GetPhysicalPower();
-	void CalculateMountGroundAlignment();
-	void STATIC_ResetMountGroundAlignment(bool bResetPrevious);
+	void STATIC_CalculateMountGroundAlignment();
+	void ResetMountGroundAlignment(bool bResetPrevious);
 	void STATIC_UpdateMountGroundAlignment(float DeltaSeconds);
-	void CacheMountLeanControl();
-	void UpdateMountScale(bool bIsMounted);
+	void STATIC_CacheMountLeanControl();
+	void STATIC_UpdateMountScale(bool bIsMounted);
 	bool ShouldRagdollOnDeath(class UClass* m_DamageType);
 	bool STATIC_HasDeathPostureAnimation();
-	void ClientUpdateShardCount(int n_ShardCount);
+	void STATIC_ClientUpdateShardCount(int n_ShardCount);
 	void ServerAcknowledgeShardPickup();
 	bool ServerUpdateLockedTarget(class AActor* Locked);
 	float STATIC_GetMaxPowerPoolValue(int nPacingType);
 	float STATIC_GetCurrentPowerPoolValue(int nPacingType);
-	void ConsumePowerPool(class ATgDevice* Dev, int nPacingType, float fAmount);
+	void STATIC_ConsumePowerPool(class ATgDevice* Dev, int nPacingType, float fAmount);
 	bool STATIC_IsInFireLock();
-	bool CanKnockbackAffectAC();
-	float GetAirControl();
-	void STATIC_OnSetPlayerLevel(class UTgSeqAct_SetPlayerLevel* Action);
-	float STATIC_NativeGetCollisionRadius();
-	float STATIC_NativeGetCollisionHeight();
-	void STATIC_OnPostureChange();
-	void STATIC_OnProjectileHitTarget(class ATgProjectile* HittingProjectile, const struct FVector& HitLocation, const struct FVector& HitNormal, unsigned char* bDestroyProjectile);
-	void STATIC_OnProjectileExploded(class ATgProjectile* ExplodedProjectile, class AActor* HitActor, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void STATIC_OnLevelUp();
-	bool STATIC_NativeReplicatedEvent(const struct FName& VarName);
+	bool STATIC_CanKnockbackAffectAC();
+	float STATIC_GetAirControl();
+	void OnSetPlayerLevel(class UTgSeqAct_SetPlayerLevel* Action);
+	float NativeGetCollisionRadius();
+	float NativeGetCollisionHeight();
+	void OnPostureChange();
+	void OnProjectileHitTarget(class ATgProjectile* HittingProjectile, const struct FVector& HitLocation, const struct FVector& HitNormal, unsigned char* bDestroyProjectile);
+	void OnProjectileExploded(class ATgProjectile* ExplodedProjectile, class AActor* HitActor, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void OnLevelUp();
+	bool NativeReplicatedEvent(const struct FName& VarName);
 	struct FVector STATIC_GetTargetCenter();
-	void CheckUiVolumeTriggers();
+	void STATIC_CheckUiVolumeTriggers();
 	class AActor* STATIC_GetActorFromCombatActor();
 	class AActor* STATIC_GetPetOwner();
 	bool STATIC_IsPet();
@@ -22487,25 +22515,25 @@ public:
 	int TakePersonalArmorDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, class AActor* DamageCauser, struct FExtraDamageInfo* ExtraInfo);
 	bool ShieldDamageAppliesToHealth();
 	int TakePersonalShieldDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, class AActor* DamageCauser, struct FExtraDamageInfo* ExtraInfo);
-	bool CanUsePersonalShield();
-	bool CanTakeShieldDamage();
+	bool STATIC_CanUsePersonalShield();
+	bool STATIC_CanTakeShieldDamage();
 	void TakeManaDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
-	bool CanTakeManaDamage();
-	bool CanBeLifestealTarget();
-	bool CanBeLifestealInstigator();
-	bool WillHitSuccessfully(class AActor* aInstigator, const struct FImpactInfo& Impact);
+	bool STATIC_CanTakeManaDamage();
+	bool STATIC_CanBeLifestealTarget();
+	bool STATIC_CanBeLifestealInstigator();
+	bool STATIC_WillHitSuccessfully(class AActor* aInstigator, const struct FImpactInfo& Impact);
 	void TakeHealthDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
-	void STATIC_MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
+	void MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
 	float STATIC_GetSpecialDamageTakenPercentAI();
 	float STATIC_GetSpecialDamageDealtPercentAI();
 	void BuffDamage(class AActor* Target, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, float fBaseDamage, float* fProratedAmount, struct FExtraDamageInfo* ExtraInfo);
 	bool STATIC_IsImmuneToHealing();
-	bool CanBeExecuted();
+	bool STATIC_CanBeExecuted();
 	bool STATIC_IsImmuneToDamage();
-	bool STATIC_OnlyTakeHeadShots();
-	bool CanTakeHeadShots();
-	bool CanDealHeadShots();
-	bool CanTakeHealthDamage();
+	bool OnlyTakeHeadShots();
+	bool STATIC_CanTakeHeadShots();
+	bool STATIC_CanDealHeadShots();
+	bool STATIC_CanTakeHealthDamage();
 	float STATIC_GetDiminishedGroundSpeed();
 	void STATIC_GetAdditionalLifestealMultipliers(struct FDiminishedEffectInfo* DiminishingInfo, struct FImpactInfo* Impact);
 	void STATIC_GetAdditionalDamageTakenMultipliers(class ATgDevice* damagingDevice, struct FDiminishedEffectInfo* DiminishingInfo, struct FImpactInfo* Impact);
@@ -22517,21 +22545,21 @@ public:
 	float STATIC_GetHealth();
 	bool STATIC_IsCinematicMode();
 	void PostEmoteAkEvent(class UAkEvent* InAkEvent, TEnumAsByte<EEmote> Emote);
-	void PostAkEvent(class UAkEvent* InAkEvent);
+	void STATIC_PostAkEvent(class UAkEvent* InAkEvent);
 	class AReverbVolume* STATIC_GettReverbVolumeForAudioAltitude();
 	class AReverbVolume* STATIC_GetCurrentReverbVolume();
-	void STATIC_UpdateReverbVolume(const struct FVector& WorldLocation, class AReverbVolume* VolumeTouched);
+	void UpdateReverbVolume(const struct FVector& WorldLocation, class AReverbVolume* VolumeTouched);
 	void SetAkPlayerHealthPercent(float fPercent);
-	bool STATIC_MySpawnGatesAreOpen();
-	class UPhysicalMaterial* TraceWorldPhysicalGeometry(const struct FVector& StartLoc, const struct FVector& EndLoc, struct FVector* TraceHitLocation);
+	bool MySpawnGatesAreOpen();
+	class UPhysicalMaterial* STATIC_TraceWorldPhysicalGeometry(const struct FVector& StartLoc, const struct FVector& EndLoc, struct FVector* TraceHitLocation);
 	struct FVector STATIC_GetChargeDirection();
 	void ReloadMeshAssemblies();
 	void STATIC_GetMeshAssemblyToUse(int* nBodyAsmId, int* nCoreAsmId);
-	void ForceUpdateUncompressedRemoteYaw();
+	void STATIC_ForceUpdateUncompressedRemoteYaw();
 	void SetUncompressedRemoteViewPitch(int Pitch);
 	void SmoothCorrectionTranslationTick(float DeltaSeconds, bool bForce);
-	void TryToPlayPainAkEvent();
-	void UpdateRespawnBeaconReticule(bool bForce);
+	void STATIC_TryToPlayPainAkEvent();
+	void STATIC_UpdateRespawnBeaconReticule(bool bForce);
 	bool AllowBoostedJump();
 	void STATIC_GiveEnergy(float energy);
 	bool STATIC_IsBattlegroundsDeadSpectator();
@@ -22544,17 +22572,17 @@ public:
 	bool STATIC_IsInOffensiveGrab();
 	bool STATIC_IsGrabBreakable(TEnumAsByte<EGrabState> tweenState);
 	void ResetSkelControls(class USkeletalMeshComponent* SkelComp);
-	struct FRotator TweenRelRotation(float fDeltaSeconds, const struct FRotator& currRel, const struct FRotator& targetRel);
+	struct FRotator STATIC_TweenRelRotation(float fDeltaSeconds, const struct FRotator& currRel, const struct FRotator& targetRel);
 	bool STATIC_IsStatTrackable();
 	bool STATIC_IsGodDecoy();
 	bool STATIC_IsGod();
 	float AdjustRespawnTime(float InRespawnTime);
 	void ForceUpdateComponents(bool bCollisionUpdate, bool bTransformOnly);
-	void UpdateSpectatorStatUI();
-	void UpdatePlayerStatUI();
+	void STATIC_UpdateSpectatorStatUI();
+	void STATIC_UpdatePlayerStatUI();
 	void PlayCustomAnimation(int nAnimResId, bool bFullBody, float fTime);
 	bool STATIC_IsNonCombat();
-	bool CanMove();
+	bool STATIC_CanMove();
 	void PlayUpperBodyAnim(const struct FName& AnimName, float Rate, float BlendInTime, float BlendOutTime, bool bLooping);
 	float PlayFullBodyLoopingAnimWithTransition(const struct FName& TransitionAnimName, const struct FName& LoopingAnimName, float Rate, float BlendInTime, float BlendOutTime);
 	bool PlayFullBodyAnim(const struct FName& AnimName, float Rate, float BlendInTime, float BlendOutTime, bool bLooping, bool bOverride, bool bBlendOutIfVelocityIsGreaterThanZero, bool bHideInHandDevice);
@@ -22580,8 +22608,8 @@ public:
 	class AActor* STATIC_GetATouchingVisibilityVolume();
 	bool STATIC_IsInSameVisibilityVolumeBeacon(class ATgRespawnBeaconExit* Other);
 	bool STATIC_IsInSameVisibilityVolume(class ATgPawn* Other);
-	int FindVisibilityVolume(class AActor* VisVolume);
-	int STATIC_NumVisibilityVolumesTouching();
+	int STATIC_FindVisibilityVolume(class AActor* VisVolume);
+	int NumVisibilityVolumesTouching();
 	void RemoveDetectedFx();
 	void PlayDetectedFx();
 	bool STATIC_IsDetector();
@@ -22592,62 +22620,62 @@ public:
 	bool ShouldBlockFiringFrom1pSwitch();
 	class ATgDevice* STATIC_GetDeviceById(int nDeviceId);
 	class ATgDevice* STATIC_GetDeviceByInstanceId(int nDeviceInstanceId);
-	void UpdatePhysicsAsset();
-	void STATIC_OnPawnDied();
+	void STATIC_UpdatePhysicsAsset();
+	void OnPawnDied();
 	void PlaySpawnFx();
 	void PrepareIntro();
 	void PlaySpecialEffectEvent(int PlaySpecialEffectIndex, const struct FVector& vLoc, const struct FVector& vHitNormal, class AActor* inActor);
 	void PlayTeleportFx(int nTeleportState, const struct FVector& vLoc);
 	void PlayCurrencyFx(class ATgRepInfo_Player* sourcePRI, int nCurrency, int nMsgId);
-	float GetTerminalVelocity();
-	void UpdateStealthMaterialBasedOnNearbyEnemies();
-	void UpdateDropShadow();
+	float STATIC_GetTerminalVelocity();
+	void STATIC_UpdateStealthMaterialBasedOnNearbyEnemies();
+	void STATIC_UpdateDropShadow();
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	void ForceRecalculateMaterial();
 	bool STATIC_HandleAutofireDevices();
-	bool CanBeAffectedByVortices();
+	bool STATIC_CanBeAffectedByVortices();
 	bool ShouldShowHudOverlay(class ATgPawn* PlayerPawn);
-	bool STATIC_OverrideDistanceFadeRange();
-	void CalcBlindingDeployableFadeValue(float fDeltaTime);
-	void CalcObscuringDeployableFadeValue(float fDeltaTime);
-	void CalcStealthFadeValue(float fDeltaTime);
-	void CalcDistanceFadeValue(float fDeltaTime);
-	void CalcVolumeFadeValue(float fDeltaTime);
+	bool OverrideDistanceFadeRange();
+	void STATIC_CalcBlindingDeployableFadeValue(float fDeltaTime);
+	void STATIC_CalcObscuringDeployableFadeValue(float fDeltaTime);
+	void STATIC_CalcStealthFadeValue(float fDeltaTime);
+	void STATIC_CalcDistanceFadeValue(float fDeltaTime);
+	void STATIC_CalcVolumeFadeValue(float fDeltaTime);
 	bool STATIC_IsHittable();
-	bool IsInvisibleToAI();
+	bool STATIC_IsInvisibleToAI();
 	bool ShouldInHandDeviceBeHiddenThisTick();
 	TEnumAsByte<ETgMeshVisibilityState> STATIC_GetMeshVisibilityStateThisTick();
 	void PlaySoundCue(int nSoundCueId);
 	void SetPhase(int nNewPhase);
-	void UpdateHUDScores();
-	void TrackDeath();
-	void TrackKill(class ATgPawn* Killer);
-	void UpdateEnemyAssists(class ATgPawn* Assister);
-	void UpdateDamagers(class ATgPawn* Damager);
-	void TrackDamageMitigated(int nAmount);
-	void TrackDamageTaken(class ATgPawn* theInstigator, int nDamage, int nDamageType);
-	void TrackSelfKill(int nDeviceModeID);
-	void TrackTeamKill(int nDeviceModeID);
-	void TrackSelfDamage(int nDeviceModeID, int nDamage);
-	void TrackTeamDamage(int nDeviceModeID, int nDamage);
-	void TrackReleaseTime(int nDeviceModeID, float fReleaseTime);
-	void TrackHit(int nDeviceModeID, float fDistance, bool bHitPlayer);
+	void STATIC_UpdateHUDScores();
+	void STATIC_TrackDeath();
+	void STATIC_TrackKill(class ATgPawn* Killer);
+	void STATIC_UpdateEnemyAssists(class ATgPawn* Assister);
+	void STATIC_UpdateDamagers(class ATgPawn* Damager);
+	void STATIC_TrackDamageMitigated(int nAmount);
+	void STATIC_TrackDamageTaken(class ATgPawn* theInstigator, int nDamage, int nDamageType);
+	void STATIC_TrackSelfKill(int nDeviceModeID);
+	void STATIC_TrackTeamKill(int nDeviceModeID);
+	void STATIC_TrackSelfDamage(int nDeviceModeID, int nDamage);
+	void STATIC_TrackTeamDamage(int nDeviceModeID, int nDamage);
+	void STATIC_TrackReleaseTime(int nDeviceModeID, float fReleaseTime);
+	void STATIC_TrackHit(int nDeviceModeID, float fDistance, bool bHitPlayer);
 	void RemoveTrackFired(int nDeviceModeID);
-	void TrackCompleteKillInfo(int nKillerCharacterID, int nKillerDeviceModeID, int nVictimCharacterID, int nVictimDeviceModeID, const struct FVector& KillerLocation, const struct FVector& VictimLocation, const struct FVector& PetLocation, bool bPetKill);
-	void TrackFired(int nDeviceModeID);
-	void TrackBotHealing(int nDeviceModeID, float fDamage, float fMissingHealth, int nMaxHealth);
-	void TrackSelfHealing(float fHealing, float fMissingHealth, int nMaxHealth);
-	void TrackHealing(int nDeviceModeID, float fDamage, float fMissingHealth, int nMaxHealth);
-	void TrackKilledBot(int nDeviceModeID);
-	void TrackFromPlayerDeath(int nDeviceModeID);
-	void TrackKilledPlayer(int nDeviceModeID);
-	void TrackDamagedBot(class ATgPawn* TargetPawn, int nDeviceModeID, int nDamage, int nDamageType, bool bIsGod);
-	void TrackDamagedPlayer(class ATgPawn* TargetPawn, int nDeviceModeID, int nDamage, int nDamageType, bool bInHand);
-	void EndStats();
+	void STATIC_TrackCompleteKillInfo(int nKillerCharacterID, int nKillerDeviceModeID, int nVictimCharacterID, int nVictimDeviceModeID, const struct FVector& KillerLocation, const struct FVector& VictimLocation, const struct FVector& PetLocation, bool bPetKill);
+	void STATIC_TrackFired(int nDeviceModeID);
+	void STATIC_TrackBotHealing(int nDeviceModeID, float fDamage, float fMissingHealth, int nMaxHealth);
+	void STATIC_TrackSelfHealing(float fHealing, float fMissingHealth, int nMaxHealth);
+	void STATIC_TrackHealing(int nDeviceModeID, float fDamage, float fMissingHealth, int nMaxHealth);
+	void STATIC_TrackKilledBot(int nDeviceModeID);
+	void STATIC_TrackFromPlayerDeath(int nDeviceModeID);
+	void STATIC_TrackKilledPlayer(int nDeviceModeID);
+	void STATIC_TrackDamagedBot(class ATgPawn* TargetPawn, int nDeviceModeID, int nDamage, int nDamageType, bool bIsGod);
+	void STATIC_TrackDamagedPlayer(class ATgPawn* TargetPawn, int nDeviceModeID, int nDamage, int nDamageType, bool bInHand);
+	void STATIC_EndStats();
 	void BeginStats();
 	void StatsCleanup();
-	void ValidateStatsTracker();
-	void STATIC_ModifyAccuracyForReticleBloom(float* fAccuracy);
+	void STATIC_ValidateStatsTracker();
+	void ModifyAccuracyForReticleBloom(float* fAccuracy);
 	float STATIC_GetAccuracyModifier(float ClientMovementTimeStamp);
 	class ATgRepInfo_Player* STATIC_GetPRI();
 	unsigned char STATIC_GetTaskForceNumber();
@@ -22660,81 +22688,81 @@ public:
 	void STATIC_KillPet(class ATgPawn* PetPawn);
 	void SetPetOwner(class ATgPawn* PetOwner);
 	void AddPet(class ATgPawn* PetPawn);
-	class UMeshComponent* CreateMeshComponent(int nMeshId, class UMeshComponent* DestComponent, bool bPartialFixup);
+	class UMeshComponent* STATIC_CreateMeshComponent(int nMeshId, class UMeshComponent* DestComponent, bool bPartialFixup);
 	class UTgSpecialFx* STATIC_GetSpecialFx(int nSpecialFxId);
 	void SetMeshVisibility(bool bVisible);
-	bool CanSeeActor(class AActor* Other);
+	bool STATIC_CanSeeActor(class AActor* Other);
 	bool STATIC_IsJumpDisabled();
-	float GetGravityZ();
+	float STATIC_GetGravityZ();
 	void AddRemoveAnimSet(class UAnimSet* pAnimSet, bool bAdd);
 	void AddRemoveAnimSetList(TArray<class UAnimSet*> AnimSetList, bool bAdd);
-	void CancelEmote(bool bVerifyNoRelevantEmotes, class UTgAnimNodeEmoteSequence* Exclude);
-	bool STATIC_TermRagdoll();
-	void STATIC_OnSpawnGatesOpened();
+	void STATIC_CancelEmote(bool bVerifyNoRelevantEmotes, class UTgAnimNodeEmoteSequence* Exclude);
+	bool TermRagdoll();
+	void OnSpawnGatesOpened();
 	void ShowCombo(int nPawnId, bool bCrit);
-	void DrawClientDebug();
-	bool STATIC_bIsEditor();
+	void STATIC_DrawClientDebug();
+	bool bIsEditor();
 	void ReapplyLoadoutEffects(bool bKeepFiringMount, bool bForceRemoveEffects);
 	void ReapplyLevelEffectGroups(int nPrevLevel, int nCurrentLevel, bool bPreserveParams);
-	void FlashedEventCooldown(int nIndex, int nMode, float fCooldown);
-	void FlashCancelPutAway(int nDeviceInstanceId);
-	void FlashRetrieve(int nDeviceInstanceId, float fEquipTime);
-	void FlashPutAway(int nDeviceInstanceId, float fEquipTime);
+	void STATIC_FlashedEventCooldown(int nIndex, int nMode, float fCooldown);
+	void STATIC_FlashCancelPutAway(int nDeviceInstanceId);
+	void STATIC_FlashRetrieve(int nDeviceInstanceId, float fEquipTime);
+	void STATIC_FlashPutAway(int nDeviceInstanceId, float fEquipTime);
 	void STATIC_FlashVaultAnim();
 	void STATIC_FlashVault(bool bCancel);
-	void FlashPawnHealed(struct FOnHealedParams* Params);
-	void FlashKillOrAssist(class AActor* Target, bool bIsKill, int nComboCount);
-	void FlashHitDirection(const struct FVector& vLocation, int nDamageAmount, class UClass* DamageType, const struct FVector& vInstigatorLocation, struct FExtraDamageInfo* ExtraInfo);
-	void FlashTransitionOut(int nDeviceInstanceId, int nFireModeNum, float fTransitionPercent, float fTotalTransitionTime);
-	void FlashTransitionIn(int nDeviceInstanceId, int nFireModeNum, float fTransitionPercent, float fTotalTransitionTime);
-	void FlashPawnGeneric3(bool bIsSimulated);
-	void FlashPawnGeneric2(bool bIsSimulated);
-	void FlashPawnGeneric1(bool bIsSimulated);
-	void FlashGeneric5(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
-	void FlashGeneric4(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
-	void FlashGeneric3(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
-	void FlashGeneric2(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
-	void FlashGeneric1(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
-	void FlashPetSuccessfulHit(int nFxID);
-	void FlashSpawnSpecialFX(int nFxID, const struct FVector& vLocation, const struct FVector& vNormal);
-	void FlashPlaySpecialEffect(int PlaySpecialEffectIndex, const struct FVector& vLocation, const struct FVector& vHitNormal, class AActor* inActor, bool bIsSimulated);
-	void FlashLevelupFx();
+	void STATIC_FlashPawnHealed(struct FOnHealedParams* Params);
+	void STATIC_FlashKillOrAssist(class AActor* Target, bool bIsKill, int nComboCount);
+	void STATIC_FlashHitDirection(const struct FVector& vLocation, int nDamageAmount, class UClass* DamageType, const struct FVector& vInstigatorLocation, struct FExtraDamageInfo* ExtraInfo);
+	void STATIC_FlashTransitionOut(int nDeviceInstanceId, int nFireModeNum, float fTransitionPercent, float fTotalTransitionTime);
+	void STATIC_FlashTransitionIn(int nDeviceInstanceId, int nFireModeNum, float fTransitionPercent, float fTotalTransitionTime);
+	void STATIC_FlashPawnGeneric3(bool bIsSimulated);
+	void STATIC_FlashPawnGeneric2(bool bIsSimulated);
+	void STATIC_FlashPawnGeneric1(bool bIsSimulated);
+	void STATIC_FlashGeneric5(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
+	void STATIC_FlashGeneric4(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
+	void STATIC_FlashGeneric3(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
+	void STATIC_FlashGeneric2(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
+	void STATIC_FlashGeneric1(int nDeviceInstanceId, int nFireModeNum, bool bIsSimulated, unsigned char byExtraData);
+	void STATIC_FlashPetSuccessfulHit(int nFxID);
+	void STATIC_FlashSpawnSpecialFX(int nFxID, const struct FVector& vLocation, const struct FVector& vNormal);
+	void STATIC_FlashPlaySpecialEffect(int PlaySpecialEffectIndex, const struct FVector& vLocation, const struct FVector& vHitNormal, class AActor* inActor, bool bIsSimulated);
+	void STATIC_FlashLevelupFx();
 	void STATIC_FlashTeleportFx(int nTeleportState, const struct FVector& vLocation);
-	void FlashChangeMesh();
-	void FlashDestruct(int nDeviceInstanceId, const struct FVector& vLocation);
-	void FlashHitReaction();
-	void FlashModeEquipDone(int nDeviceInstanceId, int nFireModeNum);
-	void FlashEventUpdate();
-	void FlashSuccessfulHit(int nDeviceInstanceId, int nFireModeNum, class AActor* Target, float DamageAmount, const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FExtraDamageInfo& ExtraInfo);
-	void FlashInterrupt(int nDeviceInstanceId);
-	void FlashBlockDone(int nDeviceInstanceId, int nFireModeNum);
-	void FlashBlockFx(int nDeviceInstanceId, int nFireModeNum);
-	void FlashBlock(int nDeviceInstanceId, int nFireModeNum);
-	void FlashCooldownDone(int nDeviceInstanceId, int nFireModeNum);
-	void FlashCooldown(int nDeviceInstanceId, int nFireModeNum, float fCooldownTime);
+	void STATIC_FlashChangeMesh();
+	void STATIC_FlashDestruct(int nDeviceInstanceId, const struct FVector& vLocation);
+	void STATIC_FlashHitReaction();
+	void STATIC_FlashModeEquipDone(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashEventUpdate();
+	void STATIC_FlashSuccessfulHit(int nDeviceInstanceId, int nFireModeNum, class AActor* Target, float DamageAmount, const struct FVector& HitLocation, const struct FVector& HitNormal, const struct FExtraDamageInfo& ExtraInfo);
+	void STATIC_FlashInterrupt(int nDeviceInstanceId);
+	void STATIC_FlashBlockDone(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashBlockFx(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashBlock(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashCooldownDone(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashCooldown(int nDeviceInstanceId, int nFireModeNum, float fCooldownTime);
 	void STATIC_FlashInterruptReload(int nDeviceInstanceId);
-	void FlashReload(int nDeviceInstanceId, float fReloadTime, int nAmmoRemaining, int nReloadAnimType);
-	void FlashStartFireHold(int nDeviceInstanceId, int nFireModeNum, float fFireHoldTime);
-	void FlashStartFire(int nDeviceInstanceId, int nFireModeNum, float RefireTime, class AActor* Target, int nAmmoRemaining);
-	void FlashStopFire(int nDeviceInstanceId, int nFireModeNum);
-	void FlashArcing(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vNewLoc, const struct FVector& vOldLoc, class AActor* Target, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit);
-	void FlashFireNoSim(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vNewLoc, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit, float RefireTime);
-	void FlashFireMulti(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vAimStart, const struct FVector& vAimDir, TArray<float> hitRanges, float fMaxRange, int nSeed, float fSpreadAngle, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit, float RefireTime);
-	void FlashFire(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vNewLoc, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit, float RefireTime);
+	void STATIC_FlashReload(int nDeviceInstanceId, float fReloadTime, int nAmmoRemaining, int nReloadAnimType);
+	void STATIC_FlashStartFireHold(int nDeviceInstanceId, int nFireModeNum, float fFireHoldTime);
+	void STATIC_FlashStartFire(int nDeviceInstanceId, int nFireModeNum, float RefireTime, class AActor* Target, int nAmmoRemaining);
+	void STATIC_FlashStopFire(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashArcing(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vNewLoc, const struct FVector& vOldLoc, class AActor* Target, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit);
+	void STATIC_FlashFireNoSim(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vNewLoc, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit, float RefireTime);
+	void STATIC_FlashFireMulti(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vAimStart, const struct FVector& vAimDir, TArray<float> hitRanges, float fMaxRange, int nSeed, float fSpreadAngle, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit, float RefireTime);
+	void STATIC_FlashFire(int nDeviceInstanceId, int nFireModeNum, const struct FVector& vNewLoc, int nEquipSlot, int nSocketIndex, bool bsuccesfulhit, float RefireTime);
 	void STATIC_FlashCustomSpray(int nInxex, const struct FVector& vOrigin, const struct FVector& vAim);
-	void FlashCustomEmote(int nIndex);
-	void FlashSpray(const struct FVector& vOrigin, const struct FVector& vAim);
-	void FlashPlayEmoteExcludeOwner(TEnumAsByte<EEmote> Emote, int ExtraInfo);
-	void FlashPlayEmote(TEnumAsByte<EEmote> Emote, int ExtraInfo);
-	void FlashBuildUp(int nDeviceInstanceId, int nFireModeNum, int nEquipSlot, int nSocketIndex, float fBuildupTime);
-	void FlashTargeting(int nDeviceInstanceId, int nFireModeNum, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit);
-	void FlashFireMode(int nDeviceInstanceId, int nFireModeNum);
-	void FlashResetReplication();
-	struct FVector STATIC_NativeCanvasProject(class UCanvas* CanvasToUse, const struct FVector& vLocation);
-	int DrawNameText(class UCanvas* CanvasToUse, float StartX, float StartY, const struct FString& NameString, class UFont* NameFont, const struct FColor& NameColor, float Scale);
-	int DrawScaledString(class UCanvas* CanvasToUse, float StartX, float StartY, const struct FString& NameString, class UFont* NameFont, const struct FColor& NameColor, float Scale);
+	void STATIC_FlashCustomEmote(int nIndex);
+	void STATIC_FlashSpray(const struct FVector& vOrigin, const struct FVector& vAim);
+	void STATIC_FlashPlayEmoteExcludeOwner(TEnumAsByte<EEmote> Emote, int ExtraInfo);
+	void STATIC_FlashPlayEmote(TEnumAsByte<EEmote> Emote, int ExtraInfo);
+	void STATIC_FlashBuildUp(int nDeviceInstanceId, int nFireModeNum, int nEquipSlot, int nSocketIndex, float fBuildupTime);
+	void STATIC_FlashTargeting(int nDeviceInstanceId, int nFireModeNum, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit);
+	void STATIC_FlashFireMode(int nDeviceInstanceId, int nFireModeNum);
+	void STATIC_FlashResetReplication();
+	struct FVector NativeCanvasProject(class UCanvas* CanvasToUse, const struct FVector& vLocation);
+	int STATIC_DrawNameText(class UCanvas* CanvasToUse, float StartX, float StartY, const struct FString& NameString, class UFont* NameFont, const struct FColor& NameColor, float Scale);
+	int STATIC_DrawScaledString(class UCanvas* CanvasToUse, float StartX, float StartY, const struct FString& NameString, class UFont* NameFont, const struct FColor& NameColor, float Scale);
 	bool SpecialAOEImmunity(const struct FVector& AOECenter, class UTgDeviceFire* instigatingFiremode);
-	void CrowdControlBreak();
+	void STATIC_CrowdControlBreak();
 	bool STATIC_IsCrowdControlImmune();
 	bool STATIC_IsSuperiorCrowdControlImmune();
 	bool STATIC_IsDamageOverTimeImmune();
@@ -22747,15 +22775,15 @@ public:
 	void AddProperty(int nPropId, float fBase, float fRaw, float FMin, float FMax);
 	void STATIC_InitializeDefaultProps();
 	bool ApplyPawnSetup();
-	void DeviceFormChanged(bool bForceReload, bool bForceUpdateWeaponMesh);
-	class UTgDeviceForm* CreateDeviceForm(const struct FEquipDeviceInfo& Info);
-	class ATgDevice* FindEquippedTalentById(int nDeviceId);
-	class ATgDevice* FindEquippedTalentByType(class UClass* DeviceClass);
+	void STATIC_DeviceFormChanged(bool bForceReload, bool bForceUpdateWeaponMesh);
+	class UTgDeviceForm* STATIC_CreateDeviceForm(const struct FEquipDeviceInfo& Info);
+	class ATgDevice* STATIC_FindEquippedTalentById(int nDeviceId);
+	class ATgDevice* STATIC_FindEquippedTalentByType(class UClass* DeviceClass);
 	class ATgDevice* STATIC_GetCardByClass(class UClass* DeviceClass);
 	class ATgDevice* STATIC_GetDeviceByEqPoint(int eEqPoint);
-	void UpdateClientDevices(bool bForce);
+	void STATIC_UpdateClientDevices(bool bForce);
 	bool AreAnyOtherOffhandsLockingFiring(class ATgDevice* CurrentDevice);
-	void UpdateShieldFX();
+	void STATIC_UpdateShieldFX();
 	void SetTargetActor(class AActor* Target);
 	class ATgPawn* STATIC_GetTargetPawn();
 	class AActor* STATIC_GetTargetActor();
@@ -22766,19 +22794,20 @@ public:
 	void STATIC_ServerRequestCustomEmote(int nIndex);
 	void RequestCustomEmote(int nIndex);
 	void STATIC_ServerRequestCustomSprayWithAim(int nIndex, const struct FVector& vOrigin, const struct FVector& vAim);
-	void STATIC_RequestCustomSprayWithAim(int nIndex, const struct FVector& vOrigin, const struct FVector& vAim);
-	void STATIC_RequestCustomSpray(int nIndex);
-	void STATIC_ServerRequestSprayWithAim(const struct FVector& vOrigin, const struct FVector& vAim);
+	void RequestCustomSprayWithAim(int nIndex, const struct FVector& vOrigin, const struct FVector& vAim);
+	void RequestCustomSpray(int nIndex);
+	void ServerRequestSprayWithAim(const struct FVector& vOrigin, const struct FVector& vAim);
 	void RequestSprayWithAim(const struct FVector& vOrigin, const struct FVector& vAim);
 	void RequestSpray();
 	void STATIC_ServerRequestEmote(TEnumAsByte<EEmote> Emote, int ExtraInfo, int nPriority, float fRelevance, float fPause);
 	void RequestEmote(TEnumAsByte<EEmote> Emote, int ExtraInfo, int nPriority, float fRelevance, float fPause);
-	bool CheckIsInItemShop();
+	bool STATIC_CheckIsInItemShop();
 	int STATIC_GetUISkillEqpSlotOverride(int nEquipSlot, bool bAltSlot);
-	void STATIC_OnViewTargetChanged(class AActor* aNewViewTarget);
+	void OnViewTargetChanged(class AActor* aNewViewTarget);
 	bool STATIC_GetTurnRotatorOverride(int* nYawOffset);
-	bool CanUnCrouch();
-	bool CanEquip(class ATgDeployable* pDeployable, int* nErrorCode);
+	bool STATIC_CanUnCrouch();
+	bool STATIC_CanEquip(class ATgDeployable* pDeployable, TEnumAsByte<ETG_EQUIP_POINT> eEqPoint, int* nErrorCode);
+	unsigned char STATIC_GetAdjustedEquipSlot(TEnumAsByte<ETG_EQUIP_POINT> eInEquipPoint, TEnumAsByte<ETG_EQUIP_POINT> eTargetPoint);
 	unsigned char STATIC_GetEquippedTypeSlot(int nDeviceId);
 	int STATIC_GetMeshOverrideForUC(int nMeshId);
 	void STATIC_On3pTransitionEvent();
@@ -22786,56 +22815,56 @@ public:
 
 
 // Class TgGame.TgPawn_Biped
-// 0x013C (0x2FB4 - 0x2E78)
+// 0x013C (0x2EF0 - 0x2DB4)
 class ATgPawn_Biped : public ATgPawn
 {
 public:
-	struct FName                                       m_nmLeftFootBone;                                         // 0x2E78(0x0008) (Edit)
-	struct FName                                       m_nmRightFootBone;                                        // 0x2E80(0x0008) (Edit)
-	struct FName                                       m_nmLeftFootControlName;                                  // 0x2E88(0x0008) (Edit)
-	struct FName                                       m_nmRightFootControlName;                                 // 0x2E90(0x0008) (Edit)
-	float                                              m_fOldLocationZ;                                          // 0x2E98(0x0004)
-	unsigned long                                      m_bEnableRightFootPlacement : 1;                          // 0x2E9C(0x0004)
-	unsigned long                                      m_bEnableLeftFootPlacement : 1;                           // 0x2E9C(0x0004)
-	unsigned long                                      m_bMayDisableFootIKFromAnimNodes : 1;                     // 0x2E9C(0x0004)
-	unsigned long                                      m_bInitializedFootIKCachedNodeList : 1;                   // 0x2E9C(0x0004)
-	unsigned long                                      m_bApplyLeftHandWeaponIK : 1;                             // 0x2E9C(0x0004)
-	unsigned long                                      m_bSetHandIKStrengthFromAnimNodes : 1;                    // 0x2E9C(0x0004)
-	unsigned long                                      m_bInitializedHandIKCachedNodeList : 1;                   // 0x2E9C(0x0004)
-	unsigned long                                      c_bPlayingRefire : 1;                                     // 0x2E9C(0x0004)
-	unsigned long                                      c_bRefireIsUpperBody : 1;                                 // 0x2E9C(0x0004)
-	float                                              m_fZSmoothingRate;                                        // 0x2EA0(0x0004) (Const)
-	float                                              m_fMaxFootPlacementDistSquared;                           // 0x2EA4(0x0004)
-	class USkelControlFootPlacement*                   m_LeftLegControl;                                         // 0x2EA8(0x0008)
-	class USkelControlFootPlacement*                   m_RightLegControl;                                        // 0x2EB0(0x0008)
-	TArray<struct FName>                               m_FootIKZeroStrengthAnimNodeNameList;                     // 0x2EB8(0x0010) (NeedCtorLink)
-	TArray<class UAnimNode*>                           m_FootIKZeroStrengthCachedNodeList;                       // 0x2EC8(0x0010) (NeedCtorLink)
-	struct FVector                                     m_vPreviousRightFootPosition;                             // 0x2ED8(0x000C)
-	struct FVector                                     m_vPreviousLeftFootPosition;                              // 0x2EE4(0x000C)
-	float                                              m_fCachedRightTracedFloor;                                // 0x2EF0(0x0004)
-	float                                              m_fCachedLeftTracedFloor;                                 // 0x2EF4(0x0004)
-	float                                              m_fCachedRightFloorNormalZ;                               // 0x2EF8(0x0004)
-	float                                              m_fCachedLeftFloorNormalZ;                                // 0x2EFC(0x0004)
-	int                                                m_nCachedLeftFootBoneIndex;                               // 0x2F00(0x0004)
-	int                                                m_nCachedRightFootBoneIndex;                              // 0x2F04(0x0004)
-	struct FName                                       m_SkelControl_LeftHandName;                               // 0x2F08(0x0008)
-	class USkelControlLimb*                            m_SkelControl_LeftHand;                                   // 0x2F10(0x0008)
-	class USkelControlSingleBone*                      m_SkelControl_LeftHandRotate;                             // 0x2F18(0x0008)
-	struct FName                                       m_SkelControl_RightHandName;                              // 0x2F20(0x0008)
-	class USkelControlLimb*                            m_SkelControl_RightHand;                                  // 0x2F28(0x0008)
-	class USkelControlSingleBone*                      m_SkelControl_RightHandRotate;                            // 0x2F30(0x0008)
-	class USkelControlSingleBone*                      m_SkelControl_RightToLeftPropSwitch;                      // 0x2F38(0x0008)
-	TArray<struct FName>                               m_HandIKFullStrengthAnimNodeNameList;                     // 0x2F40(0x0010) (NeedCtorLink)
-	TArray<struct FName>                               m_HandIKZeroStrengthAnimNodeNameList;                     // 0x2F50(0x0010) (NeedCtorLink)
-	TArray<class UAnimNode*>                           m_HandIKFullStengthCachedNodeList;                        // 0x2F60(0x0010) (NeedCtorLink)
-	TArray<class UAnimNode*>                           m_HandIKZeroStrengthCachedNodeList;                       // 0x2F70(0x0010) (NeedCtorLink)
-	class UMaterialInstanceConstant*                   m_FadeMaterialControllerBody;                             // 0x2F80(0x0008)
-	struct FName                                       c_RefireBeginBlendAnimationName;                          // 0x2F88(0x0008)
-	struct FName                                       c_RefireEndBlendAnimationName;                            // 0x2F90(0x0008)
-	class UAnimSet*                                    c_RefireAnimSet;                                          // 0x2F98(0x0008)
-	float                                              c_fRefireDuration;                                        // 0x2FA0(0x0004)
-	float                                              c_fRefireEndDuration;                                     // 0x2FA4(0x0004)
-	struct FVector                                     m_vAimAssistAnchorOffset;                                 // 0x2FA8(0x000C)
+	struct FName                                       m_nmLeftFootBone;                                         // 0x2DB4(0x0008) (Edit)
+	struct FName                                       m_nmRightFootBone;                                        // 0x2DBC(0x0008) (Edit)
+	struct FName                                       m_nmLeftFootControlName;                                  // 0x2DC4(0x0008) (Edit)
+	struct FName                                       m_nmRightFootControlName;                                 // 0x2DCC(0x0008) (Edit)
+	float                                              m_fOldLocationZ;                                          // 0x2DD4(0x0004)
+	unsigned long                                      m_bEnableRightFootPlacement : 1;                          // 0x2DD8(0x0004)
+	unsigned long                                      m_bEnableLeftFootPlacement : 1;                           // 0x2DD8(0x0004)
+	unsigned long                                      m_bMayDisableFootIKFromAnimNodes : 1;                     // 0x2DD8(0x0004)
+	unsigned long                                      m_bInitializedFootIKCachedNodeList : 1;                   // 0x2DD8(0x0004)
+	unsigned long                                      m_bApplyLeftHandWeaponIK : 1;                             // 0x2DD8(0x0004)
+	unsigned long                                      m_bSetHandIKStrengthFromAnimNodes : 1;                    // 0x2DD8(0x0004)
+	unsigned long                                      m_bInitializedHandIKCachedNodeList : 1;                   // 0x2DD8(0x0004)
+	unsigned long                                      c_bPlayingRefire : 1;                                     // 0x2DD8(0x0004)
+	unsigned long                                      c_bRefireIsUpperBody : 1;                                 // 0x2DD8(0x0004)
+	float                                              m_fZSmoothingRate;                                        // 0x2DDC(0x0004) (Const)
+	float                                              m_fMaxFootPlacementDistSquared;                           // 0x2DE0(0x0004)
+	class USkelControlFootPlacement*                   m_LeftLegControl;                                         // 0x2DE4(0x0008)
+	class USkelControlFootPlacement*                   m_RightLegControl;                                        // 0x2DEC(0x0008)
+	TArray<struct FName>                               m_FootIKZeroStrengthAnimNodeNameList;                     // 0x2DF4(0x0010) (NeedCtorLink)
+	TArray<class UAnimNode*>                           m_FootIKZeroStrengthCachedNodeList;                       // 0x2E04(0x0010) (NeedCtorLink)
+	struct FVector                                     m_vPreviousRightFootPosition;                             // 0x2E14(0x000C)
+	struct FVector                                     m_vPreviousLeftFootPosition;                              // 0x2E20(0x000C)
+	float                                              m_fCachedRightTracedFloor;                                // 0x2E2C(0x0004)
+	float                                              m_fCachedLeftTracedFloor;                                 // 0x2E30(0x0004)
+	float                                              m_fCachedRightFloorNormalZ;                               // 0x2E34(0x0004)
+	float                                              m_fCachedLeftFloorNormalZ;                                // 0x2E38(0x0004)
+	int                                                m_nCachedLeftFootBoneIndex;                               // 0x2E3C(0x0004)
+	int                                                m_nCachedRightFootBoneIndex;                              // 0x2E40(0x0004)
+	struct FName                                       m_SkelControl_LeftHandName;                               // 0x2E44(0x0008)
+	class USkelControlLimb*                            m_SkelControl_LeftHand;                                   // 0x2E4C(0x0008)
+	class USkelControlSingleBone*                      m_SkelControl_LeftHandRotate;                             // 0x2E54(0x0008)
+	struct FName                                       m_SkelControl_RightHandName;                              // 0x2E5C(0x0008)
+	class USkelControlLimb*                            m_SkelControl_RightHand;                                  // 0x2E64(0x0008)
+	class USkelControlSingleBone*                      m_SkelControl_RightHandRotate;                            // 0x2E6C(0x0008)
+	class USkelControlSingleBone*                      m_SkelControl_RightToLeftPropSwitch;                      // 0x2E74(0x0008)
+	TArray<struct FName>                               m_HandIKFullStrengthAnimNodeNameList;                     // 0x2E7C(0x0010) (NeedCtorLink)
+	TArray<struct FName>                               m_HandIKZeroStrengthAnimNodeNameList;                     // 0x2E8C(0x0010) (NeedCtorLink)
+	TArray<class UAnimNode*>                           m_HandIKFullStengthCachedNodeList;                        // 0x2E9C(0x0010) (NeedCtorLink)
+	TArray<class UAnimNode*>                           m_HandIKZeroStrengthCachedNodeList;                       // 0x2EAC(0x0010) (NeedCtorLink)
+	class UMaterialInstanceConstant*                   m_FadeMaterialControllerBody;                             // 0x2EBC(0x0008)
+	struct FName                                       c_RefireBeginBlendAnimationName;                          // 0x2EC4(0x0008)
+	struct FName                                       c_RefireEndBlendAnimationName;                            // 0x2ECC(0x0008)
+	class UAnimSet*                                    c_RefireAnimSet;                                          // 0x2ED4(0x0008)
+	float                                              c_fRefireDuration;                                        // 0x2EDC(0x0004)
+	float                                              c_fRefireEndDuration;                                     // 0x2EE0(0x0004)
+	struct FVector                                     m_vAimAssistAnchorOffset;                                 // 0x2EE4(0x000C)
 
 	static UClass* StaticClass()
 	{
@@ -22844,16 +22873,16 @@ public:
 	}
 
 
-	void GetAimFrictionExtent(float* Width, float* Height, struct FVector* Center);
+	void STATIC_GetAimFrictionExtent(float* Width, float* Height, struct FVector* Center);
 	void Landed(const struct FVector& HitNormal, class AActor* FloorActor);
-	bool CanTrackATarget();
+	bool STATIC_CanTrackATarget();
 	void SetAimTarget(float X, float Y, float Z);
 	void STATIC_EnableFootControls(int foot, bool bDisable);
-	void zpivot(float F);
-	void CacheMainMeshReferences(class UTgSkeletalMeshComponent* smcomp);
+	void STATIC_zpivot(float F);
+	void STATIC_CacheMainMeshReferences(class UTgSkeletalMeshComponent* smcomp);
 	void PostBeginPlay();
-	void EndRefireTimer();
-	void EndRefire();
+	void STATIC_EndRefireTimer();
+	void STATIC_EndRefire();
 	void BeginRefire();
 	bool STATIC_InitializeFootIKZeroStrengthAnimNodes(class USkeletalMeshComponent* SkelComp);
 	bool STATIC_InitializeLeftHandIKAnimNodes(class USkeletalMeshComponent* SkelComp);
@@ -22861,66 +22890,66 @@ public:
 
 
 // Class TgGame.TgPawn_Character
-// 0x0158 (0x310C - 0x2FB4)
+// 0x0158 (0x3048 - 0x2EF0)
 class ATgPawn_Character : public ATgPawn_Biped
 {
 public:
-	unsigned long                                      c_bUpdatePlayerStatUI : 1;                                // 0x2FB4(0x0004)
-	unsigned long                                      m_bInHandFiring : 1;                                      // 0x2FB4(0x0004)
-	unsigned long                                      r_bNearCapturePoint : 1;                                  // 0x2FB4(0x0004) (Net)
-	unsigned long                                      r_bNearPayload : 1;                                       // 0x2FB4(0x0004) (Net)
-	unsigned long                                      r_bNearSiegeMonster : 1;                                  // 0x2FB4(0x0004)
-	unsigned long                                      r_bVisibleToEnemies : 1;                                  // 0x2FB4(0x0004) (Net)
-	unsigned long                                      s_bAmmoReloadCheat : 1;                                   // 0x2FB4(0x0004)
-	unsigned long                                      s_bAutomountProtection : 1;                               // 0x2FB4(0x0004)
-	unsigned long                                      m_bAttemptingAirJump : 1;                                 // 0x2FB4(0x0004)
-	unsigned long                                      m_bDelayingStopSpecialJumpFx : 1;                         // 0x2FB4(0x0004)
-	unsigned long                                      m_bPendingBounce : 1;                                     // 0x2FB4(0x0004)
-	unsigned long                                      s_bInitiatingJoin : 1;                                    // 0x2FB4(0x0004)
-	unsigned long                                      s_bReplicateInhandAmmo : 1;                               // 0x2FB4(0x0004) (Const)
-	unsigned long                                      c_bShouldTickThisFrame : 1;                               // 0x2FB4(0x0004)
-	unsigned long                                      c_bShadowsVisible : 1;                                    // 0x2FB4(0x0004)
-	unsigned long                                      c_bNeedsShadowLOSCheck : 1;                               // 0x2FB4(0x0004)
-	float                                              m_fLastCapturePointReclaimedTime;                         // 0x2FB8(0x0004) (Transient)
-	float                                              m_fMinReclaimPointTime;                                   // 0x2FBC(0x0004)
-	float                                              c_fUpdateAltitudeRTPCDelay;                               // 0x2FC0(0x0004)
-	float                                              m_fInHandStartFireTime;                                   // 0x2FC4(0x0004) (Transient)
-	float                                              m_fInHandStopFireTime;                                    // 0x2FC8(0x0004) (Transient)
-	float                                              m_fWallDamagePercent;                                     // 0x2FCC(0x0004)
-	float                                              m_fSiegeDamagePercent;                                    // 0x2FD0(0x0004)
-	float                                              r_fZoomAmt;                                               // 0x2FD4(0x0004) (Net)
-	unsigned char                                      r_nCriticalHit;                                           // 0x2FD8(0x0001) (Net)
-	unsigned char                                      UnknownData00[0x3];                                       // 0x2FD9(0x0003) MISSED OFFSET
-	float                                              m_fMountZoomOverride;                                     // 0x2FDC(0x0004) (Edit)
-	class ATgDeploy_BombKingStickyBomb*                r_StuckBombs[0x6];                                        // 0x2FE0(0x0008) (Net)
-	int                                                m_nCharacterRole;                                         // 0x3010(0x0004)
-	class UTgCustomCharacterComponent*                 m_CustomCharacterComponent;                               // 0x3014(0x0008) (Edit, ExportObject, Component, EditInline)
-	class UPrimitiveComponent*                         m_MountedCollisionComponent;                              // 0x301C(0x0008) (Edit, ExportObject, Component, EditInline)
-	class UPrimitiveComponent*                         m_MeshEncompassingCollisionComponent;                     // 0x3024(0x0008) (Edit, ExportObject, Component, EditInline)
-	TArray<TScriptInterface<class UTgDeviceInterface_MoveSpeedMultiplier>> m_CachedMoveSpeedModDevices;                              // 0x302C(0x0010) (NeedCtorLink)
-	TArray<TScriptInterface<class UTgDeviceInterface_AccelMultiplier>> m_CachedAccelModDevices;                                  // 0x303C(0x0010) (NeedCtorLink)
-	TArray<TScriptInterface<class UTgDeviceInterface_DeployMod>> m_CachedDeployModDevices;                                 // 0x304C(0x0010) (NeedCtorLink)
-	float                                              m_fCachedGroundProximity;                                 // 0x305C(0x0004)
-	float                                              m_fCachedGroundProximityTimestamp;                        // 0x3060(0x0004)
-	int                                                m_nAirJumps;                                              // 0x3064(0x0004)
-	float                                              m_fAirJumpZSpeed;                                         // 0x3068(0x0004) (Edit)
-	struct FVector                                     m_vBounceVelocity;                                        // 0x306C(0x000C)
-	class ATgPawn_Character*                           m_JoinTargetLocal;                                        // 0x3078(0x0008)
-	class ATgPawn_Character*                           m_JoinSourceLocal;                                        // 0x3080(0x0008)
-	class ATgPawn_Character*                           r_JoinTarget;                                             // 0x3088(0x0008) (Net)
-	struct FVector                                     r_vJoinSourceLocation;                                    // 0x3090(0x000C) (Net)
-	struct FVector                                     r_vJoinTargetLocation;                                    // 0x309C(0x000C) (Net)
-	float                                              r_fJoinTweenDuration;                                     // 0x30A8(0x0004) (Net)
-	class ATgPawn_Character*                           r_JoinSource;                                             // 0x30AC(0x0008) (Net)
-	TArray<struct FForceFaceTargetActor>               m_ForceFaceActors;                                        // 0x30B4(0x0010) (NeedCtorLink)
-	int                                                r_nInHandCurrentAmmo;                                     // 0x30C4(0x0004) (Net)
-	int                                                r_nInHandMaxAmmo;                                         // 0x30C8(0x0004) (Net)
-	int                                                s_nOppressorMineStackCount;                               // 0x30CC(0x0004)
-	float                                              c_fTickCatchup;                                           // 0x30D0(0x0004)
-	struct FWeaponDOF                                  m_CurrentDOFSettings;                                     // 0x30D4(0x0028) (Edit)
-	class ATgCollisionProxy_Capture*                   s_pCaptureProxy;                                          // 0x30FC(0x0008)
-	float                                              c_fShadowsVisibleChangeTimer;                             // 0x3104(0x0004)
-	float                                              c_fShadowsVisibleChangeDelay;                             // 0x3108(0x0004)
+	unsigned long                                      c_bUpdatePlayerStatUI : 1;                                // 0x2EF0(0x0004)
+	unsigned long                                      m_bInHandFiring : 1;                                      // 0x2EF0(0x0004)
+	unsigned long                                      r_bNearCapturePoint : 1;                                  // 0x2EF0(0x0004) (Net)
+	unsigned long                                      r_bNearPayload : 1;                                       // 0x2EF0(0x0004) (Net)
+	unsigned long                                      r_bNearSiegeMonster : 1;                                  // 0x2EF0(0x0004)
+	unsigned long                                      r_bVisibleToEnemies : 1;                                  // 0x2EF0(0x0004) (Net)
+	unsigned long                                      s_bAmmoReloadCheat : 1;                                   // 0x2EF0(0x0004)
+	unsigned long                                      s_bAutomountProtection : 1;                               // 0x2EF0(0x0004)
+	unsigned long                                      m_bAttemptingAirJump : 1;                                 // 0x2EF0(0x0004)
+	unsigned long                                      m_bDelayingStopSpecialJumpFx : 1;                         // 0x2EF0(0x0004)
+	unsigned long                                      m_bPendingBounce : 1;                                     // 0x2EF0(0x0004)
+	unsigned long                                      s_bInitiatingJoin : 1;                                    // 0x2EF0(0x0004)
+	unsigned long                                      s_bReplicateInhandAmmo : 1;                               // 0x2EF0(0x0004) (Const)
+	unsigned long                                      c_bShouldTickThisFrame : 1;                               // 0x2EF0(0x0004)
+	unsigned long                                      c_bShadowsVisible : 1;                                    // 0x2EF0(0x0004)
+	unsigned long                                      c_bNeedsShadowLOSCheck : 1;                               // 0x2EF0(0x0004)
+	float                                              m_fLastCapturePointReclaimedTime;                         // 0x2EF4(0x0004) (Transient)
+	float                                              m_fMinReclaimPointTime;                                   // 0x2EF8(0x0004)
+	float                                              c_fUpdateAltitudeRTPCDelay;                               // 0x2EFC(0x0004)
+	float                                              m_fInHandStartFireTime;                                   // 0x2F00(0x0004) (Transient)
+	float                                              m_fInHandStopFireTime;                                    // 0x2F04(0x0004) (Transient)
+	float                                              m_fWallDamagePercent;                                     // 0x2F08(0x0004)
+	float                                              m_fSiegeDamagePercent;                                    // 0x2F0C(0x0004)
+	float                                              r_fZoomAmt;                                               // 0x2F10(0x0004) (Net)
+	unsigned char                                      r_nCriticalHit;                                           // 0x2F14(0x0001) (Net)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x2F15(0x0003) MISSED OFFSET
+	float                                              m_fMountZoomOverride;                                     // 0x2F18(0x0004) (Edit)
+	class ATgDeploy_BombKingStickyBomb*                r_StuckBombs[0x6];                                        // 0x2F1C(0x0008) (Net)
+	int                                                m_nCharacterRole;                                         // 0x2F4C(0x0004)
+	class UTgCustomCharacterComponent*                 m_CustomCharacterComponent;                               // 0x2F50(0x0008) (Edit, ExportObject, Component, EditInline)
+	class UPrimitiveComponent*                         m_MountedCollisionComponent;                              // 0x2F58(0x0008) (Edit, ExportObject, Component, EditInline)
+	class UPrimitiveComponent*                         m_MeshEncompassingCollisionComponent;                     // 0x2F60(0x0008) (Edit, ExportObject, Component, EditInline)
+	TArray<TScriptInterface<class UTgDeviceInterface_MoveSpeedMultiplier>> m_CachedMoveSpeedModDevices;                              // 0x2F68(0x0010) (NeedCtorLink)
+	TArray<TScriptInterface<class UTgDeviceInterface_AccelMultiplier>> m_CachedAccelModDevices;                                  // 0x2F78(0x0010) (NeedCtorLink)
+	TArray<TScriptInterface<class UTgDeviceInterface_DeployMod>> m_CachedDeployModDevices;                                 // 0x2F88(0x0010) (NeedCtorLink)
+	float                                              m_fCachedGroundProximity;                                 // 0x2F98(0x0004)
+	float                                              m_fCachedGroundProximityTimestamp;                        // 0x2F9C(0x0004)
+	int                                                m_nAirJumps;                                              // 0x2FA0(0x0004)
+	float                                              m_fAirJumpZSpeed;                                         // 0x2FA4(0x0004) (Edit)
+	struct FVector                                     m_vBounceVelocity;                                        // 0x2FA8(0x000C)
+	class ATgPawn_Character*                           m_JoinTargetLocal;                                        // 0x2FB4(0x0008)
+	class ATgPawn_Character*                           m_JoinSourceLocal;                                        // 0x2FBC(0x0008)
+	class ATgPawn_Character*                           r_JoinTarget;                                             // 0x2FC4(0x0008) (Net)
+	struct FVector                                     r_vJoinSourceLocation;                                    // 0x2FCC(0x000C) (Net)
+	struct FVector                                     r_vJoinTargetLocation;                                    // 0x2FD8(0x000C) (Net)
+	float                                              r_fJoinTweenDuration;                                     // 0x2FE4(0x0004) (Net)
+	class ATgPawn_Character*                           r_JoinSource;                                             // 0x2FE8(0x0008) (Net)
+	TArray<struct FForceFaceTargetActor>               m_ForceFaceActors;                                        // 0x2FF0(0x0010) (NeedCtorLink)
+	int                                                r_nInHandCurrentAmmo;                                     // 0x3000(0x0004) (Net)
+	int                                                r_nInHandMaxAmmo;                                         // 0x3004(0x0004) (Net)
+	int                                                s_nOppressorMineStackCount;                               // 0x3008(0x0004)
+	float                                              c_fTickCatchup;                                           // 0x300C(0x0004)
+	struct FWeaponDOF                                  m_CurrentDOFSettings;                                     // 0x3010(0x0028) (Edit)
+	class ATgCollisionProxy_Capture*                   s_pCaptureProxy;                                          // 0x3038(0x0008)
+	float                                              c_fShadowsVisibleChangeTimer;                             // 0x3040(0x0004)
+	float                                              c_fShadowsVisibleChangeDelay;                             // 0x3044(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -22934,13 +22963,13 @@ public:
 	bool ShouldCreateCaptureProxy();
 	void Destroyed();
 	bool STATIC_AdvancedTeleport(bool bFakeTeleport, struct FTeleportParams* Params, struct FVector* vTeleportLocation);
-	void UpdateJoinSourceLocal();
+	void STATIC_UpdateJoinSourceLocal();
 	void RemoveJoinForcedView(class ATgPawn_Character* Source, class ATgPawn_Character* Target);
 	void AddJoinForcedView(class ATgPawn_Character* Source, class ATgPawn_Character* Target);
-	void TweenForJoinFinished();
-	void TweenForJoin();
-	void ClientUnjoinFromTarget();
-	void ClientJoinToTarget();
+	void STATIC_TweenForJoinFinished();
+	void STATIC_TweenForJoin();
+	void STATIC_ClientUnjoinFromTarget();
+	void STATIC_ClientJoinToTarget();
 	void UnjoinFromTarget();
 	void STATIC_JoinToTarget(class ATgPawn_Character* Target, const struct FVector& SourceLocation, const struct FVector& TargetLocation, float TweenDuration);
 	void StartPhysTween(const struct FVector& Target, float fTime, TEnumAsByte<ETweenState> tweenState, bool bCollideWithWorld, bool bRotateTowardsTarget);
@@ -22948,27 +22977,27 @@ public:
 	bool STATIC_IsJoined();
 	void UpdateForcedRotation(float DeltaTime);
 	bool STATIC_HasForcedRotation();
-	void ClearOldForcedViewTargets();
+	void STATIC_ClearOldForcedViewTargets();
 	void STATIC_RemoveForcedViewTarget(class UObject* ForceRotationInstigator);
-	void ClientRemoveForcedViewTarget(class UObject* ForceRotationInstigator);
+	void STATIC_ClientRemoveForcedViewTarget(class UObject* ForceRotationInstigator);
 	void STATIC_AddForcedViewTarget(class AActor* TargetActor, float InterpTime, float Duration, class UObject* ForceRotationInstigator, float HeightOffset);
-	void ClientAddForcedViewTarget(class AActor* TargetActor, float InterpTime, float Duration, class UObject* ForceRotationInstigator, float HeightOffset);
-	bool CanAddForcedViewTarget();
+	void STATIC_ClientAddForcedViewTarget(class AActor* TargetActor, float InterpTime, float Duration, class UObject* ForceRotationInstigator, float HeightOffset);
+	bool STATIC_CanAddForcedViewTarget();
 	int STATIC_GetNumAirJumps();
 	void StopSpecialJumpFx();
 	bool DoJump(bool bUpdating, float JumpZSpeed);
-	bool CanAirJump();
-	bool CheckPhysicsStateForJumping();
-	bool STATIC_CannotJumpNow();
+	bool STATIC_CanAirJump();
+	bool STATIC_CheckPhysicsStateForJumping();
+	bool CannotJumpNow();
 	void AutomountProtectionTimer();
 	void StartAutomountProtectionTimer();
 	void STATIC_RemoveStickyBombs();
 	void STATIC_OnCeaseSpectatorViewTarget();
 	void STATIC_OnBecameSpectatorViewTarget();
 	void STATIC_PreTimeLapse(bool bPlayOfTheGame);
-	void STATIC_OnStartTimelapseNewDeviceState();
+	void OnStartTimelapseNewDeviceState();
 	void StartWeaponZoomInterpolation(float fZoomAmt, float fInterpTime);
-	void UpdateWeaponZoomEffects(float fZoomAmt);
+	void STATIC_UpdateWeaponZoomEffects(float fZoomAmt);
 	void SetWeaponZoom(float fZoomAmt);
 	void STATIC_ForceUpdateAmmoAnim();
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
@@ -22976,12 +23005,12 @@ public:
 	void SetMountedCollision(bool IsActive);
 	void STATIC_CreateMountMeshAndEffects(bool bPlayAnimFX);
 	void StopMountingEffects();
-	void ComposeCharacter(int Idx, int MeshAsmId);
+	void STATIC_ComposeCharacter(int Idx, int MeshAsmId);
 	bool Died(class AController* Killer, class UClass* dmgType, const struct FVector& HitLocation);
-	void PossessedBy(class AController* C, bool bVehicleTransition);
-	void STATIC_OnInhandAmmoCountUpdated();
+	void STATIC_PossessedBy(class AController* C, bool bVehicleTransition);
+	void OnInhandAmmoCountUpdated();
 	void STATIC_UpdateShadowVisibility(float DeltaSeconds);
-	void CleanUpShadowLOSRequest();
+	void STATIC_CleanUpShadowLOSRequest();
 	void Tick(float DeltaSeconds);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	bool STATIC_IsViewPawn();
@@ -22989,9 +23018,9 @@ public:
 	void STATIC_HideHeadMesh();
 	void ShowHeadMesh();
 	bool STATIC_PostPawnSetup();
-	void STATIC_OnRespawn();
+	void OnRespawn();
 	void PostPawnSetupServer();
-	void CharacterPawnControllerSet();
+	void STATIC_CharacterPawnControllerSet();
 	void ResetKillCombo();
 	void STATIC_TakeDamage(int Damage, class AController* InstigatedBy, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void PlayAnnouncerMatchStartCue();
@@ -23000,28 +23029,28 @@ public:
 	void PrepareIntro();
 	void UpdateWeaponMesh(unsigned char EquipPoint, int DeviceID);
 	void PostBeginPlay();
-	void UpdateMountMeshCollision(int nMeshId);
-	bool FindGround(float fCheckDist, float fCheckRadius, const struct FVector& vRayDir, struct FVector* vSourceLocation, struct FVector* vGroundLocation, struct FVector* vGroundNormal);
+	void STATIC_UpdateMountMeshCollision(int nMeshId);
+	bool STATIC_FindGround(float fCheckDist, float fCheckRadius, const struct FVector& vRayDir, struct FVector* vSourceLocation, struct FVector* vGroundLocation, struct FVector* vGroundNormal);
 	void QueueBounce(struct FVector* vBounceVelocity);
 	void TakeHealthDamage(float fDamage, class AController* InstigatedBy, class UClass* DamageType, const struct FImpactInfo& Impact, const struct FExtraDamageInfo& ExtraInfo, class AActor* DamageCauser);
 	int STATIC_GetRole();
 	float STATIC_GetGroundDistance();
 	int STATIC_GetDefaultHeadMeshId();
-	bool STATIC_OverrideDistanceFadeRange();
+	bool OverrideDistanceFadeRange();
 	float STATIC_GetBaseSpeed();
 	float STATIC_GetDiminishedGroundSpeed();
-	void UpdateAltitudeRTPC();
-	void DropHealthNuggetTeamOnly(int nTaskForce, const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
-	void DropHealthNugget(const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
-	void DeviceAdjustHeal(struct FAdjustHealParams* Params, float* fHeal);
-	void DeviceAdjustRadius(class ATgDevice* Dev, float* fRadius);
-	void DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
-	void DeviceOnMiss(class ATgDevice* Dev);
-	void DeviceOnReload(class ATgDevice* Dev);
-	void DeviceOnKilled(class ATgDevice* Dev, float fDamage, struct FImpactInfo* Impact);
-	void DeviceOnHealed(struct FOnHealedParams* Params);
-	void DeviceOnDamaged(struct FOnDamagedParams* Params);
-	void DeviceOnHitSpecial(class ATgDevice* Dev, int nHitSpecialSituationalType, struct FImpactInfo* Impact);
+	void STATIC_UpdateAltitudeRTPC();
+	void STATIC_DropHealthNuggetTeamOnly(int nTaskForce, const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
+	void STATIC_DropHealthNugget(const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
+	void STATIC_DeviceAdjustHeal(struct FAdjustHealParams* Params, float* fHeal);
+	void STATIC_DeviceAdjustRadius(class ATgDevice* Dev, float* fRadius);
+	void STATIC_DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
+	void STATIC_DeviceOnMiss(class ATgDevice* Dev);
+	void STATIC_DeviceOnReload(class ATgDevice* Dev);
+	void STATIC_DeviceOnKilled(class ATgDevice* Dev, float fDamage, struct FImpactInfo* Impact);
+	void STATIC_DeviceOnHealed(struct FOnHealedParams* Params);
+	void STATIC_DeviceOnDamaged(struct FOnDamagedParams* Params);
+	void STATIC_DeviceOnHitSpecial(class ATgDevice* Dev, int nHitSpecialSituationalType, struct FImpactInfo* Impact);
 	void STATIC_DeviceOnHit(class ATgDevice* Dev, struct FImpactInfo* Impact);
 	void STATIC_DeviceOnStopFire(class ATgDevice* Dev, bool WasInterrupted);
 	void STATIC_DeviceOnStartFire(class ATgDevice* Dev);
@@ -23029,28 +23058,28 @@ public:
 	void STATIC_DeviceOnFire(class ATgDevice* Dev);
 	void STATIC_DeviceOnStopBuildup(class ATgDevice* Dev, bool WasInterrupted);
 	void STATIC_DeviceOnStartBuildup(class ATgDevice* Dev);
-	void DeviceOnHeld(class ATgDevice* pDevPrevious, class ATgDevice* pDevNext);
-	void STATIC_PawnOnTeleported(class ATgSpawnTeleporterEntrance* From, class ATgSpawnTeleporterExit* To, const struct FVector& OriginalPawnLocation);
-	void STATIC_PawnOnGetHealthNugget(class ATgDeploy_HealthNugget* nugget);
-	void STATIC_PawnOnExitCombat();
-	void STATIC_PawnOnEnterCombat();
-	void STATIC_PawnOnRevive();
-	void STATIC_PawnOnAssistedDown(class AActor* pVictim);
-	void STATIC_PawnOnDowned(class AActor* pKiller, class AActor* pVictim);
-	void STATIC_PawnOnAssisted(class AActor* pVictim);
-	void STATIC_PawnOnKilled(class AActor* pKiller, class AActor* pVictim);
-	void STATIC_PawnOnHealed(struct FOnHealedParams* Params);
-	void STATIC_PawnOnDamaged(struct FOnDamagedParams* Params);
+	void STATIC_DeviceOnHeld(class ATgDevice* pDevPrevious, class ATgDevice* pDevNext);
+	void PawnOnTeleported(class ATgSpawnTeleporterEntrance* From, class ATgSpawnTeleporterExit* To, const struct FVector& OriginalPawnLocation);
+	void PawnOnGetHealthNugget(class ATgDeploy_HealthNugget* nugget);
+	void PawnOnExitCombat();
+	void PawnOnEnterCombat();
+	void PawnOnRevive();
+	void PawnOnAssistedDown(class AActor* pVictim);
+	void PawnOnDowned(class AActor* pKiller, class AActor* pVictim);
+	void PawnOnAssisted(class AActor* pVictim);
+	void PawnOnKilled(class AActor* pKiller, class AActor* pVictim);
+	void PawnOnHealed(struct FOnHealedParams* Params);
+	void PawnOnDamaged(struct FOnDamagedParams* Params);
 	void STATIC_GlobalOnPlayerDied(class ATgPawn_Character* Player);
-	void CheckWaitForTeam();
+	void STATIC_CheckWaitForTeam();
 	void TankRequestsHelp();
 	void PlayMatchStartCue();
 	void SpawnGuard();
-	void STATIC_OnPawnDied();
+	void OnPawnDied();
 	bool ApplyMonsterRewardEffects(class UTgInventoryObject* pItem, bool bRemove);
 	bool ApplyItemEffects(class UTgInventoryObject* pItem, bool bRemove);
 	void ReapplyLoadoutEffects(bool bKeepFiringMount, bool bForceRemoveEffects);
-	void STATIC_OnHealingWell(bool bTouched);
+	void OnHealingWell(bool bTouched);
 	void STATIC_LoadDisconnectedPlayerState();
 	void SetSpawnMana();
 	bool ApplyPawnSetup();
@@ -23058,7 +23087,7 @@ public:
 
 
 // Class TgGame.TgPawn_Hunter
-// 0x0000 (0x310C - 0x310C)
+// 0x0000 (0x3048 - 0x3048)
 class ATgPawn_Hunter : public ATgPawn_Character
 {
 public:
@@ -23070,37 +23099,37 @@ public:
 	}
 
 
-	void DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
-	void DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
+	void STATIC_DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
+	void STATIC_DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
 };
 
 
 // Class TgGame.TgPawn_LootGoblin
-// 0x0080 (0x318C - 0x310C)
+// 0x0080 (0x30C8 - 0x3048)
 class ATgPawn_LootGoblin : public ATgPawn_Character
 {
 public:
-	TEnumAsByte<EGoblinState>                          r_eCurrentState;                                          // 0x310C(0x0001) (Net)
-	unsigned char                                      UnknownData00[0x3];                                       // 0x310D(0x0003) MISSED OFFSET
-	float                                              m_fGoblinStateTimer;                                      // 0x3110(0x0004)
-	float                                              m_fEscapeTimer;                                           // 0x3114(0x0004)
-	float                                              m_fTotalDamage;                                           // 0x3118(0x0004)
-	TArray<class ATgRoyaleObjective*>                  m_RoyaleObjectivesVisited;                                // 0x311C(0x0010) (NeedCtorLink)
-	float                                              m_fSpawnTime;                                             // 0x312C(0x0004) (Config)
-	float                                              m_fMovementTime;                                          // 0x3130(0x0004) (Config)
-	float                                              m_fStopTime;                                              // 0x3134(0x0004) (Config)
-	float                                              m_fStartEscapeTime;                                       // 0x3138(0x0004) (Config)
-	float                                              m_fEscapeTime;                                            // 0x313C(0x0004) (Config)
-	float                                              m_fDamageTime;                                            // 0x3140(0x0004) (Config)
-	float                                              m_fMaxDamage;                                             // 0x3144(0x0004) (Config)
-	TArray<struct FGoblinLootInfo>                     m_GoblinLootInfo;                                         // 0x3148(0x0010) (Config, NeedCtorLink)
-	TArray<struct FGoblinLootInfo>                     m_GoblinFlinchLootInfo;                                   // 0x3158(0x0010) (Config, NeedCtorLink)
-	class UTgEffectGroup*                              m_pNormalizerEffectGroup;                                 // 0x3168(0x0008)
-	class UMaterialInstanceConstant*                   m_pMIC;                                                   // 0x3170(0x0008)
-	struct FName                                       m_nWallEnableName;                                        // 0x3178(0x0008) (Const)
-	struct FName                                       m_nWallPositionName;                                      // 0x3180(0x0008) (Const)
-	unsigned long                                      m_bTickMaskingPlane : 1;                                  // 0x3188(0x0004)
-	unsigned long                                      m_bHasDespawned : 1;                                      // 0x3188(0x0004)
+	TEnumAsByte<EGoblinState>                          r_eCurrentState;                                          // 0x3048(0x0001) (Net)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x3049(0x0003) MISSED OFFSET
+	float                                              m_fGoblinStateTimer;                                      // 0x304C(0x0004)
+	float                                              m_fEscapeTimer;                                           // 0x3050(0x0004)
+	float                                              m_fTotalDamage;                                           // 0x3054(0x0004)
+	TArray<class ATgRoyaleObjective*>                  m_RoyaleObjectivesVisited;                                // 0x3058(0x0010) (NeedCtorLink)
+	float                                              m_fSpawnTime;                                             // 0x3068(0x0004) (Config)
+	float                                              m_fMovementTime;                                          // 0x306C(0x0004) (Config)
+	float                                              m_fStopTime;                                              // 0x3070(0x0004) (Config)
+	float                                              m_fStartEscapeTime;                                       // 0x3074(0x0004) (Config)
+	float                                              m_fEscapeTime;                                            // 0x3078(0x0004) (Config)
+	float                                              m_fDamageTime;                                            // 0x307C(0x0004) (Config)
+	float                                              m_fMaxDamage;                                             // 0x3080(0x0004) (Config)
+	TArray<struct FGoblinLootInfo>                     m_GoblinLootInfo;                                         // 0x3084(0x0010) (Config, NeedCtorLink)
+	TArray<struct FGoblinLootInfo>                     m_GoblinFlinchLootInfo;                                   // 0x3094(0x0010) (Config, NeedCtorLink)
+	class UTgEffectGroup*                              m_pNormalizerEffectGroup;                                 // 0x30A4(0x0008)
+	class UMaterialInstanceConstant*                   m_pMIC;                                                   // 0x30AC(0x0008)
+	struct FName                                       m_nWallEnableName;                                        // 0x30B4(0x0008) (Const)
+	struct FName                                       m_nWallPositionName;                                      // 0x30BC(0x0008) (Const)
+	unsigned long                                      m_bTickMaskingPlane : 1;                                  // 0x30C4(0x0004)
+	unsigned long                                      m_bHasDespawned : 1;                                      // 0x30C4(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -23112,20 +23141,20 @@ public:
 	bool ShouldCreateCaptureProxy();
 	bool ShouldScoreKill();
 	void STATIC_DespawnLootGoblin();
-	void STATIC_SetMaskingPlaneActive(bool bActive);
+	void SetMaskingPlaneActive(bool bActive);
 	bool STATIC_IsDebuffImmune();
-	void DropInventory();
-	bool CanTakeHealthDamage();
-	void STATIC_PawnOnDamaged(struct FOnDamagedParams* Params);
-	void STATIC_StateTimerFinished();
-	void STATIC_SetGoblinState(TEnumAsByte<EGoblinState> eState);
+	void STATIC_DropInventory();
+	bool STATIC_CanTakeHealthDamage();
+	void PawnOnDamaged(struct FOnDamagedParams* Params);
+	void StateTimerFinished();
+	void SetGoblinState(TEnumAsByte<EGoblinState> eState);
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	bool ApplyPawnSetup();
 };
 
 
 // Class TgGame.TgPawn_Warrior
-// 0x0000 (0x310C - 0x310C)
+// 0x0000 (0x3048 - 0x3048)
 class ATgPawn_Warrior : public ATgPawn_Character
 {
 public:
@@ -23137,15 +23166,15 @@ public:
 	}
 
 
-	void DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
-	void DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
+	void STATIC_DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
+	void STATIC_DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
 	void STATIC_DeviceOnHit(class ATgDevice* Dev, struct FImpactInfo* Impact);
 	float STATIC_GetHealingTakenScale();
 };
 
 
 // Class TgGame.TgPawn_Monster
-// 0x0000 (0x2FB4 - 0x2FB4)
+// 0x0000 (0x2EF0 - 0x2EF0)
 class ATgPawn_Monster : public ATgPawn_Biped
 {
 public:
@@ -23163,25 +23192,25 @@ public:
 
 
 // Class TgGame.TgPawn_Pet
-// 0x005C (0x2ED4 - 0x2E78)
+// 0x005C (0x2E10 - 0x2DB4)
 class ATgPawn_Pet : public ATgPawn
 {
 public:
-	float                                              m_fOwnerPhysPowerItemPercent;                             // 0x2E78(0x0004)
-	float                                              m_fOwnerMagicalPowerItemPercent;                          // 0x2E7C(0x0004)
-	float                                              m_fOwnerUltilityPowerItemPercent;                         // 0x2E80(0x0004)
-	TEnumAsByte<EPetPhase>                             s_PetPhase;                                               // 0x2E84(0x0001)
-	TEnumAsByte<EPetPosition>                          s_PetPosition;                                            // 0x2E85(0x0001)
-	unsigned char                                      UnknownData00[0x2];                                       // 0x2E86(0x0002) MISSED OFFSET
-	struct FRotator                                    s_LastPositionAdjustmentRotation;                         // 0x2E88(0x000C)
-	struct FVector                                     s_InterpolatedPetPosition;                                // 0x2E94(0x000C)
-	struct FVector                                     s_InterpolatedPetOwnerPosition;                           // 0x2EA0(0x000C)
-	float                                              s_fPetPositionDistanceMultiplier;                         // 0x2EAC(0x0004)
-	float                                              s_fOwnerVelocityTime;                                     // 0x2EB0(0x0004)
-	float                                              s_fSmoothedMaxSpeed;                                      // 0x2EB4(0x0004)
-	class UTgSpecialFx*                                c_BeamFX;                                                 // 0x2EB8(0x0008) (Transient)
-	struct FRotator                                    r_InitialOrientation;                                     // 0x2EC0(0x000C) (Net)
-	class UParticleSystemComponent*                    c_AimVisibilityMesh;                                      // 0x2ECC(0x0008) (ExportObject, Component, EditInline)
+	float                                              m_fOwnerPhysPowerItemPercent;                             // 0x2DB4(0x0004)
+	float                                              m_fOwnerMagicalPowerItemPercent;                          // 0x2DB8(0x0004)
+	float                                              m_fOwnerUltilityPowerItemPercent;                         // 0x2DBC(0x0004)
+	TEnumAsByte<EPetPhase>                             s_PetPhase;                                               // 0x2DC0(0x0001)
+	TEnumAsByte<EPetPosition>                          s_PetPosition;                                            // 0x2DC1(0x0001)
+	unsigned char                                      UnknownData00[0x2];                                       // 0x2DC2(0x0002) MISSED OFFSET
+	struct FRotator                                    s_LastPositionAdjustmentRotation;                         // 0x2DC4(0x000C)
+	struct FVector                                     s_InterpolatedPetPosition;                                // 0x2DD0(0x000C)
+	struct FVector                                     s_InterpolatedPetOwnerPosition;                           // 0x2DDC(0x000C)
+	float                                              s_fPetPositionDistanceMultiplier;                         // 0x2DE8(0x0004)
+	float                                              s_fOwnerVelocityTime;                                     // 0x2DEC(0x0004)
+	float                                              s_fSmoothedMaxSpeed;                                      // 0x2DF0(0x0004)
+	class UTgSpecialFx*                                c_BeamFX;                                                 // 0x2DF4(0x0008) (Transient)
+	struct FRotator                                    r_InitialOrientation;                                     // 0x2DFC(0x000C) (Net)
+	class UParticleSystemComponent*                    c_AimVisibilityMesh;                                      // 0x2E08(0x0008) (ExportObject, Component, EditInline)
 
 	static UClass* StaticClass()
 	{
@@ -23196,16 +23225,16 @@ public:
 	void SetAimVisibilityMesh();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void PostBeginPlay();
-	void PossessedBy(class AController* C, bool bVehicleTransition);
+	void STATIC_PossessedBy(class AController* C, bool bVehicleTransition);
 	void STATIC_DeviceOnHit(class ATgDevice* Dev, struct FImpactInfo* Impact);
-	void DeviceOnDamaged(struct FOnDamagedParams* Params);
-	void DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
-	void DeviceOnKilled(class ATgDevice* Dev, float fDamage, struct FImpactInfo* Impact);
+	void STATIC_DeviceOnDamaged(struct FOnDamagedParams* Params);
+	void STATIC_DeviceAdjustDamage(struct FAdjustDamageParams* Params, float* fDamage);
+	void STATIC_DeviceOnKilled(class ATgDevice* Dev, float fDamage, struct FImpactInfo* Impact);
 	void STATIC_DeviceOnStopFire(class ATgDevice* Dev, bool WasInterrupted);
-	bool CanSeeActor(class AActor* Other);
-	void DirtyAttachmentTransforms();
+	bool STATIC_CanSeeActor(class AActor* Other);
+	void STATIC_DirtyAttachmentTransforms();
 	float STATIC_GetDefaultMeshScale();
-	void CorrectLocationWhileChangingSize(float HeightDelta);
+	void STATIC_CorrectLocationWhileChangingSize(float HeightDelta);
 	void STATIC_GetSmallCollisionCylinderSize(float* Radius, float* Height);
 	void STATIC_GetGiantCollisionCylinderSize(float* Radius, float* Height);
 	bool STATIC_IsDamageOverTimeImmune();
@@ -23216,17 +23245,17 @@ public:
 
 
 // Class TgGame.TgPawn_Turret
-// 0x0020 (0x2EF4 - 0x2ED4)
+// 0x0020 (0x2E30 - 0x2E10)
 class ATgPawn_Turret : public ATgPawn_Pet
 {
 public:
-	unsigned long                                      r_bLockdownIsOn : 1;                                      // 0x2ED4(0x0004) (Net)
-	unsigned long                                      r_bHasHealingStation : 1;                                 // 0x2ED4(0x0004) (Net)
-	unsigned long                                      m_bFirstAidNuggetOverride : 1;                            // 0x2ED4(0x0004)
-	int                                                m_nLockdownPostureID;                                     // 0x2ED8(0x0004)
-	class ATgDevice*                                   m_SpawningDevice;                                         // 0x2EDC(0x0008)
-	class UAkEvent*                                    m_TargetingNotificationAkEvent;                           // 0x2EE4(0x0008)
-	class AActor*                                      m_PrevTargetActor;                                        // 0x2EEC(0x0008)
+	unsigned long                                      r_bLockdownIsOn : 1;                                      // 0x2E10(0x0004) (Net)
+	unsigned long                                      r_bHasHealingStation : 1;                                 // 0x2E10(0x0004) (Net)
+	unsigned long                                      m_bFirstAidNuggetOverride : 1;                            // 0x2E10(0x0004)
+	int                                                m_nLockdownPostureID;                                     // 0x2E14(0x0004)
+	class ATgDevice*                                   m_SpawningDevice;                                         // 0x2E18(0x0008)
+	class UAkEvent*                                    m_TargetingNotificationAkEvent;                           // 0x2E20(0x0008)
+	class AActor*                                      m_PrevTargetActor;                                        // 0x2E28(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -23242,16 +23271,16 @@ public:
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void PlayTargetingSound();
 	void SetTargetActor(class AActor* Target);
-	void ToggleHealingStationFX();
-	void ToggleLockdownFX();
-	void ToggleLockdownMode(bool bSetActive);
-	void DropHealthNuggetTeamOnly(int nTaskForce, const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
+	void STATIC_ToggleHealingStationFX();
+	void STATIC_ToggleLockdownFX();
+	void STATIC_ToggleLockdownMode(bool bSetActive);
+	void STATIC_DropHealthNuggetTeamOnly(int nTaskForce, const struct FVector& SpawnVelocity, float fHealOverride, float fHoTOverride);
 	void PostPawnSetupServer();
 };
 
 
 // Class TgGame.TgPawn_Turret_Flamethrower
-// 0x0000 (0x2EF4 - 0x2EF4)
+// 0x0000 (0x2E30 - 0x2E30)
 class ATgPawn_Turret_Flamethrower : public ATgPawn_Turret
 {
 public:
@@ -23266,7 +23295,7 @@ public:
 
 
 // Class TgGame.TgPawn_Turret_Flamethrower_Mini
-// 0x0000 (0x2EF4 - 0x2EF4)
+// 0x0000 (0x2E30 - 0x2E30)
 class ATgPawn_Turret_Flamethrower_Mini : public ATgPawn_Turret_Flamethrower
 {
 public:
@@ -23281,7 +23310,7 @@ public:
 
 
 // Class TgGame.TgPawn_Turret_Mega
-// 0x0000 (0x2EF4 - 0x2EF4)
+// 0x0000 (0x2E30 - 0x2E30)
 class ATgPawn_Turret_Mega : public ATgPawn_Turret
 {
 public:
@@ -23296,12 +23325,12 @@ public:
 
 
 // Class TgGame.TgPawn_Structure
-// 0x0008 (0x2E80 - 0x2E78)
+// 0x0008 (0x2DBC - 0x2DB4)
 class ATgPawn_Structure : public ATgPawn
 {
 public:
-	float                                              s_fLastDamageTime;                                        // 0x2E78(0x0004)
-	float                                              s_fDamageNotificationDelay;                               // 0x2E7C(0x0004)
+	float                                              s_fLastDamageTime;                                        // 0x2DB4(0x0004)
+	float                                              s_fDamageNotificationDelay;                               // 0x2DB8(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -23317,7 +23346,7 @@ public:
 	void STATIC_TakeDamage(int Damage, class AController* InstigatedBy, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void SendDeathAlert();
 	void SendAttackAlert();
-	bool CanMove();
+	bool STATIC_CanMove();
 };
 
 
@@ -23369,22 +23398,22 @@ public:
 	bool STATIC_AttemptToSpectateTaskforce(int nTaskForceId);
 	void SpectateTaskForceTripleDigit(int Input);
 	void SpectatePlayerIndex(int TaskForceNum, int PlayerIndex);
-	void UpdateBroadcastChannels();
-	void ChangeZoomState(TEnumAsByte<ESpecZoomState> NewZoomState);
+	void STATIC_UpdateBroadcastChannels();
+	void STATIC_ChangeZoomState(TEnumAsByte<ESpecZoomState> NewZoomState);
 	void SpectateZoomOut(bool bEnabled);
 	void SpectateZoomIn(bool bEnabled);
 	void STATIC_GetActorListFrom2DCoordinate(const struct FVector2D& Coordinate, TArray<class AActor*>* ActorList);
 	class APawn* STATIC_GetPawnFrom2DCoordinate(const struct FVector2D& Coordinate);
-	void FlipOverviewSides();
+	void STATIC_FlipOverviewSides();
 	void SpecTest();
 	void SquashMap();
 	float STATIC_GetFOVAngle();
 	void SetOutlineCharacters(bool bNewOutlineCharacters);
-	void ToggleOutlineCharacters();
+	void STATIC_ToggleOutlineCharacters();
 	struct FString StripClanTag(const struct FString& PlayerName);
-	void DecreaseCameraSpeed();
+	void STATIC_DecreaseCameraSpeed();
 	void STATIC_IncreaseCameraSpeeed();
-	void CameraSpeed(float NewSpeed);
+	void STATIC_CameraSpeed(float NewSpeed);
 	void STATIC_GotoCinematicCam(const struct FString& sCamName);
 	void SpecSetFlightMode(TEnumAsByte<ESpecFlightMode> sfm);
 	void RecallSpectatorBookmark(int nNum);
@@ -23399,26 +23428,26 @@ public:
 	TArray<class AActor*> STATIC_GetOutermostTowerList();
 	TArray<class AActor*> STATIC_GetPlayerList();
 	TArray<class AActor*> STATIC_GetViewTargetListForMode(TEnumAsByte<ESpectatorCameraCycle> cycle);
-	void CycleNext(bool bSkipIfPresent, bool bReverse);
+	void STATIC_CycleNext(bool bSkipIfPresent, bool bReverse);
 	void SnapViewToLocation(const struct FVector& WorldLocation, bool bUseFocalPoint);
 	void SetPendingOnDirectorMode();
 	bool PingMap(const struct FVector& WorldLocation, TEnumAsByte<EPING_TYPE> Type, TArray<class AReplicationInfo*>* worldActorRepInfo);
 	void SnapViewToHoverTarget(bool bUseAltView);
 	void STATIC_LockedViewCam(bool bEnabled);
 	bool STATIC_InterceptFlashInput(const struct FName& ButtonName, TEnumAsByte<EInputEvent> Event);
-	void ClearPendingSpecCycle();
+	void STATIC_ClearPendingSpecCycle();
 	void SetPendingSpecCycle(TEnumAsByte<ESpectatorCameraCycle> Mode);
-	void ClientSetReadyState(bool bReadyToPlay);
-	void ToggleSpectatorPlayerIcons();
+	void STATIC_ClientSetReadyState(bool bReadyToPlay);
+	void STATIC_ToggleSpectatorPlayerIcons();
 	void SetSpectatorCameraMode(TEnumAsByte<ESpectatorCameraMode> Mode, bool bCameraTween);
 	void SetNewSpectatorMode(TEnumAsByte<ESpectatorMode> NewMode);
 	bool ShouldFlyFromInput();
-	void UpdateViewTargetUI();
+	void STATIC_UpdateViewTargetUI();
 	void SpectatorSetViewTarget(class AActor* VT, const struct FViewTargetTransitionParams& TransitionParams);
 	void SwitchCamera(const struct FString& sCamera);
 	void SpectatorClearViewViewTarget();
-	void ClientForwardToSpectatingMatch();
-	void ForwardToSpectatingMatch();
+	void STATIC_ClientForwardToSpectatingMatch();
+	void STATIC_ForwardToSpectatingMatch();
 	void PostBeginPlay();
 	class ATgRepInfo_Player* STATIC_GetCurrentPRI();
 	void SetNetTarget(const struct FQWord& qwId, int nTaskForce);
@@ -23474,47 +23503,47 @@ public:
 	void SendCamSyncTarget();
 	void SpectatorReceivedViewTarget(class AActor* VT);
 	void SpectatorSetViewTarget(class AActor* VT, const struct FViewTargetTransitionParams& TransitionParams);
-	void EnableCamSync(bool bEnabled);
-	void TriggerAutoSlomo(float SlomoTime);
-	void STATIC_OnActionListenerStartFire(class ATgPawn* FiringPawn, int nEquipSlot);
-	void EnableAutoSlomo(bool bEnabled);
-	void ToggleAutoSlomo();
+	void STATIC_EnableCamSync(bool bEnabled);
+	void STATIC_TriggerAutoSlomo(float SlomoTime);
+	void OnActionListenerStartFire(class ATgPawn* FiringPawn, int nEquipSlot);
+	void STATIC_EnableAutoSlomo(bool bEnabled);
+	void STATIC_ToggleAutoSlomo();
 	void SpecViewPlayer(const struct FString& PlayerName);
 	bool PingMap(const struct FVector& WorldLocation, TEnumAsByte<EPING_TYPE> Type, TArray<class AReplicationInfo*>* worldActorRepInfo);
 	void SetNewSpectatorMode(TEnumAsByte<ESpectatorMode> NewMode);
 	void STATIC_FindNextClosestAssistedViewTarget();
 	void STATIC_FindNearbyAssistedViewTarget();
-	void DirectorModeToggle();
+	void STATIC_DirectorModeToggle();
 	void STATIC_PostDemoRewind();
-	void CheckSpectatorMasterSlave();
-	void ToggleSync();
-	void EnableSync(bool bEnabled);
+	void STATIC_CheckSpectatorMasterSlave();
+	void STATIC_ToggleSync();
+	void STATIC_EnableSync(bool bEnabled);
 	bool STATIC_IsSyncedWithMaster(int Threshold);
 	int STATIC_GetSyncTargetFrame();
 	void SetSyncTargetFrame(int FrameNum, float TimeDilation);
 	void RewindGraphs();
-	void STATIC_PauseEx();
+	void PauseEx();
 	bool SetSpectatorMasterSlave();
-	bool CanFastForward();
+	bool STATIC_CanFastForward();
 	void STATIC_GoToFrame(float fPercent);
 	void Rewind(int JumpAmount, int FrameNum);
-	void DilateTime(float Amount, bool bForceReset);
+	void STATIC_DilateTime(float Amount, bool bForceReset);
 	void Pause();
 	void STATIC_Slomo(float NewTimeDilation);
 	void PostBeginPlay();
 	void STATIC_ReceivedPlayer();
 	int STATIC_GetSpectatorTaskforceNumber();
 	void StartAutoCombatLog();
-	void ToggleThirdPersonView();
-	void CreateManualRewindPoint();
+	void STATIC_ToggleThirdPersonView();
+	void STATIC_CreateManualRewindPoint();
 	class UClass* STATIC_GetHudClass(class UClass* pNewHudType);
-	void UnregisterEngineCallbacks();
+	void STATIC_UnregisterEngineCallbacks();
 	void RegisterEngineCallbacks();
-	void UpdateCameraModeUI();
-	bool UpdateSyncingUI();
-	void UpdateTimeDilation();
+	void STATIC_UpdateCameraModeUI();
+	bool STATIC_UpdateSyncingUI();
+	void STATIC_UpdateTimeDilation();
 	void RequestSync();
-	void STATIC_OnSynced();
+	void OnSynced();
 };
 
 
@@ -23601,32 +23630,32 @@ public:
 	void SetBindExtended(const struct FString& ExtendedBinding, const struct FString& Command);
 	void SetMouseInput(bool bInvert, bool bSmooth, float fSensitivity);
 	void SetGamepadSensitivity(float fAxisX, float fAxisY);
-	void CancelAutoRun();
-	void ToggleAutoRun();
+	void STATIC_CancelAutoRun();
+	void STATIC_ToggleAutoRun();
 	void SetAimAccelerationSet(int AimSet);
 	void SetAimAccelerationAlgorithm(int Algorithm);
-	float DetermineAimVectorAssistAngleDegrees(class AActor* InTarget, const struct FVector& InPawnFwd, const struct FVector& InTargetCenter, const struct FVector& InRealBoundsExtent, const struct FVector& InMaxBoundsExtent, const struct FVector& InProjectPlaneA, const struct FVector& InProjectPlaneB, const struct FVector& InDetermineAssistDirectionVector, float MaxAssistanceAngleToUse, bool bIsVertical);
+	float STATIC_DetermineAimVectorAssistAngleDegrees(class AActor* InTarget, const struct FVector& InPawnFwd, const struct FVector& InTargetCenter, const struct FVector& InRealBoundsExtent, const struct FVector& InMaxBoundsExtent, const struct FVector& InProjectPlaneA, const struct FVector& InProjectPlaneB, const struct FVector& InDetermineAssistDirectionVector, float MaxAssistanceAngleToUse, bool bIsVertical);
 	struct FRotator STATIC_ApplyAimVectorModification(class ATgDevice* InDevice, const struct FRotator& InRotation);
-	float DetermineAimAssistCurveTime(const struct FVector& InPawnFwd, const struct FVector& InTargetCenter, const struct FVector& InMaxBoundsExtent, const struct FVector& InProjectPlaneA, const struct FVector& InProjectPlaneB, const struct FVector& InDetermineAssistDirectionVector);
-	void DetermineExtentPercentLength(const struct FVector& InTargetCenter, const struct FVector& InMaxBoundsExtentNormal, float InMaxBoundsExtentLength, const struct FVector& InProjectPlaneA, const struct FVector& InProjectPlaneB, float InAimAssistValue, float* OutPositiveLength, float* OutNegativeLength);
+	float STATIC_DetermineAimAssistCurveTime(const struct FVector& InPawnFwd, const struct FVector& InTargetCenter, const struct FVector& InMaxBoundsExtent, const struct FVector& InProjectPlaneA, const struct FVector& InProjectPlaneB, const struct FVector& InDetermineAssistDirectionVector);
+	void STATIC_DetermineExtentPercentLength(const struct FVector& InTargetCenter, const struct FVector& InMaxBoundsExtentNormal, float InMaxBoundsExtentLength, const struct FVector& InProjectPlaneA, const struct FVector& InProjectPlaneB, float InAimAssistValue, float* OutPositiveLength, float* OutNegativeLength);
 	bool STATIC_HandleAimAssistForTarget(const TScriptInterface<class UTgCombatActor>& InTarget, float DeltaTime, struct FVector* InPawnFwd, struct FVector* InPawnRight, struct FVector* InPawnUp, float* HorizontalAssistAmount, float* VerticalAssistAmount);
 	void STATIC_GetDesiredTrackingAim(float DeltaTime, float* TrackingX, float* TrackingY);
 	float Sign(float InValue);
 	void ApplyAimFrictionAndMagnet(float DeltaTime, float HorizontalAssistAmount, float VerticalAssistAmount, float DistanceToTarget, TArray<struct FAimAssistKeyframeData>* MagnetHorizKeyframeData, TArray<struct FAimAssistKeyframeData>* MagnetVertKeyframeData, TArray<struct FAimAssistKeyframeData>* FrictionKeyframeData, TArray<struct FAimAssistKeyframeData>* FrictionVertKeyframeData, struct FVector2D* AimAssistMagnetScale, struct FVector2D* AimAssistFrictionScale);
 	void ApplyAimTracking(float DeltaTime, float HorizontalAssistAmount, float VerticalAssistAmount, float DistanceToTarget, TArray<struct FAimAssistKeyframeData>* TrackingAccHorizKeyframeData, TArray<struct FAimAssistKeyframeData>* TrackingAngleHorizKeyframeData, TArray<struct FAimAssistKeyframeData>* TrackingAccVertKeyframeData, TArray<struct FAimAssistKeyframeData>* TrackingAngleVertKeyframeData, struct FVector2D* AimAssistTrackingScale);
-	void UpdateAimAssistTargetWeights(float DeltaTime);
+	void STATIC_UpdateAimAssistTargetWeights(float DeltaTime);
 	void SelectBestAimAssistTargetViaWeights(float* BestHorizontalAssistAmount, float* BestVerticalAssistAmount);
 	void STATIC_HandleAimAssist(float DeltaTime, bool bTurnAimAssistConditionMet, bool bLookUpAimAssistConditionMet);
-	void DrawAimAssistVals(const struct FString& assistName, int Index, float YL, class AHUD* HUD, float* YPos);
+	void STATIC_DrawAimAssistVals(const struct FString& assistName, int Index, float YL, class AHUD* HUD, float* YPos);
 	void DisplayDebug(class AHUD* HUD, float* out_YL, float* out_YPos);
 	void STATIC_HandleMovementInput(bool bIsMatchingInput, TEnumAsByte<EPlayerInputType> InputType, float* fAxisValue);
 	void PlayerInput(float DeltaTime);
-	void STATIC_AdjustMouseSensitivity(float FOVScale);
+	void AdjustMouseSensitivity(float FOVScale);
 	float STATIC_GetADSSensitivity();
 	float STATIC_GetScopeSensitivity();
 	bool ShouldUseAimAssist();
-	void PreProcessInput(float DeltaTime);
-	TEnumAsByte<EDoubleClickDir> STATIC_CheckForDoubleClickMove(float DeltaTime);
+	void STATIC_PreProcessInput(float DeltaTime);
+	TEnumAsByte<EDoubleClickDir> CheckForDoubleClickMove(float DeltaTime);
 	void Duck();
 	bool STATIC_InputChar(int ControllerId, const struct FString& Unicode);
 	bool STATIC_IsGyroInputAllowed();
@@ -23656,8 +23685,8 @@ public:
 
 
 	void PlayerInput(float DeltaTime);
-	void STATIC_AdjustMouseSensitivity(float FOVScale);
-	void CheckIdleBreak();
+	void AdjustMouseSensitivity(float FOVScale);
+	void STATIC_CheckIdleBreak();
 };
 
 
@@ -23735,15 +23764,15 @@ public:
 	void PreBeginPlay();
 	void STATIC_PlayMVPTimer();
 	void PlayEmoteTimer();
-	void STATIC_PlaySkydiveAndLandTimer();
+	void PlaySkydiveAndLandTimer();
 	void PlaySkydiveTimer();
-	void STATIC_PlayDelayedEmoteLoop();
+	void PlayDelayedEmoteLoop();
 	void TeardownMeterBusses();
 	void ReplaceMaterialInstances();
 	void SetMaterialScalarParameterValue(const struct FName& szParameterName, float fValue, bool bSkin, bool bHead, bool bWeapon);
-	void CancelEmote(bool bVerifyNoRelevantEmotes, class UTgAnimNodeEmoteSequence* Exclude);
-	void STATIC_StopSkydiveAndLand();
-	void STATIC_PlaySkydiveAndLand();
+	void STATIC_CancelEmote(bool bVerifyNoRelevantEmotes, class UTgAnimNodeEmoteSequence* Exclude);
+	void StopSkydiveAndLand();
+	void PlaySkydiveAndLand();
 	void StopSkydive();
 	void PlaySkydive();
 	void StopMVP();
@@ -23753,7 +23782,7 @@ public:
 	void PlayLobbyAnim(TEnumAsByte<ELobbyAnimState> NewAnimState);
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	void ForceRecalculateMaterial();
-	void CleanupForAssetSwap(bool bReset);
+	void STATIC_CleanupForAssetSwap(bool bReset);
 	void STATIC_SetActive(bool bActive);
 	void AllManifestsLoaded();
 	void ResetAnims();
@@ -23781,7 +23810,7 @@ public:
 
 	void PostBeginPlay();
 	void PreBeginPlay();
-	void ChangeTaskForceFlag(int nTaskForce, int nTeamIndex);
+	void STATIC_ChangeTaskForceFlag(int nTaskForce, int nTeamIndex);
 };
 
 
@@ -23935,37 +23964,37 @@ public:
 	}
 
 
-	void CachePSC(class UParticleSystemComponent* PSC, const struct FAnimNotifyParticleCacheEntry& CacheEntry, class UAnimNotify_PlayParticleEffect* AnimNotifyData);
-	class UParticleSystemComponent* GetPSCForPlayParticleEffect(class UAnimNotify_PlayParticleEffect* AnimNotifyData);
+	void STATIC_CachePSC(class UParticleSystemComponent* PSC, const struct FAnimNotifyParticleCacheEntry& CacheEntry, class UAnimNotify_PlayParticleEffect* AnimNotifyData);
+	class UParticleSystemComponent* STATIC_GetPSCForPlayParticleEffect(class UAnimNotify_PlayParticleEffect* AnimNotifyData);
 	bool STATIC_GetAnimNotifyParticleCacheEntryFor(class UAnimNotify_PlayParticleEffect* AnimNotifyData, struct FAnimNotifyParticleCacheEntry* CacheEntry);
-	void FxPushMaterialToWeaponMesh(const struct FName& nmGroup);
+	void STATIC_FxPushMaterialToWeaponMesh(const struct FName& nmGroup);
 	bool PopMaterial(int nMaterialHandle);
 	int PushMaterialManual(TArray<class UMaterialInstanceConstant*> MICs, int nPriority);
 	int PushMaterial(class UMaterialInterface* MI, TEnumAsByte<EMaterialParamHarvestType> eParamHarvestType, int nPriority);
 	void SetForceUpdateAttachmentsInTick(bool bSet);
 	class UAnimTree* STATIC_GetAnimTree();
 	void STATIC_SetParentAnimComponent(class USkeletalMeshComponent* NewParentAnimComp);
-	void OnMeshSetHidden(bool bHidden);
+	void STATIC_OnMeshSetHidden(bool bHidden);
 	void STATIC_RecalculateFx();
 	void STATIC_ActivateWhileAliveFx(bool bOn, const struct FName& nmDisplayGroup);
 	void STATIC_ActivateOnWhenDeployedFx(bool bOn);
 	float STATIC_GetCurrentDeployPercentage();
-	void STATIC_SwapMaterial(class UMaterialInterface* MI, bool bNoParamReaping);
-	class UMaterialInterface* GetDefaultMaterial(int nIndex);
+	void SwapMaterial(class UMaterialInterface* MI, bool bNoParamReaping);
+	class UMaterialInterface* STATIC_GetDefaultMaterial(int nIndex);
 	void STATIC_SetDefaultSkin(int nIndex);
-	class UObject* FxActivateIndependant(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot, bool bUseSocketOverride, TArray<struct FParticleSysParam> Params);
-	void FxSpawnSound(const struct FName& nmGroup, int nMode, const struct FVector& SoundLocation, int nSocketIndex, int nEquipSlot);
-	void FxSpawnEmitter(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot);
-	void FxSpawnTracer(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, int nSocketIndex, int nEquipSlot);
-	void FxDeactivateAll(int nEquipSlot);
-	void FxDeactivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	class UObject* FxActivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm, bool bSkipWeapon);
-	TArray<class UObject*> FxGetAll(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
-	class UObject* FxGet(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
-	void FxRemove(class UObject* Fx);
-	void FxAdd(class UObject* Fx);
-	void EndRagdoll();
-	void InitRagdoll();
+	class UObject* STATIC_FxActivateIndependant(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot, bool bUseSocketOverride, TArray<struct FParticleSysParam> Params);
+	void STATIC_FxSpawnSound(const struct FName& nmGroup, int nMode, const struct FVector& SoundLocation, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxSpawnEmitter(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxSpawnTracer(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxDeactivateAll(int nEquipSlot);
+	void STATIC_FxDeactivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxActivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm, bool bSkipWeapon);
+	TArray<class UObject*> STATIC_FxGetAll(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxGet(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxRemove(class UObject* Fx);
+	void STATIC_FxAdd(class UObject* Fx);
+	void STATIC_EndRagdoll();
+	void STATIC_InitRagdoll();
 };
 
 
@@ -24004,7 +24033,7 @@ public:
 	void SetCanPlayParticleFlags(bool bFire, bool bFireLoop, bool bDoNotPlayIfHidden);
 	void SetFireLoopDisplayGroup(const struct FName& nmFire, const struct FName& nmFireLoopTail);
 	void SetFireDisplayGroup(const struct FName& nmFire);
-	void CompleteInitialization();
+	void STATIC_CompleteInitialization();
 };
 
 
@@ -24040,7 +24069,7 @@ public:
 
 
 	void PreBeginPlay();
-	void ChangePantheonMIC(int nTaskForce, int nTeamIndex);
+	void STATIC_ChangePantheonMIC(int nTaskForce, int nTeamIndex);
 };
 
 
@@ -24092,8 +24121,8 @@ public:
 	}
 
 
-	void NotifyLocalPlayerTeamReceived();
-	void UpdateFriendlyFlag();
+	void STATIC_NotifyLocalPlayerTeamReceived();
+	void STATIC_UpdateFriendlyFlag();
 	void STATIC_RecalculateMaterial(bool bIsFriendlyWithLocalPawn, bool bForce);
 	void ForceRecalculateMaterial();
 };
@@ -24133,21 +24162,21 @@ public:
 
 
 	void STATIC_RecalculateFx();
-	void OnMeshSetHidden(bool bHidden);
-	class UMaterialInterface* GetDefaultMaterial(int nIndex);
+	void STATIC_OnMeshSetHidden(bool bHidden);
+	class UMaterialInterface* STATIC_GetDefaultMaterial(int nIndex);
 	void STATIC_SetDefaultSkin(int nIndex);
-	void STATIC_SwapMaterial(class UMaterialInterface* MI, bool bNoParamReaping);
-	class UObject* FxActivateIndependant(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot, bool bUseSocketOverride, TArray<struct FParticleSysParam> Params);
-	void FxSpawnSound(const struct FName& nmGroup, int nMode, const struct FVector& SoundLocation, int nSocketIndex, int nEquipSlot);
-	void FxSpawnEmitter(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot);
-	void FxSpawnTracer(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, int nSocketIndex, int nEquipSlot);
-	void FxDeactivateAll(int nEquipSlot);
-	void FxDeactivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
-	class UObject* FxActivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm, bool bSkipWeapon);
-	TArray<class UObject*> FxGetAll(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
-	class UObject* FxGet(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
-	void FxRemove(class UObject* Fx);
-	void FxAdd(class UObject* Fx);
+	void SwapMaterial(class UMaterialInterface* MI, bool bNoParamReaping);
+	class UObject* STATIC_FxActivateIndependant(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot, bool bUseSocketOverride, TArray<struct FParticleSysParam> Params);
+	void STATIC_FxSpawnSound(const struct FName& nmGroup, int nMode, const struct FVector& SoundLocation, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxSpawnEmitter(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, const struct FVector& HitNormal, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxSpawnTracer(const struct FName& nmGroup, int nMode, const struct FVector& HitLocation, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxDeactivateAll(int nEquipSlot);
+	void STATIC_FxDeactivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxActivateGroup(const struct FName& nmGroup, int nMode, int nSocketIndex, int nEquipSlot, bool bIgnoreRelevancy, bool bFromEffectForm, bool bSkipWeapon);
+	TArray<class UObject*> STATIC_FxGetAll(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
+	class UObject* STATIC_FxGet(const struct FName& nmGroup, int nMode, int nIndex, int nSocketIndex, int nEquipSlot);
+	void STATIC_FxRemove(class UObject* Fx);
+	void STATIC_FxAdd(class UObject* Fx);
 };
 
 
@@ -24577,7 +24606,7 @@ public:
 	}
 
 
-	void NotifyWeaponFired(class AWeapon* W, unsigned char FireMode);
+	void STATIC_NotifyWeaponFired(class AWeapon* W, unsigned char FireMode);
 	void STATIC_NotifyDamagedTarget(class ATgPawn* TargetPawn);
 	void STATIC_DeviceOnStopFire(class ATgDevice* Dev, bool WasInterrupted);
 	void STATIC_DeviceOnHit(class ATgDevice* Dev, struct FImpactInfo* Impact);
@@ -24586,41 +24615,41 @@ public:
 	void STATIC_DeviceOnStartFire(class ATgDevice* Dev);
 	void STATIC_DeviceOnStopBuildup(class ATgDevice* Dev, bool WasInterrupted);
 	void STATIC_DeviceOnStartBuildup(class ATgDevice* Dev);
-	void STATIC_OnEnterCombat();
-	void STATIC_OnExitCombat();
-	void NotifyTakeHit(class AController* InstigatedBy, const struct FVector& HitLocation, int Damage, class UClass* DamageType, const struct FVector& Momentum);
-	void STATIC_NotifyKilledBy(class AController* Killer);
+	void OnEnterCombat();
+	void OnExitCombat();
+	void STATIC_NotifyTakeHit(class AController* InstigatedBy, const struct FVector& HitLocation, int Damage, class UClass* DamageType, const struct FVector& Momentum);
+	void NotifyKilledBy(class AController* Killer);
 	void SetActionlessPause(bool bOn);
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
-	void STATIC_OnTriggerBots(class UTgSeqAct_TriggerBots* Action);
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnTriggerBots(class UTgSeqAct_TriggerBots* Action);
 	void PawnDied(class APawn* P);
 	void STATIC_Suicide();
 	void STATIC_Despawn();
 	void Destroyed();
-	void STATIC_CleanupPRI();
-	void InitPlayerReplicationInfo();
+	void CleanupPRI();
+	void STATIC_InitPlayerReplicationInfo();
 	void STATIC_Possess(class APawn* inPawn, bool bVehicleTransition);
 	void PostBeginPlay();
-	bool CanSpreadOut();
-	void ClearSpreadLocation();
+	bool STATIC_CanSpreadOut();
+	void STATIC_ClearSpreadLocation();
 	void SetSpreadLocation(struct FVector* SpreadLoc);
-	void Evade();
+	void STATIC_Evade();
 	void SquadEvade();
 	void SquadTargetChanged();
-	void UpdateTargetingList(TArray<struct FImpactInfo> ImpactList, unsigned char EquipSlot);
+	void STATIC_UpdateTargetingList(TArray<struct FImpactInfo> ImpactList, unsigned char EquipSlot);
 	float STATIC_GetMaxDeviceRange();
 	float STATIC_GetVisionDistance();
-	struct FVector CalculateLobIntersection(const struct FVector& targetPos, const struct FVector& targetVel, const struct FVector& sourcePos, const struct FVector& sourceVel, float projVel);
+	struct FVector STATIC_CalculateLobIntersection(const struct FVector& targetPos, const struct FVector& targetVel, const struct FVector& sourcePos, const struct FVector& sourceVel, float projVel);
 	bool STATIC_LineCheckPassThrough(const struct FVector& vLocation, class AActor* pTarget, const struct FVector& vTarget);
 	bool STATIC_LineCheckEx(const struct FVector& vLocation, class AActor* pTarget, const struct FVector& vTarget);
-	bool LineCheck(const struct FVector& vLocation, class AActor* pTarget);
+	bool STATIC_LineCheck(const struct FVector& vLocation, class AActor* pTarget);
 	bool STATIC_LineCheckVisibility(class AActor* pTarget, class AActor* pSource);
 	bool STATIC_LineCheckMovement(class AActor* pTarget, class AActor* pSource);
 	void SetTaskForceNumber(int nTaskForce);
 	int STATIC_GetTaskForceNumber();
 	void AddThreat(class ATgPawn* attacker, float fAmount);
 	bool STATIC_IsDeviceReady(TEnumAsByte<ETG_EQUIP_POINT> DeviceSlot);
-	bool STATIC_AtLocation(const struct FVector& vLocation);
+	bool AtLocation(const struct FVector& vLocation);
 };
 
 
@@ -24737,11 +24766,11 @@ public:
 	void STATIC_PauseForDuration(float PauseDuration);
 	bool STATIC_IsPaused();
 	void SetPaused(bool bPaused);
-	void GameHasEnded(class AActor* EndGameFocus, bool bIsWinner);
+	void STATIC_GameHasEnded(class AActor* EndGameFocus, bool bIsWinner);
 	void PawnDied(class APawn* P);
-	struct FRotator GetAdjustedAimFor(class AWeapon* W, const struct FVector& StartFireLoc);
-	struct FRotator CalcGaussianInaccuracy(float StdDev);
-	struct FRotator CalcUniformInaccuracy(float DegMissed);
+	struct FRotator STATIC_GetAdjustedAimFor(class AWeapon* W, const struct FVector& StartFireLoc);
+	struct FRotator STATIC_CalcGaussianInaccuracy(float StdDev);
+	struct FRotator STATIC_CalcUniformInaccuracy(float DegMissed);
 	float STATIC_GetLeadAccuracy();
 	float STATIC_GetCooldownModifier();
 	float STATIC_GetAngleToTarget();
@@ -24749,14 +24778,14 @@ public:
 	bool StopFireDevice(TEnumAsByte<ETG_EQUIP_POINT> DeviceSlot, bool bForce);
 	bool STATIC_CancelFiring();
 	bool STATIC_FireDevice(TEnumAsByte<ETG_EQUIP_POINT> DeviceSlot, bool bContinuousFire, TEnumAsByte<EUseDeviceAimType> aimType);
-	struct FVector CalculateAim(bool bHeadShot);
+	struct FVector STATIC_CalculateAim(bool bHeadShot);
 	float STATIC_GetCooldownIncrease();
 	void Stun(bool bStun, TEnumAsByte<EStunType> eType);
-	void UpdateDeviceRanges();
-	void STATIC_OnPathfindTerminated();
-	void STATIC_OnPathfindFailed();
+	void STATIC_UpdateDeviceRanges();
+	void OnPathfindTerminated();
+	void OnPathfindFailed();
 	void StopNavigation();
-	void ClearNavigation();
+	void STATIC_ClearNavigation();
 	void AddLocationToNavigationQueue(int NodeToken, const struct FVector& TargetLocation, bool bLookAtTarget, bool bMustHaveLOS, float DistanceTolerance);
 	void AddActorToNavigationQueue(int NodeToken, class AActor* TargetActor, bool bLookAtTarget, bool bMustHaveLOS, float DistanceTolerance, bool bStopNavOnReachedDestination);
 	bool STATIC_HasVisibilityToPoint(struct FVector* TestPoint);
@@ -24769,12 +24798,12 @@ public:
 	void STATIC_IgnoreDeployable(class ATgDeployable* pDeployable);
 	void STATIC_LoadBehaviorTree(const struct FName& TreeName);
 	void ResetBehaviorTree();
-	void CleanupBehaviorTree();
+	void STATIC_CleanupBehaviorTree();
 	void SpawnDebuggerWindow();
-	void Debug_Reset();
-	void Debug_Resume();
-	void Debug_Step();
-	void Debug_Pause();
+	void STATIC_Debug_Reset();
+	void STATIC_Debug_Resume();
+	void STATIC_Debug_Step();
+	void STATIC_Debug_Pause();
 	void UpdatePawnDebug();
 };
 
@@ -24808,23 +24837,23 @@ public:
 	void SetCredits(int nCreditsAmount);
 	int STATIC_GetCredits();
 	void PostBeginPlay();
-	struct FRotator GetAdjustedAimFor(class AWeapon* Weap, const struct FVector& StartFireLoc);
+	struct FRotator STATIC_GetAdjustedAimFor(class AWeapon* Weap, const struct FVector& StartFireLoc);
 	void STATIC_CopyPropertiesTo(class AController* C);
 	void STATIC_Possess(class APawn* inPawn, bool bVehicleTransition);
 	void STATIC_LiveRespawn(bool bResetHealth, bool bResetDevices);
 	void STATIC_Revive();
-	void InitPlayerReplicationInfo();
+	void STATIC_InitPlayerReplicationInfo();
 	int STATIC_GetTaskForceNumber();
 	void SetRewardValues(int XP, int nCredits, class AActor* Source, TEnumAsByte<ERewardValueType> RewardType, bool bFlankKill);
 	void SetStartingProperties();
 	void SetBotPlayerId();
-	bool STATIC_OnRespawnRuleChanged();
+	bool OnRespawnRuleChanged();
 	float StartReviveTimer();
 	void PurchaseBurnCards();
 	void PurchaseSkills();
 	int STATIC_GetSkillPointsAvailable();
 	bool STATIC_HaveBasicSkillsBeenActivated();
-	bool CanAllocateSkillPoint(int DeviceID, class ATgDevice* aDevice);
+	bool STATIC_CanAllocateSkillPoint(int DeviceID, class ATgDevice* aDevice);
 	void PurchaseItems();
 };
 
@@ -24844,7 +24873,7 @@ public:
 
 
 	void STATIC_Possess(class APawn* inPawn, bool bVehicleTransition);
-	void InitPlayerReplicationInfo();
+	void STATIC_InitPlayerReplicationInfo();
 };
 
 
@@ -24878,13 +24907,13 @@ public:
 
 
 	void STATIC_Possess(class APawn* inPawn, bool bVehicleTransition);
-	void STATIC_OnPathfindTerminated();
-	void STATIC_OnPathfindFailed();
+	void OnPathfindTerminated();
+	void OnPathfindFailed();
 	bool STATIC_HasVisibilityFromHead(const struct FVector& vTarget);
-	void STATIC_SetUnstuck();
+	void SetUnstuck();
 	TArray<class ATgDeploy_Pickup*> STATIC_GetCachedNearbyItems(float fRadius);
 	TArray<class ATgDeploy_LootCrate*> STATIC_GetCachedNearbyChests(float fRadius);
-	void STATIC_SetDifficultyConfig(const struct FDifficultyConfig& NewConfig);
+	void SetDifficultyConfig(const struct FDifficultyConfig& NewConfig);
 	struct FDifficultyConfig STATIC_GetDifficultyConfig();
 };
 
@@ -24906,7 +24935,7 @@ public:
 	}
 
 
-	bool CanSpreadOut();
+	bool STATIC_CanSpreadOut();
 };
 
 
@@ -24930,12 +24959,12 @@ public:
 	}
 
 
-	void STATIC_NotifyKilledBy(class AController* Killer);
+	void NotifyKilledBy(class AController* Killer);
 	void SquadTargetChanged();
 	void SquadEvade();
-	void Evade();
-	bool CanSpreadOut();
-	void ClearThreatList();
+	void STATIC_Evade();
+	bool STATIC_CanSpreadOut();
+	void STATIC_ClearThreatList();
 	void AddThreat(class ATgPawn* attacker, float ThreatLevel);
 };
 
@@ -25091,7 +25120,7 @@ public:
 	void TestObstacleAvoidance(int TestType);
 	void STATIC_Reset();
 	void Init(float GridPointSize, float GridExtents);
-	TEnumAsByte<EObstacleAvoidanceStatus> GetNextMoveLocation(struct FVector* TargetPoint, struct FVector* IntermediatePoint, float* ArrivalDistance);
+	TEnumAsByte<EObstacleAvoidanceStatus> STATIC_GetNextMoveLocation(struct FVector* TargetPoint, struct FVector* IntermediatePoint, float* ArrivalDistance);
 	bool FindPath(TArray<class AActor*>* ActorsToAvoid, struct FVector* TargetPoint, struct FVector* UpdatedTargetPoint);
 };
 
@@ -25135,12 +25164,12 @@ public:
 
 
 	void STATIC_OnSquadCreated();
-	void STATIC_NotifyEvade();
-	void STATIC_NotifyTargetChanged();
-	void Evade();
+	void NotifyEvade();
+	void NotifyTargetChanged();
+	void STATIC_Evade();
 	void SuggestEvade();
-	void UpdateTargetList(float DeltaTime);
-	void DropTarget(class AActor* TargetToDrop);
+	void STATIC_UpdateTargetList(float DeltaTime);
+	void STATIC_DropTarget(class AActor* TargetToDrop);
 	void SuggestDropTarget(class AActor* TargetToDrop, class ATgAIController* requester);
 	class ATgPawn* STATIC_GetTargetPawn();
 	class AActor* STATIC_GetTarget();
@@ -25149,13 +25178,13 @@ public:
 	struct FBox STATIC_GetSquadBounds();
 	void SpreadSquad();
 	void SquadDied();
-	bool STATIC_MergeWith(class UTgAISquad* squad);
-	void STATIC_MemberKilledBy(class AController* Killer);
-	void STATIC_RemoveMember(class ATgAIController* aic, bool bDied);
-	void STATIC_AddMember(class ATgAIController* aic);
+	bool MergeWith(class UTgAISquad* squad);
+	void MemberKilledBy(class AController* Killer);
+	void RemoveMember(class ATgAIController* aic, bool bDied);
+	void AddMember(class ATgAIController* aic);
 	bool STATIC_IsOpen();
-	void CloseSquad();
-	void STATIC_OpenSquad();
+	void STATIC_CloseSquad();
+	void OpenSquad();
 };
 
 
@@ -25174,8 +25203,8 @@ public:
 	}
 
 
-	void CheckForMerge();
-	void ClusterSquad();
+	void STATIC_CheckForMerge();
+	void STATIC_ClusterSquad();
 };
 
 
@@ -25192,7 +25221,7 @@ public:
 	}
 
 
-	void DropTarget(class AActor* TargetToDrop);
+	void STATIC_DropTarget(class AActor* TargetToDrop);
 };
 
 
@@ -25214,10 +25243,10 @@ public:
 	void STATIC_OnSquadCreated();
 	class ATgPawn* STATIC_GetTargetPawn();
 	class AActor* STATIC_GetTarget();
-	void Evade();
+	void STATIC_Evade();
 	void SquadDied();
-	void UpdateTargetList(float DeltaTime);
-	void DropTarget(class AActor* TargetToDrop);
+	void STATIC_UpdateTargetList(float DeltaTime);
+	void STATIC_DropTarget(class AActor* TargetToDrop);
 	void SuggestDropTarget(class AActor* TargetToDrop, class ATgAIController* requester);
 	void SetTarget(class AActor* NewTarget);
 	void SuggestTarget(class AActor* NewTarget, class ATgAIController* requester);
@@ -25242,7 +25271,7 @@ public:
 	}
 
 
-	void ComputeUtilities();
+	void STATIC_ComputeUtilities();
 	class ATgAIAnnotation* STATIC_GetBestAnnotationPoint(TEnumAsByte<EAIAnnotationType> AnnotationType);
 };
 
@@ -25307,7 +25336,7 @@ public:
 	void STATIC_DisableModifier(bool bImmediate);
 	void STATIC_RemoveCameraModifierAsEvent(class ACamera* Cam);
 	void STATIC_AddCameraModifierAsEvent(class ACamera* Cam);
-	bool ModifyCamera(class ACamera* Camera, float DeltaTime, struct FTPOV* OutPOV);
+	bool STATIC_ModifyCamera(class ACamera* Camera, float DeltaTime, struct FTPOV* OutPOV);
 };
 
 
@@ -25324,7 +25353,7 @@ public:
 	}
 
 
-	bool ModifyCamera(class ACamera* Camera, float DeltaTime, struct FTPOV* OutPOV);
+	bool STATIC_ModifyCamera(class ACamera* Camera, float DeltaTime, struct FTPOV* OutPOV);
 };
 
 
@@ -25342,14 +25371,14 @@ public:
 	}
 
 
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void STATIC_BecomeViewTarget(class ATgPlayerController* PC);
 	void ProcessInput(class UPlayerInput* PlayerInput, float DeltaTime);
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
-	void STATIC_OnTweenOutEnd();
-	void STATIC_OnBecomeInActive(class UTgCameraModule* NewCamera);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
+	void OnTweenOutEnd();
+	void OnBecomeInActive(class UTgCameraModule* NewCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
 	void Init();
 };
 
@@ -25372,8 +25401,8 @@ public:
 	}
 
 
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void STATIC_BecomeViewTarget(class ATgPlayerController* PC);
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 	struct FVector STATIC_GetCamLocationOffset(class APawn* P);
@@ -25394,8 +25423,8 @@ public:
 	}
 
 
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 	struct FVector STATIC_GetCamLocationOffset(class APawn* P);
 };
@@ -25435,12 +25464,12 @@ public:
 
 
 	void BlendCameraToLocation(const struct FVector& NewLocation, float BlendTime, bool bUseFocalPoint);
-	void STATIC_OnBecomeInActive(class UTgCameraModule* NewCamera);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
-	void DecreaseCameraSpeed();
+	void OnBecomeInActive(class UTgCameraModule* NewCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
+	void STATIC_DecreaseCameraSpeed();
 	void STATIC_IncreaseCameraSpeeed();
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	float STATIC_GetFOVAngle();
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 };
@@ -25488,18 +25517,18 @@ public:
 	}
 
 
-	void FlipSides();
+	void STATIC_FlipSides();
 	float STATIC_GetFOVAngle();
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
-	void STATIC_OverridePawnTargetLocation(class ATgPawn* TgP, struct FVector* TargetLocation);
+	void OverridePawnTargetLocation(class ATgPawn* TgP, struct FVector* TargetLocation);
 	void BlendCameraToLocation(const struct FVector& NewLocation, float BlendTime, bool bUseFocalPoint);
-	void STATIC_OnBecomeInActive(class UTgCameraModule* NewCamera);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
-	void ClearObstacleTransparency();
-	void CheckObstacleTransparency();
-	bool UpdateAutoZoom(float DeltaTime);
+	void OnBecomeInActive(class UTgCameraModule* NewCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
+	void STATIC_ClearObstacleTransparency();
+	void STATIC_CheckObstacleTransparency();
+	bool STATIC_UpdateAutoZoom(float DeltaTime);
 	struct FRotator STATIC_GetWorldViewRotation();
 };
 
@@ -25567,15 +25596,15 @@ public:
 	}
 
 
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void STATIC_BecomeViewTarget(class ATgPlayerController* PC);
-	void UpdateAverageServerCorrection(float DeltaTime);
-	void UpdateServerCorrectionFromMovement(const struct FVector& DesiredLocation);
+	void STATIC_UpdateAverageServerCorrection(float DeltaTime);
+	void STATIC_UpdateServerCorrectionFromMovement(const struct FVector& DesiredLocation);
 	struct FVector SmoothServerCorrection(class ATgPawn* TgP, const struct FVector& DesiredLocation, float DeltaTime);
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 	struct FVector STATIC_GetCamLocationWithOffset(class ATgPawn* ViewPawn, float DeltaTime, class ATgPlayerCamera* CameraActor, struct FTViewTarget* OutVT);
-	void UpdateCameraZoom(class ATgPawn* TgP, float DeltaTime);
+	void STATIC_UpdateCameraZoom(class ATgPawn* TgP, float DeltaTime);
 	float STATIC_GetZoomDuration();
 	float STATIC_GetCurrent3pPercent();
 	struct FRotator STATIC_GetWorldRotation(class ATgPlayerCamera* CameraActor);
@@ -25583,8 +25612,8 @@ public:
 	void Apply3pCamTranslationOffsets(const struct FVector& vCamAttachLocation, class ATgPawn* ViewPawn, struct FVector* vPivotLocation, struct FVector* vCameraSpaceTranslation);
 	bool Set3pCamAttachLocation(class ATgPawn* ViewPawn, struct FVector* vCamAttachLocation);
 	struct FVector STATIC_GetCamRawOffset(class AActor* ViewTarget);
-	void STATIC_OnTweenOutEnd();
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
+	void OnTweenOutEnd();
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
 };
 
 
@@ -25644,13 +25673,13 @@ public:
 	}
 
 
-	void GetCameraView(float DeltaTime, bool bOnlyFOV, struct FTPOV* OutPOV);
+	void STATIC_GetCameraView(float DeltaTime, bool bOnlyFOV, struct FTPOV* OutPOV);
 	void STATIC_GetActorEyesViewPoint(struct FVector* out_Location, struct FRotator* out_Rotation);
 	void StartTween(float TweenTime);
 	void SetPosition(int nPosition);
 	void TriggerKismetActivationEvent(bool bActive, int nPosition);
-	void ClearEnemyTargets();
-	void ClearFriendlyTargets();
+	void STATIC_ClearEnemyTargets();
+	void STATIC_ClearFriendlyTargets();
 	void STATIC_SetActive(bool bActive);
 };
 
@@ -25684,7 +25713,7 @@ public:
 	}
 
 
-	void STATIC_OnViewTargetChanged(class AActor* aNewViewTarget);
+	void OnViewTargetChanged(class AActor* aNewViewTarget);
 };
 
 
@@ -25784,11 +25813,11 @@ public:
 
 
 	void TakeHit(const struct FVector& Direction, float fDamageAmount, class UClass* DamageType, struct FExtraDamageInfo* ExtraInfo);
-	bool CheckCrit(int ScreenLocation);
-	float STATIC_MixProperty(const struct FPropertyDecayState& PropState, const struct FPropertyDecayParams& PropParams);
-	void UpdateDecay(const struct FPropertyDecayParams& PropParams, float fPropertyCurrent, struct FPropertyDecayState* PropState);
+	bool STATIC_CheckCrit(int ScreenLocation);
+	float MixProperty(const struct FPropertyDecayState& PropState, const struct FPropertyDecayParams& PropParams);
+	void STATIC_UpdateDecay(const struct FPropertyDecayParams& PropParams, float fPropertyCurrent, struct FPropertyDecayState* PropState);
 	void PlayDamageCameraEffect(TEnumAsByte<EDamageEffectScreenLocation> ScreenLocation, float fDamageAmount, bool bCritical);
-	class ATgEmitter_CameraEffect* FindCameraEffect(class UClass* CameraEffectClass);
+	class ATgEmitter_CameraEffect* STATIC_FindCameraEffect(class UClass* CameraEffectClass);
 	void STATIC_RemoveCameraEffect(class ATgEmitter_CameraEffect* CameraEffect);
 	class ATgEmitter_CameraEffect* STATIC_AddCameraEffect(class UParticleSystem* Template, TArray<struct FFx_Sound> SoundList, TEnumAsByte<ECameraEffectVisiblity> EffectVisibility);
 	void PlayWeather(class UParticleSystem* Template, class ATgWeatherVolume* SourceVolume);
@@ -25814,18 +25843,18 @@ public:
 	void PlayBleed(bool bEnabled);
 	void PlayLowHealth(bool bEnabled);
 	float STATIC_GetFOVInterpZoomPct();
-	float STATIC_AdjustFOV(float DeltaTime);
+	float AdjustFOV(float DeltaTime);
 	void ApplyFOVModification(float* FOV);
 	void FillCameraCache(struct FTPOV* NewPOV);
-	void UpdateCameraLocalToTarget();
-	void GetViewLocalToTarget(class AActor* InViewTarget, struct FVector* LocalViewLocation, struct FQuat* LocalViewRotation);
+	void STATIC_UpdateCameraLocalToTarget();
+	void STATIC_GetViewLocalToTarget(class AActor* InViewTarget, struct FVector* LocalViewLocation, struct FQuat* LocalViewRotation);
 	void STATIC_UpdateCamera(float DeltaTime);
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void ProcessInput(class UPlayerInput* PlayerInput, float DeltaTime);
-	void EndLastCameraTween();
-	void STATIC_UpdateViewTarget(float DeltaTime, struct FTViewTarget* OutVT);
-	class UTgCameraModule* STATIC_CreateCamera(class UClass* CameraClass);
+	void STATIC_EndLastCameraTween();
+	void UpdateViewTarget(float DeltaTime, struct FTViewTarget* OutVT);
+	class UTgCameraModule* CreateCamera(class UClass* CameraClass);
 	class UTgCameraModule* SwitchCameras(class UClass* CameraClass, float fTweenTime);
 	float STATIC_GetFOVAngle();
 	void STATIC_InterpolateFOV(float NewFOV, float InterpolationTime);
@@ -25834,10 +25863,10 @@ public:
 	void STATIC_InitializeFor(class APlayerController* PC);
 	void PostBeginPlay();
 	float STATIC_LambdaFromHalflife(float fHalflife);
-	void STATIC_CheckViewTarget(struct FTViewTarget* VT);
-	void ClearPenetrationList();
-	void CheckPenetration(const struct FVector& CheckLocation, float CheckRadius);
-	void CameraTrace(const struct FVector& End, const struct FVector& Start, class AActor* Target, struct FVector* HitLocation, struct FVector* HitNormal, float* HitTime);
+	void CheckViewTarget(struct FTViewTarget* VT);
+	void STATIC_ClearPenetrationList();
+	void STATIC_CheckPenetration(const struct FVector& CheckLocation, float CheckRadius);
+	void STATIC_CameraTrace(const struct FVector& End, const struct FVector& Start, class AActor* Target, struct FVector* HitLocation, struct FVector* HitNormal, float* HitTime);
 };
 
 
@@ -25858,7 +25887,7 @@ public:
 	}
 
 
-	void EndCinematicAnim();
+	void STATIC_EndCinematicAnim();
 	void StartCinematicAnim();
 	void DoUpdateCamera(float DeltaTime);
 };
@@ -25887,9 +25916,9 @@ public:
 
 
 	void STATIC_ApplyPostProcessOverrides();
-	void GetCameraView(float DeltaTime, bool bOnlyFOV, struct FTPOV* OutPOV);
+	void STATIC_GetCameraView(float DeltaTime, bool bOnlyFOV, struct FTPOV* OutPOV);
 	void StartTween(float TweenTime);
-	void UpdateTransform();
+	void STATIC_UpdateTransform();
 	void STATIC_SetActive(bool bActive);
 };
 
@@ -25954,7 +25983,7 @@ public:
 	}
 
 
-	void STATIC_CheckTouching();
+	void CheckTouching();
 	void PostBeginPlay();
 };
 
@@ -25998,15 +26027,15 @@ public:
 
 
 	int STATIC_GetSupportedTaskforce();
-	void STATIC_OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
+	void OnSetTaskforce(class UTgSeqAct_SetTaskforce* Action);
 	void STATIC_ApplyHit(class AActor* Target);
-	void OnSetDamageInstigator(class USeqAct_SetDamageInstigator* Action);
-	bool CanCausePainTo(class AActor* Other);
-	void STATIC_CausePainTo(class AActor* Other);
+	void STATIC_OnSetDamageInstigator(class USeqAct_SetDamageInstigator* Action);
+	bool STATIC_CanCausePainTo(class AActor* Other);
+	void CausePainTo(class AActor* Other);
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void STATIC_TimerPop(class ATgDeviceVolumeInfo* T);
-	void OnToggle(class USeqAct_Toggle* inAction);
+	void TimerPop(class ATgDeviceVolumeInfo* T);
+	void STATIC_OnToggle(class USeqAct_Toggle* inAction);
 	void STATIC_Reset();
 	void PostBeginPlay();
 	bool SetupDevice();
@@ -26032,13 +26061,13 @@ public:
 	}
 
 
-	struct FImpactInfo CalcDeviceFire(const struct FVector& StartTrace, const struct FVector& EndTrace, TArray<struct FImpactInfo>* ImpactList);
-	void FindTouchingActorsFromScript();
+	struct FImpactInfo STATIC_CalcDeviceFire(const struct FVector& StartTrace, const struct FVector& EndTrace, TArray<struct FImpactInfo>* ImpactList);
+	void STATIC_FindTouchingActorsFromScript();
 	void STATIC_Fire();
-	void STATIC_TurnOff();
-	void TurnOn();
-	void OnToggle(class USeqAct_Toggle* inAction);
-	void OnSetDamageInstigator(class USeqAct_SetDamageInstigator* Action);
+	void TurnOff();
+	void STATIC_TurnOn();
+	void STATIC_OnToggle(class USeqAct_Toggle* inAction);
+	void STATIC_OnSetDamageInstigator(class USeqAct_SetDamageInstigator* Action);
 	void PostBeginPlay();
 	bool SetupDevice();
 };
@@ -26214,7 +26243,7 @@ public:
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void PostBeginPlay();
-	void Used(class AActor* Other);
+	void STATIC_Used(class AActor* Other);
 	void STATIC_LoadObjectConfig();
 };
 
@@ -26256,7 +26285,7 @@ public:
 
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void ClearCurrentObjective();
+	void STATIC_ClearCurrentObjective();
 	void SetCurrentObjective(class AActor* Other);
 	bool STATIC_IsObjective(class AActor* Other);
 };
@@ -26371,9 +26400,9 @@ public:
 	}
 
 
-	void ToggleTeamColors();
+	void STATIC_ToggleTeamColors();
 	void Deactivate();
-	void STATIC_Activate();
+	void Activate();
 	void PostBeginPlay();
 	int STATIC_GetCurrentTaskforce();
 };
@@ -26393,12 +26422,12 @@ public:
 	}
 
 
-	void OnToggle(class USeqAct_Toggle* Action);
+	void STATIC_OnToggle(class USeqAct_Toggle* Action);
 	void Touch(class AActor* WantsTeleport, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void TeleportToExit(class ATgPawn* TgP, class ATgSpawnTeleporterEntrance* From, const struct FExitInfo& To);
-	struct FExitInfo FindExit(class ATgPawn* TgP, TArray<class ATgSpawnTeleporterExit*>* Exits);
-	bool STATIC_CanTeleport(class AActor* Other);
-	int CompareExitInfo(const struct FExitInfo& EI1, const struct FExitInfo& EI2);
+	struct FExitInfo STATIC_FindExit(class ATgPawn* TgP, TArray<class ATgSpawnTeleporterExit*>* Exits);
+	bool CanTeleport(class AActor* Other);
+	int STATIC_CompareExitInfo(const struct FExitInfo& EI1, const struct FExitInfo& EI2);
 };
 
 
@@ -26502,18 +26531,18 @@ public:
 	}
 
 
-	void STATIC_OnGetTaskForceNumber(class UTgSeqAct_GetTaskForceNumber* Action);
-	void UpdateLockEffects();
-	void OnToggle(class USeqAct_Toggle* Action);
-	void STATIC_OnNearbyEnemyPlayerDied(class ATgPawn* DeadPawn);
+	void OnGetTaskForceNumber(class UTgSeqAct_GetTaskForceNumber* Action);
+	void STATIC_UpdateLockEffects();
+	void STATIC_OnToggle(class USeqAct_Toggle* Action);
+	void OnNearbyEnemyPlayerDied(class ATgPawn* DeadPawn);
 	void Destroyed();
-	void STATIC_OnTaskForceControlChanged(int NewTaskForce);
+	void OnTaskForceControlChanged(int NewTaskForce);
 	int STATIC_GetCapturePointIndex();
 	void SpawnBotsForCurrentTaskForce();
 	void STATIC_OnBotDied(int DeadBotTaskForce);
 	void STATIC_OnPointReclaimed();
 	void STATIC_OnPointCaptureOwnershipChanged(int NewTaskForceOwner, int PreviousTaskForceOwner);
-	void STATIC_NearbyPawnsUpdated();
+	void NearbyPawnsUpdated();
 	void STATIC_CollisionProxyOnUnTouch(class AActor* Other);
 	void STATIC_CollisionProxyOnTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void PostBeginPlay();
@@ -26570,19 +26599,19 @@ public:
 	}
 
 
-	void STATIC_OnStopLaunchAnim();
-	void STATIC_PlayLaunchAnim();
-	void STATIC_PropelPawn();
+	void OnStopLaunchAnim();
+	void PlayLaunchAnim();
+	void PropelPawn();
 	void STATIC_FinishLaunch();
-	void STATIC_StartLaunch(float PowerLevel);
-	bool CanPawnLeave();
-	void STATIC_SetDriver(class ATgPawn* P);
+	void StartLaunch(float PowerLevel);
+	bool STATIC_CanPawnLeave();
+	void SetDriver(class ATgPawn* P);
 	void STATIC_OnProxyUnTouch(class AActor* Other);
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_PostInitAnimTree(class USkeletalMeshComponent* SkelComp);
 	void PostBeginPlay();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void STATIC_NativePostBeginPlay();
+	void NativePostBeginPlay();
 };
 
 
@@ -26648,11 +26677,11 @@ public:
 	}
 
 
-	void STATIC_OnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	void OnPawnDied(class ATgPawn* Victim, class AController* Killer);
 	void STATIC_AddPotGEventToAllPlayers(TEnumAsByte<EPlayOfTheGameEventType> potgEvent);
 	int STATIC_GetTaskForceForPlayer(class AController* Player);
-	class APlayerStart* FindBestPlayerStart(class AController* Player, TArray<class APlayerStart*>* PlayerStartPoints);
-	bool FindValidSpawnPoints(class ATgPawn* TgP, TArray<class ATgSpawnTeleporterExit*>* ValidExits);
+	class APlayerStart* STATIC_FindBestPlayerStart(class AController* Player, TArray<class APlayerStart*>* PlayerStartPoints);
+	bool STATIC_FindValidSpawnPoints(class ATgPawn* TgP, TArray<class ATgSpawnTeleporterExit*>* ValidExits);
 	int STATIC_GetCurrentLane();
 	int STATIC_GetGameSpawnPhase(class ATgPawn* TgP);
 	void SetEnableHeadshots(bool bEnable);
@@ -26660,19 +26689,19 @@ public:
 	void STATIC_ClearPauseAfterCountdown();
 	void STATIC_ClearPause();
 	bool STATIC_SetPause(class APlayerController* PC, const struct FScriptDelegate& CanUnpauseDelegate);
-	bool PreventDeath(class APawn* KilledPawn, class AController* Killer, class UClass* DamageType, const struct FVector& HitLocation);
-	bool STATIC_CanSpectate(class APlayerController* Viewer, class APlayerReplicationInfo* ViewTarget);
+	bool STATIC_PreventDeath(class APawn* KilledPawn, class AController* Killer, class UClass* DamageType, const struct FVector& HitLocation);
+	bool CanSpectate(class APlayerController* Viewer, class APlayerReplicationInfo* ViewTarget);
 	void STATIC_PostCommitMapChange();
 	void STATIC_PostLogin(class APlayerController* NewPlayer);
 	bool FindInactivePRI(class APlayerController* PC);
-	void STATIC_AddInactivePRI(class APlayerReplicationInfo* PRI, class APlayerController* PC);
+	void AddInactivePRI(class APlayerReplicationInfo* PRI, class APlayerController* PC);
 	void STATIC_StartMatch();
 	void STATIC_GotoGameRunningState();
 	bool STATIC_ShouldSpawnAtStartSpot(class AController* Player);
-	bool STATIC_ChangeTeam(class AController* Other, int Num, bool bNewTeam);
+	bool ChangeTeam(class AController* Other, int Num, bool bNewTeam);
 	float STATIC_RatePlayerStart(class APlayerStart* P, unsigned char Team, class AController* Player);
 	float STATIC_RatePlayerStartPoint(class APlayerStart* P, class AController* Player);
-	class ANavigationPoint* FindPlayerGroupStart(class AController* Player, int groupNumber, unsigned char InTeam, const struct FString& IncomingName);
+	class ANavigationPoint* STATIC_FindPlayerGroupStart(class AController* Player, int groupNumber, unsigned char InTeam, const struct FString& IncomingName);
 	class ANavigationPoint* FindPlayerStart(class AController* Player, unsigned char InTeam, const struct FString& IncomingName);
 	class ANavigationPoint* STATIC_GetReviveLocation(class AController* Player, struct FVector* OutLocation, struct FRotator* OutRotation);
 	class ANavigationPoint* STATIC_FindPlayerStartPoint(class AController* Player, const struct FString& SpawnTagName);
@@ -26686,7 +26715,7 @@ public:
 	void STATIC_Reset();
 	int STATIC_GetNextProjectileInstanceId();
 	int STATIC_GetNextActorInstanceId();
-	void InitGameReplicationInfo();
+	void STATIC_InitGameReplicationInfo();
 	void PostBeginPlay();
 	void PreBeginPlay();
 	bool STATIC_IsFlankKill(struct FScoreKillData* Data);
@@ -26695,34 +26724,34 @@ public:
 	void ScoreKillGameType(struct FScoreKillData* Data);
 	void ScoreKillCommon(struct FScoreKillData* Data);
 	void STATIC_ScoreKill(class AController* Killer, class AController* Other);
-	void STATIC_MarkAsReady(class UPlayer* P);
+	void MarkAsReady(class UPlayer* P);
 	void STATIC_InitPlayOfTheGameConfig();
 	void STATIC_LockPlayOfTheGame(bool bLocked);
 	void ResetPlayOfTheGame();
-	void CachePlayOfTheGame();
+	void STATIC_CachePlayOfTheGame();
 	float STATIC_GetWeightedPlayOfTheGameEventRating(class ATgRepInfo_Player* PRI, int nIndex);
-	bool ConsiderForBestPlayOfTheGame(class ATgRepInfo_Player* PRI);
-	bool CanSpoolCredits();
+	bool STATIC_ConsiderForBestPlayOfTheGame(class ATgRepInfo_Player* PRI);
+	bool STATIC_CanSpoolCredits();
 	void SendPauseNotification(class APlayerController* PC);
-	void EndUnpauseCountdown();
+	void STATIC_EndUnpauseCountdown();
 	void BeginUnpauseCountdown(float fSeconds);
-	bool STATIC_AllowPausing(class APlayerController* PC);
+	bool AllowPausing(class APlayerController* PC);
 	void ResetStats();
-	void STATIC_NotifyPostCommitMapChange();
+	void NotifyPostCommitMapChange();
 	struct FString STATIC_GetGameVersion();
-	float GetRespawnTime(int TaskForceNum);
+	float STATIC_GetRespawnTime(int TaskForceNum);
 	float STATIC_GetActualRespawnTime(int TaskForceNum);
 	void BotDied(class ATgAIController* aic);
 	void PlayerDied(class ATgPlayerController* PC);
 	bool SpawnDefaultBotPlayers(bool bStartPaused, TArray<struct FTgAIBotPlayersToSpawn>* BotPlayersToSpawn);
 	bool SwapToNewAIController(class AController* C, class ATgPawn_Character* TgPawn);
-	void EnsureHeadPrecache(int nHeadId);
-	void EnsureDevicePrecache(int nDeviceId, int nDeviceSkinId);
-	void EnsureBotPrecache(int nBotId, int nSkinId, int nHeadId, int nDeviceSkinId);
+	void STATIC_EnsureHeadPrecache(int nHeadId);
+	void STATIC_EnsureDevicePrecache(int nDeviceId, int nDeviceSkinId);
+	void STATIC_EnsureBotPrecache(int nBotId, int nSkinId, int nHeadId, int nDeviceSkinId);
 	class ATgPawn* SpawnTemplatePlayer(class ATgPlayerController* pTgPC, int nProfileId, int nSkinId, int nWeaponSkinId, int nHeadSkinId);
 	class ATgPawn* SpawnBotPawn(class ATgAIController* pTgAI, const struct FVector& vLocation, const struct FRotator& rRotation, bool bIgnoreCollision, class ATgPawn* pOwnerPawn, float fDeploySecs);
-	class ATgPawn* SpawnBotById(int nBotId, int nSkinId, int nHeadId, int nWeaponSkinId, const struct FVector& vLocation, const struct FRotator& rRotation, class ATgBotFactory* pFactory, bool bIgnoreCollision, class ATgPawn* pOwnerPawn, class UTgDeviceFire* deviceFire, float fDeployAnimLength, const struct FName& ControllerClassName, const struct FName& BehaviorTreeName);
-	bool FinishEndMission();
+	class ATgPawn* SpawnBotById(int nBotId, int nSkinId, int nHeadId, int nWeaponSkinId, const struct FVector& vLocation, const struct FRotator& rRotation, class ATgBotFactory* pFactory, bool bIgnoreCollision, class ATgPawn* pOwnerPawn, class UTgDeviceFire* DeviceFire, float fDeployAnimLength, const struct FName& ControllerClassName, const struct FName& BehaviorTreeName);
+	bool STATIC_FinishEndMission();
 	bool BeginEndMission(bool bClearNextMapGame, class AActor* EndMissionFocus, float fDelayOverride);
 	int STATIC_GetWinningTaskforce();
 	class ATgPawn* SpawnPlayerCharacter(class AController* C, const struct FVector& vLocation);
@@ -26760,11 +26789,11 @@ public:
 
 
 	void PrintAllSkins();
-	void STATIC_DoNextAction();
+	void DoNextAction();
 	class ATgPawn* SpawnBotByIdForPerformance(int nBotId, int nSkinId, int nHeadId, int nDeviceId, const struct FVector& vLocation, const struct FRotator& rRotation);
 	void SpawnCharacters();
-	void STATIC_MoveCameraToNode();
-	void CollectCharacterPlacementsAndSkins();
+	void MoveCameraToNode();
+	void STATIC_CollectCharacterPlacementsAndSkins();
 	void PostBeginPlay();
 };
 
@@ -26856,20 +26885,20 @@ public:
 	bool StartGameTimer();
 	void STATIC_TgTimer(struct FString* sTimerCommand);
 	void STATIC_QuickEndGame(int nWinnerTF);
-	bool STATIC_CheckScore(class APlayerReplicationInfo* Scorer);
-	void UpdateLockedPointStatus();
+	bool CheckScore(class APlayerReplicationInfo* Scorer);
+	void STATIC_UpdateLockedPointStatus();
 	void STATIC_OnPointCaptureOwnershipChanged(class ATgCapturePoint* Point, int NewTaskForceOwner, int PreviousTaskForceOwner);
-	void STATIC_AddObjectiveScore(class APlayerReplicationInfo* Scorer, int Score);
+	void AddObjectiveScore(class APlayerReplicationInfo* Scorer, int Score);
 	void STATIC_StartMatch();
 	void STATIC_PostLogin(class APlayerController* NewPlayer);
 	void PostBeginPlay();
 	void SpawnBots();
-	void CheckMercenaries();
-	void STATIC_NativeUpdateTimerState();
+	void STATIC_CheckMercenaries();
+	void NativeUpdateTimerState();
 	float STATIC_GetMinIntroWait();
-	void CapturePointReclaimed(class ATgPawn_Character* PC);
-	void CapturedPoint(class ATgPawn_Character* PC);
-	void EndGameBySurrender(int SurrenderingTaskForce);
+	void STATIC_CapturePointReclaimed(class ATgPawn_Character* PC);
+	void STATIC_CapturedPoint(class ATgPawn_Character* PC);
+	void STATIC_EndGameBySurrender(int SurrenderingTaskForce);
 	void SurrenderComplete(int nTaskForce);
 	void SurrenderCompleteTimer2();
 	void SurrenderCompleteTimer1();
@@ -26877,10 +26906,10 @@ public:
 	void AllPlayersRecall();
 	void AllPlayersFullVitals();
 	void AllPlayersRevive();
-	void STATIC_MarkAsReady(class UPlayer* P);
-	float STATIC_MissionTimeElapsed();
-	float STATIC_MissionTimeRemaining();
-	void UpdateMissionTimerEventWinVar();
+	void MarkAsReady(class UPlayer* P);
+	float MissionTimeElapsed();
+	float MissionTimeRemaining();
+	void STATIC_UpdateMissionTimerEventWinVar();
 	void SendMissionTimerEvent(int nEventId);
 	class ATgPawn* SpawnPlayerCharacter(class AController* C, const struct FVector& vLocation);
 	void SpoolCredits();
@@ -26920,8 +26949,8 @@ public:
 
 
 	bool STATIC_HasCaptureObjectives();
-	void DeployPlayers(bool bPreselect);
-	void STATIC_NativePostBeginPlay();
+	void STATIC_DeployPlayers(bool bPreselect);
+	void NativePostBeginPlay();
 };
 
 
@@ -26940,16 +26969,18 @@ public:
 	float                                              m_fRemainingGameTime;                                     // 0x07A8(0x0004)
 	unsigned long                                      m_bFogStateTimerEnabled : 1;                              // 0x07AC(0x0004)
 	unsigned long                                      m_bFogRoamingEnabled : 1;                                 // 0x07AC(0x0004)
-	unsigned long                                      m_bFogPreConvergedEnabled : 1;                            // 0x07AC(0x0004)
 	unsigned long                                      m_bLTEActive : 1;                                         // 0x07AC(0x0004)
 	unsigned long                                      m_bMatchCompositionLoaded : 1;                            // 0x07AC(0x0004)
 	unsigned long                                      m_bAllVendorsLoaded : 1;                                  // 0x07AC(0x0004)
 	unsigned long                                      m_bLootGoblinEnabled : 1;                                 // 0x07AC(0x0004) (Config)
 	unsigned long                                      m_bUseFog : 1;                                            // 0x07AC(0x0004) (Config)
+	unsigned long                                      m_bUseAnyWeapon : 1;                                      // 0x07AC(0x0004) (Config)
+	unsigned long                                      m_bUseAnyAbility : 1;                                     // 0x07AC(0x0004) (Config)
 	unsigned long                                      m_bUseShiftingFog : 1;                                    // 0x07AC(0x0004) (Config)
 	unsigned long                                      m_bUseStats : 1;                                          // 0x07AC(0x0004) (Config)
 	unsigned long                                      m_bUseRespawns : 1;                                       // 0x07AC(0x0004) (Config)
 	unsigned long                                      m_bInitialCircle : 1;                                     // 0x07AC(0x0004) (Config)
+	unsigned long                                      m_bFogPreConvergedEnabled : 1;                            // 0x07AC(0x0004) (Config)
 	float                                              m_fGameStateTimer;                                        // 0x07B0(0x0004)
 	class ATgDevice*                                   m_pFogDevice;                                             // 0x07B4(0x0008)
 	class ATgDevice*                                   m_pChickenLifeDrainDevice;                                // 0x07BC(0x0008)
@@ -27013,45 +27044,45 @@ public:
 	bool SpawnZeppelin();
 	void StartZeppelinTimer();
 	void SpawnZeppelinTimer();
-	bool STATIC_SpawnGoblin();
+	bool SpawnGoblin();
 	void StartGoblinTimer();
-	void STATIC_SpawnGoblinTimer();
+	void SpawnGoblinTimer();
 	class ATgRoyaleObjective* STATIC_GetNextRoyaleObjective();
 	class ANavigationPoint* FindPlayerStart(class AController* Player, unsigned char InTeam, const struct FString& IncomingName);
-	void STATIC_OnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	void OnPawnDied(class ATgPawn* Victim, class AController* Killer);
 	void STATIC_AllPlayersEndGame(class AActor* EndGameFocus);
 	void STATIC_OnStartGame();
 	void STATIC_OnGameStateChanged();
 	void STATIC_FromNativeRestartPlayer(class AController* aPlayer);
 	void SpawnLootChests();
-	void CacheGameObjects();
+	void STATIC_CacheGameObjects();
 	void STATIC_GetMapBounds();
 	void SetGRIValues();
 	void PostBeginPlay();
-	void ClearTournamentObjectives();
+	void STATIC_ClearTournamentObjectives();
 	void AddTournamentObjective(class ATgTournamentObjective* pTournamentObjective);
-	void STATIC_SetPawnRank(class ATgRepInfo_Player* pPRI, int nRank);
-	int CalculateRamainingTaskforcesCnt(int nRankOffset);
-	void CalculateTaskforceRank(class ATgRepInfo_TaskForce* pTaskForce, int nRankOffset);
-	void CalculatePlayers();
-	void DeployPlayers(bool bPreselect);
-	void CalculateKillstreakModifier(class ATgPawn* pPawn);
-	class ANavigationPoint* STATIC_NativeFindPlayerStart(class AController* Player, unsigned char InTeam);
-	class ANavigationPoint* FindRegionStart(unsigned char eTeamNum);
-	class ANavigationPoint* FindTeamStart(unsigned char eTeamNum);
+	void SetPawnRank(class ATgRepInfo_Player* pPRI, int nRank);
+	int STATIC_CalculateRamainingTaskforcesCnt(int nRankOffset);
+	void STATIC_CalculateTaskforceRank(class ATgRepInfo_TaskForce* pTaskforce, int nRankOffset);
+	void STATIC_CalculatePlayers();
+	void STATIC_DeployPlayers(bool bPreselect);
+	void STATIC_CalculateKillstreakModifier(class ATgPawn* pPawn);
+	class ANavigationPoint* NativeFindPlayerStart(class AController* Player, unsigned char InTeam);
+	class ANavigationPoint* STATIC_FindRegionStart(unsigned char eTeamNum);
+	class ANavigationPoint* STATIC_FindTeamStart(unsigned char eTeamNum);
 	bool SwapToNewAIController(class AController* C, class ATgPawn_Character* pPawn);
-	float GetRespawnTime(int TaskForceNum);
+	float STATIC_GetRespawnTime(int TaskForceNum);
 	void STATIC_RequestDeploy(class ATgRepInfo_Player* pPRI, bool bPreselect);
-	void STATIC_NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	void NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
 	bool STATIC_GetScoreKillData(class AController* Killer, class AController* Other, struct FScoreKillData* Data);
 	void ScoreKillCommon(struct FScoreKillData* Data);
 	void ScoreDownedCommon(struct FScoreKillData* Data);
 	void ScoreDowned(class AController* Killer, class AController* Other);
-	void UpdateMapBounds(class ATgMapBoundsVolume* pMapBounds);
-	bool FindSetup();
-	void STATIC_SetupDisconnectMode();
-	void STATIC_NativePostBeginPlay();
-	void STATIC_MarkAsReady(class UPlayer* P);
+	void STATIC_UpdateMapBounds(class ATgMapBoundsVolume* pMapBounds);
+	bool STATIC_FindSetup();
+	void SetupDisconnectMode();
+	void NativePostBeginPlay();
+	void MarkAsReady(class UPlayer* P);
 };
 
 
@@ -27068,9 +27099,9 @@ public:
 	}
 
 
-	bool STATIC_CanSpectate(class APlayerController* Viewer, class APlayerReplicationInfo* ViewTarget);
-	void STATIC_NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
-	void STATIC_SetupDisconnectMode();
+	bool CanSpectate(class APlayerController* Viewer, class APlayerReplicationInfo* ViewTarget);
+	void NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	void SetupDisconnectMode();
 };
 
 
@@ -27138,8 +27169,8 @@ public:
 
 	void SetGRIValues();
 	void ScoreKillCommon(struct FScoreKillData* Data);
-	bool FindSetup();
-	void STATIC_NativePostBeginPlay();
+	bool STATIC_FindSetup();
+	void NativePostBeginPlay();
 };
 
 
@@ -27163,10 +27194,10 @@ public:
 	}
 
 
-	class ANavigationPoint* STATIC_NativeFindPlayerStart(class AController* Player, unsigned char InTeam);
-	float GetRespawnTime(int TaskForceNum);
-	void STATIC_NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
-	bool FindSetup();
+	class ANavigationPoint* NativeFindPlayerStart(class AController* Player, unsigned char InTeam);
+	float STATIC_GetRespawnTime(int TaskForceNum);
+	void NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	bool STATIC_FindSetup();
 };
 
 
@@ -27190,15 +27221,15 @@ public:
 	}
 
 
-	void CleanUpBracket(bool bRemoveFogs);
-	void TransitionToNextRound();
-	void STATIC_ResetFogActors(int nRound);
-	void DeployPlayers(bool bPreselect);
-	void STATIC_NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
-	void STATIC_NativePostBeginPlay();
-	void CheckForRoundEnd();
-	void CacheRemainingTeams();
-	void STATIC_PrepareNewRound();
+	void STATIC_CleanUpBracket(bool bRemoveFogs);
+	void STATIC_TransitionToNextRound();
+	void ResetFogActors(int nRound);
+	void STATIC_DeployPlayers(bool bPreselect);
+	void NativeOnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	void NativePostBeginPlay();
+	void STATIC_CheckForRoundEnd();
+	void STATIC_CacheRemainingTeams();
+	void PrepareNewRound();
 };
 
 
@@ -27231,15 +27262,15 @@ public:
 
 
 	class ANavigationPoint* FindPlayerStart(class AController* Player, unsigned char InTeam, const struct FString& IncomingName);
-	void STATIC_OnPawnDied(class ATgPawn* Victim, class AController* Killer);
+	void OnPawnDied(class ATgPawn* Victim, class AController* Killer);
 	void STATIC_FromNativeRestartPlayer(class AController* aPlayer);
 	void STATIC_GetMapBounds();
 	void SetGRIValues();
 	void PostBeginPlay();
-	void EndTutorial();
-	void DeployPlayers(bool bPreselect);
-	void UpdateMapBounds(class ATgMapBoundsVolume* pMapBounds);
-	void STATIC_NativePostBeginPlay();
+	void STATIC_EndTutorial();
+	void STATIC_DeployPlayers(bool bPreselect);
+	void STATIC_UpdateMapBounds(class ATgMapBoundsVolume* pMapBounds);
+	void NativePostBeginPlay();
 };
 
 
@@ -27264,16 +27295,16 @@ public:
 	}
 
 
-	int GameTipQueueSort(const struct FGameTipInfo& A, const struct FGameTipInfo& B);
+	int STATIC_GameTipQueueSort(const struct FGameTipInfo& A, const struct FGameTipInfo& B);
 	void PostBeginPlay();
 	void SortGameTipQueue(int nGameTipType);
-	void ClearSavedDataForNewRound();
+	void STATIC_ClearSavedDataForNewRound();
 	void STATIC_SetActive();
-	void UnsuppressAllGameTips();
-	void CompleteHelpText(int nGameTipId);
+	void STATIC_UnsuppressAllGameTips();
+	void STATIC_CompleteHelpText(int nGameTipId);
 	void SuppressHelpText(int nGameTipId);
 	void RemoveHelpText(int nGameTipId, bool bDoNotSuppress);
-	void DismissHelpText(int nGameTipId, bool bDoNotSuppress);
+	void STATIC_DismissHelpText(int nGameTipId, bool bDoNotSuppress);
 	bool RequestHelpText(int nGameTipId, bool bIsFriend, bool bWaitForDismiss, const struct FVector& SpawnLocation, class ATgHelpTipActor** OutHelpTipActor);
 	bool STATIC_IsSuppressed(int nGameTipId);
 };
@@ -27328,7 +27359,7 @@ public:
 	void STATIC_InitForTaskforce(class ATgRepInfo_TaskForce* tf);
 	void ForceUpdate(class AReplicationInfo* ri);
 	void RemoveAllEntities();
-	void UpdateThreaded();
+	void STATIC_UpdateThreaded();
 	void STATIC_Update(bool bForce);
 };
 
@@ -27365,19 +27396,19 @@ public:
 
 
 // Class TgGame.TgForgeObjective
-// 0x00F4 (0x03A4 - 0x02B0)
+// 0x0124 (0x03D4 - 0x02B0)
 class ATgForgeObjective : public ATgObjective
 {
 public:
 	TArray<struct FForgeUse>                           m_Used;                                                   // 0x02B0(0x0010) (NeedCtorLink)
 	TArray<struct FForgeUse>                           m_Upgraded;                                               // 0x02C0(0x0010) (NeedCtorLink)
-	struct ATgForgeObjective_FForgeItem                r_Items[0x8];                                             // 0x02D0(0x000C) (Net, Config)
-	struct ATgForgeObjective_FForgeItem                r_Upgrades[0x8];                                          // 0x0330(0x000C) (Net, Config)
-	int                                                r_nUpgrades;                                              // 0x0390(0x0004) (Net)
-	int                                                r_nOwningTeam;                                            // 0x0394(0x0004) (Net)
-	int                                                s_nPlayerCountA;                                          // 0x0398(0x0004)
-	int                                                s_nPlayerCountB;                                          // 0x039C(0x0004)
-	unsigned long                                      s_bAllowCapture : 1;                                      // 0x03A0(0x0004)
+	struct ATgForgeObjective_FForgeItem                r_Items[0xA];                                             // 0x02D0(0x000C) (Net, Config)
+	struct ATgForgeObjective_FForgeItem                r_Upgrades[0xA];                                          // 0x0348(0x000C) (Net, Config)
+	int                                                r_nUpgrades;                                              // 0x03C0(0x0004) (Net)
+	int                                                r_nOwningTeam;                                            // 0x03C4(0x0004) (Net)
+	int                                                s_nPlayerCountA;                                          // 0x03C8(0x0004)
+	int                                                s_nPlayerCountB;                                          // 0x03CC(0x0004)
+	unsigned long                                      s_bAllowCapture : 1;                                      // 0x03D0(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -27390,20 +27421,20 @@ public:
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void PostBeginPlay();
-	bool STATIC_StartUpgradeItem(class ATgRepInfo_Player* pPRI, int nIndex, int nState, int nDurationOverride);
+	bool StartUpgradeItem(class ATgRepInfo_Player* pPRI, int nIndex, int nState, int nDurationOverride);
 	bool StartForgeItem(class ATgRepInfo_Player* pPRI, int nIndex, int nState, int nDurationOverride);
 	void AddUse(class ATgRepInfo_Player* pPRI, int nIndex, int nState);
-	void STATIC_NativePostBeginPlay();
-	void ForgeComplete();
+	void NativePostBeginPlay();
+	void STATIC_ForgeComplete();
 };
 
 
 // Class TgGame.TgForgeObjective_Tournament
-// 0x0004 (0x03A8 - 0x03A4)
+// 0x0004 (0x03D8 - 0x03D4)
 class ATgForgeObjective_Tournament : public ATgForgeObjective
 {
 public:
-	unsigned long                                      m_bIsUsable : 1;                                          // 0x03A4(0x0004)
+	unsigned long                                      m_bIsUsable : 1;                                          // 0x03D4(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -27414,7 +27445,7 @@ public:
 
 	void UnTouch(class AActor* Other);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void STATIC_SetUsable(bool bUsable);
+	void SetUsable(bool bUsable);
 };
 
 
@@ -27453,8 +27484,8 @@ public:
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	bool STATIC_IsContested();
 	int STATIC_GetNumOnPoint(int nTaskForce);
-	bool CanAddPawnCaptureList(class ATgPawn_Character* pPawn);
-	bool CanPawnCapture(class ATgPawn_Character* pPawn);
+	bool STATIC_CanAddPawnCaptureList(class ATgPawn_Character* pPawn);
+	bool STATIC_CanPawnCapture(class ATgPawn_Character* pPawn);
 };
 
 
@@ -27481,7 +27512,7 @@ public:
 
 	int STATIC_GetCapturePointIndex();
 	void STATIC_OnOwnershipPctChanged();
-	void STATIC_OnTaskForceControlChanged();
+	void OnTaskForceControlChanged();
 	void PostBeginPlay();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	struct FVector STATIC_GetCurrentLocation();
@@ -27531,21 +27562,21 @@ public:
 	void SetHUDOverlayIcon(TEnumAsByte<EDeployableOverlayIcon> doi);
 	void SetHUDOverlayDisplayMask(int dodm);
 	void STATIC_LifespanTimer();
-	void UpdateLifespanTimer();
+	void STATIC_UpdateLifespanTimer();
 	void SyncLifespanTimer();
 	void StartLifespanTimer(float fTime);
-	void UpdateDeployableLocation();
+	void STATIC_UpdateDeployableLocation();
 	void ReceivedDeployableOwner();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void Destroyed();
 	void PostBeginPlay();
-	void CheckNotifyGroupChanged();
+	void STATIC_CheckNotifyGroupChanged();
 	bool STATIC_IsVisibleToLocalPlayer();
 	bool STATIC_IsVisibleToPlayer(class ATgRepInfo_Player* PRI);
 	bool STATIC_IsVisibleToMapTeam(TEnumAsByte<ETgMapTeam> MAPTEAM);
 	bool STATIC_IsVisibleToAnEnemyTeam();
-	void UpdateMapVisibility(TEnumAsByte<ETgMapTeam> MAPTEAM, unsigned char bVisible, float fVisionRange, bool bDetected);
-	float GetMaxLifespan();
+	void STATIC_UpdateMapVisibility(TEnumAsByte<ETgMapTeam> MAPTEAM, unsigned char bVisible, float fVisionRange, bool bDetected);
+	float STATIC_GetMaxLifespan();
 	float STATIC_GetLifespan();
 	int STATIC_GetCurrentMaxHealth();
 	int STATIC_GetCurrentHealth();
@@ -27598,16 +27629,16 @@ public:
 
 
 	void StopRespawnTimer();
-	void UpdateRespawnTimer();
+	void STATIC_UpdateRespawnTimer();
 	void StartRespawnTimer(float fSeconds);
-	void UpdateInWorldIndicators();
+	void STATIC_UpdateInWorldIndicators();
 	void Destroyed();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void PostBeginPlay();
 	void STATIC_InitFor(class ATgActorFactory* Factory);
 	float STATIC_GetRespawnElapsedPercent();
 	bool STATIC_IsVisibleToLocalPlayer();
-	void UpdateMapVisibility(TEnumAsByte<ETgMapTeam> MAPTEAM, unsigned char bVisible, float fVisionRange, bool bDetected);
+	void STATIC_UpdateMapVisibility(TEnumAsByte<ETgMapTeam> MAPTEAM, unsigned char bVisible, float fVisionRange, bool bDetected);
 };
 
 
@@ -27682,6 +27713,8 @@ public:
 	unsigned long                                      r_bSpawnGatesOpenedAtLeastOnce : 1;                       // 0x031C(0x0004) (Net)
 	unsigned long                                      r_bDeploying : 1;                                         // 0x031C(0x0004) (Net)
 	unsigned long                                      r_bUseRespawns : 1;                                       // 0x031C(0x0004) (Net)
+	unsigned long                                      r_bUseAnyWeapon : 1;                                      // 0x031C(0x0004) (Net)
+	unsigned long                                      r_bUseAnyAbility : 1;                                     // 0x031C(0x0004) (Net)
 	unsigned long                                      m_bNameplatesRequireLOS : 1;                              // 0x031C(0x0004)
 	unsigned long                                      m_bTeamVGS : 1;                                           // 0x031C(0x0004)
 	unsigned long                                      r_bAlliances : 1;                                         // 0x031C(0x0004) (Net)
@@ -27801,18 +27834,18 @@ public:
 	void STATIC_AddPotGEventToAllPlayers(TEnumAsByte<EPlayOfTheGameEventType> potgEvent);
 	void SetEnableHeadshots(bool bEnable);
 	void ProcessMissionTimerEvent(int nEventId, unsigned char nAttackingTaskForce, unsigned char nWinningTaskForce);
-	void SendPayloadMissionEvent(int nEventId, class ATgRepInfo_TaskForce* attackingTaskForce, class ATgRepInfo_TaskForce* WinningTaskForce);
+	void SendPayloadMissionEvent(int nEventId, class ATgRepInfo_TaskForce* AttackingTaskForce, class ATgRepInfo_TaskForce* WinningTaskForce);
 	float STATIC_GetMissionTime();
-	void DecrementPoints(int nTaskForce, int nValue);
+	void STATIC_DecrementPoints(int nTaskForce, int nValue);
 	void SetUsePointsMode(bool bValue, int nValue);
-	bool FlagIsDown(int TeamIndex);
+	bool STATIC_FlagIsDown(int TeamIndex);
 	void SetFlagDown(int TeamIndex);
-	bool FlagIsHeldEnemy(int TeamIndex);
+	bool STATIC_FlagIsHeldEnemy(int TeamIndex);
 	void SetFlagHeldEnemy(int TeamIndex);
-	bool FlagIsHeldFriendly(int TeamIndex);
+	bool STATIC_FlagIsHeldFriendly(int TeamIndex);
 	void SetFlagHeldFriendly(int TeamIndex);
-	bool FlagsAreHome();
-	bool FlagIsHome(int TeamIndex);
+	bool STATIC_FlagsAreHome();
+	bool STATIC_FlagIsHome(int TeamIndex);
 	void SetFlagHome(int TeamIndex);
 	int STATIC_GetNextClientOnlyProjectileInstanceId();
 	void RemoveDestructible(class ATgDestructible* Dest);
@@ -27823,15 +27856,15 @@ public:
 	void AddCPRI(class ATgRepInfo_CapturePoint* CPRI);
 	void RemoveDRI(class ATgRepInfo_Deployable* DRI);
 	void AddDRI(class ATgRepInfo_Deployable* DRI);
-	void STATIC_MissionTimeUpdateAllClients();
-	void UpdateMissionTimer(bool bForcePrimary, bool bForceSecondary);
+	void MissionTimeUpdateAllClients();
+	void STATIC_UpdateMissionTimer(bool bForcePrimary, bool bForceSecondary);
 	void STATIC_InitSecondaryMissionTime();
 	void STATIC_InitMissionTime();
 	void PostBeginPlay();
-	void UpdateAttackingTaskforce(class ATgRepInfo_TaskForce* NewAttackingTaskForce);
-	void UpdateFog();
+	void STATIC_UpdateAttackingTaskforce(class ATgRepInfo_TaskForce* NewAttackingTaskForce);
+	void STATIC_UpdateFog();
 	void SetGameMode(TEnumAsByte<EGameMode> Mode);
-	void GameEnvironmentRuleUpdated();
+	void STATIC_GameEnvironmentRuleUpdated();
 	void SetGameRespawnRule(TEnumAsByte<EGameRespawnRule> Rule);
 	void SetGameEnvironmentRule(TEnumAsByte<EGameEnvironmentRule> Rule);
 	void STATIC_HideHeadMesh();
@@ -27842,7 +27875,7 @@ public:
 	class ATgTeamRoyaleZeppelin* STATIC_GetZeppelinForTeam(int nTaskForce);
 	class ATgTeamRoyaleZeppelin* STATIC_GetZeppelinForPawn(class ATgPawn* PlayerPawn);
 	class ATgTeamRoyaleZeppelin* STATIC_GetZeppelinForPlayer(class ATgPlayerController* PlayerController);
-	void STATIC_RegisterCatapult(class ATgCatapultActor* pCatapult);
+	void RegisterCatapult(class ATgCatapultActor* pCatapult);
 	void RegisterForge(class ATgObjective* pObjective);
 	bool AllowHeadShots();
 	void RecalcRespawnTimers();
@@ -27851,22 +27884,22 @@ public:
 	class ATgProj_Simulated* SpawnSimulatedProjectile(int nProjectileInstanceId, int nFireModeId, class AActor* pOwner, const struct FVector& vLocation, const struct FVector& vRotation, int nProjectileIdOverride, bool bPredictStartLocationBasedOnPing, class UTgDeviceFire* FireMode);
 	class ATgProj_Simulated* STATIC_GetSimulatedProjectile(int nProjectileId);
 	class ATgProj_Simulated* STATIC_GetClientSpawnedProjectile(int ClientFireRequestId);
-	void DefendersSpawnGatesOpenChanged();
+	void STATIC_DefendersSpawnGatesOpenChanged();
 	void AttackersSpawnGatesOpenChanged();
 	void SpawnGatesOpenChanged();
-	void GameTypeSet();
-	void GameStateChanged();
-	void UpdateGameTransitionUI();
-	void UpdateGameScoreUI();
-	void UpdateGameClockUI();
-	bool CheckIsParty(class ATgRepInfo_Player* A, class ATgRepInfo_Player* B);
-	bool STATIC_CheckIsEnemy(class AActor* A, class AActor* B);
+	void STATIC_GameTypeSet();
+	void STATIC_GameStateChanged();
+	void STATIC_UpdateGameTransitionUI();
+	void STATIC_UpdateGameScoreUI();
+	void STATIC_UpdateGameClockUI();
+	bool STATIC_CheckIsParty(class ATgRepInfo_Player* A, class ATgRepInfo_Player* B);
+	bool CheckIsEnemy(class AActor* A, class AActor* B);
 	class ATgRepInfo_TaskForce* STATIC_GetDefendingTaskForce();
 	class ATgRepInfo_TaskForce* STATIC_GetAttackingTaskForce();
 	void STATIC_GetOpposingTeamsPawns(class ATgPawn* instigatingPawn, TArray<class ATgPawn_Character*>* enemyPawns);
 	int STATIC_GetNumNearbyPlayers(int nTaskForceNum, const struct FVector& vLocation, float fDist);
 	bool TaskForceEnumerate(bool bPlayerOnly, class ATgRepInfo_TaskForce** rpTaskForce, int* rnTaskForceNum);
-	class ATgRepInfo_TaskForce* CreateTaskForce(int nTaskForceNum);
+	class ATgRepInfo_TaskForce* STATIC_CreateTaskForce(int nTaskForceNum);
 	class ATgRepInfo_TaskForce* STATIC_GetTaskForce(int nTaskForceNum, bool bCreate);
 	class ATgRepInfo_TaskForce* STATIC_GetTaskForceFor(class AActor* Actor);
 	class ATgRepInfo_Player* STATIC_GetPRIFromID(int nPRIID);
@@ -27906,7 +27939,7 @@ public:
 	}
 
 
-	bool CheckIsParty(class ATgRepInfo_Player* A, class ATgRepInfo_Player* B);
+	bool STATIC_CheckIsParty(class ATgRepInfo_Player* A, class ATgRepInfo_Player* B);
 };
 
 
@@ -27949,9 +27982,9 @@ public:
 
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_UpdateForgeStage(bool bInForgeStage);
-	void ClientClearAllFogs();
-	void ClearAllFogs();
-	bool ContainsFog(class ATgRoyaleConvergeActor* pFogActor);
+	void STATIC_ClientClearAllFogs();
+	void STATIC_ClearAllFogs();
+	bool STATIC_ContainsFog(class ATgRoyaleConvergeActor* pFogActor);
 	void AddFog(class ATgRoyaleConvergeActor* pFogActor);
 	void AddFogUnique(class ATgRoyaleConvergeActor* pFogActor);
 };
@@ -28047,7 +28080,8 @@ public:
 	int                                                m_DeployPostureId;                                        // 0x0560(0x0004)
 	float                                              m_fMaxPingTime;                                           // 0x0564(0x0004)
 	struct FSimulatedProjectileOverrides               r_SimProjOverrides[0x8];                                  // 0x0568(0x0018) (Net)
-	int                                                r_PlayerItems[0x9];                                       // 0x0628(0x0004) (Net)
+	int                                                r_PlayerItems[0x5];                                       // 0x0628(0x0004) (Net)
+	int                                                r_PlayerArmor[0x4];                                       // 0x063C(0x0004) (Net)
 	int                                                r_Scores[0x16];                                           // 0x064C(0x0004) (Net)
 	struct FDeviceTeamInfo                             r_PlayerDevices[0x14];                                    // 0x06A4(0x0028) (Net)
 	struct FAmmoCount                                  r_PlayerDeviceAmmo[0x14];                                 // 0x09C4(0x0004) (Net)
@@ -28147,90 +28181,91 @@ public:
 	TEnumAsByte<EDeployableOverlayState> STATIC_GetDeployableOverlayState();
 	TEnumAsByte<EDeployableOverlayIcon> STATIC_GetDeployableOverlayIcon();
 	int STATIC_GetDeployableOverlayDisplayMask();
-	void STATIC_StartSkydive();
+	void StartSkydive();
 	void SetPlayerDeployState(TEnumAsByte<EPlayerDeployState> NewState);
 	void SetHUDOverlayEnemyViewDist(float enemyViewDist);
 	void SetHUDOverlayState(TEnumAsByte<EDeployableOverlayState> dos);
 	void SetHUDOverlayIcon(TEnumAsByte<EDeployableOverlayIcon> doi);
 	void SetHUDOverlayDisplayMask(int dodm);
 	bool STATIC_GetSimProjOverrides(int nFireModeId, float* fRange, float* fRemoteProximity, float* fSpeed, float* fGravityScale, float* fFireAngle);
-	void ValidateSimProj(int nIndex);
-	int FindSimProjOverrideIndex(int nFireModeId);
+	void STATIC_ValidateSimProj(int nIndex);
+	int STATIC_FindSimProjOverrideIndex(int nFireModeId);
 	void SetSimProjFireAngle(int nFireModeId, float fFireAngle);
 	void SetSimProjGravityScale(int nFireModeId, float fGravityScale);
 	void SetSimProjDist(int nFireModeId, float fDist);
 	void SetSimProjRemoteProximity(int nFireModeId, float fRemoteProximity);
 	void SetSimProjSpeed(int nFireModeId, float fSpeed);
 	void SetSpawnPoint(class ATgTeamPlayerStart* SpawnPoint);
-	void STATIC_OnDeath();
-	void TransferMinionOwnershipTo(class ATgRepInfo_Player* NewOwner);
+	void OnDeath();
+	void STATIC_TransferMinionOwnershipTo(class ATgRepInfo_Player* NewOwner);
 	void CopyProperties(class APlayerReplicationInfo* PRI);
-	void OverrideWith(class APlayerReplicationInfo* PRI);
+	void STATIC_OverrideWith(class APlayerReplicationInfo* PRI);
 	class APlayerReplicationInfo* Duplicate();
 	bool STATIC_ShouldBroadCastWelcomeMessage(bool bExiting);
-	class ATgPawn* FindLocalPlayerPawn();
-	class APlayerController* FindLocalController();
+	class ATgPawn* STATIC_FindLocalPlayerPawn();
+	class APlayerController* STATIC_FindLocalController();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void STATIC_PeerDisconnected();
-	void ClearWaypointPingWorldFX();
+	void PeerDisconnected();
+	void STATIC_ClearWaypointPingWorldFX();
 	void STATIC_UpdateWaypointPingWorldFx();
-	void STATIC_ServerUpdateWaypointPing(const struct FVector& vLocation, const struct FRotator& rRotation);
+	void ServerUpdateWaypointPing(const struct FVector& vLocation, const struct FRotator& rRotation);
 	void UpdateWaypointPing(const struct FVector& vLocation, const struct FRotator& rRotation);
 	void ServerUpdateWaypoint(const struct FVector& vLocation);
-	void UpdateWaypointWorldFx();
+	void STATIC_UpdateWaypointWorldFx();
 	void UpdateWaypoint(const struct FVector& vLocation);
 	void UpdatedTaskForce();
-	void UpdatedApproxLocation();
-	void UpdatedHealthCurrent();
+	void STATIC_UpdatedApproxLocation();
+	void STATIC_UpdatedHealthCurrent();
 	unsigned char STATIC_GetTaskForceNumber();
 	void UpdateShield(int nCurrentShield, int nMaxShield);
 	void UpdatePower(int nCurrentPower, int nMaxPower);
 	void UpdateHealth(int nCurrentHealth, int nMaxHealth);
-	void UpdatePlayerLives();
-	void UpdatePlayerLocation();
+	void STATIC_UpdatePlayerLives();
+	void STATIC_UpdatePlayerLocation();
 	void UpdateIdAndProfile();
 	void Timer();
 	void RecalculateTeamColor();
-	void STATIC_ClientInitialize(class AController* C);
-	void STATIC_SetAnnouncerPlaying(bool bPlaying);
+	void ClientInitialize(class AController* C);
+	void SetAnnouncerPlaying(bool bPlaying);
 	void PopulateGeneralAbilities();
 	void PostBeginPlay();
 	bool STATIC_IsConnectedToMatch();
-	void ClientReactivateBigHeadMode();
-	void ClientHandleStatEffectsChanged();
-	bool CanApplyStatEffect(int nDeviceId);
+	void STATIC_ClientReactivateBigHeadMode();
+	void STATIC_ClientHandleStatEffectsChanged();
+	bool STATIC_CanApplyStatEffect(int nDeviceId);
 	bool AddStatEffect(int nEffectGroupID, int nDeviceId, float fDamageDeactivateDuration);
 	void AdjustShards(int nShardDelta);
-	void UpdatePlayerItems();
-	void ClientAllPlayersReady();
-	void UpdateStarterIslandActorTicking();
-	void ClientSetAnnouncerPlaying(bool bPlaying);
+	void STATIC_UpdatePlayerArmor();
+	void STATIC_UpdatePlayerItems();
+	void STATIC_ClientAllPlayersReady();
+	void STATIC_UpdateStarterIslandActorTicking();
+	void STATIC_ClientSetAnnouncerPlaying(bool bPlaying);
 	int STATIC_GetMarkedTargetCount(int nPawnId);
 	void RemoveMarkedTarget(int nPawnId, int nCount);
 	void AddMarkedTarget(int nPawnId, int nCount);
 	void AddPlayOfTheGameEvent(TEnumAsByte<EPlayOfTheGameEventType> Type, float Amount);
-	void DrawNewCards(int nPrevPower);
+	void STATIC_DrawNewCards(int nPrevPower);
 	bool STATIC_LoadCardDeck(bool bDefault);
-	void UpdatePlayerNameWithTag();
-	void UpdatePlayerReady();
-	void UpdateSurrenderVoting();
-	void ClientUpdateItemStoreItems();
+	void STATIC_UpdatePlayerNameWithTag();
+	void STATIC_UpdatePlayerReady();
+	void STATIC_UpdateSurrenderVoting();
+	void STATIC_ClientUpdateItemStoreItems();
 	bool SetTaskForceNumber(unsigned char nTaskForce, bool bForce);
-	void UpdateMapVisibility(TEnumAsByte<ETgMapTeam> MAPTEAM, unsigned char bVisible, float fVisionRange, bool bDetected);
-	void UpdatePingInfo(class ATgRepInfo_Player* pingedPri, const struct FVector& pingedLoc, TEnumAsByte<EPING_TYPE> Type);
-	void CheckPingingList();
+	void STATIC_UpdateMapVisibility(TEnumAsByte<ETgMapTeam> MAPTEAM, unsigned char bVisible, float fVisionRange, bool bDetected);
+	void STATIC_UpdatePingInfo(class ATgRepInfo_Player* pingedPri, const struct FVector& pingedLoc, TEnumAsByte<EPING_TYPE> Type);
+	void STATIC_CheckPingingList();
 	bool STATIC_IsVisibleToLocalPlayer();
 	bool STATIC_IsVisibleToPlayer(class ATgRepInfo_Player* PRI);
 	bool STATIC_IsVisibleToMapTeam(TEnumAsByte<ETgMapTeam> MAPTEAM);
 	bool STATIC_IsVisibleToAnEnemyTeam();
 	bool STATIC_HasBeenSeenByEnemyTeam();
-	void UpdateFX();
-	void UpdatePlayerTaskforceUI();
-	void UpdateWinsPerRole();
-	void UpdatePlayerInfoUI();
-	void UpdateSpectatorUI();
+	void STATIC_UpdateFX();
+	void STATIC_UpdatePlayerTaskforceUI();
+	void STATIC_UpdateWinsPerRole();
+	void STATIC_UpdatePlayerInfoUI();
+	void STATIC_UpdateSpectatorUI();
 	struct FString STATIC_GetPlayerNameForMsgDisplay(bool bBaseNameOnly);
-	void UpdateUltimateIsReady(float fCooldownSecs);
+	void STATIC_UpdateUltimateIsReady(float fCooldownSecs);
 	bool STATIC_IsHardStealthedClient();
 	bool STATIC_IsStealthedClient();
 	struct FRotator STATIC_GetCurrentRotation();
@@ -28241,19 +28276,19 @@ public:
 	int STATIC_GetCurrentPower();
 	int STATIC_GetCurrentMaxHealth();
 	int STATIC_GetCurrentHealth();
-	void CheckMembership();
+	void STATIC_CheckMembership();
 	void RemoveMinion(class AReplicationInfo* pRepInfo);
 	void AddMinion(class AReplicationInfo* pRepInfo);
 	void STATIC_SetTeam(class ATgRepInfo_TaskForce* pNewTeamRep);
-	void UpdateBroadcastedItems(class ATgInventoryManager* InvMgr);
-	void UpdateLevel();
-	void UpdateScoreboard();
+	void STATIC_UpdateBroadcastedItems(class ATgInventoryManager* InvMgr);
+	void STATIC_UpdateLevel();
+	void STATIC_UpdateScoreboard();
 	int STATIC_GetPlayerId();
 	bool STATIC_IsMinionOf(class ATgRepInfo_Player* PossibleOwner);
 	bool STATIC_IsGodDecoy();
 	bool STATIC_IsGod();
 	bool STATIC_IsBotNotDisconnected();
-	bool IsBot();
+	bool STATIC_IsBot();
 	bool STATIC_IsFriendlyWithLocalPlayer();
 };
 
@@ -28288,9 +28323,9 @@ public:
 	}
 
 
-	void STATIC_NotifyScoreChange();
-	class ATgPlayerController* FindLocalPlayerController();
-	void UpdateKismetOnScore();
+	void NotifyScoreChange();
+	class ATgPlayerController* STATIC_FindLocalPlayerController();
+	void STATIC_UpdateKismetOnScore();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_ReceivedFoundLootGoblinInfo();
 	void STATIC_ReceivedTaskForceNumber();
@@ -28299,15 +28334,15 @@ public:
 	void STATIC_PostDemoRewind();
 	void STATIC_PostInit();
 	void STATIC_GetPlayersByDistance(const struct FVector& fromVector, float dwDist, TArray<class ATgRepInfo_Player*>* List);
-	void STATIC_GetPlayers(TArray<class ATgRepInfo_Player*>* List);
+	void GetPlayers(TArray<class ATgRepInfo_Player*>* List);
 	void TeamRemoveFrom(class AController* Other);
 	int STATIC_GetFirstAlivePlayerIndex();
 	int STATIC_GetAliveAndActivePlayerCount();
 	int STATIC_GetActivePlayerCount();
 	int STATIC_GetNumAlivePlayers();
 	int STATIC_GetTaskForceRank();
-	int GetPlayerCount();
-	class ATgRepInfo_Player* CycleFrom(class ATgRepInfo_Player* pFrom, bool bForward);
+	int STATIC_GetPlayerCount();
+	class ATgRepInfo_Player* STATIC_CycleFrom(class ATgRepInfo_Player* pFrom, bool bForward);
 	class ATgRepInfo_Player* STATIC_GetPlayerById(int nPawnId);
 	class ATgRepInfo_Player* STATIC_GetPlayer(int nIndex);
 };
@@ -28350,7 +28385,7 @@ public:
 	void UpdateSoundActorLocation(const struct FVector& vLoc);
 	void PostBeginPlay();
 	void PostConvergeFinished();
-	void STATIC_NativeInitialize();
+	void NativeInitialize();
 };
 
 
@@ -28450,8 +28485,8 @@ public:
 
 
 	void Tick(float DeltaTime);
-	void ConvergeFog(float fNewStartDistance, float interval, bool bForce);
-	void ToggleFog(bool bOn);
+	void STATIC_ConvergeFog(float fNewStartDistance, float interval, bool bForce);
+	void STATIC_ToggleFog(bool bOn);
 	void PostBeginPlay();
 };
 
@@ -29173,7 +29208,7 @@ public:
 
 
 	void PrepTick(float fDeltaTime);
-	void Initialize();
+	void STATIC_Initialize();
 };
 
 
@@ -29190,7 +29225,7 @@ public:
 	}
 
 
-	bool UseRangeFalloffCurve();
+	bool STATIC_UseRangeFalloffCurve();
 	class UTgGameplayCurvesSet* STATIC_GetCurrentGameplayCurveSet(TEnumAsByte<ECurveSetTypes> Type);
 };
 
@@ -29252,7 +29287,7 @@ public:
 	}
 
 
-	void UpdateAimAcceleration(float DeltaTime, int CurveSetToUse, int AccelerationBoost, int Algorithm, float SensitivityX, float SensitivityY, float* TurnSpeedX, float* TurnSpeedY, float* aTurn, float* aLookUp, float* OldATurn, float* OldALookUp);
+	void STATIC_UpdateAimAcceleration(float DeltaTime, int CurveSetToUse, int AccelerationBoost, int Algorithm, float SensitivityX, float SensitivityY, float* TurnSpeedX, float* TurnSpeedY, float* aTurn, float* aLookUp, float* OldATurn, float* OldALookUp);
 };
 
 
@@ -29628,13 +29663,13 @@ public:
 	class UTgArmorPiece* STATIC_GetArmorPiece(int nEquipSlot);
 	float STATIC_GetTransitionTime(int nEquipSlot);
 	struct FName STATIC_GetMaskParameterName(int nEquipSlot);
-	void DeactivateArmorMIC(int nEquipSlot, int nQuality);
+	void STATIC_DeactivateArmorMIC(int nEquipSlot, int nQuality);
 	void ActiveArmorMIC(int nEquipSlot, int nQuality);
-	void UpdateArmorTransition(float fDeltaTime);
-	void FadeOutArmor(int nEquipSlot, int nQuality);
-	void FadeInArmor(int nEquipSlot, int nQuality);
-	void STATIC_OnArmorEquipped(int nEquipSlot, int nQuality);
-	void Initialize(class ATgPawn* pPawn);
+	void STATIC_UpdateArmorTransition(float fDeltaTime);
+	void STATIC_FadeOutArmor(int nEquipSlot, int nQuality);
+	void STATIC_FadeInArmor(int nEquipSlot, int nQuality);
+	void OnArmorEquipped(int nEquipSlot, int nQuality);
+	void STATIC_Initialize(class ATgPawn* pPawn);
 };
 
 
@@ -29655,7 +29690,7 @@ public:
 
 
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 	class UTgGameplayCurvesSet* STATIC_GetShotSpreadTendencyCurvesSet();
 };
 
@@ -29678,7 +29713,7 @@ public:
 	void Tick(float DeltaSeconds);
 	void STATIC_OnProxyUnTouch(class AActor* Other);
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void TouchAllPendingTargets();
+	void STATIC_TouchAllPendingTargets();
 };
 
 
@@ -29738,8 +29773,8 @@ public:
 	void STATIC_ActivateOnWhenDeployedFx(bool bOn);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void ToggleLockdownMode(bool bSetActive);
-	void ToggleFX();
+	void STATIC_ToggleLockdownMode(bool bSetActive);
+	void STATIC_ToggleFX();
 	void STATIC_SetCullDistance();
 };
 
@@ -29827,8 +29862,8 @@ public:
 	void STATIC_InterruptOtherDevices(class ATgPawn* TgP);
 	int STATIC_GetPetIDOverride(int PetIndex);
 	void STATIC_GetCachedAim(struct FAimData* Aim);
-	void ToggleLockdownMode();
-	void UpgradeActiveTurrets();
+	void STATIC_ToggleLockdownMode();
+	void STATIC_UpgradeActiveTurrets();
 };
 
 
@@ -29926,7 +29961,7 @@ public:
 
 
 	void STATIC_DestroyIt(bool bSkipFx);
-	void DeployComplete();
+	void STATIC_DeployComplete();
 	void STATIC_ActivateDisplayGroups(const struct FName& DisplayGroup, bool bActivateIndependent, bool bTurnOn);
 	void STATIC_RemoveBasedPawn(class ATgPawn* basedPawn);
 	void STATIC_AddBasedPawn(class ATgPawn* basedPawn);
@@ -29934,9 +29969,9 @@ public:
 	bool STATIC_HasCachedInaraPawn();
 	struct FVector STATIC_GetSegmentWorldLocation(const struct FVector& vLocalLocation);
 	void PushOverlappingActors(float DeltaSeconds);
-	void DoInitialHit();
+	void STATIC_DoInitialHit();
 	void PushBasedActors();
-	void ToggleGrowthMode(bool bTurnOn);
+	void STATIC_ToggleGrowthMode(bool bTurnOn);
 	void SignalGrowthModeStart();
 	void STATIC_InitializeMeshSegment(class UMeshComponent* Mesh, float fOffset);
 	void SpawnMeshSegments();
@@ -29990,7 +30025,7 @@ public:
 	void STATIC_InterruptLockoutTime();
 	bool STATIC_HasCachedBarrierTankPawn();
 	float STATIC_GetMoveSpeedMultiplier();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 };
 
 
@@ -30020,7 +30055,7 @@ public:
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
 	bool STATIC_InterceptSlotReleased(class ATgPlayerController* TgController);
 	bool STATIC_InterceptSlotPressed(class ATgPlayerController* TgController);
-	void UpdateTargetingModeStatus(struct FAimData* Aim);
+	void STATIC_UpdateTargetingModeStatus(struct FAimData* Aim);
 	bool ShouldAltFireOnTick();
 	void STATIC_GetGroundTargetAim(struct FAimData* Aim);
 };
@@ -30054,8 +30089,8 @@ public:
 	}
 
 
-	void UpdateTargetingModeStatusForFX(class UTgSpecialFx* Fx, TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
-	void UpdateTargetingModeLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
+	void STATIC_UpdateTargetingModeStatusForFX(class UTgSpecialFx* Fx, TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
+	void STATIC_UpdateTargetingModeLocation(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
 };
 
 
@@ -30107,20 +30142,20 @@ public:
 
 
 // Class TgGame.TgPawn_BarrierTank
-// 0x0080 (0x318C - 0x310C)
+// 0x0080 (0x30C8 - 0x3048)
 class ATgPawn_BarrierTank : public ATgPawn_Character
 {
 public:
-	struct FWallPlacementInfo                          m_WallPlacementInfos[0x5];                                // 0x310C(0x0010)
-	struct FVector                                     m_vSegmentExtent;                                         // 0x315C(0x000C) (Const)
-	struct FVector                                     m_vOpenSpotExtent;                                        // 0x3168(0x000C) (Const)
-	float                                              m_fWallTraceDownDistance;                                 // 0x3174(0x0004) (Const)
-	float                                              m_fWallOpenSpotTolerance;                                 // 0x3178(0x0004) (Const)
-	float                                              m_fInitialWallScaleZ;                                     // 0x317C(0x0004) (Const)
-	unsigned long                                      r_bInGaeBolg : 1;                                         // 0x3180(0x0004) (Net)
-	unsigned long                                      m_bUseGaeBolgRetrieve : 1;                                // 0x3180(0x0004)
-	float                                              m_fGaeBolgJumpZModifier;                                  // 0x3184(0x0004)
-	int                                                r_nInhandAmmoRemaining;                                   // 0x3188(0x0004) (Net)
+	struct FWallPlacementInfo                          m_WallPlacementInfos[0x5];                                // 0x3048(0x0010)
+	struct FVector                                     m_vSegmentExtent;                                         // 0x3098(0x000C) (Const)
+	struct FVector                                     m_vOpenSpotExtent;                                        // 0x30A4(0x000C) (Const)
+	float                                              m_fWallTraceDownDistance;                                 // 0x30B0(0x0004) (Const)
+	float                                              m_fWallOpenSpotTolerance;                                 // 0x30B4(0x0004) (Const)
+	float                                              m_fInitialWallScaleZ;                                     // 0x30B8(0x0004) (Const)
+	unsigned long                                      r_bInGaeBolg : 1;                                         // 0x30BC(0x0004) (Net)
+	unsigned long                                      m_bUseGaeBolgRetrieve : 1;                                // 0x30BC(0x0004)
+	float                                              m_fGaeBolgJumpZModifier;                                  // 0x30C0(0x0004)
+	int                                                r_nInhandAmmoRemaining;                                   // 0x30C4(0x0004) (Net)
 
 	static UClass* StaticClass()
 	{
@@ -30130,12 +30165,12 @@ public:
 
 
 	void SetTargetingDevice(class ATgDevice* Dev, const struct FWeaponMeshSwapStrategy& SwapStrategy);
-	void STATIC_OnStartTimelapseNewDeviceState();
+	void OnStartTimelapseNewDeviceState();
 	bool DoJump(bool bUpdating, float JumpZSpeed);
 	float STATIC_GetJumpSpeedMultiplier();
-	void EndGaeBolg();
+	void STATIC_EndGaeBolg();
 	void StartGaeBolg(float fJumpZMultiplier);
-	void UpdateWallPlacementInfos(const struct FVector& OriginLocation, const struct FRotator& originRotation);
+	void STATIC_UpdateWallPlacementInfos(const struct FVector& OriginLocation, const struct FRotator& originRotation);
 };
 
 
@@ -30175,7 +30210,7 @@ public:
 	bool ProcessCollision(class ATgPawn_Character* TargetChar);
 	void STATIC_ProxyUnTouch(class AActor* Other);
 	void STATIC_ProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void CheckHideHUDOverlay();
+	void STATIC_CheckHideHUDOverlay();
 	void STATIC_InstantFireDeployable();
 	void STATIC_ExplodeOnShield();
 	void Landed(const struct FVector& HitNormal, class AActor* FloorActor);
@@ -30183,7 +30218,7 @@ public:
 	void StickToPlayerSocket();
 	void STATIC_Check1PHide();
 	void STATIC_DetachFromPlayer();
-	void DetachTimer();
+	void STATIC_DetachTimer();
 	void STATIC_TakeDamage(int Damage, class AController* EventInstigator, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void STATIC_DestroyIt(bool bSkipFx);
 	void STATIC_HideSpawningProjectile();
@@ -30232,11 +30267,11 @@ public:
 	}
 
 
-	struct FImpactInfo CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
 	bool ShouldLockFiring(class ATgDevice* Current);
 	void ApplyPostExplodeKnockback();
-	void STATIC_OutroLockoutTime();
-	void FireAmmunition();
+	void OutroLockoutTime();
+	void STATIC_FireAmmunition();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	float STATIC_GetChargeRange();
 	float STATIC_GetChargeSpeed();
@@ -30259,7 +30294,7 @@ public:
 
 
 	void PostTargetingLockIn();
-	bool CanToggleTargetingOff();
+	bool STATIC_CanToggleTargetingOff();
 	bool STATIC_CanBeInterrupted();
 	bool ShouldInterruptReloadOnBeginTargeting();
 	void PutAway();
@@ -30285,11 +30320,11 @@ public:
 	void PlayPoppyDetonateAnim();
 	void STATIC_HandleDeviceFormStartFire(int nDeviceModeNum, float fRefireTime, struct FAimData* Aim);
 	void ServerDetonatePoppyBomb();
-	void DetonatePoppyBomb();
+	void STATIC_DetonatePoppyBomb();
 	bool STATIC_HasActivePoppyBomb();
 	bool ShouldCooldownAfterFire();
-	void UpdateActiveProjectiles(class ATgProjectile* Proj);
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	void STATIC_UpdateActiveProjectiles(class ATgProjectile* Proj);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 };
 
 
@@ -30331,7 +30366,7 @@ public:
 	void StartLandExplodeTimer();
 	float STATIC_GetPostLandDuration();
 	bool STATIC_IsAccelerantEquipped();
-	void CheckShowOutline();
+	void STATIC_CheckShowOutline();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void STATIC_InitializeSilhouetteComponent();
 };
@@ -30411,8 +30446,8 @@ public:
 
 
 	bool ShouldLockFiring(class ATgDevice* Current);
-	void ClearScoutTargets();
-	void TickScout();
+	void STATIC_ClearScoutTargets();
+	void STATIC_TickScout();
 };
 
 
@@ -30497,7 +30532,7 @@ public:
 	}
 
 
-	void UpdateOutroLockoutTime();
+	void STATIC_UpdateOutroLockoutTime();
 	bool STATIC_CanBeInterrupted();
 	void STATIC_DeliverHit(const struct FImpactInfo& Impact);
 	struct FRotator STATIC_GetChargeDirection();
@@ -30529,11 +30564,11 @@ public:
 	void STATIC_OnDeployableDestroyed(class ATgDeployable* deployable);
 	void TeleportAlmostFinished();
 	void STATIC_OnDeployableSpawned(class ATgDeployable* deployable);
-	void ClientConfirmTelportToLocation(const struct FVector& vTeleportToLocation);
-	void DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
+	void STATIC_ClientConfirmTelportToLocation(const struct FVector& vTeleportToLocation);
+	void STATIC_DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
 	float STATIC_GetCustomTimerBarMaxTime();
 	float STATIC_GetCustomTimerBarCurrentTime();
-	void FinishPhaseIn();
+	void STATIC_FinishPhaseIn();
 	void StartPhaseIn();
 	void TeleportToDeployable(const struct FVector& vDest);
 	void ServerTeleportToDeployable(const struct FVector& vDest);
@@ -30579,10 +30614,10 @@ public:
 	bool ShouldRemoveLift();
 	bool STATIC_IsTargetInRangeToHit();
 	void AbortTelepunch();
-	void STATIC_OnInterruptEvent();
-	void ConfirmTelepunchTarget();
+	void OnInterruptEvent();
+	void STATIC_ConfirmTelepunchTarget();
 	void ApplySlam(class ATgPawn_Character* Target);
-	void DelayedSlam();
+	void STATIC_DelayedSlam();
 	void RemoveTravelStealth(class ATgPawn_Character* Target);
 	void ApplyTravelStealth(class ATgPawn_Character* Target);
 	void RemoveLift(class ATgPawn_Character* Target);
@@ -30593,18 +30628,18 @@ public:
 	bool STATIC_IsPostTeleportPreHitActive();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	void ResetPostHitDelay();
-	void ClientLerpToTarget(class ATgPawn_Character* Target, const struct FVector& vTargetLocation, float fLerpTime);
+	void STATIC_ClientLerpToTarget(class ATgPawn_Character* Target, const struct FVector& vTargetLocation, float fLerpTime);
 	void AltFirePostHitDelay();
-	void FadeOutUltFx();
+	void STATIC_FadeOutUltFx();
 	void STATIC_LerpToTarget(class ATgPawn_Character* Target, const struct FVector& vTargetLocation, float fLerpTime);
 	float STATIC_GetLerpToTargetTime(const struct FVector& vTargetLocation);
 	void STATIC_DeliverHit(const struct FImpactInfo& Impact);
-	struct FImpactInfo CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
 	bool STATIC_HasCachedDemon();
 	bool ShouldConsumePowerPoolOnStartFire();
 	float STATIC_GetMoveSpeedMultiplier();
 	bool ShouldForce3P(class UTgDeviceForm* DeviceForm, bool bOnlyCheckDeviceForm);
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	float STATIC_GetRequiredEnergyToFire();
 };
 
@@ -30623,7 +30658,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	struct FRotator STATIC_GetChargeDirection();
 	bool ShouldInterruptReloadOnFire();
 	bool ShouldTreatAmmoAsCharges();
@@ -30694,8 +30729,8 @@ public:
 
 
 	void STATIC_Generic1(unsigned char byExtraData);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -30789,7 +30824,7 @@ public:
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool ShouldLockFiring(class ATgDevice* Current);
-	bool CanBeCrippled();
+	bool STATIC_CanBeCrippled();
 };
 
 
@@ -30834,14 +30869,14 @@ public:
 	bool ShouldMountCancelFiring();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	void SpawnCollisionProxy();
 	void Destroyed();
 	void RefundEnergy();
 	void ServerImpactTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void ClientImpactTarget();
+	void STATIC_ClientImpactTarget();
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void CustomFire();
+	void STATIC_CustomFire();
 	bool STATIC_InterceptRightMousePressed(class ATgPlayerController* TgController);
 	bool STATIC_HasDrogozLeg1();
 };
@@ -30865,7 +30900,7 @@ public:
 	}
 
 
-	bool CanFiringBeLocked();
+	bool STATIC_CanFiringBeLocked();
 	bool ShouldAutoFire();
 };
 
@@ -30923,7 +30958,7 @@ public:
 	}
 
 
-	bool CheckValidTarget(class AActor* Target, bool bPredicting);
+	bool STATIC_CheckValidTarget(class AActor* Target, bool bPredicting);
 };
 
 
@@ -31008,7 +31043,7 @@ public:
 	bool ApplyTheHit(class UTgDeviceFire* FireMode, const struct FImpactInfo& Impact, class AActor* DamageInstigator);
 	bool UseAOE();
 	void STATIC_ClientExplodeSpecial(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
-	void DetonateFromRocket(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
+	void STATIC_DetonateFromRocket(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ExplodeOnTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ScaleAbilityFX();
@@ -31034,8 +31069,8 @@ public:
 
 	bool ShouldCancelCrouch();
 	int STATIC_GetAimAssistPriority();
-	void STATIC_ServerNotifyTeleportLocation(const struct FVector& vLocation);
-	bool CanFireIfLeftMouseDown();
+	void ServerNotifyTeleportLocation(const struct FVector& vLocation);
+	bool STATIC_CanFireIfLeftMouseDown();
 	void RequireHardReset();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	void STATIC_InterruptOtherDevices(class ATgPawn* TgP);
@@ -31043,7 +31078,7 @@ public:
 	bool STATIC_IsTargetingModeReady(TEnumAsByte<EDeviceFailType>* failType);
 	float STATIC_GetFiringPreHitDelay(int nMode);
 	float STATIC_GetMoveSpeedMultiplier();
-	bool CanBeCrippled();
+	bool STATIC_CanBeCrippled();
 };
 
 
@@ -31108,7 +31143,7 @@ public:
 	void STATIC_TakeDamage(int Damage, class AController* EventInstigator, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
 	void Touch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void ToggleLargeMesh();
+	void STATIC_ToggleLargeMesh();
 };
 
 
@@ -31131,12 +31166,12 @@ public:
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_HasCachedPawn();
 	bool STATIC_CanBeInterrupted();
-	void CancelSafetyPeriodTimer();
+	void STATIC_CancelSafetyPeriodTimer();
 	void STATIC_InitMaxHealth();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_IsFunctionallyToggleDevice();
 	float STATIC_GetMoveSpeedMultiplier();
-	bool CanBeSilenced();
+	bool STATIC_CanBeSilenced();
 };
 
 
@@ -31164,9 +31199,9 @@ public:
 	void STATIC_ScaleAbilityFX();
 	void STATIC_ScaleAbilityRadius();
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void ToggleWindTotemFX();
-	void ToggleHealingRainFX();
-	void STATIC_MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
+	void STATIC_ToggleWindTotemFX();
+	void STATIC_ToggleHealingRainFX();
+	void MitigateHealthDamage(class ATgPawn* pInstigator, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, bool bIsHeadshot, float* NewValue, float* fPercReduction);
 	void AdjustHeal(int nPropertyId, struct FImpactInfo* Impact, float* fHeal);
 };
 
@@ -31189,7 +31224,7 @@ public:
 	void STATIC_DeliverQueuedPendingHits();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_CanBeInterrupted();
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 };
 
 
@@ -31223,7 +31258,7 @@ public:
 	}
 
 
-	struct FImpactInfo CalcAoeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList);
+	struct FImpactInfo STATIC_CalcAoeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, float RewindTime, TArray<struct FImpactInfo>* ImpactList);
 };
 
 
@@ -31248,7 +31283,7 @@ public:
 
 	bool STATIC_HasCachedGrohkPawn();
 	void StopArcingBeamEffects(class AActor* Target);
-	void UpdateBeamEndLocation(int Idx);
+	void STATIC_UpdateBeamEndLocation(int Idx);
 	void SetTargetArcingBeamEffect(class AActor* Target);
 	void SetSourceArcingBeamEffect(class AActor* Source);
 	void StopFire(int nFireModeNum);
@@ -31333,7 +31368,7 @@ public:
 	}
 
 
-	void FireNext();
+	void STATIC_FireNext();
 };
 
 
@@ -31355,7 +31390,7 @@ public:
 	bool STATIC_CanJumpWhileFiring();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_CanBeInterrupted();
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 	bool ShouldLockFiring(class ATgDevice* Current);
 };
 
@@ -31380,7 +31415,7 @@ public:
 
 
 // Class TgGame.TgDevice_Vine
-// 0x0028 (0x0B14 - 0x0AEC)
+// 0x0030 (0x0B1C - 0x0AEC)
 class ATgDevice_Vine : public ATgDevice
 {
 public:
@@ -31395,6 +31430,7 @@ public:
 	unsigned long                                      m_bHasPulledOnce : 1;                                     // 0x0B0C(0x0004)
 	unsigned long                                      m_bTeleportedAfterFiring : 1;                             // 0x0B0C(0x0004)
 	float                                              m_fMomentumAfterPull;                                     // 0x0B10(0x0004)
+	class UTgDeviceForm_Vine*                          m_VineForm;                                               // 0x0B14(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -31403,13 +31439,19 @@ public:
 	}
 
 
+	void STATIC_ClientInterrupt(bool bServerFireFailed);
+	bool STATIC_CanBeCanceledByReload();
+	void OnCanceledClient();
+	void STATIC_OnCanceled();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	void AuthStartCooldown(int nMode, float fCooldownTimeOverride);
 	bool ShouldCooldownAfterFire();
 	void Tick(float DeltaSeconds);
 	void SetIsPullingHitSpecial(bool bIsPulling);
-	void ClientEndPull();
-	void EndPull();
+	void STATIC_ClientPullCanceled();
+	void PullCanceled();
+	void STATIC_ClientEndPull();
+	void STATIC_EndPull();
 	void STATIC_MissPull();
 	void STATIC_PullToTarget(class AActor* Target, const struct FVector& targetPos);
 };
@@ -31437,10 +31479,10 @@ public:
 	void STATIC_Generic1(unsigned char byExtraData);
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void DisconnectBeam();
-	void ConnectBeamToTarget(class AActor* Target, const struct FVector& Location);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_DisconnectBeam();
+	void STATIC_ConnectBeamToTarget(class AActor* Target, const struct FVector& Location);
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -31484,11 +31526,11 @@ public:
 	bool STATIC_DamageShouldEnterCombat();
 	void STATIC_DestroyIt(bool bSkipFx);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void UpdateAllBeams();
+	void STATIC_UpdateAllBeams();
 	void RemoveEffects(class ATgPawn_Character* Target);
 	void ApplyEffects(class ATgPawn_Character* Target);
-	void FilterNewTargets(TArray<class ATgPawn_Character*>* newTargets);
-	int FilterCurrentTargets(int maxTargets);
+	void STATIC_FilterNewTargets(TArray<class ATgPawn_Character*>* newTargets);
+	int STATIC_FilterCurrentTargets(int maxTargets);
 	bool STATIC_IsValidTarget(class AActor* Target);
 };
 
@@ -31535,7 +31577,7 @@ public:
 
 	bool ShouldLockFiring(class ATgDevice* Current);
 	void STATIC_PlayOppressorMineNewTargetSound(class AActor* Target);
-	void ClientPlayOppressorMineNewTargetSound(class AActor* Target);
+	void STATIC_ClientPlayOppressorMineNewTargetSound(class AActor* Target);
 };
 
 
@@ -31554,10 +31596,10 @@ public:
 	}
 
 
-	void ClientPlayTransporterDestroyedSound();
+	void STATIC_ClientPlayTransporterDestroyedSound();
 	void STATIC_OnDeployableDestroyed(class ATgDeployable* deployable);
 	bool ShouldLockFiring(class ATgDevice* Current);
-	void TickTargetingMode(float DeltaSeconds);
+	void STATIC_TickTargetingMode(float DeltaSeconds);
 	void STATIC_GetGroundTargetAim(struct FAimData* Aim);
 };
 
@@ -31616,8 +31658,8 @@ public:
 	void ShowReticle(bool bShow);
 	void STATIC_ExitTargetingMode();
 	void STATIC_EnterTargetingMode();
-	void UpdateTargetingModeStatus(TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
-	void UpdateTargetingMode2Location(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
+	void STATIC_UpdateTargetingModeStatus(TEnumAsByte<ETargetingModeStatus> Status, struct FAimData* Aim);
+	void STATIC_UpdateTargetingMode2Location(const struct FVector& NewLocation, const struct FRotator& NewRotation, float DistanceScale);
 	void STATIC_InitializeTargetingModeFX();
 };
 
@@ -31653,7 +31695,7 @@ public:
 
 
 	bool ShouldHitBounce(class AActor* Target, const struct FVector& HitNormal);
-	class AActor* CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
+	class AActor* STATIC_CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
 	class ATgDeployable* SpawnDeployable(const struct FVector& vLocation, class AActor* TargetActor, const struct FVector& vNormal);
 };
 
@@ -31690,8 +31732,8 @@ public:
 	void STATIC_OnProxyUnTouch(class AActor* Other);
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void ReplaceWithFadeOutMaterial();
-	void FixupMeshComponent(int nMeshId, class UTgSkeletalMeshComponent* Component);
-	void UpdateFadeAway();
+	void STATIC_FixupMeshComponent(int nMeshId, class UTgSkeletalMeshComponent* Component);
+	void STATIC_UpdateFadeAway();
 };
 
 
@@ -31709,14 +31751,14 @@ public:
 	}
 
 
-	bool CanBeCanceledByReload();
+	bool STATIC_CanBeCanceledByReload();
 	void StealthCooldownDelay();
 	void STATIC_ClientStartCooldown(int nMode, float fCooldownTime);
 	void StartCooldown(int nMode, float fCooldownTimeOverride);
 	bool ShouldCooldownAfterFire();
 	bool ShouldInterruptInhand();
 	bool ShouldInterruptADSDevices();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	bool STATIC_IsDeviceFiringForUI();
 };
 
@@ -31734,7 +31776,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	bool STATIC_HasCachedLongbow();
 	bool ShouldInterruptInhand();
 	bool ShouldCooldownAfterFire();
@@ -31775,7 +31817,7 @@ public:
 	class AProjectile* ProjectileFire(int ProjectileIndex);
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool ReleaseHoldOnRightMouseReleased();
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 	struct FVector STATIC_GetProjectileSpawnOffset();
 	bool STATIC_HasCachedLongbow();
 	bool ShouldAutoFire();
@@ -31801,8 +31843,8 @@ public:
 	void STATIC_Generic1(unsigned char byExtraData);
 	void StopFire(int nFireModeNum);
 	void STATIC_StartFire(int nFireMode, float fRefireTime, class AActor* Target, int nAmmoRemaining);
-	void UpdateMeshMICValue(class UMeshComponent* MeshComp);
-	void UpdateUltMeshVisibility(float DeltaSeconds);
+	void STATIC_UpdateMeshMICValue(class UMeshComponent* MeshComp);
+	void STATIC_UpdateUltMeshVisibility(float DeltaSeconds);
 };
 
 
@@ -31834,9 +31876,9 @@ public:
 	void STATIC_DoInterrupt();
 	void STATIC_Generic1(unsigned char byExtraData);
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
-	void Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void CacheAnimNode3P(class UAnimNode* Node);
-	void ClearAnimNodes3P();
+	void STATIC_Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_CacheAnimNode3P(class UAnimNode* Node);
+	void STATIC_ClearAnimNodes3P();
 };
 
 
@@ -31896,8 +31938,8 @@ public:
 	bool STATIC_CanFiringBeCanceledByLeftMouse();
 	bool ShouldInterruptInhand();
 	bool ShouldLockFiring(class ATgDevice* Current);
-	float CalcWeightlessJumpMultiplier();
-	float CalcWeightlessHorizontalMultiplier();
+	float STATIC_CalcWeightlessJumpMultiplier();
+	float STATIC_CalcWeightlessHorizontalMultiplier();
 	float STATIC_GetJumpSpeedMultiplier();
 	float STATIC_GetHorizontalSpeedMultiplier();
 	bool ShouldInterruptLift();
@@ -31980,7 +32022,7 @@ public:
 	}
 
 
-	bool CanHitInstigator();
+	bool STATIC_CanHitInstigator();
 };
 
 
@@ -32050,7 +32092,7 @@ public:
 
 	bool ShouldInterruptReloadOnFire();
 	bool ShouldLockFiring(class ATgDevice* Current);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_CanJumpWhileFiring();
 	struct FVector STATIC_GetProjectileSpawnOffset();
@@ -32073,11 +32115,11 @@ public:
 	}
 
 
-	void STATIC_OnCripple();
+	void OnCripple();
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool ShouldLockFiring(class ATgDevice* Current);
-	bool CanBeCrippled();
+	bool STATIC_CanBeCrippled();
 };
 
 
@@ -32115,7 +32157,7 @@ public:
 	}
 
 
-	struct FWeaponFireResults CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
+	struct FWeaponFireResults STATIC_CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
 	float STATIC_GetDamageRadius();
 };
 
@@ -32187,16 +32229,16 @@ public:
 
 
 	void STATIC_DestroyIt(bool bSkipFx);
-	void UpdateParticleParams(int spotIndex);
-	bool SpawnStrandFromCenter(int Region);
+	void STATIC_UpdateParticleParams(int spotIndex);
+	bool SpawnStrandFromCenter(int region);
 	void SpawnInitialStrands();
 	void SpawnInitialCenter();
-	void DeployComplete();
+	void STATIC_DeployComplete();
 	void SetPointIntensity(int PointIndex, int nIntensityLevel);
 	int AddNewPoint(const struct FVector& vLocation, const struct FRotator& rRotation, bool bAddEffectSpot, bool bSkipEligibilityCheck);
 	struct FRotator AlignSpotByRotation(const struct FVector& HitNormal, const struct FRotator& rRotation);
 	void SetMomentumDirection(const struct FVector& projVelocity, const struct FVector& HitNormal);
-	void UpdateAllRanks();
+	void STATIC_UpdateAllRanks();
 	void STATIC_LinkNeighbors(int triIndex);
 	int SpawnFromTriangle(int triIndex, int neighborNum);
 	struct FVector STATIC_GetNewSpotLocation(int index1, int index2);
@@ -32207,10 +32249,10 @@ public:
 	void PushStrandToTip(int strandNum);
 	float STATIC_GetStrandSpreadWeight(int strandNum, int neighborNum);
 	bool STATIC_IsInStrand(int triIndex, int strandIndex);
-	void UpdateStrandAllowances();
-	float CalcHeatLevel(int triIndex);
-	void UpdateHeatLevels();
-	void CompleteSaturationLevel5Points();
+	void STATIC_UpdateStrandAllowances();
+	float STATIC_CalcHeatLevel(int triIndex);
+	void STATIC_UpdateHeatLevels();
+	void STATIC_CompleteSaturationLevel5Points();
 	void Tick(float DeltaSeconds);
 	bool STATIC_CheckItemShopVolumeFailure(const struct FVector& TestLocation);
 	void RemoveEffects(class AActor* Target);
@@ -32231,8 +32273,8 @@ public:
 	}
 
 
-	struct FImpactInfo CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
-	struct FAimData ValidateReceivedAim(float ClientMovementTimeStamp, const struct FAimData& Aim);
+	struct FImpactInfo STATIC_CalcWeaponFire(const struct FAimData& Aim, TArray<struct FImpactInfo>* ImpactList);
+	struct FAimData STATIC_ValidateReceivedAim(float ClientMovementTimeStamp, const struct FAimData& Aim);
 	void STATIC_GetTargetingAim(struct FAimData* Aim);
 	float STATIC_GetConePullbackDistance();
 };
@@ -32254,7 +32296,7 @@ public:
 
 	bool ShouldShowAmmoCount();
 	bool RequiresAmmoToFire();
-	bool CheckAutoReload();
+	bool STATIC_CheckAutoReload();
 };
 
 
@@ -32369,13 +32411,13 @@ public:
 	bool ShouldInterruptMount();
 	bool ShouldCancelStealth();
 	bool ShouldLockFiring(class ATgDevice* Current);
-	bool CanBeCanceledByReload();
+	bool STATIC_CanBeCanceledByReload();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 	bool STATIC_CanFiringBeCanceledByLeftMouse();
 	bool STATIC_StartFire();
 	bool ShouldInterruptReloadOnFire();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
-	bool CanFireWhileMounted();
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanFireWhileMounted();
 	bool ShouldInterruptStealth();
 };
 
@@ -32397,7 +32439,7 @@ public:
 	void STATIC_OnProxyUnTouch(class AActor* Other);
 	void STATIC_OnProxyTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
-	void ToggleRipenedGourdFX();
+	void STATIC_ToggleRipenedGourdFX();
 };
 
 
@@ -32497,10 +32539,10 @@ public:
 
 	float STATIC_GetRecoilMultiplier();
 	float STATIC_GetMinAccuracy();
-	bool CanEnterCombat();
+	bool STATIC_CanEnterCombat();
 	void StopFire();
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
-	bool CanFireIfLeftMouseDown();
+	bool STATIC_CanFireIfLeftMouseDown();
 	void STATIC_EnterTargetingMode();
 };
 
@@ -32528,8 +32570,8 @@ public:
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_IsFunctionallyToggleDevice();
 	bool STATIC_CanFiringBeCanceledByReactivation();
-	void ClientConsumeStealthJuiceOnFire(int nAmtModified);
-	void ConsumeStealthJuiceOnFire();
+	void STATIC_ClientConsumeStealthJuiceOnFire(int nAmtModified);
+	void STATIC_ConsumeStealthJuiceOnFire();
 	bool STATIC_CanDeviceStartFiringNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDebugRelevant, TEnumAsByte<EDeviceFailType>* failType);
 	void STATIC_DeviceConsumePowerPool(unsigned char FireModeNum);
 	float STATIC_GetStealthJuicePerSec();
@@ -32556,13 +32598,13 @@ public:
 	bool ShouldStopActionOnOffhandSlotReleased();
 	bool STATIC_IsFunctionallyToggleDevice();
 	bool STATIC_InterceptSlotReleased(class ATgPlayerController* TgController);
-	void CompleteInterrupt();
+	void STATIC_CompleteInterrupt();
 	bool STATIC_IsPlayerToggleZoomSet();
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
-	void FireDescopeTimer();
+	void STATIC_FireDescopeTimer();
 	void StartFireDescopeTimer();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	float STATIC_GetMoveSpeedMultiplier();
@@ -32584,9 +32626,9 @@ public:
 
 
 	float STATIC_GetMoveSpeedMultiplier();
-	void FiringEndTransition();
+	void STATIC_FiringEndTransition();
 	void STATIC_HandleDeviceFormStartFire(int nDeviceModeNum, float fRefireTime, struct FAimData* Aim);
-	void STATIC_NotifyWeaponSwap(float fSwapTime);
+	void NotifyWeaponSwap(float fSwapTime);
 	bool ShouldMountCancelFiring();
 	bool STATIC_IsFunctionallyToggleDevice();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
@@ -32628,7 +32670,7 @@ public:
 	}
 
 
-	void EnableZoom(bool bIsActive);
+	void STATIC_EnableZoom(bool bIsActive);
 	void STATIC_PlayToggleTransitionAnimations(float transitionPercent, float totalTransitionTime, bool transitionToActive);
 	void SetToggleState(bool bIsActive);
 	void StopFire(int nFireModeNum);
@@ -32654,9 +32696,9 @@ public:
 
 	void RecoverDeviceState(TEnumAsByte<ETG_REP_DEVICE_STATE> DesiredState);
 	void SetSkelControlsActive(bool bActive, TArray<class UTgSkelControlSingleBone*>* SkelControls);
-	void Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
-	void CacheSkelControls(class UAnimTree* pAnimTree, const struct FName& nmPistol, const struct FName& nmRifle, TArray<class UTgSkelControlSingleBone*>* PistolSkelControls, TArray<class UTgSkelControlSingleBone*>* RifleSkelControls);
+	void STATIC_Cache3PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_Cache1PAnimNodes(class UTgSkeletalMeshComponent* SkelComp);
+	void STATIC_CacheSkelControls(class UAnimTree* pAnimTree, const struct FName& nmPistol, const struct FName& nmRifle, TArray<class UTgSkelControlSingleBone*>* PistolSkelControls, TArray<class UTgSkelControlSingleBone*>* RifleSkelControls);
 };
 
 
@@ -32741,7 +32783,7 @@ public:
 	}
 
 
-	float GetGravityZ();
+	float STATIC_GetGravityZ();
 	bool UseAOE();
 	void PulseVisibility();
 	void STATIC_PostProjectileInitialize();
@@ -32767,7 +32809,7 @@ public:
 
 	struct FVector STATIC_GetPhysicalFireAimDirection(const struct FVector& fireLoc, const struct FVector& TargetLocation);
 	void STATIC_PlayFireFx();
-	void FireAmmunitionDeployable();
+	void STATIC_FireAmmunitionDeployable();
 	void STATIC_DestroyIt(bool bSkipFx);
 	void STATIC_ReplacedByNewDeployable();
 	void PlayLowHealthFX(bool bEnable);
@@ -32793,7 +32835,7 @@ public:
 
 
 	bool STATIC_HasCachedChurchill();
-	void UpdateDetectedColor(bool bDetected);
+	void STATIC_UpdateDetectedColor(bool bDetected);
 	void STATIC_ApplyHit(TArray<struct FImpactInfo>* ImpactList);
 	bool STATIC_DamageShouldEnterCombat();
 	void STATIC_DestroyIt(bool bSkipFx);
@@ -32816,7 +32858,7 @@ public:
 
 
 	void STATIC_TakeDamage(int Damage, class AController* EventInstigator, const struct FVector& HitLocation, const struct FVector& Momentum, class UClass* DamageType, const struct FTraceHitInfo& HitInfo, class AActor* DamageCauser);
-	void STATIC_OnHealthUpdated();
+	void OnHealthUpdated();
 	void StartDeploy();
 };
 
@@ -32842,7 +32884,7 @@ public:
 	bool STATIC_HasCachedCharacter();
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
-	void EndADSBonuses();
+	void STATIC_EndADSBonuses();
 	void StartADSBonuses();
 	void ShowReticle(bool bShow);
 	bool ShouldConsumeAmmo(int nFireRequestID, TArray<struct FImpactToValidate> Impacts);
@@ -32879,7 +32921,7 @@ public:
 	}
 
 
-	void EnableZoom(bool bIsActive);
+	void STATIC_EnableZoom(bool bIsActive);
 	void STATIC_PlayToggleTransitionAnimations(float transitionPercent, float totalTransitionTime, bool transitionToActive);
 	void SetToggleState(bool bIsActive);
 	void StopFire(int nFireModeNum);
@@ -32947,8 +32989,8 @@ public:
 
 
 	bool ShouldHitBounce(class AActor* Target, const struct FVector& HitNormal);
-	class AActor* CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
-	float GetGravityZ();
+	class AActor* STATIC_CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
+	float STATIC_GetGravityZ();
 };
 
 
@@ -32975,15 +33017,15 @@ public:
 
 
 	void SetCrystalDetected(bool bDetected, int nSource);
-	void CacheColorizeRedOnMesh(class USkeletalMeshComponent* WeaponMesh, struct FLinearColor* cDefaultColor);
+	void STATIC_CacheColorizeRedOnMesh(class USkeletalMeshComponent* WeaponMesh, struct FLinearColor* cDefaultColor);
 	void Tick(float DeltaTime);
 	void STATIC_Initialize3P(unsigned char EquipPoint, int DeviceID);
-	void FixUpReferencesToWeaponMesh1P(class USkeletalMeshComponent* WeaponMesh);
-	void UseADSFireSounds(bool bShouldUse);
+	void STATIC_FixUpReferencesToWeaponMesh1P(class USkeletalMeshComponent* WeaponMesh);
+	void STATIC_UseADSFireSounds(bool bShouldUse);
 	void SetFOVZoomed(bool bEnabled);
-	void Toggle1PVisibility(bool bVisible);
+	void STATIC_Toggle1PVisibility(bool bVisible);
 	void SetDeployablesHidden(bool bShouldHide);
-	void STATIC_OnViewTargetChanged(class AActor* aNewViewTarget);
+	void OnViewTargetChanged(class AActor* aNewViewTarget);
 };
 
 
@@ -33024,7 +33066,7 @@ public:
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
 	void STATIC_InterruptFiringDelegate();
-	void UpdateOutroLockoutTime();
+	void STATIC_UpdateOutroLockoutTime();
 	float STATIC_GetChargeRange();
 	float STATIC_GetChargeSpeed();
 	bool STATIC_CanBeInterrupted();
@@ -33069,9 +33111,9 @@ public:
 	void ServerNotifyDesiredTarget(class AActor* DesiredTarget);
 	void ApplyFinalHit();
 	void STATIC_LegendaryTimerExpired();
-	void FinishGrab(bool bInterrupted, bool bApplyFinalHit);
-	void ClientFinishGrab(bool bInterrupted, bool bApplyFinalHit);
-	void ClientAbortWaitingForServerHit();
+	void STATIC_FinishGrab(bool bInterrupted, bool bApplyFinalHit);
+	void STATIC_ClientFinishGrab(bool bInterrupted, bool bApplyFinalHit);
+	void STATIC_ClientAbortWaitingForServerHit();
 	void STATIC_GrabMoveFinished();
 	void ApplyEndStunHit();
 	void RemoveInitialStunHit();
@@ -33080,20 +33122,20 @@ public:
 	float STATIC_GetJoinDuration();
 	void STATIC_Grab3pDelay();
 	void StartGrab(class AActor* Other);
-	void FindGrabLocations(struct FVector* vSelfLocation, struct FVector* vTargetLocation);
-	void ClientStartGrab(class AActor* Other);
+	void STATIC_FindGrabLocations(struct FVector* vSelfLocation, struct FVector* vTargetLocation);
+	void STATIC_ClientStartGrab(class AActor* Other);
 	void AbortGrab();
-	void STATIC_OnInterruptEvent();
+	void OnInterruptEvent();
 	struct FRotator STATIC_GetChargeDirection();
 	void ServerStartGrab(class AActor* Other);
 	bool ShouldAbortGrab();
 	bool STATIC_IsTargetImmune(class ATgPawn_Character* pOther);
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_HasCachedVanguard();
-	void ValidateChargeHit(class AActor* Other);
+	void STATIC_ValidateChargeHit(class AActor* Other);
 	void SetDesiredTarget(class ATgPawn_Character* pTarget);
 	class ATgPawn_Character* STATIC_GetDesiredTarget();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 	float STATIC_GetCachedFiringPostHitDelay();
 	bool ShouldLiftInterrupt();
 	float STATIC_GetMoveSpeedMultiplier();
@@ -33118,18 +33160,18 @@ public:
 
 
 	bool ShouldConsumePowerPoolAfterFire();
-	void FinishGrab(bool bInterrupted, bool bApplyFinalHit);
-	void FreezePlayers();
+	void STATIC_FinishGrab(bool bInterrupted, bool bApplyFinalHit);
+	void STATIC_FreezePlayers();
 	void StartGrabMove();
 	float STATIC_GetJoinDuration();
 	void ApplyFinalHit();
-	void TriggerAoE(const struct FVector& vLocation);
+	void STATIC_TriggerAoE(const struct FVector& vLocation);
 	bool ShouldAbortGrab();
 	float STATIC_GetRequiredEnergyToFire();
 	void SetDesiredTarget(class ATgPawn_Character* pTarget);
 	class ATgPawn_Character* STATIC_GetDesiredTarget();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
-	void FindGrabLocations(struct FVector* vSelfLocation, struct FVector* vTargetLocation);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	void STATIC_FindGrabLocations(struct FVector* vSelfLocation, struct FVector* vTargetLocation);
 };
 
 
@@ -33181,7 +33223,7 @@ public:
 	void STATIC_LinkedDeviceUnequipped(class ATgDevice* Dev);
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
 	void STATIC_InterruptFiringDelegate();
-	void UpdateOutroLockoutTime();
+	void STATIC_UpdateOutroLockoutTime();
 	bool ShouldInterruptReloadOnFire();
 	bool STATIC_InterceptSlotReleased(class ATgPlayerController* TgController);
 	bool STATIC_CanFiringBeCanceledByReactivation();
@@ -33193,7 +33235,7 @@ public:
 	bool STATIC_InterceptSlotPressed(class ATgPlayerController* TgController);
 	bool STATIC_CanDeviceStartFiringNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDebugRelevant, TEnumAsByte<EDeviceFailType>* failType);
 	bool ShouldAltFireOnTick();
-	bool CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
+	bool STATIC_CanDeviceFireNow(unsigned char FireModeNum, const struct FAimData& Aim, bool bDeviceFailLog, TEnumAsByte<EDeviceFailType>* failType);
 };
 
 
@@ -33225,7 +33267,7 @@ public:
 	}
 
 
-	struct FWeaponFireResults CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
+	struct FWeaponFireResults STATIC_CalcWeaponModeFire(class AActor* DamageInstigator, const struct FAimData& Aim, bool bPredicting, bool bNoBodyShotCheck, float RewindTime, TArray<struct FImpactInfo>* ImpactList, TArray<struct FImpactToValidate>* ImpactsToValidate);
 };
 
 
@@ -33248,20 +33290,20 @@ public:
 
 
 // Class TgGame.TgPawn_Engineer
-// 0x0040 (0x314C - 0x310C)
+// 0x0040 (0x3088 - 0x3048)
 class ATgPawn_Engineer : public ATgPawn_Character
 {
 public:
-	class UTgSkeletalMeshComponent*                    m_pJetpackMesh;                                           // 0x310C(0x0008) (ExportObject, Component, EditInline)
-	TArray<class USkelControlBase*>                    m_pJetpackSkelCons;                                       // 0x3114(0x0010) (NeedCtorLink)
-	TArray<struct FName>                               m_pJetpackSkelConNames;                                   // 0x3124(0x0010) (NeedCtorLink)
-	unsigned long                                      m_bBoosterUseConstantSpeedReduction : 1;                  // 0x3134(0x0004)
-	unsigned long                                      m_bIsInBooster : 1;                                       // 0x3134(0x0004)
-	unsigned long                                      m_bInBoosterLockout : 1;                                  // 0x3134(0x0004)
-	float                                              m_fBoosterSpeedReductionRate;                             // 0x3138(0x0004)
-	float                                              m_fBoosterEndTime;                                        // 0x313C(0x0004)
-	float                                              m_fBoosterLockoutTime;                                    // 0x3140(0x0004)
-	class ATgDevice*                                   m_CachedBoosterDevice;                                    // 0x3144(0x0008)
+	class UTgSkeletalMeshComponent*                    m_pJetpackMesh;                                           // 0x3048(0x0008) (ExportObject, Component, EditInline)
+	TArray<class USkelControlBase*>                    m_pJetpackSkelCons;                                       // 0x3050(0x0010) (NeedCtorLink)
+	TArray<struct FName>                               m_pJetpackSkelConNames;                                   // 0x3060(0x0010) (NeedCtorLink)
+	unsigned long                                      m_bBoosterUseConstantSpeedReduction : 1;                  // 0x3070(0x0004)
+	unsigned long                                      m_bIsInBooster : 1;                                       // 0x3070(0x0004)
+	unsigned long                                      m_bInBoosterLockout : 1;                                  // 0x3070(0x0004)
+	float                                              m_fBoosterSpeedReductionRate;                             // 0x3074(0x0004)
+	float                                              m_fBoosterEndTime;                                        // 0x3078(0x0004)
+	float                                              m_fBoosterLockoutTime;                                    // 0x307C(0x0004)
+	class ATgDevice*                                   m_CachedBoosterDevice;                                    // 0x3080(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -33271,19 +33313,19 @@ public:
 
 
 	void SetJetpackState(bool bActive);
-	void STATIC_OnMeshSwapped();
+	void OnMeshSwapped();
 };
 
 
 // Class TgGame.TgPawn_Alchemist
-// 0x000C (0x3118 - 0x310C)
+// 0x000C (0x3054 - 0x3048)
 class ATgPawn_Alchemist : public ATgPawn_Character
 {
 public:
-	unsigned long                                      r_bWeightless : 1;                                        // 0x310C(0x0004) (Net)
-	unsigned long                                      m_bWeightlessDurationEnded : 1;                           // 0x310C(0x0004)
-	float                                              m_fWeightlessMaxSpeedModifier;                            // 0x3110(0x0004)
-	float                                              m_fWeightlessJumpZModifier;                               // 0x3114(0x0004)
+	unsigned long                                      r_bWeightless : 1;                                        // 0x3048(0x0004) (Net)
+	unsigned long                                      m_bWeightlessDurationEnded : 1;                           // 0x3048(0x0004)
+	float                                              m_fWeightlessMaxSpeedModifier;                            // 0x304C(0x0004)
+	float                                              m_fWeightlessJumpZModifier;                               // 0x3050(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -33295,13 +33337,13 @@ public:
 	void Landed(const struct FVector& HitNormal, class AActor* FloorActor);
 	bool DoJump(bool bUpdating, float JumpZSpeed);
 	float STATIC_GetJumpSpeedMultiplier();
-	void EndWeightless();
+	void STATIC_EndWeightless();
 	void StartWeightless(float fMaxSpeedMultiplier, float fJumpZMultiplier);
 };
 
 
 // Class TgGame.TgPawn_Mage
-// 0x0000 (0x310C - 0x310C)
+// 0x0000 (0x3048 - 0x3048)
 class ATgPawn_Mage : public ATgPawn_Character
 {
 public:
@@ -33313,14 +33355,14 @@ public:
 	}
 
 
-	void DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
-	void DeviceAdjustHeal(struct FAdjustHealParams* Params, float* fHeal);
+	void STATIC_DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
+	void STATIC_DeviceAdjustHeal(struct FAdjustHealParams* Params, float* fHeal);
 	void BuffDamage(class AActor* Target, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, float fBaseDamage, float* fProratedAmount, struct FExtraDamageInfo* ExtraInfo);
 };
 
 
 // Class TgGame.TgPawn_Assassin
-// 0x0000 (0x310C - 0x310C)
+// 0x0000 (0x3048 - 0x3048)
 class ATgPawn_Assassin : public ATgPawn_Character
 {
 public:
@@ -33332,7 +33374,7 @@ public:
 	}
 
 
-	void DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
+	void STATIC_DeviceAdjustCooldown(class ATgDevice* Dev, float* fCooldown);
 	void BuffDamage(class AActor* Target, class UTgEffectDamage* Effect, const struct FImpactInfo& Impact, float fBaseDamage, float* fProratedAmount, struct FExtraDamageInfo* ExtraInfo);
 };
 
@@ -33459,6 +33501,36 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_ClearDropLocation
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_ClearDropLocation : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_ClearDropLocation");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_ClearInteractTarget
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_ClearInteractTarget : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_ClearInteractTarget");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_ClearLaneMoveTarget
 // 0x0000 (0x0094 - 0x0094)
 class UTgAIBehaviorAction_ClearLaneMoveTarget : public UTgAIBehaviorAction
@@ -33549,6 +33621,21 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_DisenchantItem
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_DisenchantItem : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_DisenchantItem");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_MoveBase
 // 0x0008 (0x009C - 0x0094)
 class UTgAIBehaviorAction_MoveBase : public UTgAIBehaviorAction
@@ -33610,6 +33697,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_FollowLane");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_FollowLoop
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_FollowLoop : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_FollowLoop");
 		return ptr;
 	}
 
@@ -33682,6 +33784,21 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_JumpFromZeppelin
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_JumpFromZeppelin : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_JumpFromZeppelin");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_Leash
 // 0x0000 (0x0094 - 0x0094)
 class UTgAIBehaviorAction_Leash : public UTgAIBehaviorAction
@@ -33739,6 +33856,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_LookAtFortress");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_LookAtInteractTarget
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_LookAtInteractTarget : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_LookAtInteractTarget");
 		return ptr;
 	}
 
@@ -33927,6 +34059,52 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_MoveToDropLocation
+// 0x0000 (0x009C - 0x009C)
+class UTgAIBehaviorAction_MoveToDropLocation : public UTgAIBehaviorAction_MoveToTarget
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_MoveToDropLocation");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_MoveToFogCenter
+// 0x0004 (0x00A0 - 0x009C)
+class UTgAIBehaviorAction_MoveToFogCenter : public UTgAIBehaviorAction_MoveToTarget
+{
+public:
+	float                                              Percent;                                                  // 0x009C(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_MoveToFogCenter");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_MoveToInteractTarget
+// 0x0000 (0x009C - 0x009C)
+class UTgAIBehaviorAction_MoveToInteractTarget : public UTgAIBehaviorAction_MoveToTarget
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_MoveToInteractTarget");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_MoveToLanePusher
 // 0x0001 (0x009D - 0x009C)
 class UTgAIBehaviorAction_MoveToLanePusher : public UTgAIBehaviorAction_MoveToTarget
@@ -34025,6 +34203,21 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_OpenChest
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_OpenChest : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_OpenChest");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_PauseAI
 // 0x0000 (0x0094 - 0x0094)
 class UTgAIBehaviorAction_PauseAI : public UTgAIBehaviorAction
@@ -34034,6 +34227,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_PauseAI");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_PickUpItem
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_PickUpItem : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_PickUpItem");
 		return ptr;
 	}
 
@@ -34178,15 +34386,15 @@ public:
 
 	bool STATIC_InterceptFlashInput(const struct FName& ButtonName, TEnumAsByte<EInputEvent> Event);
 	void AdjustAimingView(struct FVector* ViewLocation, struct FRotator* ViewRotation);
-	void STATIC_OnRightMouseReleased();
-	void STATIC_OnRightMousePressed();
-	void STATIC_UpdateRotation(float DeltaTime);
+	void OnRightMouseReleased();
+	void OnRightMousePressed();
+	void UpdateRotation(float DeltaTime);
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 	struct FRotator STATIC_GetBaseAimRotation(class AWeapon* W, bool bIgnoreAutoLock);
 	void STATIC_OnSettingsChanged(class UTgClientSettings* Settings);
-	void STATIC_OnBecomeInActive(class UTgControlModule* NewModule);
-	void STATIC_OnBecomeActive(class UTgControlModule* OldModule);
+	void OnBecomeInActive(class UTgControlModule* NewModule);
+	void OnBecomeActive(class UTgControlModule* OldModule);
 	void Init();
 };
 
@@ -34223,18 +34431,18 @@ public:
 	bool STATIC_IsCameraLocked();
 	bool STATIC_IsRotationLocked();
 	bool STATIC_IsInputLocked();
-	void UpdateAimPitch();
+	void STATIC_UpdateAimPitch();
 	void STATIC_UpdateRotationCatapult(const struct FRotator& DeltaRot, float DeltaTime, class ATgPawn* TgP, class ATgCatapultActor* Catapult);
-	void STATIC_UpdateRotation(float DeltaTime);
+	void UpdateRotation(float DeltaTime);
 	bool STATIC_IsPlayingForcedViewCameraAnim();
-	struct FVector CalcNewAccel();
-	struct FVector CalcSkydiveAccel();
+	struct FVector STATIC_CalcNewAccel();
+	struct FVector STATIC_CalcSkydiveAccel();
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
-	void STATIC_ResetViewOrientation();
+	void ResetViewOrientation();
 	struct FRotator STATIC_GetBaseAimRotation(class AWeapon* W, bool bIgnoreAutoLock);
-	void STATIC_OnBecomeActive(class UTgControlModule* OldModule);
-	void UpdatePitchCurve();
+	void OnBecomeActive(class UTgControlModule* OldModule);
+	void STATIC_UpdatePitchCurve();
 	void STATIC_OnSettingsChanged(class UTgClientSettings* Settings);
 	void Init();
 };
@@ -34256,10 +34464,10 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
-	struct FVector CalcNewAccel();
-	void STATIC_OnBecomeInActive(class UTgControlModule* NewModule);
-	void STATIC_OnBecomeActive(class UTgControlModule* OldModule);
+	void UpdateRotation(float DeltaTime);
+	struct FVector STATIC_CalcNewAccel();
+	void OnBecomeInActive(class UTgControlModule* NewModule);
+	void OnBecomeActive(class UTgControlModule* OldModule);
 };
 
 
@@ -34445,6 +34653,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_RunInRandomDirection
+// 0x0008 (0x009C - 0x0094)
+class UTgAIBehaviorAction_RunInRandomDirection : public UTgAIBehaviorAction
+{
+public:
+	float                                              TraceDistance;                                            // 0x0094(0x0004) (Edit)
+	float                                              Acceleration;                                             // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_RunInRandomDirection");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_RunToOwner
 // 0x0000 (0x009C - 0x009C)
 class UTgAIBehaviorAction_RunToOwner : public UTgAIBehaviorAction_MoveToTarget
@@ -34594,6 +34819,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_SelectCombatTargetsTarget");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_SelectDropLocation
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_SelectDropLocation : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_SelectDropLocation");
 		return ptr;
 	}
 
@@ -34826,6 +35066,22 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_SetGoblinState
+// 0x0001 (0x0095 - 0x0094)
+class UTgAIBehaviorAction_SetGoblinState : public UTgAIBehaviorAction
+{
+public:
+	TEnumAsByte<EGoblinState>                          GoblinState;                                              // 0x0094(0x0001) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_SetGoblinState");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_SpreadFromSquad
 // 0x0004 (0x00A0 - 0x009C)
 class UTgAIBehaviorAction_SpreadFromSquad : public UTgAIBehaviorAction_MoveToTarget
@@ -34836,6 +35092,22 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_SpreadFromSquad");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_Sprint
+// 0x0004 (0x0098 - 0x0094)
+class UTgAIBehaviorAction_Sprint : public UTgAIBehaviorAction
+{
+public:
+	unsigned long                                      Sprint : 1;                                               // 0x0094(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_Sprint");
 		return ptr;
 	}
 
@@ -34890,6 +35162,69 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorAction_Suicide
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_Suicide : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_Suicide");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_TargetNearestChest
+// 0x0004 (0x0098 - 0x0094)
+class UTgAIBehaviorAction_TargetNearestChest : public UTgAIBehaviorAction
+{
+public:
+	unsigned long                                      SeenAsOpen : 1;                                           // 0x0094(0x0004) (Edit)
+	unsigned long                                      CheckLOS : 1;                                             // 0x0094(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_TargetNearestChest");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_TargetNearestItem
+// 0x0004 (0x0098 - 0x0094)
+class UTgAIBehaviorAction_TargetNearestItem : public UTgAIBehaviorAction
+{
+public:
+	unsigned long                                      CheckLOS : 1;                                             // 0x0094(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_TargetNearestItem");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_TargetRoyaleObjective
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorAction_TargetRoyaleObjective : public UTgAIBehaviorAction
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_TargetRoyaleObjective");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorAction_UpdateTargetLastKnownLocation
 // 0x0000 (0x0094 - 0x0094)
 class UTgAIBehaviorAction_UpdateTargetLastKnownLocation : public UTgAIBehaviorAction
@@ -34915,6 +35250,24 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_UseActive");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorAction_UseAltFire
+// 0x0008 (0x009C - 0x0094)
+class UTgAIBehaviorAction_UseAltFire : public UTgAIBehaviorAction
+{
+public:
+	TEnumAsByte<ETG_EQUIP_POINT>                       DeviceToUse;                                              // 0x0094(0x0001) (Edit)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	unsigned long                                      Start : 1;                                                // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_UseAltFire");
 		return ptr;
 	}
 
@@ -35054,6 +35407,73 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AmmoCount");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_ArmorPercent
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_ArmorPercent : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              ArmorPct;                                                 // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_ArmorPercent");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_AtDropLocation
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_AtDropLocation : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              Tolerance;                                                // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AtDropLocation");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_AtJumpLocation
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_AtJumpLocation : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              Tolerance;                                                // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AtJumpLocation");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_AtMaxShards
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_AtMaxShards : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AtMaxShards");
 		return ptr;
 	}
 
@@ -35325,6 +35745,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_CombatTargetPolymorphState
+// 0x0004 (0x0099 - 0x0095)
+class UTgAIBehaviorCondition_CombatTargetPolymorphState : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	TEnumAsByte<EPolymorphType>                        PolymorphState;                                           // 0x0098(0x0001) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_CombatTargetPolymorphState");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_CurrentLevel
 // 0x0007 (0x009C - 0x0095)
 class UTgAIBehaviorCondition_CurrentLevel : public UTgAIBehaviorCondition
@@ -35487,6 +35924,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_DistanceFromFogCenter
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_DistanceFromFogCenter : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              Percent;                                                  // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_DistanceFromFogCenter");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_DistanceFromFortressObjective
 // 0x0000 (0x009C - 0x009C)
 class UTgAIBehaviorCondition_DistanceFromFortressObjective : public UTgAIBehaviorCondition_DistanceBase
@@ -35496,6 +35950,23 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_DistanceFromFortressObjective");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_DistanceFromInteractTarget
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_DistanceFromInteractTarget : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              Distance;                                                 // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_DistanceFromInteractTarget");
 		return ptr;
 	}
 
@@ -35663,6 +36134,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_GoblinState
+// 0x0004 (0x0099 - 0x0095)
+class UTgAIBehaviorCondition_GoblinState : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	TEnumAsByte<EGoblinState>                          GoblinState;                                              // 0x0098(0x0001) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_GoblinState");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_HasActive
 // 0x0004 (0x0099 - 0x0095)
 class UTgAIBehaviorCondition_HasActive : public UTgAIBehaviorCondition
@@ -35707,6 +36195,22 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_HasConsumable");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_HasDropLocation
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_HasDropLocation : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_HasDropLocation");
 		return ptr;
 	}
 
@@ -35974,6 +36478,42 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_IsChestInRadius
+// 0x000B (0x00A0 - 0x0095)
+class UTgAIBehaviorCondition_IsChestInRadius : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              Radius;                                                   // 0x0098(0x0004) (Edit)
+	unsigned long                                      SeenAsOpen : 1;                                           // 0x009C(0x0004) (Edit)
+	unsigned long                                      CheckLOS : 1;                                             // 0x009C(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsChestInRadius");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_IsChestLooted
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_IsChestLooted : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	unsigned long                                      SeenAsOpen : 1;                                           // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsChestLooted");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_IsCombatTargetHittable
 // 0x0003 (0x0098 - 0x0095)
 class UTgAIBehaviorCondition_IsCombatTargetHittable : public UTgAIBehaviorCondition
@@ -36135,6 +36675,22 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_IsCombatTargetTrackable
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_IsCombatTargetTrackable : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsCombatTargetTrackable");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_IsCombatTargetVisible
 // 0x0000 (0x009C - 0x009C)
 class UTgAIBehaviorCondition_IsCombatTargetVisible : public UTgAIBehaviorCondition_VisibilityBase
@@ -36178,6 +36734,22 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsDesiredAimDevice");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_IsEquippedWeaponRanged
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_IsEquippedWeaponRanged : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsEquippedWeaponRanged");
 		return ptr;
 	}
 
@@ -36250,6 +36822,22 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_IsInteractTargetVisible
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_IsInteractTargetVisible : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsInteractTargetVisible");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_IsInTowerRadius
 // 0x0007 (0x009C - 0x0095)
 class UTgAIBehaviorCondition_IsInTowerRadius : public UTgAIBehaviorCondition
@@ -36261,6 +36849,24 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsInTowerRadius");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_IsItemInRadius
+// 0x000B (0x00A0 - 0x0095)
+class UTgAIBehaviorCondition_IsItemInRadius : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              Radius;                                                   // 0x0098(0x0004) (Edit)
+	unsigned long                                      CheckLOS : 1;                                             // 0x009C(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsItemInRadius");
 		return ptr;
 	}
 
@@ -36382,6 +36988,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_IsLookingAtInteractTarget
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_IsLookingAtInteractTarget : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              VisibilityAngle;                                          // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsLookingAtInteractTarget");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_IsMetaGameState
 // 0x0004 (0x0099 - 0x0095)
 class UTgAIBehaviorCondition_IsMetaGameState : public UTgAIBehaviorCondition
@@ -36415,6 +37038,22 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_IsSafeFromFog
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_IsSafeFromFog : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsSafeFromFog");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_IsSafeToRecall
 // 0x0003 (0x0098 - 0x0095)
 class UTgAIBehaviorCondition_IsSafeToRecall : public UTgAIBehaviorCondition
@@ -36441,6 +37080,22 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsSpawnGateOpen");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_IsSprinting
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_IsSprinting : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsSprinting");
 		return ptr;
 	}
 
@@ -36559,6 +37214,22 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsWithinDistance");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_ItemIsValid
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_ItemIsValid : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_ItemIsValid");
 		return ptr;
 	}
 
@@ -36880,6 +37551,22 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_OnNavMesh
+// 0x0003 (0x0098 - 0x0095)
+class UTgAIBehaviorCondition_OnNavMesh : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_OnNavMesh");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_PetPhase
 // 0x0004 (0x0099 - 0x0095)
 class UTgAIBehaviorCondition_PetPhase : public UTgAIBehaviorCondition
@@ -36908,6 +37595,40 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_PhysicsState");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_PlayerDeployState
+// 0x0004 (0x0099 - 0x0095)
+class UTgAIBehaviorCondition_PlayerDeployState : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	TEnumAsByte<EPlayerDeployState>                    DeployState;                                              // 0x0098(0x0001) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_PlayerDeployState");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorCondition_PolymorphState
+// 0x0004 (0x0099 - 0x0095)
+class UTgAIBehaviorCondition_PolymorphState : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	TEnumAsByte<EPolymorphType>                        PolymorphState;                                           // 0x0098(0x0001) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_PolymorphState");
 		return ptr;
 	}
 
@@ -37129,6 +37850,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorCondition_TimeSinceOpenedChest
+// 0x0007 (0x009C - 0x0095)
+class UTgAIBehaviorCondition_TimeSinceOpenedChest : public UTgAIBehaviorCondition
+{
+public:
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
+	float                                              TimeThreshold;                                            // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_TimeSinceOpenedChest");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorCondition_WhatIsCombatTargetTargeting
 // 0x0004 (0x0099 - 0x0095)
 class UTgAIBehaviorCondition_WhatIsCombatTargetTargeting : public UTgAIBehaviorCondition
@@ -37194,6 +37932,23 @@ public:
 };
 
 
+// Class TgGame.TgAIBehaviorSensor_Fog
+// 0x0008 (0x009C - 0x0094)
+class UTgAIBehaviorSensor_Fog : public UTgAIBehaviorSensor
+{
+public:
+	float                                              UnsafeRatio;                                              // 0x0094(0x0004) (Edit)
+	float                                              SafePercent;                                              // 0x0098(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_Fog");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgAIBehaviorSensor_Fortress
 // 0x0000 (0x0094 - 0x0094)
 class UTgAIBehaviorSensor_Fortress : public UTgAIBehaviorSensor
@@ -37218,6 +37973,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_Gods");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorSensor_GodsAndMonsters
+// 0x0000 (0x0094 - 0x0094)
+class UTgAIBehaviorSensor_GodsAndMonsters : public UTgAIBehaviorSensor_Gods
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_GodsAndMonsters");
 		return ptr;
 	}
 
@@ -37278,6 +38048,38 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_Leash");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorSensor_NearbyChests
+// 0x0004 (0x0098 - 0x0094)
+class UTgAIBehaviorSensor_NearbyChests : public UTgAIBehaviorSensor
+{
+public:
+	float                                              MaxRadius;                                                // 0x0094(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_NearbyChests");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgAIBehaviorSensor_NearbyItems
+// 0x0004 (0x0098 - 0x0094)
+class UTgAIBehaviorSensor_NearbyItems : public UTgAIBehaviorSensor
+{
+public:
+	float                                              MaxRadius;                                                // 0x0094(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_NearbyItems");
 		return ptr;
 	}
 
@@ -37399,6 +38201,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgAILocalPositionSolver_Pet");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgHavokNavigationHandle
+// 0x0000 (0x01E8 - 0x01E8)
+class UTgHavokNavigationHandle : public UHavokNavigationHandle
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgHavokNavigationHandle");
 		return ptr;
 	}
 
@@ -37763,8 +38580,8 @@ public:
 	}
 
 
-	void Undeploy(float fUndeployTime);
-	void Deploy(float fDeployTime);
+	void STATIC_Undeploy(float fUndeployTime);
+	void STATIC_Deploy(float fDeployTime);
 };
 
 
@@ -37796,10 +38613,10 @@ public:
 	}
 
 
-	void ChainInvalid();
-	void ChainMiss();
-	void ChainHit();
-	void ChainThrow();
+	void STATIC_ChainInvalid();
+	void STATIC_ChainMiss();
+	void STATIC_ChainHit();
+	void STATIC_ChainThrow();
 };
 
 
@@ -37828,7 +38645,7 @@ public:
 	}
 
 
-	void STATIC_OnChildAnimEnd(const struct FAnimationEndInformation& Information);
+	void OnChildAnimEnd(const struct FAnimationEndInformation& Information);
 	void PlaySaleAnimation();
 	void PlayNoSaleAnimation();
 	void PlayCallOutAnimation();
@@ -37922,13 +38739,13 @@ public:
 	}
 
 
-	void STATIC_OnLeftMousePressed();
-	void STATIC_OnRightMouseReleased();
-	void STATIC_OnRightMousePressed();
+	void OnLeftMousePressed();
+	void OnRightMouseReleased();
+	void OnRightMousePressed();
 	bool STATIC_InterceptFlashInput(const struct FName& ButtonName, TEnumAsByte<EInputEvent> Event);
 	void STATIC_GetActorListAtCursor(TArray<class AActor*>* ActorList);
 	class APawn* STATIC_GetPawnAtCursor();
-	void STATIC_UpdateRotation(float DeltaTime);
+	void UpdateRotation(float DeltaTime);
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 	struct FRotator STATIC_GetBaseAimRotation(class AWeapon* W, bool bIgnoreAutoLock);
@@ -38049,8 +38866,8 @@ public:
 
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 	struct FRotator STATIC_GetWorldRotation(class ATgPlayerCamera* CameraActor);
-	void STATIC_OnBecomeInActive(class UTgCameraModule* NewCamera);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
+	void OnBecomeInActive(class UTgCameraModule* NewCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
 };
 
 
@@ -38067,8 +38884,8 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
-	struct FVector CalcNewAccel();
+	void UpdateRotation(float DeltaTime);
+	struct FVector STATIC_CalcNewAccel();
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 };
 
@@ -38127,12 +38944,12 @@ public:
 
 
 	void RotateView();
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 	void BlendCameraToLocation(const struct FVector& NewLocation, float BlendTime, bool bUseFocalPoint);
-	void STATIC_OnBecomeInActive(class UTgCameraModule* NewCamera);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
+	void OnBecomeInActive(class UTgCameraModule* NewCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
 };
 
 
@@ -38172,8 +38989,8 @@ public:
 	}
 
 
-	void STATIC_OnLeftMousePressed();
-	void STATIC_UpdateRotation(float DeltaTime);
+	void OnLeftMousePressed();
+	void UpdateRotation(float DeltaTime);
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 	float STATIC_GetMinStallZ();
@@ -38195,10 +39012,10 @@ public:
 	}
 
 
-	void ZoomOut();
-	void ZoomIn();
+	void STATIC_ZoomOut();
+	void STATIC_ZoomIn();
 	struct FVector STATIC_GetCamLocationOffset(const struct FRotator& PawnRot, const struct FVector& vInCameraSpaceTranslation);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
 };
 
 
@@ -38217,8 +39034,8 @@ public:
 
 
 	void BlendToTarget(float BlendTime);
-	void STATIC_OnBecomeInActive(class UTgCameraModule* NewCamera);
-	void STATIC_OnBecomeActive(class UTgCameraModule* OldCamera);
+	void OnBecomeInActive(class UTgCameraModule* NewCamera);
+	void OnBecomeActive(class UTgCameraModule* OldCamera);
 	void STATIC_UpdateCamera(class APawn* P, class ATgPlayerCamera* CameraActor, float DeltaTime, struct FTViewTarget* OutVT);
 };
 
@@ -38274,38 +39091,6 @@ public:
 };
 
 
-// Class TgGame.TgSeqEvent_ChaosObjectiveActive
-// 0x0000 (0x0128 - 0x0128)
-class UTgSeqEvent_ChaosObjectiveActive : public USequenceEvent
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgSeqEvent_ChaosObjectiveActive");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgSeqEvent_ChaosObjectiveStatus
-// 0x0000 (0x0128 - 0x0128)
-class UTgSeqEvent_ChaosObjectiveStatus : public USequenceEvent
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgSeqEvent_ChaosObjectiveStatus");
-		return ptr;
-	}
-
-
-	void UpdateLinkedVars(bool bFriendlyTaskForce);
-};
-
-
 // Class TgGame.TgOnlineGameSettings
 // 0x0000 (0x0144 - 0x0144)
 class UTgOnlineGameSettings : public UOnlineGameSettings
@@ -38349,7 +39134,7 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
+	void UpdateRotation(float DeltaTime);
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 };
@@ -38369,11 +39154,11 @@ public:
 
 
 	struct FRotator STATIC_GetBaseAimRotation(class AWeapon* W, bool bIgnoreAutoLock);
-	void STATIC_UpdateRotation(float DeltaTime);
+	void UpdateRotation(float DeltaTime);
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
-	void STATIC_OnBecomeInActive(class UTgControlModule* NewModule);
-	void STATIC_OnBecomeActive(class UTgControlModule* OldModule);
+	void OnBecomeInActive(class UTgControlModule* NewModule);
+	void OnBecomeActive(class UTgControlModule* OldModule);
 };
 
 
@@ -38408,10 +39193,10 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
-	void ChangeDirections();
-	struct FVector CalcNewAccel();
-	void STATIC_OnBecomeActive(class UTgControlModule* OldModule);
+	void UpdateRotation(float DeltaTime);
+	void STATIC_ChangeDirections();
+	struct FVector STATIC_CalcNewAccel();
+	void OnBecomeActive(class UTgControlModule* OldModule);
 };
 
 
@@ -38429,7 +39214,7 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
+	void UpdateRotation(float DeltaTime);
 	void STATIC_PlayerMove(float DeltaTime);
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 	struct FRotator STATIC_GetBaseAimRotation(class AWeapon* W, bool bIgnoreAutoLock);
@@ -38466,8 +39251,8 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
-	struct FVector CalcNewAccel();
+	void UpdateRotation(float DeltaTime);
+	struct FVector STATIC_CalcNewAccel();
 	void STATIC_ProcessMove(float DeltaTime, const struct FVector& newAccel, TEnumAsByte<EDoubleClickDir> DoubleClickMove, const struct FRotator& DeltaRot);
 };
 
@@ -38489,8 +39274,23 @@ public:
 	}
 
 
-	void STATIC_UpdateRotation(float DeltaTime);
-	void STATIC_OnBecomeActive(class UTgControlModule* OldModule);
+	void UpdateRotation(float DeltaTime);
+	void OnBecomeActive(class UTgControlModule* OldModule);
+};
+
+
+// Class TgGame.TgDamageType_ArmorHit
+// 0x0000 (0x0154 - 0x0154)
+class UTgDamageType_ArmorHit : public UTgDamageType
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDamageType_ArmorHit");
+		return ptr;
+	}
+
 };
 
 
@@ -39002,7 +39802,7 @@ public:
 	}
 
 
-	void STATIC_DisableDebugCamera();
+	void DisableDebugCamera();
 	void Camera(const struct FName& NewMode);
 };
 
@@ -39050,7 +39850,7 @@ public:
 	class AActor* STATIC_GetMoveTarget();
 	bool STATIC_HigherPriorityThan(class ATgDefensePoint* S, class ATgAIController* B);
 	void PreBeginPlay();
-	void FreePoint();
+	void STATIC_FreePoint();
 	void STATIC_Reset();
 };
 
@@ -39205,7 +40005,7 @@ public:
 	}
 
 
-	bool TriggerGlobal(class ATgSpectatorController* InInstigator);
+	bool STATIC_TriggerGlobal(class ATgSpectatorController* InInstigator);
 };
 
 
@@ -39224,7 +40024,7 @@ public:
 	}
 
 
-	void DestroyIfNeeded();
+	void STATIC_DestroyIfNeeded();
 	void SetIsBookmark(bool bBookmark);
 	void STATIC_EndViewTarget(class APlayerController* PC);
 	void STATIC_BecomeViewTarget(class APlayerController* PC);
@@ -39243,6 +40043,23 @@ public:
 		return ptr;
 	}
 
+};
+
+
+// Class TgGame.TgDeploy_Chirper
+// 0x0000 (0x0448 - 0x0448)
+class ATgDeploy_Chirper : public ATgDeployable
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_Chirper");
+		return ptr;
+	}
+
+
+	bool STATIC_DamageShouldEnterCombat();
 };
 
 
@@ -39312,7 +40129,7 @@ public:
 
 	void STATIC_OnPickedUp(class APlayerReplicationInfo* PRI);
 	void STATIC_PlayChestOpenEffects(bool bOpen);
-	void STATIC_OpenChest();
+	void OpenChest();
 	void PostBeginPlay();
 };
 
@@ -39330,7 +40147,7 @@ public:
 	}
 
 
-	void FireAmmunitionDeployable();
+	void STATIC_FireAmmunitionDeployable();
 };
 
 
@@ -39350,6 +40167,51 @@ public:
 
 	void Destroyed();
 	void Tick(float DeltaSeconds);
+};
+
+
+// Class TgGame.TgDeploy_LootCrateTutorialAbility
+// 0x0000 (0x04B8 - 0x04B8)
+class ATgDeploy_LootCrateTutorialAbility : public ATgDeploy_LootCrateBasic
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateTutorialAbility");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDeploy_LootCrateTutorialDisenchant
+// 0x0000 (0x04B8 - 0x04B8)
+class ATgDeploy_LootCrateTutorialDisenchant : public ATgDeploy_LootCrateBasic
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateTutorialDisenchant");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDeploy_LootCrateTutorialWeapon
+// 0x0000 (0x04B8 - 0x04B8)
+class ATgDeploy_LootCrateTutorialWeapon : public ATgDeploy_LootCrateBasic
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateTutorialWeapon");
+		return ptr;
+	}
+
 };
 
 
@@ -39383,7 +40245,7 @@ public:
 	}
 
 
-	void DeployComplete();
+	void STATIC_DeployComplete();
 };
 
 
@@ -39402,10 +40264,10 @@ public:
 	}
 
 
-	void DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
+	void STATIC_DeviceShutDown(bool bDeactiveMode, bool bResetCooldowns);
 	bool ShouldSwitchBackToBasicAttackTargeting(TEnumAsByte<ECastMode> CastMode);
 	void STATIC_HandlePickUpAndDrop(bool bPickedUp);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	bool ShouldInterruptMount();
 	bool STATIC_InterceptLeftMouseReleased(class ATgPlayerController* TgController);
 	bool STATIC_InterceptLeftMousePressed(class ATgPlayerController* TgController);
@@ -39534,6 +40396,21 @@ public:
 };
 
 
+// Class TgGame.TgDevice_AssassinPassive
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_AssassinPassive : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_AssassinPassive");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_AssaultRifle
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_AssaultRifle : public ATgDevice
@@ -39543,6 +40420,40 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_AssaultRifle");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgWeaponMeshActor_OwlInhand
+// 0x0000 (0x0504 - 0x0504)
+class ATgWeaponMeshActor_OwlInhand : public ATgWeaponMeshActor
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgWeaponMeshActor_OwlInhand");
+		return ptr;
+	}
+
+
+	bool STATIC_HasCachedOwl();
+	void PlayTracerEffects(const struct FVector& EndLocation, int nEquipSlot);
+	void PlayInstantHitImpactEffects(const struct FVector& HitLocation, bool bSuccessfulHit, class AActor* HitActor, const struct FVector& HitNormal, const struct FVector& FireOrigin, int nEquipSlot);
+};
+
+
+// Class TgGame.TgDevice_AutoSniper
+// 0x0000 (0x0B00 - 0x0B00)
+class ATgDevice_AutoSniper : public ATgDevice_OwlInhand
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_AutoSniper");
 		return ptr;
 	}
 
@@ -39584,6 +40495,36 @@ public:
 };
 
 
+// Class TgGame.TgDevice_BattleCry
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_BattleCry : public ATgDevice_VanguardShout
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_BattleCry");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_Bazooka
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_Bazooka : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Bazooka");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_IceBlock
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_IceBlock : public ATgDevice
@@ -39598,6 +40539,53 @@ public:
 
 
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
+};
+
+
+// Class TgGame.TgDevice_EvieInhand
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_EvieInhand : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_EvieInhand");
+		return ptr;
+	}
+
+
+	void STATIC_InterruptOtherDevices(class ATgPawn* TgP);
+};
+
+
+// Class TgGame.TgWeaponMeshActor_IceStaff
+// 0x0000 (0x0504 - 0x0504)
+class ATgWeaponMeshActor_IceStaff : public ATgWeaponMeshActor
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgWeaponMeshActor_IceStaff");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_BoltStaff
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_BoltStaff : public ATgDevice_EvieInhand
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_BoltStaff");
+		return ptr;
+	}
+
 };
 
 
@@ -39667,6 +40655,36 @@ public:
 };
 
 
+// Class TgGame.TgDevice_ChickenCharge
+// 0x0000 (0x0B60 - 0x0B60)
+class ATgDevice_ChickenCharge : public ATgDevice_Uppercut
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ChickenCharge");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_Chirper
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_Chirper : public ATgDevice_Throw
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Chirper");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_ChurchillWard
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_ChurchillWard : public ATgDevice_Throw
@@ -39676,6 +40694,38 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ChurchillWard");
+		return ptr;
+	}
+
+
+	bool ShouldMountCancelFiring();
+};
+
+
+// Class TgGame.TgDevice_ExplosiveFlask
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_ExplosiveFlask : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ExplosiveFlask");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_ConcussionBomb
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_ConcussionBomb : public ATgDevice_ExplosiveFlask
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ConcussionBomb");
 		return ptr;
 	}
 
@@ -39697,6 +40747,25 @@ public:
 };
 
 
+// Class TgGame.TgDevice_Decoy
+// 0x0004 (0x0B0C - 0x0B08)
+class ATgDevice_Decoy : public ATgDevice_Turret
+{
+public:
+	unsigned long                                      m_bCanBeCanceled : 1;                                     // 0x0B08(0x0004)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Decoy");
+		return ptr;
+	}
+
+
+	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
+	bool ShouldCooldownAfterFire();
+};
+
+
 // Class TgGame.TgDevice_Devastation
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_Devastation : public ATgDevice
@@ -39710,7 +40779,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 };
 
 
@@ -39764,8 +40833,8 @@ public:
 	void STATIC_ClientInterrupt(bool bServerFireFailed);
 	void STATIC_InterruptFiring(bool bServerFireFailed);
 	void ServerDeployVoodoo();
-	void UpdateActiveProjectiles(class ATgProjectile* Proj);
-	bool TryDeployVoodoo();
+	void STATIC_UpdateActiveProjectiles(class ATgProjectile* Proj);
+	bool STATIC_TryDeployVoodoo();
 };
 
 
@@ -39822,38 +40891,6 @@ public:
 };
 
 
-// Class TgGame.TgDevice_EvieInhand
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_EvieInhand : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_EvieInhand");
-		return ptr;
-	}
-
-
-	void STATIC_InterruptOtherDevices(class ATgPawn* TgP);
-};
-
-
-// Class TgGame.TgWeaponMeshActor_IceStaff
-// 0x0000 (0x0504 - 0x0504)
-class ATgWeaponMeshActor_IceStaff : public ATgWeaponMeshActor
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgWeaponMeshActor_IceStaff");
-		return ptr;
-	}
-
-};
-
-
 // Class TgGame.TgDevice_EvilMojo
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_EvilMojo : public ATgDevice
@@ -39863,21 +40900,6 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_EvilMojo");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_ExplosiveFlask
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_ExplosiveFlask : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ExplosiveFlask");
 		return ptr;
 	}
 
@@ -39917,7 +40939,7 @@ public:
 	}
 
 
-	void EndLockOutEarly();
+	void STATIC_EndLockOutEarly();
 	bool STATIC_CanJumpWhileFiring();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
@@ -39970,7 +40992,7 @@ public:
 	}
 
 
-	float GetRange();
+	float STATIC_GetRange();
 	float STATIC_GetEffectiveRange();
 	bool STATIC_HasCachedBarik();
 };
@@ -39995,9 +41017,9 @@ public:
 	bool STATIC_CanBeInterrupted();
 	void STATIC_ClientInterrupt(bool bServerFireFailed);
 	void STATIC_InterruptFiring(bool bServerFireFailed);
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	void SetThrowSpeedMultiplier(float Mult);
-	void DropGrenade();
+	void STATIC_DropGrenade();
 };
 
 
@@ -40021,6 +41043,21 @@ public:
 };
 
 
+// Class TgGame.TgDevice_Frostblast
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_Frostblast : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Frostblast");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_GaeBolg
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_GaeBolg : public ATgDevice
@@ -40030,6 +41067,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GaeBolg");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_GrapplingHook
+// 0x0000 (0x0B1C - 0x0B1C)
+class ATgDevice_GrapplingHook : public ATgDevice_Vine
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GrapplingHook");
 		return ptr;
 	}
 
@@ -40054,6 +41106,36 @@ public:
 };
 
 
+// Class TgGame.TgDevice_GrenadeLauncher
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_GrenadeLauncher : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GrenadeLauncher");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_GroundingShock
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_GroundingShock : public ATgDevice_ExplosiveFlask
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GroundingShock");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_GroverInhandAxe
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_GroverInhandAxe : public ATgDevice
@@ -40067,7 +41149,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 };
 
 
@@ -40086,7 +41168,7 @@ public:
 
 
 	void Play3pFireAimedFX();
-	void FixUpReferencesToPawnMesh(class USkeletalMeshComponent* PawnMesh);
+	void STATIC_FixUpReferencesToPawnMesh(class USkeletalMeshComponent* PawnMesh);
 };
 
 
@@ -40105,18 +41187,18 @@ public:
 	}
 
 
-	bool CanEnterCatapultEvenWhenFiring();
+	bool STATIC_CanEnterCatapultEvenWhenFiring();
 	void STATIC_ScaleAbilityRadius();
 	void STATIC_ClientInterrupt(bool bServerFireFailed);
 	void STATIC_InterruptFiring(bool bServerFireFailed);
 	void ServerTryDetonate();
-	bool TryDetonate();
+	bool STATIC_TryDetonate();
 	bool STATIC_InterceptSlotPressed(class ATgPlayerController* TgController);
-	void UpdateActiveProjectiles(class ATgProjectile* Proj);
+	void STATIC_UpdateActiveProjectiles(class ATgProjectile* Proj);
 	void STATIC_ClientEndCooldown();
 	void STATIC_ClientStartCooldown(int nMode, float fCooldownTimeOverride);
-	void FireAmmunition();
-	void DetonationGracePeriod();
+	void STATIC_FireAmmunition();
+	void STATIC_DetonationGracePeriod();
 	void STATIC_LockOutOtherDevices();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_IsLeadVialActive();
@@ -40136,6 +41218,7 @@ public:
 	}
 
 
+	bool ShouldMountCancelFiring();
 	bool ShouldInterruptReloadOnFire();
 	bool ShouldLockFiring(class ATgDevice* Current);
 };
@@ -40175,8 +41258,8 @@ public:
 
 
 	bool ShouldCancelCrouch();
-	void STATIC_OnLeapEnded();
-	void STATIC_OnLeapStarted();
+	void OnLeapEnded();
+	void OnLeapStarted();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool ShouldInterruptReloadOnFire();
 	bool ShouldMountCancelFiring();
@@ -40200,7 +41283,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	struct FVector STATIC_GetProjectileSpawnOffset();
 };
 
@@ -40275,6 +41358,21 @@ public:
 };
 
 
+// Class TgGame.TgDevice_Javelin
+// 0x0000 (0x0AF8 - 0x0AF8)
+class ATgDevice_Javelin : public ATgDevice_Longbow
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Javelin");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_Lockdown
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_Lockdown : public ATgDevice
@@ -40305,8 +41403,8 @@ public:
 	}
 
 
-	void UseUltimateFireSounds(bool bShouldUse);
-	void UsePlantedFireSounds(bool bShouldUse);
+	void STATIC_UseUltimateFireSounds(bool bShouldUse);
+	void STATIC_UsePlantedFireSounds(bool bShouldUse);
 	void PlayFireEffects(int nEquipSlot, float fRefireTime, int nFireMode, TEnumAsByte<EDeviceSubtype> eDeviceSubtype, TEnumAsByte<EeMovementType> eMoveType, bool bForceBlendOutOnAnimEnd);
 	bool STATIC_HasCachedLongbow();
 };
@@ -40329,10 +41427,25 @@ public:
 	bool RequireMovementForAimAssist();
 	void STATIC_LinkedDeviceEquipped(class ATgDevice* Dev);
 	bool STATIC_HasCachedLongbow();
-	void TransitionOut();
+	void STATIC_TransitionOut();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_CanBeInterrupted();
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
+};
+
+
+// Class TgGame.TgDevice_MagicEye
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_MagicEye : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_MagicEye");
+		return ptr;
+	}
+
 };
 
 
@@ -40352,7 +41465,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 };
 
 
@@ -40458,6 +41571,9 @@ public:
 		return ptr;
 	}
 
+
+	bool ShouldMountCancelFiring();
+	void STATIC_UpdateActiveProjectiles(class ATgProjectile* Proj);
 };
 
 
@@ -40476,22 +41592,35 @@ public:
 };
 
 
-// Class TgGame.TgWeaponMeshActor_OwlInhand
-// 0x0000 (0x0504 - 0x0504)
-class ATgWeaponMeshActor_OwlInhand : public ATgWeaponMeshActor
+// Class TgGame.TgDevice_Sword
+// 0x0000 (0x0AF8 - 0x0AF8)
+class ATgDevice_Sword : public ATgDevice_Melee
 {
 public:
 
 	static UClass* StaticClass()
 	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgWeaponMeshActor_OwlInhand");
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Sword");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_PeckAttack
+// 0x0000 (0x0AF8 - 0x0AF8)
+class ATgDevice_PeckAttack : public ATgDevice_Sword
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_PeckAttack");
 		return ptr;
 	}
 
 
-	bool STATIC_HasCachedOwl();
-	void PlayTracerEffects(const struct FVector& endLocation, int nEquipSlot);
-	void PlayInstantHitImpactEffects(const struct FVector& HitLocation, bool bSuccessfulHit, class AActor* HitActor, const struct FVector& HitNormal, const struct FVector& FireOrigin, int nEquipSlot);
+	int STATIC_GetChainMax();
 };
 
 
@@ -40623,6 +41752,21 @@ public:
 };
 
 
+// Class TgGame.TgDevice_ProximityMine
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_ProximityMine : public ATgDevice_Throw
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ProximityMine");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_Recovery
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_Recovery : public ATgDevice
@@ -40637,6 +41781,21 @@ public:
 
 
 	bool ShouldLockFiring(class ATgDevice* Current);
+};
+
+
+// Class TgGame.TgDevice_RepairPack
+// 0x0000 (0x0AF8 - 0x0AF8)
+class ATgDevice_RepairPack : public ATgDevice_HealthPack
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_RepairPack");
+		return ptr;
+	}
+
 };
 
 
@@ -40674,6 +41833,21 @@ public:
 };
 
 
+// Class TgGame.TgDevice_ShieldingPotion
+// 0x0000 (0x0AF0 - 0x0AF0)
+class ATgDevice_ShieldingPotion : public ATgDevice_HealingPotion
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ShieldingPotion");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_Shotgun
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_Shotgun : public ATgDevice
@@ -40683,6 +41857,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Shotgun");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgDevice_SilentRun
+// 0x0000 (0x0AEC - 0x0AEC)
+class ATgDevice_SilentRun : public ATgDevice
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_SilentRun");
 		return ptr;
 	}
 
@@ -40719,6 +41908,21 @@ public:
 };
 
 
+// Class TgGame.TgDevice_SpeedPotion
+// 0x0000 (0x0AF0 - 0x0AF0)
+class ATgDevice_SpeedPotion : public ATgDevice_HealingPotion
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_SpeedPotion");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDevice_Spinfusor
 // 0x0000 (0x0AEC - 0x0AEC)
 class ATgDevice_Spinfusor : public ATgDevice
@@ -40748,25 +41952,27 @@ public:
 	}
 
 
-	void STATIC_OnInstantShotVerified(const struct FImpactInfo& VerifiedPrimaryImpact);
+	void OnInstantShotVerified(const struct FImpactInfo& VerifiedPrimaryImpact);
 	void PlayClientFireFx(const struct FVector& HitLocation, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
 	void AuthStartCooldown(int nMode, float fCooldownTimeOverride);
 	bool ShouldCooldownAfterFire();
 };
 
 
-// Class TgGame.TgDevice_Sword
-// 0x0000 (0x0AF8 - 0x0AF8)
-class ATgDevice_Sword : public ATgDevice_Melee
+// Class TgGame.TgDevice_StoneSpear
+// 0x0000 (0x0B24 - 0x0B24)
+class ATgDevice_StoneSpear : public ATgDevice_BarrierTankInhand
 {
 public:
 
 	static UClass* StaticClass()
 	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Sword");
+		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_StoneSpear");
 		return ptr;
 	}
 
+
+	void StopAltFire();
 };
 
 
@@ -40798,8 +42004,8 @@ public:
 	void SetGrenadeCookTime(float fCookAmt, bool bSendToServer);
 	void StartThrow();
 	void StartThrowValidation();
-	void FireAmmunition();
-	void DropGrenade();
+	void STATIC_FireAmmunition();
+	void STATIC_DropGrenade();
 	void SetThrowSpeedMultiplier(float Mult);
 };
 
@@ -40835,7 +42041,7 @@ public:
 
 	bool ShouldCooldownAfterFire();
 	bool STATIC_HasCachedInhand();
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 	bool ShouldStopActionOnOffhandSlotReleased();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool ShouldInterruptReloadOnFire();
@@ -40915,7 +42121,7 @@ public:
 	}
 
 
-	void TransitionOut();
+	void STATIC_TransitionOut();
 	bool ShouldLockFiring(class ATgDevice* Current);
 	bool STATIC_CanBeCanceled(class ATgDevice* NewDevice);
 };
@@ -40967,7 +42173,7 @@ public:
 	}
 
 
-	void FireAmmunition();
+	void STATIC_FireAmmunition();
 };
 
 
@@ -41395,7 +42601,7 @@ public:
 	}
 
 
-	void STATIC_SetAmmoBlendNodesAmount(int nAmmoAmt, bool bTickOnly);
+	void SetAmmoBlendNodesAmount(int nAmmoAmt, bool bTickOnly);
 };
 
 
@@ -41557,6 +42763,21 @@ public:
 };
 
 
+// Class TgGame.TgDeviceForm_GrenadeLauncher
+// 0x0000 (0x02BC - 0x02BC)
+class UTgDeviceForm_GrenadeLauncher : public UTgDeviceForm
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeviceForm_GrenadeLauncher");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgDeviceForm_GrumpyBomb
 // 0x0000 (0x02BC - 0x02BC)
 class UTgDeviceForm_GrumpyBomb : public UTgDeviceForm
@@ -41652,7 +42873,7 @@ public:
 
 
 	void SetSpinnersActive(bool bActive);
-	void PlayTracerEffects(const struct FVector& endLocation, int nEquipSlot);
+	void PlayTracerEffects(const struct FVector& EndLocation, int nEquipSlot);
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
 };
 
@@ -41671,7 +42892,7 @@ public:
 	}
 
 
-	void CleanUpKingBomb();
+	void STATIC_CleanUpKingBomb();
 	void SetUpKingBomb();
 	void STATIC_Generic1(unsigned char byExtraData);
 	void STATIC_DoInterrupt();
@@ -41698,6 +42919,23 @@ public:
 
 	void StopFire(int nFireModeNum);
 	void STATIC_Fire(const struct FVector& HitLocation, int nFireMode, int nEquipSlot, int nSocketIndex, bool bSuccessfulHit, float fRefireTime);
+};
+
+
+// Class TgGame.TgDeviceForm_Longbow
+// 0x0000 (0x02BC - 0x02BC)
+class UTgDeviceForm_Longbow : public UTgDeviceForm
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgDeviceForm_Longbow");
+		return ptr;
+	}
+
+
+	void STATIC_Generic1(unsigned char byExtraData);
 };
 
 
@@ -42123,21 +43361,6 @@ public:
 };
 
 
-// Class TgGame.TgDamageType_ArmorHit
-// 0x0000 (0x0154 - 0x0154)
-class UTgDamageType_ArmorHit : public UTgDamageType
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDamageType_ArmorHit");
-		return ptr;
-	}
-
-};
-
-
 // Class TgGame.TgEffectDamage_NoLifeSteal
 // 0x0000 (0x00C8 - 0x00C8)
 class UTgEffectDamage_NoLifeSteal : public UTgEffectDamage
@@ -42491,7 +43714,7 @@ public:
 	}
 
 
-	void ChangeTemplate(class UParticleSystem* NewTemplate);
+	void STATIC_ChangeTemplate(class UParticleSystem* NewTemplate);
 };
 
 
@@ -42664,10 +43887,57 @@ public:
 
 
 	void PostImpactComplete();
-	void STATIC_OnImpact();
+	void OnImpact();
 	void SetAudio(class USoundCue* SoundCueToSet);
 	void SetSecondaryMesh(class UStaticMesh* StaticMeshToSet);
 	void SetPrimaryMesh(class UStaticMesh* StaticMeshToSet);
+};
+
+
+// Class TgGame.TgSeqEvent_ChaosObjectiveActive
+// 0x0000 (0x0128 - 0x0128)
+class UTgSeqEvent_ChaosObjectiveActive : public USequenceEvent
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgSeqEvent_ChaosObjectiveActive");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgSeqEvent_ChaosObjectiveStatus
+// 0x0000 (0x0128 - 0x0128)
+class UTgSeqEvent_ChaosObjectiveStatus : public USequenceEvent
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgSeqEvent_ChaosObjectiveStatus");
+		return ptr;
+	}
+
+
+	void UpdateLinkedVars(bool bFriendlyTaskForce);
+};
+
+
+// Class TgGame.TgForgeObjective_Tutorial
+// 0x0000 (0x03D4 - 0x03D4)
+class ATgForgeObjective_Tutorial : public ATgForgeObjective
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgForgeObjective_Tutorial");
+		return ptr;
+	}
+
 };
 
 
@@ -42731,21 +44001,6 @@ public:
 };
 
 
-// Class TgGame.TgSeqEvent_SurvivalGameBegin
-// 0x0000 (0x0128 - 0x0128)
-class UTgSeqEvent_SurvivalGameBegin : public USequenceEvent
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgSeqEvent_SurvivalGameBegin");
-		return ptr;
-	}
-
-};
-
-
 // Class TgGame.TgSeqEvent_SurvivalGameStateChange
 // 0x0000 (0x0128 - 0x0128)
 class UTgSeqEvent_SurvivalGameStateChange : public USequenceEvent
@@ -42760,6 +44015,21 @@ public:
 
 
 	int STATIC_GetIndex(TEnumAsByte<EBG_GAME_STATE> GameState);
+};
+
+
+// Class TgGame.TgSeqEvent_SurvivalGameBegin
+// 0x0000 (0x0128 - 0x0128)
+class UTgSeqEvent_SurvivalGameBegin : public USequenceEvent
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgSeqEvent_SurvivalGameBegin");
+		return ptr;
+	}
+
 };
 
 
@@ -42939,6 +44209,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgGameplayCurvesSet_GravityFromZVelocity");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgGameplayCurvesSet_GyroSensitivity
+// 0x0000 (0x0098 - 0x0098)
+class UTgGameplayCurvesSet_GyroSensitivity : public UTgGameplayCurvesSet_Simple
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgGameplayCurvesSet_GyroSensitivity");
 		return ptr;
 	}
 
@@ -43140,6 +44425,21 @@ public:
 };
 
 
+// Class TgGame.TgHavokNavMeshActor
+// 0x0000 (0x036C - 0x036C)
+class ATgHavokNavMeshActor : public AHavokNavMeshActor
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgHavokNavMeshActor");
+		return ptr;
+	}
+
+};
+
+
 // Class TgGame.TgHoldSpot
 // 0x0008 (0x03AC - 0x03A4)
 class ATgHoldSpot : public ATgDefensePoint
@@ -43154,7 +44454,7 @@ public:
 	}
 
 
-	void FreePoint();
+	void STATIC_FreePoint();
 	class AActor* STATIC_GetMoveTarget();
 };
 
@@ -43196,7 +44496,7 @@ public:
 
 
 	void Tick(float DeltaTime);
-	void GetCameraView(float DeltaTime, bool bOnlyFOV, struct FTPOV* OutPOV);
+	void STATIC_GetCameraView(float DeltaTime, bool bOnlyFOV, struct FTPOV* OutPOV);
 	void STATIC_GetActorEyesViewPoint(struct FVector* out_Location, struct FRotator* out_Rotation);
 };
 
@@ -43469,12 +44769,12 @@ public:
 
 	void STATIC_ReplicatedEvent(const struct FName& VarName);
 	void StartTest(int Num);
-	void FailTest(int Num);
-	void STATIC_PassTest(int Num);
+	void STATIC_FailTest(int Num);
+	void PassTest(int Num);
 	void PostBeginPlay();
 	void SetTestColor(int Num, const struct FLinearColor& Col);
-	class APlayerController* GetLocalPlayer();
-	void STATIC_OnTestResult(class UTgSeqAct_TestResult* Action);
+	class APlayerController* STATIC_GetLocalPlayer();
+	void OnTestResult(class UTgSeqAct_TestResult* Action);
 };
 
 
@@ -43553,12 +44853,12 @@ public:
 	}
 
 
-	void STATIC_SetAlpha(float fNewAlpha);
+	void SetAlpha(float fNewAlpha);
 	void Tick(float DeltaTime);
 	void FadeOut(float fFadeTime);
 	void SetStartDistance(float fNewStartDistance);
 	void STATIC_SetOrigin(const struct FVector& vOrigin);
-	void ToggleFog(bool bOn);
+	void STATIC_ToggleFog(bool bOn);
 	void PostBeginPlay();
 };
 
@@ -43700,7 +45000,7 @@ public:
 
 
 // Class TgGame.TgPawn_Turret_DefaultCone
-// 0x0000 (0x2EF4 - 0x2EF4)
+// 0x0000 (0x2E30 - 0x2E30)
 class ATgPawn_Turret_DefaultCone : public ATgPawn_Turret
 {
 public:
@@ -43745,7 +45045,7 @@ public:
 	struct FVector                                     MoveDir;                                                  // 0x02F4(0x000C)
 	float                                              AngularHipDriveScale;                                     // 0x0300(0x0004) (Edit)
 	float                                              StaggerMuscleScale;                                       // 0x0304(0x0004) (Edit)
-	class UAnimNodeBlend*                              BlendNode;                                                // 0x0308(0x0008)
+	class UAnimNodeBlend*                              blendNode;                                                // 0x0308(0x0008)
 	class UAnimNodeSequence*                           GetUpNode;                                                // 0x0310(0x0008)
 	class UAnimNodeSequence*                           RunNode;                                                  // 0x0318(0x0008)
 	class URB_BodyInstance*                            HipBody;                                                  // 0x0320(0x0008)
@@ -43765,12 +45065,12 @@ public:
 	bool STATIC_IsAngularBoneSpringName(const struct FName& InName);
 	bool STATIC_IsLinearBoneSpringName(const struct FName& InName);
 	void SetLowerFixed();
-	void DetachAttachments();
+	void STATIC_DetachAttachments();
 	bool STATIC_IsLowerBodyName(const struct FName& InName);
 	void SetBodiesFixed(bool InFixed);
-	void EnableMotors(bool InEnabled);
+	void STATIC_EnableMotors(bool InEnabled);
 	void SetPATAState(TEnumAsByte<EPATAState> NewState);
-	void EndGrab();
+	void STATIC_EndGrab();
 	bool PreGrab();
 	bool PrePokeActor(const struct FVector& PokeDir);
 	void BoneImpulse(const struct FVector& Impulse, const struct FName& BoneName);
@@ -43795,11 +45095,11 @@ public:
 
 
 	float BotDesireability(class APawn* P);
-	float GetRespawnTime();
+	float STATIC_GetRespawnTime();
 	void STATIC_SetRespawn();
 	void STATIC_SpawnCopyFor(class APawn* Recipient);
-	struct FString GetLocalString(int Switch, class APlayerReplicationInfo* RelatedPRI_2, class APlayerReplicationInfo* RelatedPRI_3);
-	void InitializePickup();
+	struct FString STATIC_GetLocalString(int Switch, class APlayerReplicationInfo* RelatedPRI_2, class APlayerReplicationInfo* RelatedPRI_3);
+	void STATIC_InitializePickup();
 };
 
 
@@ -43816,7 +45116,25 @@ public:
 	}
 
 
-	class AActor* CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
+	class AActor* STATIC_CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
+};
+
+
+// Class TgGame.TgProj_Chirper
+// 0x0000 (0x056C - 0x056C)
+class ATgProj_Chirper : public ATgProj_FreeGrenade
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgProj_Chirper");
+		return ptr;
+	}
+
+
+	bool ShouldHitBounce(class AActor* Target, const struct FVector& HitNormal);
+	class AActor* STATIC_CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
 };
 
 
@@ -43996,6 +45314,42 @@ public:
 };
 
 
+// Class TgGame.TgProj_GrenadeLauncher
+// 0x0000 (0x056C - 0x056C)
+class ATgProj_GrenadeLauncher : public ATgProj_FragGrenade
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgProj_GrenadeLauncher");
+		return ptr;
+	}
+
+};
+
+
+// Class TgGame.TgProj_HolyHammer
+// 0x0004 (0x0520 - 0x051C)
+class ATgProj_HolyHammer : public ATgProj_Simulated
+{
+public:
+	unsigned long                                      bReachedLimit : 1;                                        // 0x051C(0x0004)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgProj_HolyHammer");
+		return ptr;
+	}
+
+
+	void HitWall(const struct FVector& HitNormal, class AActor* Wall, class UPrimitiveComponent* WallComp);
+	void RangeReached();
+	bool STATIC_ApplyHit(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, int HitItem);
+	void STATIC_ProcessTouch(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
+};
+
+
 // Class TgGame.TgProj_IceStorm
 // 0x0004 (0x0520 - 0x051C)
 class ATgProj_IceStorm : public ATgProj_Simulated
@@ -44015,7 +45369,7 @@ public:
 	void STATIC_ExplodeOnTarget(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void Tick(float DeltaSeconds);
 	void STATIC_HandleTick();
-	void CompleteInitialization();
+	void STATIC_CompleteInitialization();
 };
 
 
@@ -44067,6 +45421,28 @@ public:
 };
 
 
+// Class TgGame.TgProj_MagicEye
+// 0x0008 (0x0524 - 0x051C)
+class ATgProj_MagicEye : public ATgProj_Simulated
+{
+public:
+	unsigned long                                      m_bStartedPulse : 1;                                      // 0x051C(0x0004)
+	float                                              m_fLifetimeForPhysicsSubstep;                             // 0x0520(0x0004)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgProj_MagicEye");
+		return ptr;
+	}
+
+
+	bool UseAOE();
+	void PulseVisibility();
+	void STATIC_PostProjectileInitialize();
+	void StartPulse();
+};
+
+
 // Class TgGame.TgProj_PotionLauncherProjectile
 // 0x0000 (0x056C - 0x056C)
 class ATgProj_PotionLauncherProjectile : public ATgProj_FreeGrenade
@@ -44111,6 +45487,23 @@ public:
 		return ptr;
 	}
 
+};
+
+
+// Class TgGame.TgProj_SoulGust
+// 0x0000 (0x051C - 0x051C)
+class ATgProj_SoulGust : public ATgProj_Simulated
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgProj_SoulGust");
+		return ptr;
+	}
+
+
+	void RangeReached();
 };
 
 
@@ -44176,7 +45569,7 @@ public:
 
 
 	void STATIC_ShutDown();
-	bool CheckProjectileRange(const struct FVector& vLocOverride);
+	bool STATIC_CheckProjectileRange(const struct FVector& vLocOverride);
 	void Tick(float DeltaSeconds);
 	void STATIC_InitTracer(class UTgSpecialFx* Fx, bool bIsEnemy, bool bConfused);
 };
@@ -44241,7 +45634,7 @@ class UTgSeqEvent_TaskForceScoreUpdated : public USequenceEvent
 {
 public:
 	int                                                DefenderTaskForce;                                        // 0x0128(0x0004) (Edit)
-	int                                                currentScore;                                             // 0x012C(0x0004) (Edit)
+	int                                                CurrentScore;                                             // 0x012C(0x0004) (Edit)
 
 	static UClass* StaticClass()
 	{
@@ -44531,6 +45924,42 @@ public:
 };
 
 
+// Class TgGame.TgSeqAct_SetDisenchantEnabled
+// 0x0004 (0x010C - 0x0108)
+class UTgSeqAct_SetDisenchantEnabled : public USequenceAction
+{
+public:
+	unsigned long                                      bEnabled : 1;                                             // 0x0108(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_SetDisenchantEnabled");
+		return ptr;
+	}
+
+
+	void STATIC_Activated();
+};
+
+
+// Class TgGame.TgSeqAct_SetMountingEnabled
+// 0x0004 (0x010C - 0x0108)
+class UTgSeqAct_SetMountingEnabled : public USequenceAction
+{
+public:
+	unsigned long                                      bEnabled : 1;                                             // 0x0108(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_SetMountingEnabled");
+		return ptr;
+	}
+
+
+	void STATIC_Activated();
+};
+
+
 // Class TgGame.TgSeqAct_SetSkelPosture
 // 0x0001 (0x0109 - 0x0108)
 class UTgSeqAct_SetSkelPosture : public USequenceAction
@@ -44576,6 +46005,25 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_ShowGameTip");
+		return ptr;
+	}
+
+
+	void STATIC_Activated();
+};
+
+
+// Class TgGame.TgSeqAct_ShowSubtitle
+// 0x0008 (0x0110 - 0x0108)
+class UTgSeqAct_ShowSubtitle : public USequenceAction
+{
+public:
+	int                                                m_nMessageId;                                             // 0x0108(0x0004) (Edit)
+	float                                              m_fShowTime;                                              // 0x010C(0x0004) (Edit)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_ShowSubtitle");
 		return ptr;
 	}
 
@@ -44948,7 +46396,7 @@ public:
 	}
 
 
-	bool TriggerGlobal(class AActor* InInstigator, TEnumAsByte<EPaladinsTutorialEvent> TutEvent);
+	bool STATIC_TriggerGlobal(class AActor* InInstigator, TEnumAsByte<EPaladinsTutorialEvent> TutEvent);
 };
 
 
@@ -44978,7 +46426,7 @@ public:
 
 	void SetCurrentPushState(TEnumAsByte<EPushState> NewPushState);
 	void SetReversePushState();
-	void STATIC_NearbyPawnsUpdated();
+	void NearbyPawnsUpdated();
 	void STATIC_CollisionProxyOnUnTouch(class AActor* Other);
 	void STATIC_CollisionProxyOnTouch(class AActor* Other, class UPrimitiveComponent* OtherComp, const struct FVector& HitLocation, const struct FVector& HitNormal);
 	void PostBeginPlay();
@@ -45082,7 +46530,7 @@ public:
 
 
 	void Tick(float DeltaTime);
-	void STATIC_OnChangeScale(class UTgSeqAct_ChangeScale* SeqAct_ChangeScale);
+	void OnChangeScale(class UTgSeqAct_ChangeScale* SeqAct_ChangeScale);
 };
 
 
@@ -45158,9 +46606,9 @@ public:
 
 
 	void TeleportHelperToActor(class AActor* Destination);
-	void STATIC_MoveHelperToActor(class AActor* Destination);
+	void MoveHelperToActor(class AActor* Destination);
 	bool STATIC_HelperIsNavigatingToOrAtDestination(class AActor* Destination);
-	void DestroyHelperBot();
+	void STATIC_DestroyHelperBot();
 	void SpawnHelperBot();
 };
 
@@ -45304,1389 +46752,8 @@ public:
 	}
 
 
-	void UpdateTransform(float DeltaTime, bool bFromCameraUpdate);
+	void STATIC_UpdateTransform(float DeltaTime, bool bFromCameraUpdate);
 	bool STATIC_HasCachedTyra();
-};
-
-
-// Class TgGame.TgGameplayCurvesSet_GyroSensitivity
-// 0x0000 (0x0098 - 0x0098)
-class UTgGameplayCurvesSet_GyroSensitivity : public UTgGameplayCurvesSet_Simple
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgGameplayCurvesSet_GyroSensitivity");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_ClearDropLocation
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_ClearDropLocation : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_ClearDropLocation");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_ClearInteractTarget
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_ClearInteractTarget : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_ClearInteractTarget");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_DisenchantItem
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_DisenchantItem : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_DisenchantItem");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_FollowLoop
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_FollowLoop : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_FollowLoop");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_JumpFromZeppelin
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_JumpFromZeppelin : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_JumpFromZeppelin");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_LookAtInteractTarget
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_LookAtInteractTarget : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_LookAtInteractTarget");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_MoveToDropLocation
-// 0x0000 (0x009C - 0x009C)
-class UTgAIBehaviorAction_MoveToDropLocation : public UTgAIBehaviorAction_MoveToTarget
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_MoveToDropLocation");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_MoveToFogCenter
-// 0x0004 (0x00A0 - 0x009C)
-class UTgAIBehaviorAction_MoveToFogCenter : public UTgAIBehaviorAction_MoveToTarget
-{
-public:
-	float                                              Percent;                                                  // 0x009C(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_MoveToFogCenter");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_MoveToInteractTarget
-// 0x0000 (0x009C - 0x009C)
-class UTgAIBehaviorAction_MoveToInteractTarget : public UTgAIBehaviorAction_MoveToTarget
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_MoveToInteractTarget");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_OpenChest
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_OpenChest : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_OpenChest");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_PickUpItem
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_PickUpItem : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_PickUpItem");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_RunInRandomDirection
-// 0x0008 (0x009C - 0x0094)
-class UTgAIBehaviorAction_RunInRandomDirection : public UTgAIBehaviorAction
-{
-public:
-	float                                              TraceDistance;                                            // 0x0094(0x0004) (Edit)
-	float                                              Acceleration;                                             // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_RunInRandomDirection");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_SelectDropLocation
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_SelectDropLocation : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_SelectDropLocation");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_SetGoblinState
-// 0x0001 (0x0095 - 0x0094)
-class UTgAIBehaviorAction_SetGoblinState : public UTgAIBehaviorAction
-{
-public:
-	TEnumAsByte<EGoblinState>                          GoblinState;                                              // 0x0094(0x0001) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_SetGoblinState");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_Sprint
-// 0x0004 (0x0098 - 0x0094)
-class UTgAIBehaviorAction_Sprint : public UTgAIBehaviorAction
-{
-public:
-	unsigned long                                      Sprint : 1;                                               // 0x0094(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_Sprint");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_Suicide
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_Suicide : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_Suicide");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_TargetNearestChest
-// 0x0004 (0x0098 - 0x0094)
-class UTgAIBehaviorAction_TargetNearestChest : public UTgAIBehaviorAction
-{
-public:
-	unsigned long                                      SeenAsOpen : 1;                                           // 0x0094(0x0004) (Edit)
-	unsigned long                                      CheckLOS : 1;                                             // 0x0094(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_TargetNearestChest");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_TargetNearestItem
-// 0x0004 (0x0098 - 0x0094)
-class UTgAIBehaviorAction_TargetNearestItem : public UTgAIBehaviorAction
-{
-public:
-	unsigned long                                      CheckLOS : 1;                                             // 0x0094(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_TargetNearestItem");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_TargetRoyaleObjective
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorAction_TargetRoyaleObjective : public UTgAIBehaviorAction
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_TargetRoyaleObjective");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorAction_UseAltFire
-// 0x0008 (0x009C - 0x0094)
-class UTgAIBehaviorAction_UseAltFire : public UTgAIBehaviorAction
-{
-public:
-	TEnumAsByte<ETG_EQUIP_POINT>                       DeviceToUse;                                              // 0x0094(0x0001) (Edit)
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	unsigned long                                      Start : 1;                                                // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorAction_UseAltFire");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_ArmorPercent
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_ArmorPercent : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              ArmorPct;                                                 // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_ArmorPercent");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_AtDropLocation
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_AtDropLocation : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              Tolerance;                                                // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AtDropLocation");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_AtJumpLocation
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_AtJumpLocation : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              Tolerance;                                                // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AtJumpLocation");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_AtMaxShards
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_AtMaxShards : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_AtMaxShards");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_CombatTargetPolymorphState
-// 0x0004 (0x0099 - 0x0095)
-class UTgAIBehaviorCondition_CombatTargetPolymorphState : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	TEnumAsByte<EPolymorphType>                        PolymorphState;                                           // 0x0098(0x0001) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_CombatTargetPolymorphState");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_DistanceFromFogCenter
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_DistanceFromFogCenter : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              Percent;                                                  // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_DistanceFromFogCenter");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_DistanceFromInteractTarget
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_DistanceFromInteractTarget : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              Distance;                                                 // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_DistanceFromInteractTarget");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_GoblinState
-// 0x0004 (0x0099 - 0x0095)
-class UTgAIBehaviorCondition_GoblinState : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	TEnumAsByte<EGoblinState>                          GoblinState;                                              // 0x0098(0x0001) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_GoblinState");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_HasDropLocation
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_HasDropLocation : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_HasDropLocation");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsChestInRadius
-// 0x000B (0x00A0 - 0x0095)
-class UTgAIBehaviorCondition_IsChestInRadius : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              Radius;                                                   // 0x0098(0x0004) (Edit)
-	unsigned long                                      SeenAsOpen : 1;                                           // 0x009C(0x0004) (Edit)
-	unsigned long                                      CheckLOS : 1;                                             // 0x009C(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsChestInRadius");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsChestLooted
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_IsChestLooted : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	unsigned long                                      SeenAsOpen : 1;                                           // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsChestLooted");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsCombatTargetTrackable
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_IsCombatTargetTrackable : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsCombatTargetTrackable");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsEquippedWeaponRanged
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_IsEquippedWeaponRanged : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsEquippedWeaponRanged");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsInteractTargetVisible
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_IsInteractTargetVisible : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsInteractTargetVisible");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsItemInRadius
-// 0x000B (0x00A0 - 0x0095)
-class UTgAIBehaviorCondition_IsItemInRadius : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              Radius;                                                   // 0x0098(0x0004) (Edit)
-	unsigned long                                      CheckLOS : 1;                                             // 0x009C(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsItemInRadius");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsLookingAtInteractTarget
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_IsLookingAtInteractTarget : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              VisibilityAngle;                                          // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsLookingAtInteractTarget");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsSafeFromFog
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_IsSafeFromFog : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsSafeFromFog");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_IsSprinting
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_IsSprinting : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_IsSprinting");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_ItemIsValid
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_ItemIsValid : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_ItemIsValid");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_OnNavMesh
-// 0x0003 (0x0098 - 0x0095)
-class UTgAIBehaviorCondition_OnNavMesh : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_OnNavMesh");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_PlayerDeployState
-// 0x0004 (0x0099 - 0x0095)
-class UTgAIBehaviorCondition_PlayerDeployState : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	TEnumAsByte<EPlayerDeployState>                    DeployState;                                              // 0x0098(0x0001) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_PlayerDeployState");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_PolymorphState
-// 0x0004 (0x0099 - 0x0095)
-class UTgAIBehaviorCondition_PolymorphState : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	TEnumAsByte<EPolymorphType>                        PolymorphState;                                           // 0x0098(0x0001) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_PolymorphState");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorCondition_TimeSinceOpenedChest
-// 0x0007 (0x009C - 0x0095)
-class UTgAIBehaviorCondition_TimeSinceOpenedChest : public UTgAIBehaviorCondition
-{
-public:
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0095(0x0003) MISSED OFFSET
-	float                                              TimeThreshold;                                            // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorCondition_TimeSinceOpenedChest");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorSensor_Fog
-// 0x0008 (0x009C - 0x0094)
-class UTgAIBehaviorSensor_Fog : public UTgAIBehaviorSensor
-{
-public:
-	float                                              UnsafeRatio;                                              // 0x0094(0x0004) (Edit)
-	float                                              SafePercent;                                              // 0x0098(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_Fog");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorSensor_GodsAndMonsters
-// 0x0000 (0x0094 - 0x0094)
-class UTgAIBehaviorSensor_GodsAndMonsters : public UTgAIBehaviorSensor_Gods
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_GodsAndMonsters");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorSensor_NearbyChests
-// 0x0004 (0x0098 - 0x0094)
-class UTgAIBehaviorSensor_NearbyChests : public UTgAIBehaviorSensor
-{
-public:
-	float                                              MaxRadius;                                                // 0x0094(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_NearbyChests");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgAIBehaviorSensor_NearbyItems
-// 0x0004 (0x0098 - 0x0094)
-class UTgAIBehaviorSensor_NearbyItems : public UTgAIBehaviorSensor
-{
-public:
-	float                                              MaxRadius;                                                // 0x0094(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgAIBehaviorSensor_NearbyItems");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgHavokNavigationHandle
-// 0x0000 (0x01E8 - 0x01E8)
-class UTgHavokNavigationHandle : public UHavokNavigationHandle
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgHavokNavigationHandle");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDeploy_Chirper
-// 0x0000 (0x0448 - 0x0448)
-class ATgDeploy_Chirper : public ATgDeployable
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_Chirper");
-		return ptr;
-	}
-
-
-	bool STATIC_DamageShouldEnterCombat();
-};
-
-
-// Class TgGame.TgDeploy_LootCrateTutorialAbility
-// 0x0000 (0x04B8 - 0x04B8)
-class ATgDeploy_LootCrateTutorialAbility : public ATgDeploy_LootCrateBasic
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateTutorialAbility");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDeploy_LootCrateTutorialDisenchant
-// 0x0000 (0x04B8 - 0x04B8)
-class ATgDeploy_LootCrateTutorialDisenchant : public ATgDeploy_LootCrateBasic
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateTutorialDisenchant");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDeploy_LootCrateTutorialWeapon
-// 0x0000 (0x04B8 - 0x04B8)
-class ATgDeploy_LootCrateTutorialWeapon : public ATgDeploy_LootCrateBasic
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDeploy_LootCrateTutorialWeapon");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_AssassinPassive
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_AssassinPassive : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_AssassinPassive");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_AutoSniper
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_AutoSniper : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_AutoSniper");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_BattleCry
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_BattleCry : public ATgDevice_VanguardShout
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_BattleCry");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_Bazooka
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_Bazooka : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Bazooka");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_BoltStaff
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_BoltStaff : public ATgDevice_EvieInhand
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_BoltStaff");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_ChickenCharge
-// 0x0000 (0x0B60 - 0x0B60)
-class ATgDevice_ChickenCharge : public ATgDevice_Uppercut
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ChickenCharge");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_Chirper
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_Chirper : public ATgDevice_Throw
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Chirper");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_ConcussionBomb
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_ConcussionBomb : public ATgDevice_ExplosiveFlask
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ConcussionBomb");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_Decoy
-// 0x0000 (0x0B08 - 0x0B08)
-class ATgDevice_Decoy : public ATgDevice_Turret
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Decoy");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_Frostblast
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_Frostblast : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_Frostblast");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_GrapplingHook
-// 0x0000 (0x0B14 - 0x0B14)
-class ATgDevice_GrapplingHook : public ATgDevice_Vine
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GrapplingHook");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_GrenadeLauncher
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_GrenadeLauncher : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GrenadeLauncher");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_GroundingShock
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_GroundingShock : public ATgDevice_ExplosiveFlask
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_GroundingShock");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_MagicEye
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_MagicEye : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_MagicEye");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_PeckAttack
-// 0x0000 (0x0AF8 - 0x0AF8)
-class ATgDevice_PeckAttack : public ATgDevice_Sword
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_PeckAttack");
-		return ptr;
-	}
-
-
-	int STATIC_GetChainMax();
-};
-
-
-// Class TgGame.TgDevice_ProximityMine
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_ProximityMine : public ATgDevice_Throw
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ProximityMine");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_RepairPack
-// 0x0000 (0x0AF8 - 0x0AF8)
-class ATgDevice_RepairPack : public ATgDevice_HealthPack
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_RepairPack");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_ShieldingPotion
-// 0x0000 (0x0AF0 - 0x0AF0)
-class ATgDevice_ShieldingPotion : public ATgDevice_HealingPotion
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_ShieldingPotion");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_SilentRun
-// 0x0000 (0x0AEC - 0x0AEC)
-class ATgDevice_SilentRun : public ATgDevice
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_SilentRun");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_SpeedPotion
-// 0x0000 (0x0AF0 - 0x0AF0)
-class ATgDevice_SpeedPotion : public ATgDevice_HealingPotion
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_SpeedPotion");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDevice_StoneSpear
-// 0x0000 (0x0B24 - 0x0B24)
-class ATgDevice_StoneSpear : public ATgDevice_BarrierTankInhand
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDevice_StoneSpear");
-		return ptr;
-	}
-
-
-	void StopAltFire();
-};
-
-
-// Class TgGame.TgDeviceForm_GrenadeLauncher
-// 0x0000 (0x02BC - 0x02BC)
-class UTgDeviceForm_GrenadeLauncher : public UTgDeviceForm
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDeviceForm_GrenadeLauncher");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgDeviceForm_Longbow
-// 0x0000 (0x02BC - 0x02BC)
-class UTgDeviceForm_Longbow : public UTgDeviceForm
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgDeviceForm_Longbow");
-		return ptr;
-	}
-
-
-	void STATIC_Generic1(unsigned char byExtraData);
-};
-
-
-// Class TgGame.TgForgeObjective_Tutorial
-// 0x0000 (0x03A4 - 0x03A4)
-class ATgForgeObjective_Tutorial : public ATgForgeObjective
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgForgeObjective_Tutorial");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgHavokNavMeshActor
-// 0x0000 (0x036C - 0x036C)
-class ATgHavokNavMeshActor : public AHavokNavMeshActor
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgHavokNavMeshActor");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgProj_Chirper
-// 0x0000 (0x056C - 0x056C)
-class ATgProj_Chirper : public ATgProj_FreeGrenade
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgProj_Chirper");
-		return ptr;
-	}
-
-
-	bool ShouldHitBounce(class AActor* Target, const struct FVector& HitNormal);
-	class AActor* CalculateHitActor(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, struct FTraceHitInfo* HitInfo);
-};
-
-
-// Class TgGame.TgProj_GrenadeLauncher
-// 0x0000 (0x056C - 0x056C)
-class ATgProj_GrenadeLauncher : public ATgProj_FragGrenade
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgProj_GrenadeLauncher");
-		return ptr;
-	}
-
-};
-
-
-// Class TgGame.TgProj_HolyHammer
-// 0x0004 (0x0520 - 0x051C)
-class ATgProj_HolyHammer : public ATgProj_Simulated
-{
-public:
-	unsigned long                                      bReachedLimit : 1;                                        // 0x051C(0x0004)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgProj_HolyHammer");
-		return ptr;
-	}
-
-
-	void HitWall(const struct FVector& HitNormal, class AActor* Wall, class UPrimitiveComponent* WallComp);
-	void RangeReached();
-	bool STATIC_ApplyHit(class AActor* Target, const struct FVector& HitLocation, const struct FVector& HitNormal, int HitItem);
-	void STATIC_ProcessTouch(class AActor* Other, const struct FVector& HitLocation, const struct FVector& HitNormal, float VelocityZ);
-};
-
-
-// Class TgGame.TgProj_MagicEye
-// 0x0008 (0x0524 - 0x051C)
-class ATgProj_MagicEye : public ATgProj_Simulated
-{
-public:
-	unsigned long                                      m_bStartedPulse : 1;                                      // 0x051C(0x0004)
-	float                                              m_fLifetimeForPhysicsSubstep;                             // 0x0520(0x0004)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgProj_MagicEye");
-		return ptr;
-	}
-
-
-	bool UseAOE();
-	void PulseVisibility();
-	void STATIC_PostProjectileInitialize();
-	void StartPulse();
-};
-
-
-// Class TgGame.TgProj_SoulGust
-// 0x0000 (0x051C - 0x051C)
-class ATgProj_SoulGust : public ATgProj_Simulated
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgProj_SoulGust");
-		return ptr;
-	}
-
-
-	void RangeReached();
-};
-
-
-// Class TgGame.TgSeqAct_SetDisenchantEnabled
-// 0x0004 (0x010C - 0x0108)
-class UTgSeqAct_SetDisenchantEnabled : public USequenceAction
-{
-public:
-	unsigned long                                      bEnabled : 1;                                             // 0x0108(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_SetDisenchantEnabled");
-		return ptr;
-	}
-
-
-	void STATIC_Activated();
-};
-
-
-// Class TgGame.TgSeqAct_SetMountingEnabled
-// 0x0004 (0x010C - 0x0108)
-class UTgSeqAct_SetMountingEnabled : public USequenceAction
-{
-public:
-	unsigned long                                      bEnabled : 1;                                             // 0x0108(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_SetMountingEnabled");
-		return ptr;
-	}
-
-
-	void STATIC_Activated();
-};
-
-
-// Class TgGame.TgSeqAct_ShowSubtitle
-// 0x0008 (0x0110 - 0x0108)
-class UTgSeqAct_ShowSubtitle : public USequenceAction
-{
-public:
-	int                                                m_nMessageId;                                             // 0x0108(0x0004) (Edit)
-	float                                              m_fShowTime;                                              // 0x010C(0x0004) (Edit)
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgGame.TgSeqAct_ShowSubtitle");
-		return ptr;
-	}
-
-
-	void STATIC_Activated();
 };
 
 

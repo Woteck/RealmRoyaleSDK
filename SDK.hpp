@@ -1,6 +1,6 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 
 #include "SDK/RL_Basic.hpp"
@@ -15,6 +15,7 @@
 #include "SDK/RL_AkAudio_classes.hpp"
 #include "SDK/RL_Vivox_classes.hpp"
 #include "SDK/RL_OnlineSubsystemSteamworks_classes.hpp"
+#include "SDK/RL_OnlineSubsystemEpic_classes.hpp"
 #include "SDK/RL_OnlineSubsystemDiscord_classes.hpp"
 #include "SDK/RL_OnlineSubsystemPC_classes.hpp"
 #include "SDK/RL_PlatformCommon_classes.hpp"

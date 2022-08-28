@@ -1,16 +1,16 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
 #endif
 
 #include "RL_Basic.hpp"
-#include "RL_IpDrv_classes.hpp"
 #include "RL_Engine_classes.hpp"
 #include "RL_Core_classes.hpp"
 #include "RL_GameFramework_classes.hpp"
+#include "RL_IpDrv_classes.hpp"
 
 namespace SDK
 {
@@ -34,6 +34,16 @@ namespace SDK
 //---------------------------------------------------------------------------
 //Enums
 //---------------------------------------------------------------------------
+
+// Enum PlatformCommon.PComDataDogUploader.METRIC_TYPE
+enum class EMETRIC_TYPE : uint8_t
+{
+	DD_COUNT                       = 0,
+	DD_GAUGE                       = 1,
+	DD_RATE                        = 2,
+	DD_MAX                         = 3
+};
+
 
 // Enum PlatformCommon.PComOpenBroadcaster.EPComOpenBroadcasterState
 enum class EPComOpenBroadcasterState : uint8_t
@@ -160,6 +170,20 @@ enum class EPComVideoPlayerError : uint8_t
 //---------------------------------------------------------------------------
 //Script Structs
 //---------------------------------------------------------------------------
+
+// ScriptStruct PlatformCommon.PComDataDogUploader.DataDogMetricsConfig
+// 0x0068
+struct FDataDogMetricsConfig
+{
+	struct FString                                     DD_API_TOKEN;                                             // 0x0000(0x0010) (AlwaysInit, NeedCtorLink)
+	struct FString                                     serverLink;                                               // 0x0010(0x0010) (AlwaysInit, NeedCtorLink)
+	struct FString                                     URL;                                                      // 0x0020(0x0010) (AlwaysInit, NeedCtorLink)
+	struct FString                                     hostnameTag;                                              // 0x0030(0x0010) (AlwaysInit, NeedCtorLink)
+	struct FString                                     baseSeriesName;                                           // 0x0040(0x0010) (AlwaysInit, NeedCtorLink)
+	int                                                sendIntervalSeconds;                                      // 0x0050(0x0004)
+	int                                                writeIntervalTicks;                                       // 0x0054(0x0004)
+	TArray<struct FString>                             tags;                                                     // 0x0058(0x0010) (AlwaysInit, NeedCtorLink)
+};
 
 // ScriptStruct PlatformCommon.PComOpenBroadcaster.PComOpenBroadcasterSettings
 // 0x0004
@@ -314,6 +338,23 @@ struct FMusicEvent
 	struct FName                                       EventName;                                                // 0x0000(0x0008) (Edit)
 	struct FMusicTrackStruct                           EventTrack;                                               // 0x0008(0x002C) (Edit, NeedCtorLink)
 	float                                              EventDuration;                                            // 0x0034(0x0004) (Edit)
+};
+
+// ScriptStruct PlatformCommon.PComDataDogUploader.MetricPoint
+// 0x000C
+struct FMetricPoint
+{
+	struct FQWord                                      unixUTCTimestamp;                                         // 0x0000(0x0008)
+	float                                              Value;                                                    // 0x0008(0x0004)
+};
+
+// ScriptStruct PlatformCommon.PComDataDogUploader.Metric
+// 0x0014
+struct FMetric
+{
+	TEnumAsByte<EMETRIC_TYPE>                          Type;                                                     // 0x0000(0x0001)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0001(0x0003) MISSED OFFSET
+	TArray<struct FMetricPoint>                        Points;                                                   // 0x0004(0x0010) (AlwaysInit, NeedCtorLink)
 };
 
 // ScriptStruct PlatformCommon.PComPerformanceCaptureBase.PComPerformanceCaptureStatsPerSkin

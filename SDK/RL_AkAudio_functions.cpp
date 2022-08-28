@@ -1,4 +1,4 @@
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
@@ -13,7 +13,7 @@ namespace SDK
 //---------------------------------------------------------------------------
 
 // Function AkAudio.AkAmbientSound.StopPlayback
-// (Defined, PreOperator, Singular, Exec)
+// (Final, Iterator, PreOperator, Exec, Native, Operator)
 
 void AAkAmbientSound::StopPlayback()
 {
@@ -22,6 +22,7 @@ void AAkAmbientSound::StopPlayback()
 	AAkAmbientSound_StopPlayback_Params params;
 
 	auto flags = fn->FunctionFlags;
+	fn->FunctionFlags |= 0x400;
 
 	UObject::ProcessEvent(fn, &params);
 
@@ -30,7 +31,7 @@ void AAkAmbientSound::StopPlayback()
 
 
 // Function AkAudio.AkAmbientSound.StartPlayback
-// (PreOperator, Singular, Exec)
+// (Final, Defined, PreOperator, Exec, Native, Operator)
 
 void AAkAmbientSound::StartPlayback()
 {
@@ -39,6 +40,7 @@ void AAkAmbientSound::StartPlayback()
 	AAkAmbientSound_StartPlayback_Params params;
 
 	auto flags = fn->FunctionFlags;
+	fn->FunctionFlags |= 0x400;
 
 	UObject::ProcessEvent(fn, &params);
 

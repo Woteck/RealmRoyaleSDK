@@ -1,6 +1,6 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
@@ -72,7 +72,7 @@ public:
 	void Alert();
 	void STATIC_SetContainer(class UUIWebBrowser* pContainer);
 	void STATIC_ResizeView();
-	void STATIC_Close();
+	void Close();
 	void STATIC_OpenVideo(const struct FString& URL, bool bAddName);
 	void STATIC_OpenURL(const struct FString& URL, bool bShowNavButtons);
 	void STATIC_ExternalOpenURL(const struct FString& URL, bool bAddLang);
@@ -146,19 +146,19 @@ public:
 	void PostBeginPlay();
 	void STATIC_TogglePushToTalk(bool bEnable);
 	void STATIC_ToggleDevMenu();
-	void STATIC_ToggleHUD();
+	void ToggleHUD();
 	void STATIC_TestDidIt(int nActivityId, int nCount);
 	void STATIC_ResetViewCenterPoint();
 	bool STATIC_RemoveSceneFromStack(class UTgGfxScene* pScene, bool bPopAll);
 	bool STATIC_PushScene(const struct FString& sName, bool bSkipPrivilegeCheck);
-	bool STATIC_PopScene(int nIndex);
+	bool PopScene(int nIndex);
 	void STATIC_ClearScenes(unsigned char ePreviousState, unsigned char eTargetState);
-	void STATIC_ShowSubtitle(int nMessage, float fTime);
+	void ShowSubtitle(int nMessage, float fTime);
 	void ShowHit(class AActor* Target, float fDamageAmount, bool bIsShieldHit, struct FExtraDamageInfo* ExtraInfo);
 	void ShowCursor(bool bShow);
-	void Initialize();
+	void STATIC_Initialize();
 	bool STATIC_IsLoggedIn();
-	bool STATIC_IsInGame();
+	bool IsInGame();
 };
 
 
@@ -176,7 +176,7 @@ public:
 	}
 
 
-	void Initialize(class UUIGameMoviePlayer* pMoviePlayer);
+	void STATIC_Initialize(class UUIGameMoviePlayer* pMoviePlayer);
 };
 
 
@@ -215,7 +215,7 @@ public:
 	bool STATIC_GetField(const struct FString& FieldName, struct FASValue* NewValue);
 	bool STATIC_SetField(const struct FString& FieldName, bool bCreateIfMissing, struct FASValue* NewValue);
 	void STATIC_AddField(const struct FString& FieldName, struct FASValue* NewValue);
-	void STATIC_ClearDelegates();
+	void ClearDelegates();
 	void STATIC_SetDelegates();
 	void STATIC_RemoveChild(class UTgDataChunk* Child, bool bClearDelegates);
 	void STATIC_AddChild(class UTgDataChunk* Child);
@@ -467,7 +467,7 @@ public:
 	void STATIC_usc_Console_Command(const struct FString& Cmd);
 	void STATIC_usc_Data_Handler_Created();
 	void STATIC_QuitGame();
-	void UnregisterEngineCallbacks();
+	void STATIC_UnregisterEngineCallbacks();
 	void RegisterEngineCallbacks();
 	struct FString STATIC_GetTranslatedKeyBind(const struct FString& Command, int nAlternate, bool bLocalizeKB, bool bLocalizeMouse, bool bLocalizeGamepad);
 	void STATIC_UpdateViewportForSafeAreas();
@@ -475,7 +475,7 @@ public:
 	void STATIC_InitializeDataHandler();
 	void STATIC_PostInit();
 	void STATIC_OnClose();
-	class ATgPlayerController* GetPlayerOwner();
+	class ATgPlayerController* STATIC_GetPlayerOwner();
 	class ATgClientHUD* STATIC_GetHUD();
 };
 
@@ -2644,14 +2644,14 @@ public:
 	void STATIC_ScoreboardToggle();
 	void STATIC_ViewInventory();
 	void STATIC_ViewVGS(bool bShow);
-	void STATIC_ShowLootGoblinSpawned(class ATgPawn* DiscoveringPawn, class ATgPawn* TargetGoblin);
-	void EndMission(bool bPlayerAttacker, TEnumAsByte<EGAME_WIN_STATE> finalWinState);
+	void ShowLootGoblinSpawned(class ATgPawn* DiscoveringPawn, class ATgPawn* TargetGoblin);
+	void STATIC_EndMission(bool bPlayerAttacker, TEnumAsByte<EGAME_WIN_STATE> finalWinState);
 	void STATIC_AddNamedArea(class ATgNamedPOIActor* pPOI, int nCount);
-	void STATIC_ShowScope(bool bValue, unsigned char eType);
-	void UpdatePlayerReady(class ATgRepInfo_Player* pPRI);
+	void ShowScope(bool bValue, unsigned char eType);
+	void STATIC_UpdatePlayerReady(class ATgRepInfo_Player* pPRI);
 	void STATIC_PostRenderDebugDraws();
 	void STATIC_PostRenderMovies();
-	void FinishIntro();
+	void STATIC_FinishIntro();
 	void PlayIntro();
 };
 
@@ -3362,7 +3362,7 @@ public:
 	class UTgDataGroup_Game* STATIC_GetGameData();
 	void STATIC_HideSubtitle();
 	void STATIC_SwitchSubtitleText(const struct FString& sValue);
-	void STATIC_ShowSubtitle(const struct FString& sValue, float fTime);
+	void ShowSubtitle(const struct FString& sValue, float fTime);
 	bool STATIC_NativeWidgetInitialized(const struct FName& WidgetName, const struct FName& WidgetPath, class UGFxObject* Widget);
 	bool STATIC_NativeWidgetUnloaded(const struct FName& WidgetName, const struct FName& WidgetPath, class UGFxObject* Widget);
 	void STATIC_OnReadOnlinePlayerDataComplete(bool bWasSuccessful, TArray<struct FString> PlayerIDs, TArray<struct FOnlineProfile> OnlineProfiles);
@@ -4082,7 +4082,7 @@ public:
 
 
 // Class TgClient.UIComponent_ClassSelectInfoPanel
-// 0x0188 (0x02A8 - 0x0120)
+// 0x00A8 (0x01C8 - 0x0120)
 class UUIComponent_ClassSelectInfoPanel : public UUIComponent_Display
 {
 public:
@@ -4095,10 +4095,10 @@ public:
 	class UGFxObject*                                  m_mcAbilityIcon;                                          // 0x0150(0x0008)
 	class UGFxObject*                                  m_mcAbilityName;                                          // 0x0158(0x0008)
 	class UGFxObject*                                  m_mcTalentGroup;                                          // 0x0160(0x0008)
-	class UGFxObject*                                  m_mcTalent[0xA];                                          // 0x0168(0x0008)
-	class UGFxObject*                                  m_mcTalentIcon[0xA];                                      // 0x01B8(0x0008)
-	class UGFxObject*                                  m_mcTalentTitle[0xA];                                     // 0x0208(0x0008)
-	class UGFxObject*                                  m_mcTalentDesc[0xA];                                      // 0x0258(0x0008)
+	class UGFxObject*                                  m_mcTalent[0x3];                                          // 0x0168(0x0008)
+	class UGFxObject*                                  m_mcTalentIcon[0x3];                                      // 0x0180(0x0008)
+	class UGFxObject*                                  m_mcTalentTitle[0x3];                                     // 0x0198(0x0008)
+	class UGFxObject*                                  m_mcTalentDesc[0x3];                                      // 0x01B0(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -4270,7 +4270,7 @@ public:
 
 
 // Class TgClient.UIComponent_DisplayDeviceDetails
-// 0x006C (0x018C - 0x0120)
+// 0x0074 (0x0194 - 0x0120)
 class UUIComponent_DisplayDeviceDetails : public UUIComponent_Display
 {
 public:
@@ -4286,8 +4286,9 @@ public:
 	class UGFxObject*                                  m_mcIconB;                                                // 0x0164(0x0008)
 	class UGFxObject*                                  m_mcIconBFrame;                                           // 0x016C(0x0008)
 	class UGFxObject*                                  m_mcIconBTexture;                                         // 0x0174(0x0008)
-	class UUIComponent_List*                           m_pStatsList;                                             // 0x017C(0x0008)
-	class UUIComponent_List*                           m_pPerksList;                                             // 0x0184(0x0008)
+	class UGFxObject*                                  m_mcClassIcon;                                            // 0x017C(0x0008)
+	class UUIComponent_List*                           m_pStatsList;                                             // 0x0184(0x0008)
+	class UUIComponent_List*                           m_pPerksList;                                             // 0x018C(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -4595,7 +4596,7 @@ public:
 
 
 // Class TgClient.UIComponent_HudMenuInventory
-// 0x0040 (0x0160 - 0x0120)
+// 0x0048 (0x0168 - 0x0120)
 class UUIComponent_HudMenuInventory : public UUIComponent_Display
 {
 public:
@@ -4603,10 +4604,11 @@ public:
 	class UUIComponent_List*                           m_pItemList;                                              // 0x0128(0x0008)
 	class UUIComponent_DisplayDeviceDetails*           m_pDetails;                                               // 0x0130(0x0008)
 	class UInputGroup*                                 m_grInput;                                                // 0x0138(0x0008)
-	class UInputAction*                                m_pSwapActon;                                             // 0x0140(0x0008)
-	class UAkBaseSoundObject*                          m_akDropWeapon;                                           // 0x0148(0x0008)
-	class UAkBaseSoundObject*                          m_akDropAbility;                                          // 0x0150(0x0008)
-	class UAkBaseSoundObject*                          m_akDropConsumable;                                       // 0x0158(0x0008)
+	class UInputAction*                                m_pSwapWeaponActon;                                       // 0x0140(0x0008)
+	class UInputAction*                                m_pSwapAbilityAction;                                     // 0x0148(0x0008)
+	class UAkBaseSoundObject*                          m_akDropWeapon;                                           // 0x0150(0x0008)
+	class UAkBaseSoundObject*                          m_akDropAbility;                                          // 0x0158(0x0008)
+	class UAkBaseSoundObject*                          m_akDropConsumable;                                       // 0x0160(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -5577,7 +5579,7 @@ public:
 
 
 	void STATIC_Thaw();
-	void Freeze();
+	void STATIC_Freeze();
 };
 
 
@@ -7543,7 +7545,7 @@ public:
 	}
 
 
-	bool STATIC_IsValid();
+	bool IsValid();
 };
 
 
@@ -8186,7 +8188,7 @@ public:
 
 
 // Class TgClient.UIArmoryDetail
-// 0x0E14 (0x1058 - 0x0244)
+// 0x0DF4 (0x1038 - 0x0244)
 class UUIArmoryDetail : public UTgGfxScene
 {
 public:
@@ -8210,66 +8212,66 @@ public:
 	class UGFxObject*                                  m_mcHeaderIcon;                                           // 0x0298(0x0008)
 	class UGFxObject*                                  m_mcHeaderText;                                           // 0x02A0(0x0008)
 	class UGFxObject*                                  m_mcHeaderKey[0x2];                                       // 0x02A8(0x0008)
-	class UGFxObject*                                  m_mcHeaderTab[0x3];                                       // 0x02B8(0x0008)
-	class UGFxObject*                                  m_mcHeaderTabSelect[0x3];                                 // 0x02D0(0x0008)
-	class UGFxObject*                                  m_mcHeaderTabShadow[0x3];                                 // 0x02E8(0x0008)
-	class UGFxObject*                                  m_mcHeaderTabHighlight[0x3];                              // 0x0300(0x0008)
-	class UGFxObject*                                  m_mcItems;                                                // 0x0318(0x0008)
-	class UGFxObject*                                  m_mcItemPage;                                             // 0x0320(0x0008)
-	class UGFxObject*                                  m_mcItemKey[0x2];                                         // 0x0328(0x0008)
-	class UGFxObject*                                  m_mcItemArrow[0x2];                                       // 0x0338(0x0008)
-	class UGFxObject*                                  m_mcItem[0xC];                                            // 0x0348(0x0008)
-	class UGFxObject*                                  m_mcItemIcon[0xC];                                        // 0x03A8(0x0008)
-	class UGFxObject*                                  m_mcItemFrame[0xC];                                       // 0x0408(0x0008)
-	class UGFxObject*                                  m_mcItemActive[0xC];                                      // 0x0468(0x0008)
-	class UGFxObject*                                  m_mcItemRarity[0xC];                                      // 0x04C8(0x0008)
-	class UGFxObject*                                  m_mcItemTexture[0xC];                                     // 0x0528(0x0008)
-	class UGFxObject*                                  m_mcItemIconFrame[0xC];                                   // 0x0588(0x0008)
-	class UGFxObject*                                  m_mcLoadout;                                              // 0x05E8(0x0008)
-	class UGFxObject*                                  m_mcLoadoutInfo;                                          // 0x05F0(0x0008)
-	class UGFxObject*                                  m_mcLoadoutInfoDesc;                                      // 0x05F8(0x0008)
-	class UGFxObject*                                  m_mcLoadoutInfoName;                                      // 0x0600(0x0008)
-	class UGFxObject*                                  m_mcLoadoutInfoType;                                      // 0x0608(0x0008)
-	class UGFxObject*                                  m_mcLoadoutInfoTexture;                                   // 0x0610(0x0008)
-	class UGFxObject*                                  m_mcLoadoutTalent[0xA];                                   // 0x0618(0x0008)
-	class UGFxObject*                                  m_mcLoadoutTalentName[0xA];                               // 0x0668(0x0008)
-	class UGFxObject*                                  m_mcLoadoutTalentDesc[0xA];                               // 0x06B8(0x0008)
-	class UGFxObject*                                  m_mcLoadoutTalentTexture[0xA];                            // 0x0708(0x0008)
-	class UGFxObject*                                  m_mcTree;                                                 // 0x0758(0x0008)
-	class UGFxObject*                                  m_mcTreePage;                                             // 0x0760(0x0008)
-	class UGFxObject*                                  m_mcTreeInfo;                                             // 0x0768(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoDesc;                                         // 0x0770(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoName;                                         // 0x0778(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoType;                                         // 0x0780(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoTexture;                                      // 0x0788(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoItem;                                         // 0x0790(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoItemFrame;                                    // 0x0798(0x0008)
-	class UGFxObject*                                  m_mcTreeInfoItemTexture;                                  // 0x07A0(0x0008)
-	class UGFxObject*                                  m_mcTreeProgress;                                         // 0x07A8(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressDesc;                                     // 0x07B0(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressName;                                     // 0x07B8(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressType;                                     // 0x07C0(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressIcon;                                     // 0x07C8(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressBar;                                      // 0x07D0(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressBarTip;                                   // 0x07D8(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressBarFill;                                  // 0x07E0(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressTexture;                                  // 0x07E8(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressItem;                                     // 0x07F0(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressItemFrame;                                // 0x07F8(0x0008)
-	class UGFxObject*                                  m_mcTreeProgressItemTexutre;                              // 0x0800(0x0008)
-	class UGFxObject*                                  m_mcTreeKey[0x2];                                         // 0x0808(0x0008)
-	class UGFxObject*                                  m_mcTreeArrow[0x2];                                       // 0x0818(0x0008)
-	struct FUINODESET                                  m_mcTreeNodes[0x4];                                       // 0x0828(0x0198)
-	struct FUITITLESET                                 m_mcTitleNodes;                                           // 0x0E88(0x0188)
-	class UGFxObject*                                  m_mcDetails;                                              // 0x1010(0x0008)
-	class UGFxObject*                                  m_mcDetailDesc;                                           // 0x1018(0x0008)
-	class UGFxObject*                                  m_mcDetailName;                                           // 0x1020(0x0008)
-	class UGFxObject*                                  m_mcDetailType;                                           // 0x1028(0x0008)
-	class UGFxObject*                                  m_mcDetailFrame;                                          // 0x1030(0x0008)
-	class UUIComponent_ItemPreviewStack*               m_pItemPreviewStack;                                      // 0x1038(0x0008)
-	class UGFxObject*                                  m_mcRotator;                                              // 0x1040(0x0008)
-	class UInputAction*                                m_pInputTriggerLeft;                                      // 0x1048(0x0008)
-	class UInputAction*                                m_pInputTriggerRight;                                     // 0x1050(0x0008)
+	class UGFxObject*                                  m_mcHeaderTab[0x2];                                       // 0x02B8(0x0008)
+	class UGFxObject*                                  m_mcHeaderTabSelect[0x2];                                 // 0x02C8(0x0008)
+	class UGFxObject*                                  m_mcHeaderTabShadow[0x2];                                 // 0x02D8(0x0008)
+	class UGFxObject*                                  m_mcHeaderTabHighlight[0x2];                              // 0x02E8(0x0008)
+	class UGFxObject*                                  m_mcItems;                                                // 0x02F8(0x0008)
+	class UGFxObject*                                  m_mcItemPage;                                             // 0x0300(0x0008)
+	class UGFxObject*                                  m_mcItemKey[0x2];                                         // 0x0308(0x0008)
+	class UGFxObject*                                  m_mcItemArrow[0x2];                                       // 0x0318(0x0008)
+	class UGFxObject*                                  m_mcItem[0xC];                                            // 0x0328(0x0008)
+	class UGFxObject*                                  m_mcItemIcon[0xC];                                        // 0x0388(0x0008)
+	class UGFxObject*                                  m_mcItemFrame[0xC];                                       // 0x03E8(0x0008)
+	class UGFxObject*                                  m_mcItemActive[0xC];                                      // 0x0448(0x0008)
+	class UGFxObject*                                  m_mcItemRarity[0xC];                                      // 0x04A8(0x0008)
+	class UGFxObject*                                  m_mcItemTexture[0xC];                                     // 0x0508(0x0008)
+	class UGFxObject*                                  m_mcItemIconFrame[0xC];                                   // 0x0568(0x0008)
+	class UGFxObject*                                  m_mcLoadout;                                              // 0x05C8(0x0008)
+	class UGFxObject*                                  m_mcLoadoutInfo;                                          // 0x05D0(0x0008)
+	class UGFxObject*                                  m_mcLoadoutInfoDesc;                                      // 0x05D8(0x0008)
+	class UGFxObject*                                  m_mcLoadoutInfoName;                                      // 0x05E0(0x0008)
+	class UGFxObject*                                  m_mcLoadoutInfoType;                                      // 0x05E8(0x0008)
+	class UGFxObject*                                  m_mcLoadoutInfoTexture;                                   // 0x05F0(0x0008)
+	class UGFxObject*                                  m_mcLoadoutTalent[0xA];                                   // 0x05F8(0x0008)
+	class UGFxObject*                                  m_mcLoadoutTalentName[0xA];                               // 0x0648(0x0008)
+	class UGFxObject*                                  m_mcLoadoutTalentDesc[0xA];                               // 0x0698(0x0008)
+	class UGFxObject*                                  m_mcLoadoutTalentTexture[0xA];                            // 0x06E8(0x0008)
+	class UGFxObject*                                  m_mcTree;                                                 // 0x0738(0x0008)
+	class UGFxObject*                                  m_mcTreePage;                                             // 0x0740(0x0008)
+	class UGFxObject*                                  m_mcTreeInfo;                                             // 0x0748(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoDesc;                                         // 0x0750(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoName;                                         // 0x0758(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoType;                                         // 0x0760(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoTexture;                                      // 0x0768(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoItem;                                         // 0x0770(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoItemFrame;                                    // 0x0778(0x0008)
+	class UGFxObject*                                  m_mcTreeInfoItemTexture;                                  // 0x0780(0x0008)
+	class UGFxObject*                                  m_mcTreeProgress;                                         // 0x0788(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressDesc;                                     // 0x0790(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressName;                                     // 0x0798(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressType;                                     // 0x07A0(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressIcon;                                     // 0x07A8(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressBar;                                      // 0x07B0(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressBarTip;                                   // 0x07B8(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressBarFill;                                  // 0x07C0(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressTexture;                                  // 0x07C8(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressItem;                                     // 0x07D0(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressItemFrame;                                // 0x07D8(0x0008)
+	class UGFxObject*                                  m_mcTreeProgressItemTexutre;                              // 0x07E0(0x0008)
+	class UGFxObject*                                  m_mcTreeKey[0x2];                                         // 0x07E8(0x0008)
+	class UGFxObject*                                  m_mcTreeArrow[0x2];                                       // 0x07F8(0x0008)
+	struct FUINODESET                                  m_mcTreeNodes[0x4];                                       // 0x0808(0x0198)
+	struct FUITITLESET                                 m_mcTitleNodes;                                           // 0x0E68(0x0188)
+	class UGFxObject*                                  m_mcDetails;                                              // 0x0FF0(0x0008)
+	class UGFxObject*                                  m_mcDetailDesc;                                           // 0x0FF8(0x0008)
+	class UGFxObject*                                  m_mcDetailName;                                           // 0x1000(0x0008)
+	class UGFxObject*                                  m_mcDetailType;                                           // 0x1008(0x0008)
+	class UGFxObject*                                  m_mcDetailFrame;                                          // 0x1010(0x0008)
+	class UUIComponent_ItemPreviewStack*               m_pItemPreviewStack;                                      // 0x1018(0x0008)
+	class UGFxObject*                                  m_mcRotator;                                              // 0x1020(0x0008)
+	class UInputAction*                                m_pInputTriggerLeft;                                      // 0x1028(0x0008)
+	class UInputAction*                                m_pInputTriggerRight;                                     // 0x1030(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -8281,22 +8283,21 @@ public:
 
 
 // Class TgClient.UIArmoryTalent
-// 0x00FC (0x0340 - 0x0244)
+// 0x019C (0x03E0 - 0x0244)
 class UUIArmoryTalent : public UTgGfxScene
 {
 public:
 	int                                                m_nBotId;                                                 // 0x0244(0x0004)
-	int                                                m_nTalent;                                                // 0x0248(0x0004)
+	int                                                m_nTalentType;                                            // 0x0248(0x0004)
 	int                                                m_nEquippedDeviceId;                                      // 0x024C(0x0004)
 	class UInputGroup*                                 m_pTalentGroup;                                           // 0x0250(0x0008)
 	class UGFxObject*                                  m_mcHeader;                                               // 0x0258(0x0008)
-	class UGFxObject*                                  m_mcTalent[0x4];                                          // 0x0260(0x0008)
-	class UGFxObject*                                  m_mcTalentDesc[0x4];                                      // 0x0280(0x0008)
-	class UGFxObject*                                  m_mcTalentName[0x4];                                      // 0x02A0(0x0008)
-	class UGFxObject*                                  m_mcTalentType[0x4];                                      // 0x02C0(0x0008)
-	class UGFxObject*                                  m_mcTalentIcon[0x4];                                      // 0x02E0(0x0008)
-	class UGFxObject*                                  m_mcTalentLock[0x4];                                      // 0x0300(0x0008)
-	class UGFxObject*                                  m_mcTalentTexture[0x4];                                   // 0x0320(0x0008)
+	class UGFxObject*                                  m_mcTalent[0x8];                                          // 0x0260(0x0008)
+	class UGFxObject*                                  m_mcTalentDesc[0x8];                                      // 0x02A0(0x0008)
+	class UGFxObject*                                  m_mcTalentName[0x8];                                      // 0x02E0(0x0008)
+	class UGFxObject*                                  m_mcTalentIcon[0x8];                                      // 0x0320(0x0008)
+	class UGFxObject*                                  m_mcTalentLock[0x8];                                      // 0x0360(0x0008)
+	class UGFxObject*                                  m_mcTalentTexture[0x8];                                   // 0x03A0(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -8835,7 +8836,7 @@ public:
 
 
 // Class TgClient.UIHudBot
-// 0x0714 (0x0958 - 0x0244)
+// 0x0764 (0x09A8 - 0x0244)
 class UUIHudBot : public UTgGfxScene
 {
 public:
@@ -8856,6 +8857,7 @@ public:
 	unsigned long                                      m_bShowAmmo : 1;                                          // 0x0274(0x0004)
 	unsigned long                                      m_bCursorMode : 1;                                        // 0x0274(0x0004)
 	unsigned long                                      m_bShouldShow : 1;                                        // 0x0274(0x0004)
+	unsigned long                                      m_bPickupStaged : 1;                                      // 0x0274(0x0004)
 	unsigned long                                      m_bCosmeticWheel : 1;                                     // 0x0274(0x0004)
 	unsigned long                                      m_bPlayerChickened : 1;                                   // 0x0274(0x0004)
 	unsigned char                                      m_eActive;                                                // 0x0278(0x0001)
@@ -8929,39 +8931,43 @@ public:
 	class UGFxObject*                                  m_mcRune[0x6];                                            // 0x0568(0x0008)
 	class UGFxObject*                                  m_mcRuneIcon[0x6];                                        // 0x0598(0x0008)
 	class UGFxObject*                                  m_mcArmorPiece[0x4];                                      // 0x05C8(0x0008)
-	class UGFxObject*                                  m_mcSlot;                                                 // 0x05E8(0x0008)
-	class UGFxObject*                                  m_mcSlotEquip;                                            // 0x05F0(0x0008)
-	class UGFxObject*                                  m_mcSlotEquipIcon;                                        // 0x05F8(0x0008)
-	class UGFxObject*                                  m_mcSlotEquipFrame;                                       // 0x0600(0x0008)
-	class UGFxObject*                                  m_mcSlotSkill;                                            // 0x0608(0x0008)
-	class UGFxObject*                                  m_mcSlotSkillIcon;                                        // 0x0610(0x0008)
-	class UGFxObject*                                  m_mcSlotSkillFrame;                                       // 0x0618(0x0008)
-	class UGFxObject*                                  m_mcSlotArrow[0x4];                                       // 0x0620(0x0008)
-	class UGFxObject*                                  m_mcEquip[0x2];                                           // 0x0640(0x0008)
-	class UGFxObject*                                  m_mcEquipAmmo[0x2];                                       // 0x0650(0x0008)
-	class UGFxObject*                                  m_mcEquipAmmoIcon[0x2];                                   // 0x0660(0x0008)
-	class UGFxObject*                                  m_mcEquipAmmoInfinity[0x2];                               // 0x0670(0x0008)
-	class UGFxObject*                                  m_mcEquipIcon[0x2];                                       // 0x0680(0x0008)
-	class UGFxObject*                                  m_mcEquipFrame[0x2];                                      // 0x0690(0x0008)
-	class UGFxObject*                                  m_mcEquipRarity[0x2];                                     // 0x06A0(0x0008)
-	class UGFxObject*                                  m_mcEquipElement[0x2];                                    // 0x06B0(0x0008)
-	class UGFxObject*                                  m_mcEquipDagger1;                                         // 0x06C0(0x0008)
-	class UGFxObject*                                  m_mcEquipDagger2;                                         // 0x06C8(0x0008)
-	class UGFxObject*                                  m_mcSkill[0x5];                                           // 0x06D0(0x0008)
-	class UGFxObject*                                  m_mcSkillKey[0x5];                                        // 0x06F8(0x0008)
-	class UGFxObject*                                  m_mcSkillIcon[0x5];                                       // 0x0720(0x0008)
-	class UGFxObject*                                  m_mcSkillTime[0x5];                                       // 0x0748(0x0008)
-	class UGFxObject*                                  m_mcSkillFrame[0x5];                                      // 0x0770(0x0008)
-	class UGFxObject*                                  m_mcSkillActive[0x5];                                     // 0x0798(0x0008)
-	class UGFxObject*                                  m_mcKey[0x5];                                             // 0x07C0(0x0008)
-	class UGFxObject*                                  m_mcKeyPulse[0x5];                                        // 0x07E8(0x0008)
-	class UGFxObject*                                  m_mcBuffBar;                                              // 0x0810(0x0008)
-	class UGFxObject*                                  m_mcBuff[0x7];                                            // 0x0818(0x0008)
-	class UGFxObject*                                  m_mcBuffIcon[0x7];                                        // 0x0850(0x0008)
-	class UGFxObject*                                  m_mcBuffTimer[0x7];                                       // 0x0888(0x0008)
-	unsigned char                                      UnknownData01[0x48];                                      // 0x08C0(0x0048) UNKNOWN PROPERTY: MapProperty TgClient.UIHudBot.m_EffectGroupIconMap
-	unsigned char                                      UnknownData02[0x48];                                      // 0x0908(0x0048) UNKNOWN PROPERTY: MapProperty TgClient.UIHudBot.m_EffectGroupNameMap
-	class UAkBaseSoundObject*                          m_AkArmorBreak;                                           // 0x0950(0x0008)
+	class UGFxObject*                                  m_mcArmorIcon[0x4];                                       // 0x05E8(0x0008)
+	class UGFxObject*                                  m_mcArmorFrame[0x4];                                      // 0x0608(0x0008)
+	class UGFxObject*                                  m_mcSlot;                                                 // 0x0628(0x0008)
+	class UGFxObject*                                  m_mcSlotEquip;                                            // 0x0630(0x0008)
+	class UGFxObject*                                  m_mcSlotEquipIcon;                                        // 0x0638(0x0008)
+	class UGFxObject*                                  m_mcSlotEquipFrame;                                       // 0x0640(0x0008)
+	class UGFxObject*                                  m_mcSlotSkill;                                            // 0x0648(0x0008)
+	class UGFxObject*                                  m_mcSlotSkillIcon;                                        // 0x0650(0x0008)
+	class UGFxObject*                                  m_mcSlotSkillFrame;                                       // 0x0658(0x0008)
+	class UGFxObject*                                  m_mcSlotKeyLeft;                                          // 0x0660(0x0008)
+	class UGFxObject*                                  m_mcSlotKeyRight;                                         // 0x0668(0x0008)
+	class UGFxObject*                                  m_mcSlotArrow[0x4];                                       // 0x0670(0x0008)
+	class UGFxObject*                                  m_mcEquip[0x2];                                           // 0x0690(0x0008)
+	class UGFxObject*                                  m_mcEquipAmmo[0x2];                                       // 0x06A0(0x0008)
+	class UGFxObject*                                  m_mcEquipAmmoIcon[0x2];                                   // 0x06B0(0x0008)
+	class UGFxObject*                                  m_mcEquipAmmoInfinity[0x2];                               // 0x06C0(0x0008)
+	class UGFxObject*                                  m_mcEquipIcon[0x2];                                       // 0x06D0(0x0008)
+	class UGFxObject*                                  m_mcEquipFrame[0x2];                                      // 0x06E0(0x0008)
+	class UGFxObject*                                  m_mcEquipRarity[0x2];                                     // 0x06F0(0x0008)
+	class UGFxObject*                                  m_mcEquipElement[0x2];                                    // 0x0700(0x0008)
+	class UGFxObject*                                  m_mcEquipDagger1;                                         // 0x0710(0x0008)
+	class UGFxObject*                                  m_mcEquipDagger2;                                         // 0x0718(0x0008)
+	class UGFxObject*                                  m_mcSkill[0x5];                                           // 0x0720(0x0008)
+	class UGFxObject*                                  m_mcSkillKey[0x5];                                        // 0x0748(0x0008)
+	class UGFxObject*                                  m_mcSkillIcon[0x5];                                       // 0x0770(0x0008)
+	class UGFxObject*                                  m_mcSkillTime[0x5];                                       // 0x0798(0x0008)
+	class UGFxObject*                                  m_mcSkillFrame[0x5];                                      // 0x07C0(0x0008)
+	class UGFxObject*                                  m_mcSkillActive[0x5];                                     // 0x07E8(0x0008)
+	class UGFxObject*                                  m_mcKey[0x5];                                             // 0x0810(0x0008)
+	class UGFxObject*                                  m_mcKeyPulse[0x5];                                        // 0x0838(0x0008)
+	class UGFxObject*                                  m_mcBuffBar;                                              // 0x0860(0x0008)
+	class UGFxObject*                                  m_mcBuff[0x7];                                            // 0x0868(0x0008)
+	class UGFxObject*                                  m_mcBuffIcon[0x7];                                        // 0x08A0(0x0008)
+	class UGFxObject*                                  m_mcBuffTimer[0x7];                                       // 0x08D8(0x0008)
+	unsigned char                                      UnknownData01[0x48];                                      // 0x0910(0x0048) UNKNOWN PROPERTY: MapProperty TgClient.UIHudBot.m_EffectGroupIconMap
+	unsigned char                                      UnknownData02[0x48];                                      // 0x0958(0x0048) UNKNOWN PROPERTY: MapProperty TgClient.UIHudBot.m_EffectGroupNameMap
+	class UAkBaseSoundObject*                          m_AkArmorBreak;                                           // 0x09A0(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -9110,7 +9116,7 @@ public:
 
 
 // Class TgClient.UIHudClass
-// 0x0364 (0x05A8 - 0x0244)
+// 0x0284 (0x04C8 - 0x0244)
 class UUIHudClass : public UTgGfxScene
 {
 public:
@@ -9133,25 +9139,25 @@ public:
 	class UGFxObject*                                  m_mcAbilityIcon;                                          // 0x02B8(0x0008)
 	class UGFxObject*                                  m_mcAbilityName;                                          // 0x02C0(0x0008)
 	class UGFxObject*                                  m_mcTalentGroup;                                          // 0x02C8(0x0008)
-	class UGFxObject*                                  m_mcTalent[0xA];                                          // 0x02D0(0x0008)
-	class UGFxObject*                                  m_mcTalentIcon[0xA];                                      // 0x0320(0x0008)
-	class UGFxObject*                                  m_mcTalentTitle[0xA];                                     // 0x0370(0x0008)
-	class UGFxObject*                                  m_mcTalentDesc[0xA];                                      // 0x03C0(0x0008)
-	class UGFxObject*                                  m_mcHeader;                                               // 0x0410(0x0008)
-	class UGFxObject*                                  m_mcHeaderTime;                                           // 0x0418(0x0008)
-	class UGFxObject*                                  m_mcHeaderPlayer[0x5];                                    // 0x0420(0x0008)
-	class UGFxObject*                                  m_mcHeaderPlayerIcon[0x5];                                // 0x0448(0x0008)
-	class UGFxObject*                                  m_mcHeaderPlayerClass[0x5];                               // 0x0470(0x0008)
-	class UGFxObject*                                  m_mcButton[0x4];                                          // 0x0498(0x0008)
-	class UGFxObject*                                  m_mcButtonIcon[0x4];                                      // 0x04B8(0x0008)
-	class UGFxObject*                                  m_mcButtonLevel[0x4];                                     // 0x04D8(0x0008)
-	class UGFxObject*                                  m_mcButtonHighlight[0x4];                                 // 0x04F8(0x0008)
-	class UGFxObject*                                  m_mcButtonHighlightIcon[0x4];                             // 0x0518(0x0008)
-	class UGFxObject*                                  m_mcButtonProgress[0x4];                                  // 0x0538(0x0008)
-	class UGFxObject*                                  m_mcButtonProgressTip[0x4];                               // 0x0558(0x0008)
-	class UGFxObject*                                  m_mcButtonProgressFill[0x4];                              // 0x0578(0x0008)
-	class UInputGroup*                                 m_pInputGroup;                                            // 0x0598(0x0008)
-	class UAkBaseSoundObject*                          m_akSelect;                                               // 0x05A0(0x0008)
+	class UGFxObject*                                  m_mcTalent[0x3];                                          // 0x02D0(0x0008)
+	class UGFxObject*                                  m_mcTalentIcon[0x3];                                      // 0x02E8(0x0008)
+	class UGFxObject*                                  m_mcTalentTitle[0x3];                                     // 0x0300(0x0008)
+	class UGFxObject*                                  m_mcTalentDesc[0x3];                                      // 0x0318(0x0008)
+	class UGFxObject*                                  m_mcHeader;                                               // 0x0330(0x0008)
+	class UGFxObject*                                  m_mcHeaderTime;                                           // 0x0338(0x0008)
+	class UGFxObject*                                  m_mcHeaderPlayer[0x5];                                    // 0x0340(0x0008)
+	class UGFxObject*                                  m_mcHeaderPlayerIcon[0x5];                                // 0x0368(0x0008)
+	class UGFxObject*                                  m_mcHeaderPlayerClass[0x5];                               // 0x0390(0x0008)
+	class UGFxObject*                                  m_mcButton[0x4];                                          // 0x03B8(0x0008)
+	class UGFxObject*                                  m_mcButtonIcon[0x4];                                      // 0x03D8(0x0008)
+	class UGFxObject*                                  m_mcButtonLevel[0x4];                                     // 0x03F8(0x0008)
+	class UGFxObject*                                  m_mcButtonHighlight[0x4];                                 // 0x0418(0x0008)
+	class UGFxObject*                                  m_mcButtonHighlightIcon[0x4];                             // 0x0438(0x0008)
+	class UGFxObject*                                  m_mcButtonProgress[0x4];                                  // 0x0458(0x0008)
+	class UGFxObject*                                  m_mcButtonProgressTip[0x4];                               // 0x0478(0x0008)
+	class UGFxObject*                                  m_mcButtonProgressFill[0x4];                              // 0x0498(0x0008)
+	class UInputGroup*                                 m_pInputGroup;                                            // 0x04B8(0x0008)
+	class UAkBaseSoundObject*                          m_akSelect;                                               // 0x04C0(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -9163,56 +9169,57 @@ public:
 
 
 // Class TgClient.UIHudForge
-// 0x05D4 (0x0818 - 0x0244)
+// 0x0A54 (0x0C98 - 0x0244)
 class UUIHudForge : public UTgGfxScene
 {
 public:
 	int                                                m_nShards;                                                // 0x0244(0x0004)
 	int                                                m_nUpgrades;                                              // 0x0248(0x0004)
-	class UInputGroup*                                 m_pEntryGroup;                                            // 0x024C(0x0008)
-	int                                                m_nMaxTeammateCount;                                      // 0x0254(0x0004)
-	int                                                m_nEntryHighlighted;                                      // 0x0258(0x0004)
-	int                                                m_nClassNameMessage;                                      // 0x025C(0x0004)
-	unsigned char                                      m_eState;                                                 // 0x0260(0x0001)
-	unsigned char                                      UnknownData00[0x3];                                       // 0x0261(0x0003) MISSED OFFSET
-	struct FUIFORGETAB                                 m_mcForgeTabs[0x3];                                       // 0x0264(0x0020)
-	struct FUIFORGEENTRYGFX                            m_mcEntry[0x8];                                           // 0x02C4(0x0038)
-	struct FUIFORGEENTRYDATA                           m_mcClassData[0x8];                                       // 0x0484(0x0020)
-	struct FUIFORGEENTRYDATA                           m_mcNeutralData[0x8];                                     // 0x0584(0x0020)
-	struct FUIFORGEENTRYDATA                           m_mcUpgradeData[0x8];                                     // 0x0684(0x0020)
-	struct FPointer                                    m_mcEntryData;                                            // 0x0784(0x0008) (Native, Transient)
-	class UGFxObject*                                  m_mcPlayerShardsGroup;                                    // 0x078C(0x0008)
-	class UGFxObject*                                  m_mcPlayerShards;                                         // 0x0794(0x0008)
-	class UGFxObject*                                  m_mcUpgradesLeftGroup;                                    // 0x079C(0x0008)
-	class UGFxObject*                                  m_mcUpgradesLeft;                                         // 0x07A4(0x0008)
-	class UGFxObject*                                  m_mcErrorMessage;                                         // 0x07AC(0x0008)
-	class UGFxObject*                                  m_mcTooltip;                                              // 0x07B4(0x0008)
-	class UGFxObject*                                  m_mcTooltipName;                                          // 0x07BC(0x0008)
-	class UGFxObject*                                  m_mcTooltipType;                                          // 0x07C4(0x0008)
-	class UGFxObject*                                  m_mcTooltipDesc;                                          // 0x07CC(0x0008)
-	class UGFxObject*                                  m_mcTooltipIcon;                                          // 0x07D4(0x0008)
-	class UGFxObject*                                  m_mcTooltipPanel;                                         // 0x07DC(0x0008)
-	class UGFxObject*                                  m_mcTooltipCost;                                          // 0x07E4(0x0008)
-	class UGFxObject*                                  m_mcTooltipError;                                         // 0x07EC(0x0008)
-	class UGFxObject*                                  m_mcTooltipTime;                                          // 0x07F4(0x0008)
-	class UGFxObject*                                  m_mcTooltipRarity;                                        // 0x07FC(0x0008)
-	class UAkBaseSoundObject*                          m_akSelect;                                               // 0x0804(0x0008)
-	class UAkBaseSoundObject*                          m_akForgeEnter;                                           // 0x080C(0x0008)
-	unsigned long                                      m_bLTEDisableForgeClass : 1;                              // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeNeutral : 1;                            // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeUpgrades : 1;                           // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeArmorPotions : 1;                       // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeHealingPotions : 1;                     // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeWeapons : 1;                            // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeSupportAbilities : 1;                   // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeOffensiveAbilities : 1;                 // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeMovementAbilities : 1;                  // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeRunes : 1;                              // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableForgeResurrection : 1;                       // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableUpgradeWeapons : 1;                          // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableUpgradeSupportAbilities : 1;                 // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableUpgradeOffensiveAbilities : 1;               // 0x0814(0x0004)
-	unsigned long                                      m_bLTEDisableUpgradeMovementAbilities : 1;                // 0x0814(0x0004)
+	class ATgForgeObjective*                           m_CurrentForge;                                           // 0x024C(0x0008)
+	class UInputGroup*                                 m_pEntryGroup;                                            // 0x0254(0x0008)
+	int                                                m_nMaxTeammateCount;                                      // 0x025C(0x0004)
+	int                                                m_nEntryHighlighted;                                      // 0x0260(0x0004)
+	int                                                m_nClassNameMessage;                                      // 0x0264(0x0004)
+	unsigned char                                      m_eState;                                                 // 0x0268(0x0001)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0269(0x0003) MISSED OFFSET
+	struct FUIFORGETAB                                 m_mcForgeTabs[0x3];                                       // 0x026C(0x0020)
+	struct FUIFORGEENTRYGFX                            m_mcEntry[0xA];                                           // 0x02CC(0x0068)
+	struct FUIFORGEENTRYDATA                           m_mcClassData[0xA];                                       // 0x06DC(0x002C)
+	struct FUIFORGEENTRYDATA                           m_mcNeutralData[0xA];                                     // 0x0894(0x002C)
+	struct FUIFORGEENTRYDATA                           m_mcUpgradeData[0xA];                                     // 0x0A4C(0x002C)
+	struct FPointer                                    m_mcEntryData;                                            // 0x0C04(0x0008) (Native, Transient)
+	class UGFxObject*                                  m_mcPlayerShardsGroup;                                    // 0x0C0C(0x0008)
+	class UGFxObject*                                  m_mcPlayerShards;                                         // 0x0C14(0x0008)
+	class UGFxObject*                                  m_mcUpgradesLeftGroup;                                    // 0x0C1C(0x0008)
+	class UGFxObject*                                  m_mcUpgradesLeft;                                         // 0x0C24(0x0008)
+	class UGFxObject*                                  m_mcErrorMessage;                                         // 0x0C2C(0x0008)
+	class UGFxObject*                                  m_mcTooltip;                                              // 0x0C34(0x0008)
+	class UGFxObject*                                  m_mcTooltipName;                                          // 0x0C3C(0x0008)
+	class UGFxObject*                                  m_mcTooltipType;                                          // 0x0C44(0x0008)
+	class UGFxObject*                                  m_mcTooltipDesc;                                          // 0x0C4C(0x0008)
+	class UGFxObject*                                  m_mcTooltipIcon;                                          // 0x0C54(0x0008)
+	class UGFxObject*                                  m_mcTooltipPanel;                                         // 0x0C5C(0x0008)
+	class UGFxObject*                                  m_mcTooltipCost;                                          // 0x0C64(0x0008)
+	class UGFxObject*                                  m_mcTooltipError;                                         // 0x0C6C(0x0008)
+	class UGFxObject*                                  m_mcTooltipTime;                                          // 0x0C74(0x0008)
+	class UGFxObject*                                  m_mcTooltipRarity;                                        // 0x0C7C(0x0008)
+	class UAkBaseSoundObject*                          m_akSelect;                                               // 0x0C84(0x0008)
+	class UAkBaseSoundObject*                          m_akForgeEnter;                                           // 0x0C8C(0x0008)
+	unsigned long                                      m_bLTEDisableForgeClass : 1;                              // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeNeutral : 1;                            // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeUpgrades : 1;                           // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeArmorPotions : 1;                       // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeHealingPotions : 1;                     // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeWeapons : 1;                            // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeSupportAbilities : 1;                   // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeOffensiveAbilities : 1;                 // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeMovementAbilities : 1;                  // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeRunes : 1;                              // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableForgeResurrection : 1;                       // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableUpgradeWeapons : 1;                          // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableUpgradeSupportAbilities : 1;                 // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableUpgradeOffensiveAbilities : 1;               // 0x0C94(0x0004)
+	unsigned long                                      m_bLTEDisableUpgradeMovementAbilities : 1;                // 0x0C94(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -9584,7 +9591,7 @@ public:
 
 
 // Class TgClient.UIHudOverlay
-// 0x02A8 (0x04EC - 0x0244)
+// 0x02B8 (0x04FC - 0x0244)
 class UUIHudOverlay : public UTgGfxScene
 {
 public:
@@ -9593,6 +9600,7 @@ public:
 	unsigned long                                      m_bCanVault : 1;                                          // 0x0244(0x0004)
 	unsigned long                                      m_bInteractingCatapult : 1;                               // 0x0244(0x0004)
 	unsigned long                                      m_bEnteredCatapult : 1;                                   // 0x0244(0x0004)
+	unsigned long                                      m_bPickupStaged : 1;                                      // 0x0244(0x0004)
 	unsigned long                                      m_bShowPrompt : 1;                                        // 0x0244(0x0004)
 	unsigned long                                      m_bTooltipVisible : 1;                                    // 0x0244(0x0004)
 	unsigned long                                      m_bSpectatorShowPlayerIcons : 1;                          // 0x0244(0x0004)
@@ -9659,44 +9667,46 @@ public:
 	class UGFxObject*                                  m_mcLootElement;                                          // 0x035C(0x0008)
 	class UGFxObject*                                  m_mcLootPromptA;                                          // 0x0364(0x0008)
 	class UGFxObject*                                  m_mcLootPromptB;                                          // 0x036C(0x0008)
-	class UGFxObject*                                  m_mcLootDamage;                                           // 0x0374(0x0008)
-	class UGFxObject*                                  m_mcLootDamageName;                                       // 0x037C(0x0008)
-	class UGFxObject*                                  m_mcLootDamageDesc;                                       // 0x0384(0x0008)
-	class UGFxObject*                                  m_mcLootDamageArrow;                                      // 0x038C(0x0008)
-	class UGFxObject*                                  m_mcPickup;                                               // 0x0394(0x0008)
-	class UGFxObject*                                  m_mcScopes;                                               // 0x039C(0x0008)
-	class UGFxObject*                                  m_mcScopeSniper;                                          // 0x03A4(0x0008)
-	class UGFxObject*                                  m_mcScopeSniperFrame;                                     // 0x03AC(0x0008)
-	class UGFxObject*                                  m_mcScopeSniperCrosshair;                                 // 0x03B4(0x0008)
-	class UGFxObject*                                  m_mcSearch;                                               // 0x03BC(0x0008)
-	class UGFxObject*                                  m_mcSearchKey;                                            // 0x03C4(0x0008)
-	class UGFxObject*                                  m_mcSearchName;                                           // 0x03CC(0x0008)
-	class UGFxObject*                                  m_mcIconVault;                                            // 0x03D4(0x0008)
-	class UGFxObject*                                  m_mcPrompt;                                               // 0x03DC(0x0008)
-	class UGFxObject*                                  m_mcBigHeadMode;                                          // 0x03E4(0x0008)
-	class UGFxObject*                                  m_mcBigHeadModePrompt;                                    // 0x03EC(0x0008)
-	TArray<struct FOverlayData>                        m_CritData;                                               // 0x03F4(0x0010) (NeedCtorLink)
-	TArray<struct FOverlayData>                        m_LockData;                                               // 0x0404(0x0010) (NeedCtorLink)
-	TArray<struct FOverlayData>                        m_ForgeData;                                              // 0x0414(0x0010) (NeedCtorLink)
-	TArray<struct FDamageOverlayData>                  m_DamageData;                                             // 0x0424(0x0010) (NeedCtorLink)
-	TArray<struct FOverlayData>                        m_StatusData;                                             // 0x0434(0x0010) (NeedCtorLink)
-	TArray<struct FOverlayData>                        m_HealingData;                                            // 0x0444(0x0010) (NeedCtorLink)
-	TArray<struct FOverlayData>                        m_RevivingData;                                           // 0x0454(0x0010) (NeedCtorLink)
-	TArray<struct FOverlayData>                        m_LootGoblinData;                                         // 0x0464(0x0010) (NeedCtorLink)
-	int                                                m_nCurrentPromptMessageId;                                // 0x0474(0x0004)
-	class UGFxObject*                                  m_mcTutorialPrompt;                                       // 0x0478(0x0008)
-	class UGFxObject*                                  m_mcTutorialPromptFrame;                                  // 0x0480(0x0008)
-	int                                                m_nCurrentTooltipMessageId;                               // 0x0488(0x0004)
-	class UGFxObject*                                  m_mcTooltip;                                              // 0x048C(0x0008)
-	class UGFxObject*                                  m_mcTooltipText;                                          // 0x0494(0x0008)
-	class UGFxObject*                                  m_mcTooltipBackground;                                    // 0x049C(0x0008)
-	float                                              m_fMaxPingTime;                                           // 0x04A4(0x0004)
-	TArray<struct FUIPingOverlay>                      m_PingOverlays;                                           // 0x04A8(0x0010) (NeedCtorLink)
-	TArray<struct FUIPlayerOverlay>                    m_TeamOverlays;                                           // 0x04B8(0x0010) (NeedCtorLink)
-	TArray<struct FUIPlayerOverlay>                    m_EnemyOverlays;                                          // 0x04C8(0x0010) (NeedCtorLink)
-	class UAkBaseSoundObject*                          m_scPickup;                                               // 0x04D8(0x0008)
-	class UAkBaseSoundObject*                          m_akForgeComplete;                                        // 0x04E0(0x0008)
-	float                                              m_fDamageNumberCombineDuration;                           // 0x04E8(0x0004)
+	class UGFxObject*                                  m_mcLootPromptC;                                          // 0x0374(0x0008)
+	class UGFxObject*                                  m_mcLootPromptD;                                          // 0x037C(0x0008)
+	class UGFxObject*                                  m_mcLootDamage;                                           // 0x0384(0x0008)
+	class UGFxObject*                                  m_mcLootDamageName;                                       // 0x038C(0x0008)
+	class UGFxObject*                                  m_mcLootDamageDesc;                                       // 0x0394(0x0008)
+	class UGFxObject*                                  m_mcLootDamageArrow;                                      // 0x039C(0x0008)
+	class UGFxObject*                                  m_mcPickup;                                               // 0x03A4(0x0008)
+	class UGFxObject*                                  m_mcScopes;                                               // 0x03AC(0x0008)
+	class UGFxObject*                                  m_mcScopeSniper;                                          // 0x03B4(0x0008)
+	class UGFxObject*                                  m_mcScopeSniperFrame;                                     // 0x03BC(0x0008)
+	class UGFxObject*                                  m_mcScopeSniperCrosshair;                                 // 0x03C4(0x0008)
+	class UGFxObject*                                  m_mcSearch;                                               // 0x03CC(0x0008)
+	class UGFxObject*                                  m_mcSearchKey;                                            // 0x03D4(0x0008)
+	class UGFxObject*                                  m_mcSearchName;                                           // 0x03DC(0x0008)
+	class UGFxObject*                                  m_mcIconVault;                                            // 0x03E4(0x0008)
+	class UGFxObject*                                  m_mcPrompt;                                               // 0x03EC(0x0008)
+	class UGFxObject*                                  m_mcBigHeadMode;                                          // 0x03F4(0x0008)
+	class UGFxObject*                                  m_mcBigHeadModePrompt;                                    // 0x03FC(0x0008)
+	TArray<struct FOverlayData>                        m_CritData;                                               // 0x0404(0x0010) (NeedCtorLink)
+	TArray<struct FOverlayData>                        m_LockData;                                               // 0x0414(0x0010) (NeedCtorLink)
+	TArray<struct FOverlayData>                        m_ForgeData;                                              // 0x0424(0x0010) (NeedCtorLink)
+	TArray<struct FDamageOverlayData>                  m_DamageData;                                             // 0x0434(0x0010) (NeedCtorLink)
+	TArray<struct FOverlayData>                        m_StatusData;                                             // 0x0444(0x0010) (NeedCtorLink)
+	TArray<struct FOverlayData>                        m_HealingData;                                            // 0x0454(0x0010) (NeedCtorLink)
+	TArray<struct FOverlayData>                        m_RevivingData;                                           // 0x0464(0x0010) (NeedCtorLink)
+	TArray<struct FOverlayData>                        m_LootGoblinData;                                         // 0x0474(0x0010) (NeedCtorLink)
+	int                                                m_nCurrentPromptMessageId;                                // 0x0484(0x0004)
+	class UGFxObject*                                  m_mcTutorialPrompt;                                       // 0x0488(0x0008)
+	class UGFxObject*                                  m_mcTutorialPromptFrame;                                  // 0x0490(0x0008)
+	int                                                m_nCurrentTooltipMessageId;                               // 0x0498(0x0004)
+	class UGFxObject*                                  m_mcTooltip;                                              // 0x049C(0x0008)
+	class UGFxObject*                                  m_mcTooltipText;                                          // 0x04A4(0x0008)
+	class UGFxObject*                                  m_mcTooltipBackground;                                    // 0x04AC(0x0008)
+	float                                              m_fMaxPingTime;                                           // 0x04B4(0x0004)
+	TArray<struct FUIPingOverlay>                      m_PingOverlays;                                           // 0x04B8(0x0010) (NeedCtorLink)
+	TArray<struct FUIPlayerOverlay>                    m_TeamOverlays;                                           // 0x04C8(0x0010) (NeedCtorLink)
+	TArray<struct FUIPlayerOverlay>                    m_EnemyOverlays;                                          // 0x04D8(0x0010) (NeedCtorLink)
+	class UAkBaseSoundObject*                          m_scPickup;                                               // 0x04E8(0x0008)
+	class UAkBaseSoundObject*                          m_akForgeComplete;                                        // 0x04F0(0x0008)
+	float                                              m_fDamageNumberCombineDuration;                           // 0x04F8(0x0004)
 
 	static UClass* StaticClass()
 	{
@@ -9709,12 +9719,12 @@ public:
 	void AnimateAdvancedDamage(struct FDamageOverlayData* Data);
 	void InitAdvancedDamage(bool bHeadShot, struct FDamageOverlayData* Data);
 	void STATIC_OnForgeItemFinish();
-	void STATIC_ShowScope(bool bShow, unsigned char eType);
+	void ShowScope(bool bShow, unsigned char eType);
 };
 
 
 // Class TgClient.UIHudOverlay_Spectator
-// 0x0000 (0x04EC - 0x04EC)
+// 0x0000 (0x04FC - 0x04FC)
 class UUIHudOverlay_Spectator : public UUIHudOverlay
 {
 public:
@@ -9807,7 +9817,7 @@ public:
 
 
 // Class TgClient.UIHudTop
-// 0x0A54 (0x0C98 - 0x0244)
+// 0x0CF4 (0x0F38 - 0x0244)
 class UUIHudTop : public UTgGfxScene
 {
 public:
@@ -9851,18 +9861,18 @@ public:
 	class UGFxObject*                                  m_mcRealmWarsChange[0x2];                                 // 0x0518(0x0008)
 	class UGFxObject*                                  m_mcRealmWarsRemain[0x2];                                 // 0x0528(0x0008)
 	class UGFxObject*                                  m_mcRealmWarsAlliance[0x2];                               // 0x0538(0x0008)
-	struct FUITEAMMATE                                 m_Teammate[0x6];                                          // 0x0548(0x011C)
-	class UGFxObject*                                  m_mcDebuff[0x3];                                          // 0x0BF0(0x0008)
-	class UGFxObject*                                  m_mcDebuffTF[0x3];                                        // 0x0C08(0x0008)
-	class UGFxObject*                                  m_mcDebuffIcon[0x3];                                      // 0x0C20(0x0008)
-	class UGFxObject*                                  m_mcDebuffTimer[0x3];                                     // 0x0C38(0x0008)
-	class UGFxObject*                                  m_mcDebuffTimerBar[0x3];                                  // 0x0C50(0x0008)
-	class UGFxObject*                                  m_mcPerk;                                                 // 0x0C68(0x0008)
-	class UGFxObject*                                  m_mcPerkIcon;                                             // 0x0C70(0x0008)
-	class UGFxObject*                                  m_mcPerkName;                                             // 0x0C78(0x0008)
-	class UGFxObject*                                  m_mcPerkDesc;                                             // 0x0C80(0x0008)
-	class UGFxObject*                                  m_mcPerkFrame;                                            // 0x0C88(0x0008)
-	struct FUniqueNetId                                m_LocalPlayerNetId;                                       // 0x0C90(0x0008)
+	struct FUITEAMMATE                                 m_Teammate[0x6];                                          // 0x0548(0x018C)
+	class UGFxObject*                                  m_mcDebuff[0x3];                                          // 0x0E90(0x0008)
+	class UGFxObject*                                  m_mcDebuffTF[0x3];                                        // 0x0EA8(0x0008)
+	class UGFxObject*                                  m_mcDebuffIcon[0x3];                                      // 0x0EC0(0x0008)
+	class UGFxObject*                                  m_mcDebuffTimer[0x3];                                     // 0x0ED8(0x0008)
+	class UGFxObject*                                  m_mcDebuffTimerBar[0x3];                                  // 0x0EF0(0x0008)
+	class UGFxObject*                                  m_mcPerk;                                                 // 0x0F08(0x0008)
+	class UGFxObject*                                  m_mcPerkIcon;                                             // 0x0F10(0x0008)
+	class UGFxObject*                                  m_mcPerkName;                                             // 0x0F18(0x0008)
+	class UGFxObject*                                  m_mcPerkDesc;                                             // 0x0F20(0x0008)
+	class UGFxObject*                                  m_mcPerkFrame;                                            // 0x0F28(0x0008)
+	struct FUniqueNetId                                m_LocalPlayerNetId;                                       // 0x0F30(0x0008)
 
 	static UClass* StaticClass()
 	{
@@ -9874,7 +9884,7 @@ public:
 
 
 // Class TgClient.UIHudTop_Spectator
-// 0x0000 (0x0C98 - 0x0C98)
+// 0x0000 (0x0F38 - 0x0F38)
 class UUIHudTop_Spectator : public UUIHudTop
 {
 public:
@@ -11008,21 +11018,6 @@ public:
 };
 
 
-// Class TgClient.UIFooterGamepad
-// 0x0000 (0x0244 - 0x0244)
-class UUIFooterGamepad : public UTgGfxScene
-{
-public:
-
-	static UClass* StaticClass()
-	{
-		static auto ptr = UObject::FindClass("Class TgClient.UIFooterGamepad");
-		return ptr;
-	}
-
-};
-
-
 // Class TgClient.UIScene_Dont_Create_Input
 // 0x0000 (0x0154 - 0x0154)
 class UUIScene_Dont_Create_Input : public UUIScene
@@ -11032,6 +11027,21 @@ public:
 	static UClass* StaticClass()
 	{
 		static auto ptr = UObject::FindClass("Class TgClient.UIScene_Dont_Create_Input");
+		return ptr;
+	}
+
+};
+
+
+// Class TgClient.UIFooterGamepad
+// 0x0000 (0x0244 - 0x0244)
+class UUIFooterGamepad : public UTgGfxScene
+{
+public:
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class TgClient.UIFooterGamepad");
 		return ptr;
 	}
 

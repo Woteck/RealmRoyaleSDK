@@ -1,6 +1,6 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
@@ -45,6 +45,28 @@ public:
 };
 
 
+// Class PlatformCommon.PComDataDogUploader
+// 0x00D8 (0x0138 - 0x0060)
+class UPComDataDogUploader : public UObject
+{
+public:
+	struct FPointer                                    VfTable_FTickableObject;                                  // 0x0060(0x0008) (Const, Native, NoExport)
+	float                                              m_NextUpdateInSeconds;                                    // 0x0068(0x0004)
+	int                                                m_nNextWrite;                                             // 0x006C(0x0004)
+	struct FString                                     m_fsBaseSeriesName;                                       // 0x0070(0x0010) (NeedCtorLink)
+	struct FDataDogMetricsConfig                       m_Config;                                                 // 0x0080(0x0068) (NeedCtorLink)
+	unsigned char                                      UnknownData00[0x48];                                      // 0x00E8(0x0048) UNKNOWN PROPERTY: MapProperty PlatformCommon.PComDataDogUploader.m_Metrics
+	struct FPointer                                    DDUploadSyncObject;                                       // 0x0130(0x0008)
+
+	static UClass* StaticClass()
+	{
+		static auto ptr = UObject::FindClass("Class PlatformCommon.PComDataDogUploader");
+		return ptr;
+	}
+
+};
+
+
 // Class PlatformCommon.PComGameEngine
 // 0x0008 (0x0AAC - 0x0AA4)
 class UPComGameEngine : public UGameEngine
@@ -59,16 +81,16 @@ public:
 	}
 
 
-	bool STATIC_HandlePlayerCommandInput(const struct FString& FSCommand, class APlayerController* PC);
+	bool HandlePlayerCommandInput(const struct FString& FSCommand, class APlayerController* PC);
 	void SendGameRequest(const struct FString& fsRequest);
 	void SendCtrlRequest(const struct FString& fsRequest);
 	void SendMarshalAll(bool bLowPriority);
 	void SendMarshal(const struct FUniqueNetId& qwPlayerId, bool bLowPriority);
-	void STATIC_ClearMarshal();
+	void ClearMarshal();
 	bool SetFieldString(int nToken, const struct FString& StrValue);
 	bool SetFieldFloat(int nToken, float FloatValue);
 	bool SetFieldInt(int nToken, int IntValue);
-	bool STATIC_SetFunction(int nFunction);
+	bool SetFunction(int nFunction);
 };
 
 
@@ -94,10 +116,10 @@ public:
 	void StopRTMPStreaming();
 	void StartRTMPStreaming(const struct FString& InServer, const struct FString& InKey);
 	void SetRTMPSettings(bool bAllowWebcam, bool bAllowMicrophone, bool bAllowDesktopAudio);
-	void STATIC_CheckGameSettingsVersion();
-	void STATIC_HandleGameSettingsMigration(int OldGameSettingsVersion);
-	int STATIC_GetCurrentGameSettingsVersion();
-	void STATIC_InitDynamicResolutionScaler();
+	void CheckGameSettingsVersion();
+	void HandleGameSettingsMigration(int OldGameSettingsVersion);
+	int GetCurrentGameSettingsVersion();
+	void InitDynamicResolutionScaler();
 };
 
 
@@ -143,11 +165,11 @@ public:
 	}
 
 
-	bool STATIC_IsLogitechSdkVersionValid();
+	bool IsLogitechSdkVersionValid();
 	void SetCurrentTime(const struct FName& InPresetName, float CurrentTime);
 	void StopPreset(const struct FName& InPresetName);
 	void PlayPreset(const struct FName& InPresetName, bool bUseOverrideStartTime, float OverrideStartTime);
-	void STATIC_DisableSystem();
+	void DisableSystem();
 	void TryEnableSystem();
 };
 
@@ -208,13 +230,13 @@ public:
 
 	class UWebRequest* STATIC_DecodeFacebookRTMPUrl(const struct FString& InRequest);
 	void Tick();
-	void STATIC_ForceStopStreaming();
+	void ForceStopStreaming();
 	void StopStreaming();
 	void StartRTMPStreaming(const struct FString& InServer, const struct FString& InKey);
 	void StartFacebookStreaming();
 	void QueueFacebookStreaming();
 	void SetStreamSettings(struct FPComOpenBroadcasterSettings* InSettings);
-	bool STATIC_IsStreaming();
+	bool IsStreaming();
 	void STATIC_CloseWebBrowser();
 	void STATIC_OpenWebBrowser(const struct FString& URL);
 	bool STATIC_IsWebBrowserLoaded();
@@ -242,16 +264,16 @@ public:
 	}
 
 
-	void STATIC_CreateFileAndExit(const struct FString& FileNameWithExtension, const struct FString& FileContents, const struct FString& SubfolderName);
-	void STATIC_GetPerfStats(TArray<struct FPComPerformanceCaptureStat> PerfStats, struct FString* FileContents);
-	void STATIC_GetStatsToCollect(struct FString* FileContents);
-	void STATIC_GetMapNameAndTime(struct FString* MapNameStr, struct FString* FormattedDate, struct FString* FormattedTime);
+	void CreateFileAndExit(const struct FString& FileNameWithExtension, const struct FString& FileContents, const struct FString& SubfolderName);
+	void GetPerfStats(TArray<struct FPComPerformanceCaptureStat> PerfStats, struct FString* FileContents);
+	void GetStatsToCollect(struct FString* FileContents);
+	void GetMapNameAndTime(struct FString* MapNameStr, struct FString* FormattedDate, struct FString* FormattedTime);
 	void StopCycleStats(TArray<struct FPComPerformanceCaptureStat>* PerfStats);
-	void STATIC_GetPerformanceData(TArray<struct FPComPerformanceCaptureStat>* PerfStats);
-	void STATIC_EnableStatNotify();
-	void STATIC_EnableNonCycleStats();
-	void STATIC_MoveCamera(class APlayerController* PlayerController, class AActor* Node);
-	void STATIC_InitializePerformanceCaptureSettings();
+	void GetPerformanceData(TArray<struct FPComPerformanceCaptureStat>* PerfStats);
+	void EnableStatNotify();
+	void EnableNonCycleStats();
+	void MoveCamera(class APlayerController* PlayerController, class AActor* Node);
+	void InitializePerformanceCaptureSettings();
 };
 
 
@@ -273,8 +295,8 @@ public:
 	}
 
 
-	void STATIC_DoNextAction();
-	void STATIC_CollectNodes();
+	void DoNextAction();
+	void CollectNodes();
 	void PostBeginPlay();
 };
 
@@ -317,14 +339,14 @@ public:
 
 
 	void TestPictureInPicture();
-	void STATIC_DebugRender(class UCanvas* Canvas);
-	bool STATIC_IsViewDescReady(struct FPComPipViewDesc* ViewDesc);
-	bool STATIC_IsViewReady(const struct FName& ViewName);
+	void DebugRender(class UCanvas* Canvas);
+	bool IsViewDescReady(struct FPComPipViewDesc* ViewDesc);
+	bool IsViewReady(const struct FName& ViewName);
 	void RequestRender(const struct FName& ViewName);
 	void RemoveView(const struct FName& ViewName);
-	void STATIC_AddView(struct FPComPipViewDesc* InViewDesc);
+	void AddView(struct FPComPipViewDesc* InViewDesc);
 	void Tick();
-	void STATIC_InitializeRenderTarget();
+	void InitializeRenderTarget();
 };
 
 
@@ -357,14 +379,14 @@ public:
 	void SetBounceLightColor(struct FColor* LightColor);
 	void SetBounceLightBrightness(float InLightBrightness);
 	void SetBounceLightDirection(struct FRotator* InLightDir);
-	void STATIC_EnableDirectionalBounceLight(bool bInEnableBoundLight, float InBounceLightBrightness, const struct FRotator& BounceLightDir);
+	void EnableDirectionalBounceLight(bool bInEnableBoundLight, float InBounceLightBrightness, const struct FRotator& BounceLightDir);
 	void SetLightColor(struct FColor* LightColor);
 	void SetLightBrightness(float InLightBrightness);
 	void SetLightDirection(struct FRotator* InLightDir);
-	struct FRotator STATIC_GetLightDirection();
+	struct FRotator GetLightDirection();
 	void RemoveComponent(class UActorComponent* Component);
-	void STATIC_AddComponent(class UActorComponent* Component, struct FMatrix* LocalToWorld);
-	void STATIC_InitScene();
+	void AddComponent(class UActorComponent* Component, struct FMatrix* LocalToWorld);
+	void InitScene();
 };
 
 
@@ -412,7 +434,7 @@ public:
 	void STATIC_OnPeoplePickerComplete(bool bWasSuccessful, TArray<struct FOnlineFriend> PeoplePicked);
 	void OnReadFriendsListComplete(bool bWasSuccessful);
 	bool STATIC_ShowPeoplePickerUI();
-	void STATIC_JoinCustomMatchForInviteDelay();
+	void JoinCustomMatchForInviteDelay();
 	void STATIC_JoinCustomMatchFromInvite();
 	void OnJoinSessionForReceivedInviteComplete(const struct FName& SessionName, bool bWasSuccessful);
 	void OnPrivilegeCheckForGameSessionJoin(unsigned char LocalUserNum, TEnumAsByte<EFeaturePrivilege> Privilege, TEnumAsByte<EFeaturePrivilegeLevel> PrivilegeLevel, bool bDiffersFromHint);
@@ -431,14 +453,14 @@ public:
 	void OnGetVoicePermissionsForUsersComplete(unsigned char LocalUserNum, TEnumAsByte<EFeaturePrivilege> Privilege, TArray<struct FPermissionsResult> Results);
 	void STATIC_OnGetSessionMemberInfoComplete(TArray<struct FSessionMemberInfo> SessionListInfo, bool bWasSuccessful);
 	void STATIC_OnGetUserConnectionInfoComplete(TArray<struct FSessionMemberInfo> SessionListInfo, bool bWasSuccessful);
-	TArray<struct FString> STATIC_GetUserNamesForPS4P2PConnections();
-	void STATIC_CloseConnectionsToInvalidPeers(TArray<struct FSessionMemberInfo> SessionListInfo);
+	TArray<struct FString> GetUserNamesForPS4P2PConnections();
+	void CloseConnectionsToInvalidPeers(TArray<struct FSessionMemberInfo> SessionListInfo);
 	void STATIC_EstablishPeers();
 	void STATIC_LostP2PConnection(const struct FUniqueNetId& UniqueId);
 	void STATIC_GetControllerIdFromNetId(const struct FUniqueNetId& PlayerID, int* ControllerId);
 	void STATIC_PairLoggedInUserAndCurrentController();
-	bool STATIC_IsInGame();
-	bool STATIC_IsPackageInstalled();
+	bool IsInGame();
+	bool IsPackageInstalled();
 	void STATIC_OnMultiplayerSessionChange(const struct FName& SessionName, const struct FSessionUpdateInfo& SessionChanges);
 	bool STATIC_CheckFilterText(const struct FString& Text);
 	bool STATIC_CanCommunicateTextWithUsersByUniqueNetIds(unsigned char LocalUserNum, TArray<struct FUniqueNetId> Users);
@@ -451,9 +473,9 @@ public:
 	void STATIC_OnPrivilegeLevelChecked(unsigned char LocalUserNum, TEnumAsByte<EFeaturePrivilege> Privilege, TEnumAsByte<EFeaturePrivilegeLevel> PrivilegeLevel, bool bDiffersFromHint);
 	void STATIC_ClearOnlineDelegates();
 	void STATIC_RegisterOnlineDelegates();
-	void STATIC_ClientRestablishP2PConnections();
+	void ClientRestablishP2PConnections();
 	void ServerReEstablishP2PConnections();
-	bool STATIC_IsReconnect();
+	bool IsReconnect();
 	void STATIC_RestablishVoiceForReconnect();
 	void OnJoinOnlineGameCompleteForReceivedSessionInfo(const struct FName& SessionName, bool bWasSuccessful);
 	void STATIC_ReceiveSessionInfo(unsigned char PlatformSpecificInfo, TEnumAsByte<EConsoleType> ConsoleType);
@@ -461,13 +483,13 @@ public:
 	void STATIC_ChooseThisControllerForSessionScout(bool bCustomMatch, int MaxPlayers, bool bPrivate, TArray<struct FUniqueNetId>* ReservedMembers);
 	void STATIC_OnDestroyOnlineGameComplete(const struct FName& SessionName, bool bWasSuccessful);
 	void STATIC_OnEndOnlineGameComplete(const struct FName& SessionName, bool bWasSuccessful);
-	void STATIC_FinishQuitToMainMenu();
-	bool STATIC_CleanupOnlineSubsystemSession(bool bWasFromMenu);
+	void FinishQuitToMainMenu();
+	bool CleanupOnlineSubsystemSession(bool bWasFromMenu);
 	void STATIC_QuitToMainMenu();
 	void STATIC_ServerAcknowledgePossession(class APawn* P);
-	void STATIC_AcknowledgePossession(class APawn* P);
-	void STATIC_OnAllMarketplaceProductDetailsRead();
-	void STATIC_LeaveMatchQueue();
+	void AcknowledgePossession(class APawn* P);
+	void OnAllMarketplaceProductDetailsRead();
+	void LeaveMatchQueue();
 	void UpdatePartyUI();
 	void TryOpenPartyUI();
 	void ShowCustomGameDisallowedPopup();
@@ -479,15 +501,15 @@ public:
 	void ShowControllerDisconnectedWarning();
 	bool ShouldPartySessionsBePublic();
 	void CreateOrJoinPartySession();
-	bool STATIC_ArePartySessionInvitesAllowed();
+	bool ArePartySessionInvitesAllowed();
 	void UpdateMCTSSession(const struct FString& SessionGuid, bool bIsHost);
-	void STATIC_BlockPartySceneInput(bool bBlockInput);
-	void STATIC_FilterFriendListForPeoplePicker(TArray<struct FOnlineFriend>* FriendList, TArray<struct FSessionMemberInfo>* SessionMemberList);
+	void BlockPartySceneInput(bool bBlockInput);
+	void FilterFriendListForPeoplePicker(TArray<struct FOnlineFriend>* FriendList, TArray<struct FSessionMemberInfo>* SessionMemberList);
 	void ShowPrivilegeMessageAndDeclineInvite();
-	void STATIC_ConnectToPeers(TArray<struct FSessionMemberInfo>* SessionListInfo);
+	void ConnectToPeers(TArray<struct FSessionMemberInfo>* SessionListInfo);
 	void TryJoinSession();
-	void STATIC_MCTSSetSessionId(unsigned char PlatformSpecificInfo);
-	bool STATIC_IsInCustomMatch();
+	void MCTSSetSessionId(unsigned char PlatformSpecificInfo);
+	bool IsInCustomMatch();
 	void SendSessionEnd();
 	void SendSessionStart(int GameModeId);
 	void STATIC_OnRemoteTalkerStatusChange(const struct FUniqueNetId& RemoteNetId, bool bIsTalking);
@@ -499,10 +521,10 @@ public:
 	void OnReadPlayerMarketplaceInventoryComplete();
 	void PlayerReceivedURLTokenAndSignatureForPortalInventory(bool bSuccess, unsigned char LocalUserNum, const struct FString& URL, const struct FString& Token, const struct FString& AuthToken, const struct FString& Signature);
 	void STATIC_ProcessPortalInventoryWithAuthToken();
-	void STATIC_DumpStoreCatalog(TEnumAsByte<EMediaItemType> MediaType);
-	void STATIC_DumpConumables();
-	void STATIC_DumpDurables();
-	void STATIC_DumpGameProducts();
+	void DumpStoreCatalog(TEnumAsByte<EMediaItemType> MediaType);
+	void DumpConumables();
+	void DumpDurables();
+	void DumpGameProducts();
 	void STATIC_OnReadAdditionalProductDetailsComplete(TEnumAsByte<EMediaItemType> MediaType);
 	void OnReadDetailsForProductIdListComplete(TArray<struct FMarketplaceProductDetails>* ProductList);
 	void STATIC_OnReadAvailableProductsComplete(TEnumAsByte<EMediaItemType> MediaType);
@@ -519,14 +541,14 @@ public:
 	void PlayerRetrievedOSSInventory(TArray<struct FMarketplaceInventoryItem>* Items);
 	void UpdateClientAuthToken(const struct FString& Token);
 	void UpdateClientToken(const struct FString& Token);
-	void STATIC_ChallengeStartGame();
-	void STATIC_ChallengeKickPlayer(const struct FString& fsName);
-	void STATIC_ChallengeJoin(int nMatchId, const struct FString& fsName, const struct FString& fsPassword);
-	void STATIC_ChallengeCreate(const struct FString& fsCmdLine);
+	void ChallengeStartGame();
+	void ChallengeKickPlayer(const struct FString& fsName);
+	void ChallengeJoin(int nMatchId, const struct FString& fsName, const struct FString& fsPassword);
+	void ChallengeCreate(const struct FString& fsCmdLine);
 	void UpdateDatacenterPing();
 	void TestVideoPlayer();
-	void STATIC_AddCheats();
-	void STATIC_ClientAddCheats();
+	void AddCheats();
+	void ClientAddCheats();
 };
 
 
@@ -565,12 +587,12 @@ public:
 	void SetDirty();
 	void ReadMouseSettings();
 	void StoreMouseSettings();
-	struct FKeyBind GetKeybindWithCurrentModifiers(struct FName* Key);
-	struct FString GetBind(struct FName* Key, struct FKeyBind* ModifierKeyBind);
-	struct FString STATIC_KeybindToExtendedString(struct FKeyBind* Bind);
-	struct FKeyBind STATIC_ExtendedStringToKeybind(const struct FString& Str, const struct FString& Cmd);
-	struct FKeyBind STATIC_GetBindFromCommand(const struct FString& Cmd, int nAlternate);
-	bool STATIC_GetBindExtended(const struct FString& Str, bool bExactMatch, struct FKeyBind* Bind);
+	struct FKeyBind STATIC_GetKeybindWithCurrentModifiers(struct FName* Key);
+	struct FString STATIC_GetBind(struct FName* Key, struct FKeyBind* ModifierKeyBind);
+	struct FString KeybindToExtendedString(struct FKeyBind* Bind);
+	struct FKeyBind ExtendedStringToKeybind(const struct FString& Str, const struct FString& Cmd);
+	struct FKeyBind GetBindFromCommand(const struct FString& Cmd, int nAlternate);
+	bool GetBindExtended(const struct FString& Str, bool bExactMatch, struct FKeyBind* Bind);
 	void ResetKeysToDefault();
 };
 
@@ -656,9 +678,9 @@ public:
 	}
 
 
-	bool STATIC_IsInSphere(float RewindTime, const struct FVector& LocationToCheck, float RadiusToCheck, struct FPComPositionHistoryData* PastDataUsed);
-	bool IsOverlapping(float RewindTime, const struct FVector& LocationToCheck, float RadiusToCheck, struct FPComPositionHistoryData* PastDataUsed);
-	struct FPComPositionHistoryData STATIC_GetPastData(float RewindTime, bool bUseClientTimeStamps);
+	bool IsInSphere(float RewindTime, const struct FVector& LocationToCheck, float RadiusToCheck, struct FPComPositionHistoryData* PastDataUsed);
+	bool STATIC_IsOverlapping(float RewindTime, const struct FVector& LocationToCheck, float RadiusToCheck, struct FPComPositionHistoryData* PastDataUsed);
+	struct FPComPositionHistoryData GetPastData(float RewindTime, bool bUseClientTimeStamps);
 	void RecordData();
 };
 
@@ -679,7 +701,7 @@ public:
 	}
 
 
-	void STATIC_CreateMusicThemePlayer();
+	void CreateMusicThemePlayer();
 	void PostBeginPlay();
 	void PlayMusicEvent(const struct FName& EventName);
 };
@@ -732,22 +754,22 @@ public:
 	void scStartGame(const struct FString& Reason);
 	void scLogMark(const struct FString& Comment);
 	void scLog(const struct FString& LogName, bool bEnabled);
-	void STATIC_gmmf();
+	void gmmf();
 	void SetLogServerTickStatsFlags(int Flags, bool bSet);
-	void STATIC_GPerfDebugPhysicsThreshold(float fThresh1, float fThresh2);
-	void STATIC_GPerfDebugTickRate(int tickHz, int altTickHz);
-	void STATIC_GPerfAllRelevantLimit(int feet);
-	void STATIC_GPerfServerFlags(int Flags, int alternate1, int alternate2);
-	void STATIC_GPerfDebugRelevMode(int Mode);
-	void STATIC_GPerfDebugSkips(int skips);
-	void STATIC_GPerfDebugFeet(int feet);
-	void STATIC_gmDiag(int Code, int Route);
-	void STATIC_gmC(const struct FString& sCommand);
-	void STATIC_gmCommand(const struct FString& sCommand);
-	void STATIC_gmMatchLobbyResume();
-	void STATIC_gmMatchLobbyPause();
-	void STATIC_gmMatchNext(int nMapId);
-	void STATIC_gmMatchForce(int nQueueId);
+	void GPerfDebugPhysicsThreshold(float fThresh1, float fThresh2);
+	void GPerfDebugTickRate(int tickHz, int altTickHz);
+	void GPerfAllRelevantLimit(int feet);
+	void GPerfServerFlags(int Flags, int alternate1, int alternate2);
+	void GPerfDebugRelevMode(int Mode);
+	void GPerfDebugSkips(int skips);
+	void GPerfDebugFeet(int feet);
+	void gmDiag(int Code, int Route);
+	void gmC(const struct FString& sCommand);
+	void gmCommand(const struct FString& sCommand);
+	void gmMatchLobbyResume();
+	void gmMatchLobbyPause();
+	void gmMatchNext(int nMapId);
+	void gmMatchForce(int nQueueId);
 };
 
 
@@ -785,9 +807,9 @@ public:
 	}
 
 
-	float STATIC_GetGDeltaTime();
-	bool STATIC_IsAWithStop(class UObject* InObject, class UClass* SomeBase, class UClass* StopAtBase);
-	struct FVector STATIC_FakeNetSerialize(struct FVector* InVector);
+	float GetGDeltaTime();
+	bool IsAWithStop(class UObject* InObject, class UClass* SomeBase, class UClass* StopAtBase);
+	struct FVector FakeNetSerialize(struct FVector* InVector);
 };
 
 
@@ -828,11 +850,11 @@ public:
 	}
 
 
-	void STATIC_DestroyMe();
+	void DestroyMe();
 	void TestOnVideoError(class APComVideoPlayer* VideoPlayer, TEnumAsByte<EPComVideoPlayerError> ErrorCode);
 	void TestVideoPlayer(class AActor* SpawningActor, const struct FString& InURL);
-	void Initialize();
-	void NativePostRenderFor(class APlayerController* PC, class UCanvas* Canvas, const struct FVector& CameraPosition, const struct FVector& CameraDir);
+	void STATIC_Initialize();
+	void STATIC_NativePostRenderFor(class APlayerController* PC, class UCanvas* Canvas, const struct FVector& CameraPosition, const struct FVector& CameraDir);
 	void STATIC_OnVideoError(class APComVideoPlayer* VideoPlayer, TEnumAsByte<EPComVideoPlayerError> ErrorCode);
 	void STATIC_OnVideoFinished();
 };
@@ -908,14 +930,14 @@ public:
 
 
 	void UpdateReplicatedMusicEvent(const struct FName& EventName);
-	void STATIC_UpdateMusicTrack(const struct FMusicTrackStruct& NewMusicTrack, float fDuration);
-	void StopMusic();
+	void UpdateMusicTrack(const struct FMusicTrackStruct& NewMusicTrack, float fDuration);
+	void STATIC_StopMusic();
 	void PlayMusicEvent(const struct FName& EventName);
 	void PlayDefaultMusic();
 	void OnThemeLoaded();
-	void STATIC_LoadTheme(const struct FString& themepath);
-	struct FString STATIC_GetDefaultThemePath();
-	void STATIC_LoadDefaultTheme();
+	void LoadTheme(const struct FString& themepath);
+	struct FString GetDefaultThemePath();
+	void LoadDefaultTheme();
 	void Init();
 };
 
@@ -973,11 +995,11 @@ public:
 
 
 // Class PlatformCommon.PComNetConn
-// 0x0088 (0xB1BC - 0xB134)
+// 0x008C (0xB1C0 - 0xB134)
 class UPComNetConn : public UTcpipConnection
 {
 public:
-	unsigned char                                      UnknownData00[0x88];                                      // 0xB134(0x0088) MISSED OFFSET
+	unsigned char                                      UnknownData00[0x8C];                                      // 0xB134(0x008C) MISSED OFFSET
 
 	static UClass* StaticClass()
 	{

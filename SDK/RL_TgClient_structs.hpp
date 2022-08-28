@@ -1,6 +1,6 @@
 #pragma once
 
-// RealmRoyale (0.23) SDK
+// RealmRoyale (0.24) SDK
 
 #ifdef _MSC_VER
 	#pragma pack(push, 0x8)
@@ -8,10 +8,10 @@
 
 #include "RL_Basic.hpp"
 #include "RL_Core_classes.hpp"
-#include "RL_Engine_classes.hpp"
+#include "RL_PlatformCommon_classes.hpp"
 #include "RL_TgGame_classes.hpp"
 #include "RL_GFxUI_classes.hpp"
-#include "RL_PlatformCommon_classes.hpp"
+#include "RL_Engine_classes.hpp"
 
 namespace SDK
 {
@@ -27,6 +27,7 @@ namespace SDK
 #define CONST_UICOMPONENT_GENERICTITLEBUTTONS_TITLECOUNT         2
 #define CONST_GFXGROUP_LOC_NONE                                  -10000
 #define CONST_MAX_UI_EFFECTS                                     16
+#define CONST_HUD_MENU_ARMOR_OFFSET                              7
 #define CONST_LOADING_SCREEN_TIP_COUNT                           5
 #define CONST_UIINVITE_INVITECOUNTER_MAXLEN                      64
 #define CONST_UIARMORYDETAIL_TALENTSETS                          4
@@ -51,27 +52,29 @@ namespace SDK
 #define CONST_UILOGIN_INPUT_FIELDS                               2
 #define CONST_UIBATTLEPASS_TABS                                  2
 #define CONST_TG_MAX_TOTAL_PING                                  10
-#define CONST_UICOMPONENT_MATCHPLAYERENTRY_BUILD_ITEMCOUNT       4
 #define CONST_UIACQUISITION_ITEMS                                5
 #define CONST_UIACQUISITION_BUTTONS                              2
+#define CONST_UIARMORYDETAIL_TITLES                              7
+#define CONST_UIARMORY_KEYS                                      2
+#define CONST_UIDATA_POPUPINPUT_TITLECOUNT                       2
+#define CONST_UIARMORY_TABS                                      2
+#define CONST_UIARMORY_EMOTE_ITEMS                               3
 #define CONST_UISUMMARY_REWARDS                                  3
 #define CONST_UIHUDREPORT_COUNT                                  6
 #define CONST_UIHUDCLASS_BUTTONS                                 4
 #define CONST_UICOMPONENT_MATCHPLAYERENTRY_BUILD_STATCOUNT       2
 #define CONST_UIBATTLEPASS_LEVELS                                50
 #define CONST_UIARMORY_NORMAL_ITEMS                              7
-#define CONST_UIARMORY_EMOTE_ITEMS                               3
-#define CONST_UIDATA_POPUPINPUT_TITLECOUNT                       2
-#define CONST_UIARMORY_TABS                                      2
-#define CONST_UIARMORYDETAIL_TITLES                              7
-#define CONST_UIARMORY_KEYS                                      2
+#define CONST_UIDATA_MAXCUSTOMDECKS                              5
+#define CONST_UIARMORYDETAIL_TABS                                2
 #define CONST_UICOMPONENT_MATCHDISPLAY_PLAYERS_COUNT             10
 #define CONST_UICOMPONENT_GENERICTITLEBUTTONS_COLUMNSIZE         4
 #define CONST_UIARMORYDETAIL_ITEMS                               12
 #define CONST_UIARMORYDETAIL_ARROWS                              2
-#define CONST_UIDATA_MAXCUSTOMDECKS                              5
-#define CONST_UIARMORYDETAIL_TABS                                3
 #define CONST_UIARMORYDETAIL_NODES                               10
+#define CONST_UIVOICECHAT_TEAMPLAYERS                            5
+#define CONST_UIARMORYDETAIL_TALENT                              3
+#define CONST_UIARMORYTALENT_COUNT                               8
 #define CONST_UIHUDRESULT_BUTTONS                                3
 #define CONST_UIBATTLEPASS_PAGES                                 2
 #define CONST_UIBATTLEPASS_ITEMS                                 10
@@ -83,11 +86,11 @@ namespace SDK
 #define CONST_CHAT_OUTPUT_COUNT                                  4
 #define CONST_UIHUDMAP_SPECTATOR_PLAYERS                         100
 #define CONST_NUM_ABILITYPOINTPOOL_SKILLS                        4
-#define CONST_UIDATA_CHESTEXTENDED_MAX_BUNDLES                   4
 #define CONST_MAX_BOOSTER_BENEFITS                               3
 #define CONST_UIHUDRESULT_VICTORY                                3
-#define CONST_UIHUDFORGE_ITEMS                                   8
+#define CONST_UIHUDFORGE_ITEMS                                   10
 #define CONST_NUM_BENEFITS_TFS                                   11
+#define CONST_CLASS_SELECT_TALENTS                               3
 #define CONST_UIHEALFEED_NUM_ICONS                               5
 #define CONST_UICOMPONENT_GENERICTITLEBUTTONS_BUTTONCOUNT        8
 #define CONST_UICOMPONENT_GENERICTITLEINPUTBUTTONS_TITLECOUNT    2
@@ -99,8 +102,22 @@ namespace SDK
 #define CONST_UICOMPONENT_DECK_SIZE                              5
 #define CONST_UICOMPONENT_MATCHDISPLAY_STATSHEADERS_COUNT        9
 #define CONST_UICOMPONENT_MATCHPLAYERENTRY_DETAILS_STATCOUNT     7
+#define CONST_UICOMPONENT_MATCHPLAYERENTRY_BUILD_ITEMCOUNT       4
+#define CONST_UIHUD_SCENE_PARTY                                  0
+#define CONST_LTE_DESC_OUTPUT_COUNT                              10
+#define CONST_MONTHLY_QUEST_TIME_FRAME_ID                        11
+#define CONST_UIPLP_PROMPTS                                      2
 #define CONST_UICOMPONENT_QUEST_GOALS                            7
 #define CONST_UICOMPONENT_QUEST_GOAL_SPACING                     15
+#define CONST_UIDATA_POPUPGENERIC_TITLECOUNT                     2
+#define CONST_UISHOPLIST_ITEM_PADDING                            16.0f
+#define CONST_UISOCIAL_PLAYERS                                   18
+#define CONST_UISHOPLIST_SECTION_PADDING                         64.0f
+#define CONST_UISHOPLIST_RIGHT_PADDING                           100.0f
+#define CONST_UIDATA_NUMTALENTS                                  3
+#define CONST_UISHOPLIST_LEFT_PADDING                            100.0f
+#define CONST_UISHOPLIST_SCROLL_SPEED                            6000.0f
+#define CONST_UIDATA_CHESTEXTENDED_MAX_BUNDLES                   4
 #define CONST_GFXSETTINGS_KEYBINDS                               12
 #define CONST_UIDATA_DECK_SIZE                                   5
 #define CONST_UIDATA_POPUPGENERIC_BUTTONCOUNT                    8
@@ -111,8 +128,6 @@ namespace SDK
 #define CONST_UIDATA_ACTIVESET                                   5
 #define CONST_UIDATA_NUMTEMPLATEDECKS                            1
 #define CONST_UIDATA_TOTAL_TEMPLATEDECKS                         3
-#define CONST_UISHOPLIST_LEFT_PADDING                            100.0f
-#define CONST_UIDATA_NUMTALENTS                                  3
 #define CONST_UIHUDBOT_EQUIP                                     2
 #define CONST_UIDATA_PLAYERMATCHRECORD_ITEMCOUNT                 4
 #define CONST_UIDATA_GROUPSIZE                                   4
@@ -121,24 +136,18 @@ namespace SDK
 #define CONST_ITEM_TENCENT_FILLER                                19094
 #define CONST_MATCH_MAX_PLAYERS                                  10
 #define CONST_UIDATA_PLAYERMATCHRECORD_DECKSIZE                  5
-#define CONST_UISHOPLIST_ITEM_PADDING                            16.0f
-#define CONST_UIDATA_POPUPGENERIC_TITLECOUNT                     2
 #define CONST_UIDATA_POPUPINPUT_BUTTONCOUNT                      2
 #define CONST_UIDATA_SPRAYRENTAL_MAX_BUNDLES                     4
 #define CONST_UIDATA_DECKSIZE                                    5
 #define CONST_DEFAULT_ANNOUNCER_PACK                             18647
-#define CONST_UIPLP_PROMPTS                                      2
-#define CONST_MONTHLY_QUEST_TIME_FRAME_ID                        11
 #define CONST_UIFOOTER_KEYS                                      5
+#define CONST_UIGAMEMENU_BUTTONS                                 6
 #define CONST_BUTTON_PRICE_NUM_PRICES                            3
 #define CONST_UIHUDMAP_ALLIANCES                                 40
 #define CONST_UIGAMEMENU_OPTIONS                                 2
-#define CONST_UIGAMEMENU_BUTTONS                                 6
 #define CONST_UIHOME_BUTTONS                                     9
 #define CONST_UISUMMARY_ITEMS                                    5
 #define CONST_UIHOME_QUESTS                                      3
-#define CONST_LTE_DESC_OUTPUT_COUNT                              10
-#define CONST_UIHUD_SCENE_PARTY                                  0
 #define CONST_UIHUD_SCENE_CHAT                                   1
 #define CONST_UIHUD_SCENE_PLAYER                                 2
 #define CONST_UIHUD_SCENE_BUFFS                                  7
@@ -154,10 +163,10 @@ namespace SDK
 #define CONST_UIHUDBOT_KEYS                                      5
 #define CONST_UIHUDBOT_ARMOR                                     4
 #define CONST_UIHUDBOT_SKILL                                     5
-#define CONST_UIHUDBOT_BUFFS                                     7
+#define CONST_UIHUDBOT_RUNES                                     6
 #define CONST_UIPATCHNOTES_COLUMNS                               3
 #define CONST_UIHUDBOT_ARROWS                                    4
-#define CONST_UIHUDBOT_RUNES                                     6
+#define CONST_UIHUDBOT_BUFFS                                     7
 #define CONST_UIRETICLES_PROJECTILES                             10
 #define CONST_GFXSETTINGS_KEYBINDS_COLUMNS                       2
 #define CONST_UIHITMARKER_TICKS                                  4
@@ -170,18 +179,22 @@ namespace SDK
 #define CONST_CHAT_COUNT                                         8
 #define CONST_CHAT_VGS_CALLOUT_COUNT                             5
 #define CONST_CHAT_VGS_CALLOUT_TOTAL_COUNT                       40
-#define CONST_UIHUDCLASS_PLAYERS                                 5
 #define CONST_UIHUDREPORT_REASONS                                6
-#define CONST_UIHUDCLASS_TALENTS                                 10
-#define CONST_UIHUDFORGE_RESURRECTION_INDEX                      7
+#define CONST_UIHUDCLASS_TALENTS                                 3
+#define CONST_UIHUDCLASS_PLAYERS                                 5
 #define CONST_UIHUDFORGE_TABS                                    3
+#define CONST_UIHUDFORGE_RESURRECTION_INDEX                      7
 #define CONST_UIHUDINV_SWAPS                                     2
 #define CONST_UIHUDTOP_ALLIANCES                                 2
 #define CONST_UIHUDINV_TITLE                                     4
-#define CONST_UIHUDMINIMAP_IMAGES                                3
 #define CONST_UIHUDMINIMAP_TEAMS                                 2
-#define CONST_UIHUDMINIMAP_LEADERBOARD                           3
+#define CONST_UIHUDMINIMAP_IMAGES                                3
 #define CONST_UIHUDMINIMAP_ALLIANCES                             40
+#define CONST_UIHUDMINIMAP_LEADERBOARD                           3
+#define CONST_UIHUDMINIMAP_OBJECTIVES                            5
+#define CONST_DAILY_QUESTS_ACCOUNT_LEVEL                         0
+#define CONST_UIHUDMINIMAP_DISTANCETEXTFIELDS                    2
+#define CONST_UIHUDMINIMAP_QUESTS                                3
 #define CONST_UISOCIAL_OPTIONS                                   4
 #define CONST_UIHUDMAP_IMAGES                                    3
 #define CONST_UISUMMARY_TALENTSETS                               4
@@ -194,30 +207,28 @@ namespace SDK
 #define CONST_UIHUDMAP_SPECTATOR_MAX_DUO_TASKFORCES              50
 #define CONST_UIHUDMAP_SPECTATOR_MAX_QUAD_TASKFORCES             25
 #define CONST_UIHUDMAP_SPECTATOR_COLUMN_CNT                      4
-#define CONST_UIHUDMINIMAP_QUESTS                                3
-#define CONST_DAILY_QUESTS_ACCOUNT_LEVEL                         0
-#define CONST_UIHUDMINIMAP_DISTANCETEXTFIELDS                    2
-#define CONST_UIHUDMINIMAP_OBJECTIVES                            5
 #define CONST_UIHUDMINIMAP_SPECTATOR_PLAYERS                     100
-#define CONST_UIHUDOVERLAY_DESCS                                 2
 #define CONST_UIHUDOVERLAY_PROMPTS                               3
+#define CONST_UIHUDOVERLAY_DESCS                                 2
 #define CONST_UIHUDTOP_TICKS                                     24
 #define CONST_UIHUDTOP_ITEMS                                     5
+#define CONST_UIHUDTOP_ARMOR                                     4
 #define CONST_UIHUDTOP_PLAYERS                                   6
 #define CONST_UIHUDTOP_DEBUFFS                                   3
 #define CONST_VGS_MAP_PC                                         1
 #define CONST_VGS_MAP_CONSOLE                                    4
 #define CONST_VGS_LIST_COUNT                                     14
 #define CONST_VGS_GAMEPAD_COUNT                                  6
-#define CONST_UIVOICECHAT_TEAMPLAYERS                            5
+#define CONST_NUM_LIVE_TEXT_STROKES                              3
 #define CONST_UILOBBYCHAT_ARROWS                                 2
-#define CONST_UILOGIN_CREATE_FIELDS                              4
-#define CONST_UILOGIN_LINK_BUTTONS                               2
 #define CONST_UILOGIN_LINK_TYPES                                 3
+#define CONST_UILOGIN_LINK_BUTTONS                               2
+#define CONST_UILOGIN_CREATE_FIELDS                              4
 #define CONST_UIPLAY_PANELS                                      5
-#define CONST_UIPLAY_REGIONS                                     12
 #define CONST_UIPLAY_OPTIONS                                     3
+#define CONST_UIPLAY_REGIONS                                     12
 #define CONST_UIPLAY_TUTORIAL_QUEUE_ID                           478
+#define CONST_UIPOPUPMATCHFOUND_BUTTONS                          2
 #define CONST_UIPOPUPPURCHASE_ITEMS                              5
 #define CONST_UIPOPUPPURCHASE_ARROWS                             2
 #define CONST_UIPROFILE_MEMBERS                                  4
@@ -227,27 +238,18 @@ namespace SDK
 #define CONST_UIFOOTERGAMEPAD_OPTIONS                            8
 #define CONST_UIFOOTERGAMEPAD_OPTION_WIDTH                       1000
 #define CONST_SCROLL_OFFSET_JUMP                                 20
-#define CONST_GFXSETTINGS_BUTTONS                                5
-#define CONST_UISHOPCROWNS_COUNT                                 5
-#define CONST_UISHOPREDEEM_COUNT                                 2
-#define CONST_UISHOPLIST_SECTION_PADDING                         64.0f
-#define CONST_UISOCIAL_PLAYERS                                   18
-#define CONST_UISOCIAL_ARROWS                                    2
-#define CONST_UISOCIAL_PARTY                                     4
-#define CONST_UISOCIAL_TABS                                      2
-#define CONST_UISOCIAL_KEYS                                      2
-#define CONST_UIARMORYTALENT_COUNT                               4
-#define CONST_CLASS_SELECT_TALENTS                               10
-#define CONST_HUD_MENU_RUNE_OFFSET                               7
-#define CONST_UISHOPLIST_RIGHT_PADDING                           100.0f
-#define CONST_UISHOPLIST_SCROLL_SPEED                            6000.0f
-#define CONST_NUM_LIVE_TEXT_STROKES                              3
-#define CONST_UIPOPUPMATCHFOUND_BUTTONS                          2
 #define CONST_MAX_EQUIPPED_EMOTES                                3
 #define CONST_MAX_EQUIPPED_SPRAYS                                3
 #define CONST_UIPARTYLOBBY_TRANSFORMATION_TIMER                  8.0f
 #define CONST_PROP_UISHOP_LAST_SEEN_LOWER                        2252
 #define CONST_PROP_UISHOP_LAST_SEEN_UPPER                        2253
+#define CONST_GFXSETTINGS_BUTTONS                                5
+#define CONST_UISHOPCROWNS_COUNT                                 5
+#define CONST_UISHOPREDEEM_COUNT                                 2
+#define CONST_UISOCIAL_KEYS                                      2
+#define CONST_UISOCIAL_TABS                                      2
+#define CONST_UISOCIAL_PARTY                                     4
+#define CONST_UISOCIAL_ARROWS                                    2
 #define CONST_UISUMMARY_ARROWS                                   2
 #define CONST_UISUMMARY_ENTRIES                                  5
 
@@ -965,6 +967,15 @@ enum class ESETTING_AUDIOPANNING : uint8_t
 };
 
 
+// Enum TgClient.UIArmory.ARMORY_STATE
+enum class EARMORY_STATE : uint8_t
+{
+	EARM_CLASS                     = 0,
+	EARM_ITEMS                     = 1,
+	EARM_MAX                       = 2
+};
+
+
 // Enum TgClient.UIArmory.ARMORY_TYPE
 enum class EARMORY_TYPE : uint8_t
 {
@@ -982,15 +993,6 @@ enum class EARMORY_TYPE : uint8_t
 };
 
 
-// Enum TgClient.UIArmory.ARMORY_STATE
-enum class EARMORY_STATE : uint8_t
-{
-	EARM_CLASS                     = 0,
-	EARM_ITEMS                     = 1,
-	EARM_MAX                       = 2
-};
-
-
 // Enum TgClient.UIArmoryDetail.ARMORYDETAIL_STATE
 enum class EARMORYDETAIL_STATE : uint8_t
 {
@@ -998,6 +1000,17 @@ enum class EARMORYDETAIL_STATE : uint8_t
 	EARD_LOAD                      = 1,
 	EARD_TREE                      = 2,
 	EARD_MAX                       = 3
+};
+
+
+// Enum TgClient.UIArmoryTalent.ARMORY_TALENT_HIGHLIGHT
+enum class EARMORY_TALENT_HIGHLIGHT : uint8_t
+{
+	ARMORY_TALENT_HIGHLIGHT_NULL   = 0,
+	ARMORY_TALENT_HIGHLIGHT_MAJOR  = 1,
+	ARMORY_TALENT_HIGHLIGHT_FORGE  = 2,
+	ARMORY_TALENT_HIGHLIGHT_GENERAL = 3,
+	ARMORY_TALENT_HIGHLIGHT_MAX    = 4
 };
 
 
@@ -1046,6 +1059,34 @@ enum class EUICCurr_DisplayType : uint8_t
 };
 
 
+// Enum TgClient.UIComponent_DailyRewardDay.UIDAILY_REWARD_STATE
+enum class EUIDAILY_REWARD_STATE : uint8_t
+{
+	UIDRS_PAST                     = 0,
+	UIDRS_PRESENT                  = 1,
+	UIDRS_FUTURE                   = 2,
+	UIDRS_MAX                      = 3
+};
+
+
+// Enum TgClient.UIComponent_DailyRewardPanel.UIDAILY_REWARD_PANEL_STATE
+enum class EUIDAILY_REWARD_PANEL_STATE : uint8_t
+{
+	UIDRPS_CLAIMABLE               = 0,
+	UIDRPS_LOCKED                  = 1,
+	UIDRPS_MAX                     = 2
+};
+
+
+// Enum TgClient.UIComponent_DeviceDetailsPerk.UIDEVICE_PERK_TYPE
+enum class EUIDEVICE_PERK_TYPE : uint8_t
+{
+	UIDPT_CLASS                    = 0,
+	UIDPT_ELEMENT                  = 1,
+	UIDPT_MAX                      = 2
+};
+
+
 // Enum TgClient.UIComponent_DLCPack.AdTextureSize
 enum class EAdTextureSize : uint8_t
 {
@@ -1085,6 +1126,55 @@ enum class EUICMatchDisplayTabType : uint8_t
 	EUICMDT_Stats                  = 0,
 	EUICMDT_Build                  = 1,
 	EUICMDT_MAX                    = 2
+};
+
+
+// Enum TgClient.UIComponent_PartyLobbyPlayer.UIPARTYLOBBY_PLAYER_STATE
+enum class EUIPARTYLOBBY_PLAYER_STATE : uint8_t
+{
+	UIPLPS_EMPTY                   = 0,
+	UIPLPS_INVITE                  = 1,
+	UIPLPS_PENDING                 = 2,
+	UIPLPS_DECLINED                = 3,
+	UIPLPS_FILLED                  = 4,
+	UIPLPS_MAX                     = 5
+};
+
+
+// Enum TgClient.UIComponent_PartyLobbyPlayerMenu.UIPARTY_LOBBY_PLAYER_MENU_BUTTONS
+enum class EUIPARTY_LOBBY_PLAYER_MENU_BUTTONS : uint8_t
+{
+	UIPLPMB_MUTE                   = 0,
+	UIPLPMB_VIEW                   = 1,
+	UIPLPMB_ADD                    = 2,
+	UIPLPMB_KICK                   = 3,
+	UIPLPMB_MAKELEADER             = 4,
+	UIPLPMB_LEAVE                  = 5,
+	UIPLPMB_CLASSLOADOUT           = 6,
+	UIPLPMB_GLOBALARMORY           = 7,
+	UIPLPMB_MAX                    = 8
+};
+
+
+// Enum TgClient.UIComponent_PlayerContextMenu.UIPLAYER_CONTEXT_MENU_BUTTONS
+enum class EUIPLAYER_CONTEXT_MENU_BUTTONS : uint8_t
+{
+	UIPCMB_MUTE                    = 0,
+	UIPCMB_VIEW                    = 1,
+	UIPCMB_ADD                     = 2,
+	UIPCMB_REPORT                  = 3,
+	UIPCMB_MAX                     = 4
+};
+
+
+// Enum TgClient.UIComponent_ShopList.UISHOPLIST_SECTION_TYPE
+enum class EUISHOPLIST_SECTION_TYPE : uint8_t
+{
+	UISLST_FEATURED                = 0,
+	UISLST_MAJOR                   = 1,
+	UISLST_MINOR                   = 2,
+	UISLST_DAILY                   = 3,
+	UISLST_MAX                     = 4
 };
 
 
@@ -1158,6 +1248,34 @@ enum class EUIDQCallToAction : uint8_t
 };
 
 
+// Enum TgClient.UIData_SocialAction.SAL_LIST
+enum class ESAL_LIST : uint8_t
+{
+	SAL_CROSS_PLATFORM_FRIENDS     = 0,
+	SAL_PORTAL_FRIENDS             = 1,
+	SAL_ALL_FRIENDS                = 2,
+	SAL_PARTY                      = 3,
+	SAL_SEARCH                     = 4,
+	SAL_REFERRED                   = 5,
+	SAL_REFERRERS                  = 6,
+	SAL_MAX                        = 7
+};
+
+
+// Enum TgClient.UIData_SocialAction.SAACT_ACTION
+enum class ESAACT_ACTION : uint8_t
+{
+	SAACT_VIEW_PROFILE             = 0,
+	SAACT_ADD_FRIEND               = 1,
+	SAACT_PARTY_INVITE             = 2,
+	SAACT_PARTY_KICK               = 3,
+	SAACT_SEND_REFERRAL            = 4,
+	SAACT_REQUEST_INFO_STATS       = 5,
+	SAACT_SELECT_REFERRER          = 6,
+	SAACT_MAX                      = 7
+};
+
+
 // Enum TgClient.UIDataAcquisition.QuestOrigin
 enum class EQuestOrigin : uint8_t
 {
@@ -1225,6 +1343,16 @@ enum class ELFPFilterIds : uint8_t
 	LFP_MaleUtility                = 10,
 	LFP_Shaman                     = 11,
 	LFP_MAX                        = 12
+};
+
+
+// Enum TgClient.UIGameMoviePlayer.KeyAlign
+enum class EKeyAlign : uint8_t
+{
+	KeyAlign_Left                  = 0,
+	KeyAlign_Center                = 1,
+	KeyAlign_Right                 = 2,
+	KeyAlign_MAX                   = 3
 };
 
 
@@ -1313,15 +1441,13 @@ enum class EFORGE_STATE : uint8_t
 };
 
 
-// Enum TgClient.UIHudMinimap.POIMessageState
-enum class EPOIMessageState : uint8_t
+// Enum TgClient.UIHudForge.ENTRY_TYPE
+enum class ENTRY_TYPE : uint8_t
 {
-	POIMS_None                     = 0,
-	POIMS_Holding                  = 1,
-	POIMS_Preshow                  = 2,
-	POIMS_Showing                  = 3,
-	POIMS_Postshow                 = 4,
-	POIMS_MAX                      = 5
+	EENTRY_FORGE                   = 0,
+	EENTRY_WEAPON                  = 1,
+	EENTRY_EQUIPMENT               = 2,
+	EENTRY_MAX                     = 3
 };
 
 
@@ -1335,13 +1461,15 @@ enum class EObjectiveClearState : uint8_t
 };
 
 
-// Enum TgClient.UIHudOverlay.EDamageNumberSourceType
-enum class EDamageNumberSourceType : uint8_t
+// Enum TgClient.UIHudMinimap.POIMessageState
+enum class EPOIMessageState : uint8_t
 {
-	DNST_Health                    = 0,
-	DNST_Armor                     = 1,
-	DNST_Shield                    = 2,
-	DNST_MAX                       = 3
+	POIMS_None                     = 0,
+	POIMS_Holding                  = 1,
+	POIMS_Preshow                  = 2,
+	POIMS_Showing                  = 3,
+	POIMS_Postshow                 = 4,
+	POIMS_MAX                      = 5
 };
 
 
@@ -1363,6 +1491,16 @@ enum class EPlayerIconState : uint8_t
 	EPIS_Icon                      = 1,
 	EPIS_Respawn                   = 2,
 	EPIS_MAX                       = 3
+};
+
+
+// Enum TgClient.UIHudOverlay.EDamageNumberSourceType
+enum class EDamageNumberSourceType : uint8_t
+{
+	DNST_Health                    = 0,
+	DNST_Armor                     = 1,
+	DNST_Shield                    = 2,
+	DNST_MAX                       = 3
 };
 
 
@@ -1432,171 +1570,6 @@ enum class EUIBattlePassTab : uint8_t
 };
 
 
-// Enum TgClient.UISettings.UISETTINGS_CATEGORY
-enum class EUISETTINGS_CATEGORY : uint8_t
-{
-	UISC_VIDEO                     = 0,
-	UISC_AUDIO                     = 1,
-	UISC_HUD                       = 2,
-	UISC_CONTROLS                  = 3,
-	UISC_KEYBINDS                  = 4,
-	UISC_MAX                       = 5
-};
-
-
-// Enum TgClient.UISocial.UISOCIALPLAYER
-enum class EUISOCIALPLAYER : uint8_t
-{
-	UISP_ADD                       = 0,
-	UISP_KICK                      = 1,
-	UISP_LEAVE                     = 2,
-	UISP_ACCEPT                    = 3,
-	UISP_CANCEL                    = 4,
-	UISP_INVITE                    = 5,
-	UISP_REMOVE                    = 6,
-	UISP_DECLINE                   = 7,
-	UISP_MESSAGE                   = 8,
-	UISP_PROFILE                   = 9,
-	UISP_MAX                       = 10
-};
-
-
-// Enum TgClient.UISocial.UISOCIALPOPUP
-enum class EUISOCIALPOPUP : uint8_t
-{
-	UISOCIALPOPUP_NONE             = 0,
-	UISOCIALPOPUP_INVITE           = 1,
-	UISOCIALPOPUP_PLAYER           = 2,
-	UISOCIALPOPUP_ADDFRIEND        = 3,
-	UISOCIALPOPUP_MAX              = 4
-};
-
-
-// Enum TgClient.UISocial.UISOCIALTAV
-enum class EUISOCIALTAV : uint8_t
-{
-	UISOCIALTAB_PARTY              = 0,
-	UISOCIALTAB_FRIEND             = 1,
-	UISOCIALTAB_MAX                = 2
-};
-
-
-// Enum TgClient.UIArmoryTalent.ARMORY_TALENT_HIGHLIGHT
-enum class EARMORY_TALENT_HIGHLIGHT : uint8_t
-{
-	ARMORY_TALENT_HIGHLIGHT_NULL   = 0,
-	ARMORY_TALENT_HIGHLIGHT_MAJOR  = 1,
-	ARMORY_TALENT_HIGHLIGHT_FORGE  = 2,
-	ARMORY_TALENT_HIGHLIGHT_GENERAL = 3,
-	ARMORY_TALENT_HIGHLIGHT_MAX    = 4
-};
-
-
-// Enum TgClient.UIComponent_DailyRewardDay.UIDAILY_REWARD_STATE
-enum class EUIDAILY_REWARD_STATE : uint8_t
-{
-	UIDRS_PAST                     = 0,
-	UIDRS_PRESENT                  = 1,
-	UIDRS_FUTURE                   = 2,
-	UIDRS_MAX                      = 3
-};
-
-
-// Enum TgClient.UIComponent_DailyRewardPanel.UIDAILY_REWARD_PANEL_STATE
-enum class EUIDAILY_REWARD_PANEL_STATE : uint8_t
-{
-	UIDRPS_CLAIMABLE               = 0,
-	UIDRPS_LOCKED                  = 1,
-	UIDRPS_MAX                     = 2
-};
-
-
-// Enum TgClient.UIComponent_DeviceDetailsPerk.UIDEVICE_PERK_TYPE
-enum class EUIDEVICE_PERK_TYPE : uint8_t
-{
-	UIDPT_CLASS                    = 0,
-	UIDPT_ELEMENT                  = 1,
-	UIDPT_MAX                      = 2
-};
-
-
-// Enum TgClient.UIComponent_PartyLobbyPlayer.UIPARTYLOBBY_PLAYER_STATE
-enum class EUIPARTYLOBBY_PLAYER_STATE : uint8_t
-{
-	UIPLPS_EMPTY                   = 0,
-	UIPLPS_INVITE                  = 1,
-	UIPLPS_PENDING                 = 2,
-	UIPLPS_DECLINED                = 3,
-	UIPLPS_FILLED                  = 4,
-	UIPLPS_MAX                     = 5
-};
-
-
-// Enum TgClient.UIComponent_PartyLobbyPlayerMenu.UIPARTY_LOBBY_PLAYER_MENU_BUTTONS
-enum class EUIPARTY_LOBBY_PLAYER_MENU_BUTTONS : uint8_t
-{
-	UIPLPMB_MUTE                   = 0,
-	UIPLPMB_VIEW                   = 1,
-	UIPLPMB_ADD                    = 2,
-	UIPLPMB_KICK                   = 3,
-	UIPLPMB_MAKELEADER             = 4,
-	UIPLPMB_LEAVE                  = 5,
-	UIPLPMB_CLASSLOADOUT           = 6,
-	UIPLPMB_GLOBALARMORY           = 7,
-	UIPLPMB_MAX                    = 8
-};
-
-
-// Enum TgClient.UIComponent_PlayerContextMenu.UIPLAYER_CONTEXT_MENU_BUTTONS
-enum class EUIPLAYER_CONTEXT_MENU_BUTTONS : uint8_t
-{
-	UIPCMB_MUTE                    = 0,
-	UIPCMB_VIEW                    = 1,
-	UIPCMB_ADD                     = 2,
-	UIPCMB_REPORT                  = 3,
-	UIPCMB_MAX                     = 4
-};
-
-
-// Enum TgClient.UIComponent_ShopList.UISHOPLIST_SECTION_TYPE
-enum class EUISHOPLIST_SECTION_TYPE : uint8_t
-{
-	UISLST_FEATURED                = 0,
-	UISLST_MAJOR                   = 1,
-	UISLST_MINOR                   = 2,
-	UISLST_DAILY                   = 3,
-	UISLST_MAX                     = 4
-};
-
-
-// Enum TgClient.UIData_SocialAction.SAL_LIST
-enum class ESAL_LIST : uint8_t
-{
-	SAL_CROSS_PLATFORM_FRIENDS     = 0,
-	SAL_PORTAL_FRIENDS             = 1,
-	SAL_ALL_FRIENDS                = 2,
-	SAL_PARTY                      = 3,
-	SAL_SEARCH                     = 4,
-	SAL_REFERRED                   = 5,
-	SAL_REFERRERS                  = 6,
-	SAL_MAX                        = 7
-};
-
-
-// Enum TgClient.UIData_SocialAction.SAACT_ACTION
-enum class ESAACT_ACTION : uint8_t
-{
-	SAACT_VIEW_PROFILE             = 0,
-	SAACT_ADD_FRIEND               = 1,
-	SAACT_PARTY_INVITE             = 2,
-	SAACT_PARTY_KICK               = 3,
-	SAACT_SEND_REFERRAL            = 4,
-	SAACT_REQUEST_INFO_STATS       = 5,
-	SAACT_SELECT_REFERRER          = 6,
-	SAACT_MAX                      = 7
-};
-
-
 // Enum TgClient.UIScene_UIHudMenu.UIHUDMENU_STATE
 enum class EUIHUDMENU_STATE : uint8_t
 {
@@ -1635,6 +1608,55 @@ enum class EUISHOP_STATE : uint8_t
 	UISHS_ITEMS                    = 0,
 	UISHS_CROWNS                   = 1,
 	UISHS_MAX                      = 2
+};
+
+
+// Enum TgClient.UISettings.UISETTINGS_CATEGORY
+enum class EUISETTINGS_CATEGORY : uint8_t
+{
+	UISC_VIDEO                     = 0,
+	UISC_AUDIO                     = 1,
+	UISC_HUD                       = 2,
+	UISC_CONTROLS                  = 3,
+	UISC_KEYBINDS                  = 4,
+	UISC_MAX                       = 5
+};
+
+
+// Enum TgClient.UISocial.UISOCIALTAV
+enum class EUISOCIALTAV : uint8_t
+{
+	UISOCIALTAB_PARTY              = 0,
+	UISOCIALTAB_FRIEND             = 1,
+	UISOCIALTAB_MAX                = 2
+};
+
+
+// Enum TgClient.UISocial.UISOCIALPOPUP
+enum class EUISOCIALPOPUP : uint8_t
+{
+	UISOCIALPOPUP_NONE             = 0,
+	UISOCIALPOPUP_INVITE           = 1,
+	UISOCIALPOPUP_PLAYER           = 2,
+	UISOCIALPOPUP_ADDFRIEND        = 3,
+	UISOCIALPOPUP_MAX              = 4
+};
+
+
+// Enum TgClient.UISocial.UISOCIALPLAYER
+enum class EUISOCIALPLAYER : uint8_t
+{
+	UISP_ADD                       = 0,
+	UISP_KICK                      = 1,
+	UISP_LEAVE                     = 2,
+	UISP_ACCEPT                    = 3,
+	UISP_CANCEL                    = 4,
+	UISP_INVITE                    = 5,
+	UISP_REMOVE                    = 6,
+	UISP_DECLINE                   = 7,
+	UISP_MESSAGE                   = 8,
+	UISP_PROFILE                   = 9,
+	UISP_MAX                       = 10
 };
 
 
@@ -2173,37 +2195,47 @@ struct FUIFORGETAB
 };
 
 // ScriptStruct TgClient.UIHudForge.UIFORGEENTRYGFX
-// 0x0038
+// 0x0068
 struct FUIFORGEENTRYGFX
 {
 	class UGFxObject*                                  pObj;                                                     // 0x0000(0x0008)
 	class UGFxObject*                                  m_mcIcon;                                                 // 0x0008(0x0008)
-	class UGFxObject*                                  m_mcTitle;                                                // 0x0010(0x0008)
-	class UGFxObject*                                  m_mcError;                                                // 0x0018(0x0008)
-	class UGFxObject*                                  m_mcShards;                                               // 0x0020(0x0008)
-	class UGFxObject*                                  m_mcHighlight;                                            // 0x0028(0x0008)
-	class UGFxObject*                                  m_mcForged;                                               // 0x0030(0x0008)
+	class UGFxObject*                                  m_mcWeapon;                                               // 0x0010(0x0008)
+	class UGFxObject*                                  m_mcWeaponIcon;                                           // 0x0018(0x0008)
+	class UGFxObject*                                  m_mcWeaponFrame;                                          // 0x0020(0x0008)
+	class UGFxObject*                                  m_mcEquip;                                                // 0x0028(0x0008)
+	class UGFxObject*                                  m_mcEquipIcon;                                            // 0x0030(0x0008)
+	class UGFxObject*                                  m_mcEquipFrame;                                           // 0x0038(0x0008)
+	class UGFxObject*                                  m_mcTitle;                                                // 0x0040(0x0008)
+	class UGFxObject*                                  m_mcError;                                                // 0x0048(0x0008)
+	class UGFxObject*                                  m_mcShards;                                               // 0x0050(0x0008)
+	class UGFxObject*                                  m_mcHighlight;                                            // 0x0058(0x0008)
+	class UGFxObject*                                  m_mcForged;                                               // 0x0060(0x0008)
 };
 
 // ScriptStruct TgClient.UIHudForge.UIFORGEENTRYDATA
-// 0x0020
+// 0x002C
 struct FUIFORGEENTRYDATA
 {
-	unsigned long                                      m_bActive : 1;                                            // 0x0000(0x0004)
-	unsigned long                                      m_bCanAfford : 1;                                         // 0x0000(0x0004)
-	unsigned long                                      m_bCanResurrect : 1;                                      // 0x0000(0x0004)
-	unsigned long                                      m_bIsDisabled : 1;                                        // 0x0000(0x0004)
-	unsigned long                                      m_bIsEquipped : 1;                                        // 0x0000(0x0004)
-	unsigned long                                      m_bIsMaxUpgraded : 1;                                     // 0x0000(0x0004)
-	unsigned long                                      m_bWasForged : 1;                                         // 0x0000(0x0004)
-	unsigned long                                      m_bIsAvailable : 1;                                       // 0x0000(0x0004)
-	int                                                m_nRarityIndex;                                           // 0x0004(0x0004)
-	int                                                m_nIconIndex;                                             // 0x0008(0x0004)
-	int                                                m_nNameId;                                                // 0x000C(0x0004)
-	int                                                m_nDescId;                                                // 0x0010(0x0004)
-	int                                                m_nTypeId;                                                // 0x0014(0x0004)
-	int                                                m_nTime;                                                  // 0x0018(0x0004)
-	int                                                m_nCost;                                                  // 0x001C(0x0004)
+	unsigned char                                      m_eType;                                                  // 0x0000(0x0001)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0001(0x0003) MISSED OFFSET
+	unsigned long                                      m_bActive : 1;                                            // 0x0004(0x0004)
+	unsigned long                                      m_bCanAfford : 1;                                         // 0x0004(0x0004)
+	unsigned long                                      m_bCanResurrect : 1;                                      // 0x0004(0x0004)
+	unsigned long                                      m_bIsDisabled : 1;                                        // 0x0004(0x0004)
+	unsigned long                                      m_bIsEquipped : 1;                                        // 0x0004(0x0004)
+	unsigned long                                      m_bIsMaxUpgraded : 1;                                     // 0x0004(0x0004)
+	unsigned long                                      m_bWasForged : 1;                                         // 0x0004(0x0004)
+	unsigned long                                      m_bIsAvailable : 1;                                       // 0x0004(0x0004)
+	int                                                m_nDeviceId;                                              // 0x0008(0x0004)
+	int                                                m_nRarityIndex;                                           // 0x000C(0x0004)
+	int                                                m_nTargetRarityIndex;                                     // 0x0010(0x0004)
+	int                                                m_nIconIndex;                                             // 0x0014(0x0004)
+	int                                                m_nNameId;                                                // 0x0018(0x0004)
+	int                                                m_nDescId;                                                // 0x001C(0x0004)
+	int                                                m_nTypeId;                                                // 0x0020(0x0004)
+	int                                                m_nTime;                                                  // 0x0024(0x0004)
+	int                                                m_nCost;                                                  // 0x0028(0x0004)
 };
 
 // ScriptStruct TgClient.UIHudMinimap.UIPING_DATA
@@ -2332,7 +2364,7 @@ struct FUIPlayerOverlay : public FUITargetableOverlay
 };
 
 // ScriptStruct TgClient.UIHudTop.UITEAMMATE
-// 0x011C
+// 0x018C
 struct FUITEAMMATE
 {
 	int                                                nId;                                                      // 0x0000(0x0004)
@@ -2341,28 +2373,32 @@ struct FUITEAMMATE
 	int                                                nShards;                                                  // 0x000C(0x0004)
 	int                                                nStreak;                                                  // 0x0010(0x0004)
 	int                                                nItem[0x5];                                               // 0x0014(0x0004)
-	unsigned long                                      bMute : 1;                                                // 0x0028(0x0004)
-	unsigned long                                      bChicken : 1;                                             // 0x0028(0x0004)
-	float                                              fArmor;                                                   // 0x002C(0x0004)
-	float                                              fArmorMax;                                                // 0x0030(0x0004)
-	float                                              fHealth;                                                  // 0x0034(0x0004)
-	float                                              fChickenPulse;                                            // 0x0038(0x0004)
-	class UGFxObject*                                  pObj;                                                     // 0x003C(0x0008)
-	class UGFxObject*                                  pDead;                                                    // 0x0044(0x0008)
-	class UGFxObject*                                  pIcon;                                                    // 0x004C(0x0008)
-	class UGFxObject*                                  pMute;                                                    // 0x0054(0x0008)
-	class UGFxObject*                                  pClass;                                                   // 0x005C(0x0008)
-	class UGFxObject*                                  pArmor;                                                   // 0x0064(0x0008)
-	class UGFxObject*                                  pHealth;                                                  // 0x006C(0x0008)
-	class UGFxObject*                                  pArmorBar;                                                // 0x0074(0x0008)
-	class UGFxObject*                                  pLives;                                                   // 0x007C(0x0008)
-	class UGFxObject*                                  pShards;                                                  // 0x0084(0x0008)
-	class UGFxObject*                                  pStreak;                                                  // 0x008C(0x0008)
-	class UGFxObject*                                  pChicken;                                                 // 0x0094(0x0008)
-	class UGFxObject*                                  pVoiceIcon;                                               // 0x009C(0x0008)
-	class UGFxObject*                                  pItem[0x5];                                               // 0x00A4(0x0008)
-	class UGFxObject*                                  pItemIcon[0x5];                                           // 0x00CC(0x0008)
-	class UGFxObject*                                  pItemFrame[0x5];                                          // 0x00F4(0x0008)
+	int                                                nArmor[0x4];                                              // 0x0028(0x0004)
+	unsigned long                                      bMute : 1;                                                // 0x0038(0x0004)
+	unsigned long                                      bChicken : 1;                                             // 0x0038(0x0004)
+	float                                              fArmor;                                                   // 0x003C(0x0004)
+	float                                              fArmorMax;                                                // 0x0040(0x0004)
+	float                                              fHealth;                                                  // 0x0044(0x0004)
+	float                                              fChickenPulse;                                            // 0x0048(0x0004)
+	class UGFxObject*                                  pObj;                                                     // 0x004C(0x0008)
+	class UGFxObject*                                  pDead;                                                    // 0x0054(0x0008)
+	class UGFxObject*                                  pIcon;                                                    // 0x005C(0x0008)
+	class UGFxObject*                                  pMute;                                                    // 0x0064(0x0008)
+	class UGFxObject*                                  pClass;                                                   // 0x006C(0x0008)
+	class UGFxObject*                                  pArmor;                                                   // 0x0074(0x0008)
+	class UGFxObject*                                  pHealth;                                                  // 0x007C(0x0008)
+	class UGFxObject*                                  pArmorBar;                                                // 0x0084(0x0008)
+	class UGFxObject*                                  pLives;                                                   // 0x008C(0x0008)
+	class UGFxObject*                                  pShards;                                                  // 0x0094(0x0008)
+	class UGFxObject*                                  pStreak;                                                  // 0x009C(0x0008)
+	class UGFxObject*                                  pChicken;                                                 // 0x00A4(0x0008)
+	class UGFxObject*                                  pVoiceIcon;                                               // 0x00AC(0x0008)
+	class UGFxObject*                                  pItem[0x5];                                               // 0x00B4(0x0008)
+	class UGFxObject*                                  pItemIcon[0x5];                                           // 0x00DC(0x0008)
+	class UGFxObject*                                  pItemFrame[0x5];                                          // 0x0104(0x0008)
+	class UGFxObject*                                  pArmorEquip[0x4];                                         // 0x012C(0x0008)
+	class UGFxObject*                                  pArmorIcon[0x4];                                          // 0x014C(0x0008)
+	class UGFxObject*                                  pArmorFrame[0x4];                                         // 0x016C(0x0008)
 };
 
 // ScriptStruct TgClient.UISettings.SettingOption
@@ -2570,16 +2606,17 @@ struct FActivityGoalIds
 };
 
 // ScriptStruct TgClient.UIGameMoviePlayer.KeyParams
-// 0x0038
+// 0x003C
 struct FKeyParams
 {
 	int                                                nValue;                                                   // 0x0000(0x0004)
 	unsigned long                                      bDirect : 1;                                              // 0x0004(0x0004)
-	unsigned long                                      bCentered : 1;                                            // 0x0004(0x0004)
 	unsigned long                                      bFrameless : 1;                                           // 0x0004(0x0004)
-	struct FString                                     sMessage;                                                 // 0x0008(0x0010) (NeedCtorLink)
-	struct FString                                     sCommand;                                                 // 0x0018(0x0010) (NeedCtorLink)
-	struct FString                                     sValue;                                                   // 0x0028(0x0010) (NeedCtorLink)
+	TEnumAsByte<EKeyAlign>                             eAlignment;                                               // 0x0008(0x0001)
+	unsigned char                                      UnknownData00[0x3];                                       // 0x0009(0x0003) MISSED OFFSET
+	struct FString                                     sMessage;                                                 // 0x000C(0x0010) (NeedCtorLink)
+	struct FString                                     sCommand;                                                 // 0x001C(0x0010) (NeedCtorLink)
+	struct FString                                     sValue;                                                   // 0x002C(0x0010) (NeedCtorLink)
 };
 
 // ScriptStruct TgClient.UIHudCenter.CastingInfo
